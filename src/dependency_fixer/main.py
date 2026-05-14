@@ -1,4 +1,4 @@
-from src.parser import TerraformProject
+from .parser import TerraformProject
 
 
 def main() -> None:

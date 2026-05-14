@@ -1,5 +1,5 @@
 import pytest
-from src.parser import extract_references
+from dependency_fixer.parser import extract_references
 
 
 @pytest.mark.parametrize("expr, expected", [
