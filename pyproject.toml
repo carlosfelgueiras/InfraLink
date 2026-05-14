@@ -1,0 +1,28 @@
+[project]
+name = "dependency-fixer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "python-hcl2>=8.1.2",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pyright>=1.1.408",
+    "ruff>=0.15.2",
+]
+
+[tool.mypy]
+strict = true
+check_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_any_unimported = true
+disallow_any_expr = true
+disallow_any_generics = true
+disallow_any_decorated = true
+warn_unused_ignores = true
+ignore_missing_imports = false
