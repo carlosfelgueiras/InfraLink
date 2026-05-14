@@ -1,7 +1,7 @@
 from os import scandir
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Any, Literal, cast
 import re
 import hcl2
 
@@ -14,9 +14,9 @@ _REF_PATTERN = re.compile(r'\b([a-z_][a-z0-9_]*(?:\.[a-z_][a-z0-9_]*)+)')
 
 
 def extract_references(expr: Expression) -> list[list[str]]:
-    refs = []
-    for interp in _INTERP_PATTERN.findall(expr):
-        refs.extend(m.split(".") for m in _REF_PATTERN.findall(interp))
+    refs: list[list[str]] = []
+    for interp in cast(list[str], _INTERP_PATTERN.findall(expr)):
+        refs.extend(m.split(".") for m in cast(list[str], _REF_PATTERN.findall(interp)))
     return refs
 
 
@@ -89,7 +89,7 @@ class TerraformFile:
     def __init__(self, path: str):
         self.path = path
         with open(path) as f:
-            raw = hcl2.load(f)
+            raw: dict[str, Any] = hcl2.load(f)
         self.declarations = (
             self._parse_resources(raw.get("resource", []))
             + self._parse_variables(raw.get("variable", []))
@@ -99,46 +99,46 @@ class TerraformFile:
             + self._parse_providers(raw.get("provider", []))
         )
 
-    def _parse_resources(self, raw: list) -> list[TerraformResource]:
-        result = []
+    def _parse_resources(self, raw: list[Any]) -> list[TerraformDeclaration]:
+        result: list[TerraformDeclaration] = []
         for block in raw:
             for rtype, instances in block.items():
                 for rname, config in instances.items():
                     result.append(TerraformResource(type=_unquote(rtype), name=_unquote(rname), config=config))
         return result
 
-    def _parse_variables(self, raw: list) -> list[TerraformVariable]:
-        result = []
+    def _parse_variables(self, raw: list[Any]) -> list[TerraformDeclaration]:
+        result: list[TerraformDeclaration] = []
         for block in raw:
             for name, config in block.items():
                 result.append(TerraformVariable(name=_unquote(name), config=config))
         return result
 
-    def _parse_outputs(self, raw: list) -> list[TerraformOutput]:
-        result = []
+    def _parse_outputs(self, raw: list[Any]) -> list[TerraformDeclaration]:
+        result: list[TerraformDeclaration] = []
         for block in raw:
             for name, config in block.items():
                 result.append(TerraformOutput(name=_unquote(name), config=config))
         return result
 
-    def _parse_module_calls(self, raw: list) -> list[TerraformModuleCall]:
-        result = []
+    def _parse_module_calls(self, raw: list[Any]) -> list[TerraformDeclaration]:
+        result: list[TerraformDeclaration] = []
         for block in raw:
             for name, config in block.items():
                 source = _unquote(config.get("source", ""))
                 result.append(TerraformModuleCall(name=_unquote(name), source=source, config=config))
         return result
 
-    def _parse_data(self, raw: list) -> list[TerraformData]:
-        result = []
+    def _parse_data(self, raw: list[Any]) -> list[TerraformDeclaration]:
+        result: list[TerraformDeclaration] = []
         for block in raw:
             for dtype, instances in block.items():
                 for dname, config in instances.items():
                     result.append(TerraformData(type=_unquote(dtype), name=_unquote(dname), config=config))
         return result
 
-    def _parse_providers(self, raw: list) -> list[TerraformProvider]:
-        result = []
+    def _parse_providers(self, raw: list[Any]) -> list[TerraformDeclaration]:
+        result: list[TerraformDeclaration] = []
         for block in raw:
             for name, config in block.items():
                 result.append(TerraformProvider(name=_unquote(name), config=config))
@@ -163,23 +163,26 @@ class TerraformModule:
         ]
 
     def __str__(self) -> str:
-        groups: dict[str, list] = {}
-        for d in self.declarations:
-            groups.setdefault(d.kind, []).append(d)
+        resources = [d for d in self.declarations if isinstance(d, TerraformResource)]
+        variables = [d for d in self.declarations if isinstance(d, TerraformVariable)]
+        outputs = [d for d in self.declarations if isinstance(d, TerraformOutput)]
+        module_calls = [d for d in self.declarations if isinstance(d, TerraformModuleCall)]
+        data_sources = [d for d in self.declarations if isinstance(d, TerraformData)]
+        providers = [d for d in self.declarations if isinstance(d, TerraformProvider)]
 
         lines = [f"TerraformModule({self.path})"]
-        if "resource" in groups:
-            lines.append(f"  resources:    {[f'{r.type}.{r.name}' for r in groups['resource']]}")
-        if "variable" in groups:
-            lines.append(f"  variables:    {[v.name for v in groups['variable']]}")
-        if "output" in groups:
-            lines.append(f"  outputs:      {[o.name for o in groups['output']]}")
-        if "module" in groups:
-            lines.append(f"  module_calls: {[m.name for m in groups['module']]}")
-        if "data" in groups:
-            lines.append(f"  data_sources: {[f'{d.type}.{d.name}' for d in groups['data']]}")
-        if "provider" in groups:
-            lines.append(f"  providers:    {[p.name for p in groups['provider']]}")
+        if resources:
+            lines.append(f"  resources:    {[f'{r.type}.{r.name}' for r in resources]}")
+        if variables:
+            lines.append(f"  variables:    {[v.name for v in variables]}")
+        if outputs:
+            lines.append(f"  outputs:      {[o.name for o in outputs]}")
+        if module_calls:
+            lines.append(f"  module_calls: {[m.name for m in module_calls]}")
+        if data_sources:
+            lines.append(f"  data_sources: {[f'{d.type}.{d.name}' for d in data_sources]}")
+        if providers:
+            lines.append(f"  providers:    {[p.name for p in providers]}")
         return "\n".join(lines)
 
 

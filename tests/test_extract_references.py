@@ -12,5 +12,5 @@ from src.parser import extract_references
     ("${substr(var.name, 0, 5)}",    [["var", "name"]]),
     ("${var.a || var.b}",            [["var", "a"], ["var", "b"]]),
 ])
-def test_extract_references(expr, expected):
+def test_extract_references(expr: str, expected: list[list[str]]) -> None:
     assert extract_references(expr) == expected

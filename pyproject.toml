@@ -30,3 +30,19 @@ disallow_any_generics = true
 disallow_any_decorated = true
 warn_unused_ignores = true
 ignore_missing_imports = false
+
+[[tool.mypy.overrides]]
+module = ["hcl2", "hcl2.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# src.parser is the hcl2 boundary module — raw data is untyped by necessity
+module = "src.parser"
+disallow_any_expr = false
+disallow_any_generics = false
+
+[[tool.mypy.overrides]]
+# pytest decorators (mark.parametrize etc.) are typed as Any in pytest's stubs
+module = "tests.*"
+disallow_any_expr = false
+disallow_any_decorated = false
