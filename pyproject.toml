@@ -12,8 +12,12 @@ dependencies = [
 dev = [
     "mypy>=1.19.1",
     "pyright>=1.1.408",
+    "pytest>=9.0.3",
     "ruff>=0.15.2",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
 
 [tool.mypy]
 strict = true

@@ -2,10 +2,22 @@ from os import scandir
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Literal
+import re
 import hcl2
 
 Expression = str
 Config = dict[str, Expression]
+
+
+_INTERP_PATTERN = re.compile(r'\$\{([^}]+)\}')
+_REF_PATTERN = re.compile(r'\b([a-z_][a-z0-9_]*(?:\.[a-z_][a-z0-9_]*)+)')
+
+
+def extract_references(expr: Expression) -> list[list[str]]:
+    refs = []
+    for interp in _INTERP_PATTERN.findall(expr):
+        refs.extend(m.split(".") for m in _REF_PATTERN.findall(interp))
+    return refs
 
 
 def _unquote(s: str) -> str:
