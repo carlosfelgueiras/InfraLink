@@ -6,7 +6,7 @@ import re
 import hcl2
 
 Expression = str
-Config = dict[str, Expression]
+Config = dict[str, Expression | list[Expression] | bool]
 
 
 _INTERP_PATTERN = re.compile(r'\$\{([^}]+)\}')
@@ -125,7 +125,7 @@ class TerraformFile:
         result: list[TerraformDeclaration] = []
         for block in raw:
             for name, config in block.items():
-                source = _unquote(config.get("source", ""))
+                source = _unquote(cast(str, config.get("source", "")))
                 result.append(TerraformModuleCall(name=_unquote(name), source=source, config=config))
         return result
 
@@ -186,24 +186,42 @@ class TerraformModule:
         return "\n".join(lines)
 
 
+@dataclass
+class ModuleInstance:
+    """One call-site instantiation of a module. Distinct instantiations of the same
+    physical module share the same parsed `module` content but occupy different
+    positions in the call tree, since each instantiation gets its own global names."""
+    call_chain: tuple[str, ...]
+    module: TerraformModule
+    children: dict[str, "ModuleInstance"] = field(default_factory=dict)
+
+
 class TerraformProject:
-    root_module: TerraformModule
-    modules: dict[str, TerraformModule]
+    modules: dict[str, TerraformModule]  # abs path -> parsed content, parsed once per path
+    root: ModuleInstance                  # call tree, one node per instantiation
 
     def __init__(self, main_module_path: str):
         self.modules = {}
-        self.root_module = self._load_module(str(Path(main_module_path).resolve()))
+        self.root = self._instantiate((), str(Path(main_module_path).resolve()), frozenset())
 
-    def _load_module(self, abs_path: str) -> TerraformModule:
-        if abs_path in self.modules:
-            return self.modules[abs_path]
-        module = TerraformModule(abs_path)
-        self.modules[abs_path] = module
+    def _load_content(self, abs_path: str) -> TerraformModule:
+        if abs_path not in self.modules:
+            self.modules[abs_path] = TerraformModule(abs_path)
+        return self.modules[abs_path]
+
+    def _instantiate(
+        self, call_chain: tuple[str, ...], abs_path: str, ancestry: frozenset[str]
+    ) -> ModuleInstance:
+        if abs_path in ancestry:
+            raise ValueError(f"Cycle in module dependencies: {' -> '.join((*ancestry, abs_path))}")
+        module = self._load_content(abs_path)
+        ancestry = ancestry | {abs_path}
+        children: dict[str, ModuleInstance] = {}
         for decl in module.declarations:
             if isinstance(decl, TerraformModuleCall) and self._is_local_source(decl.source):
                 child_path = str((Path(abs_path) / decl.source).resolve())
-                self._load_module(child_path)
-        return module
+                children[decl.name] = self._instantiate(call_chain + (decl.name,), child_path, ancestry)
+        return ModuleInstance(call_chain=call_chain, module=module, children=children)
 
     @staticmethod
     def _is_local_source(source: str) -> bool:
@@ -211,6 +229,13 @@ class TerraformProject:
 
     def __str__(self) -> str:
         lines = ["TerraformProject"]
-        for module in self.modules.values():
-            lines.append(str(module))
+
+        def walk(instance: ModuleInstance) -> None:
+            label = ".".join(f"module.{n}" for n in instance.call_chain) or "<root>"
+            lines.append(f"-- {label} --")
+            lines.append(str(instance.module))
+            for child in instance.children.values():
+                walk(child)
+
+        walk(self.root)
         return "\n".join(lines)
