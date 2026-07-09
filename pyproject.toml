@@ -50,10 +50,12 @@ module = ["hcl2", "hcl2.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-# dependency_fixer.parser is the hcl2 boundary module — raw data is untyped by necessity
+# dependency_fixer.parser is the hcl2 boundary module — hcl2 ships no py.typed marker,
+# so its LarkElement tree (StartRule, BlockRule, ExprTermRule, ...) is untyped by necessity
 module = "dependency_fixer.parser"
 disallow_any_expr = false
 disallow_any_generics = false
+disallow_any_unimported = false
 
 [[tool.mypy.overrides]]
 # pytest decorators (mark.parametrize etc.) are typed as Any in pytest's stubs

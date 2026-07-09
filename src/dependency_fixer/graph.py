@@ -2,9 +2,8 @@ from collections import defaultdict
 from typing import assert_never
 
 from .parser import (
-    Config,
-    Expression,
     ModuleInstance,
+    Reference,
     TerraformData,
     TerraformDeclaration,
     TerraformModuleCall,
@@ -14,13 +13,10 @@ from .parser import (
     TerraformProvider,
     TerraformResource,
     TerraformVariable,
-    extract_references,
 )
 
 Node = str
 SymbolTable = dict[str, Node]
-
-_BLOCK_MARKER = "__is_block__"
 
 
 def _node_id(call_chain: tuple[str, ...], decl: TerraformDeclaration) -> Node:
@@ -71,31 +67,8 @@ def _resolve(path: list[str], table: SymbolTable) -> Node | None:
     return None
 
 
-def _refs_in_value(value: Expression | list[Expression] | bool) -> list[str]:
-    if isinstance(value, str):
-        return [value]
-    if isinstance(value, list):
-        return [item for item in value if isinstance(item, str)]
-    return []
-
-
-def _refs_in_config(config: Config) -> list[str]:
-    result: list[str] = []
-    for k, v in config.items():
-        if k == _BLOCK_MARKER:
-            continue
-        result.extend(_refs_in_value(v))
-    return result
-
-
-def _resolve_refs(exprs: list[str], table: SymbolTable) -> list[Node]:
-    return [
-        target
-        for expr in exprs
-        for ref_path in extract_references(expr)
-        for target in [_resolve(ref_path, table)]
-        if target is not None
-    ]
+def _resolve_refs(refs: list[Reference], table: SymbolTable) -> list[Node]:
+    return [target for ref in refs for target in [_resolve(ref, table)] if target is not None]
 
 
 class DependencyGraph:
@@ -128,7 +101,7 @@ class DependencyGraph:
             node = _node_id(call_chain, decl)
             self.nodes.add(node)
             self.edges.setdefault(node, set())
-            for target in _resolve_refs(_refs_in_config(decl.config), table):
+            for target in _resolve_refs(decl.references, table):
                 self._add_edge(node, target)
 
         # Wire each child's variables back to whatever the module call passes in for them,
@@ -139,10 +112,10 @@ class DependencyGraph:
             if call_decl is None:
                 continue
             for var_decl in child.module.declarations:
-                if not isinstance(var_decl, TerraformVariable) or var_decl.name not in call_decl.config:
+                if not isinstance(var_decl, TerraformVariable) or var_decl.name not in call_decl.attributes:
                     continue
                 var_node = _node_id(child.call_chain, var_decl)
-                for target in _resolve_refs(_refs_in_value(call_decl.config[var_decl.name]), table):
+                for target in _resolve_refs(call_decl.attributes[var_decl.name], table):
                     self._add_edge(var_node, target)
 
         return table
