@@ -328,6 +328,31 @@ class ModuleInstance:
     children: dict[str, "ModuleInstance"] = field(default_factory=dict)
 
 
+class ModuleValidationError(ValueError):
+    """A local module instantiation doesn't satisfy the callee's variable contract."""
+
+
+# Terraform's fixed set of meta-arguments valid on any `module` block, independent of
+# whatever variables the target module itself declares.
+_MODULE_META_ARGS = frozenset({"source", "version", "providers", "count", "for_each", "depends_on"})
+
+
+def _validate_module_call(call_chain: tuple[str, ...], call: TerraformModuleCall, module: TerraformModule) -> None:
+    """Check a module instantiation against the callee's actual variable contract —
+    something we can verify exactly for local modules (unlike resources/data sources,
+    where we'd need each provider's schema)."""
+    address = ".".join(f"module.{n}" for n in call_chain)
+    variables = {d.name: d for d in module.declarations if isinstance(d, TerraformVariable)}
+
+    for attr in call.attributes:
+        if attr not in _MODULE_META_ARGS and attr not in variables:
+            raise ModuleValidationError(f"{address}: '{attr}' is not a declared variable of this module")
+
+    for name, var in variables.items():
+        if "default" not in var.attributes and name not in call.attributes:
+            raise ModuleValidationError(f"{address}: missing required variable '{name}'")
+
+
 class TerraformProject:
     modules: dict[str, TerraformModule]  # abs path -> parsed content, parsed once per path
     root: ModuleInstance                  # call tree, one node per instantiation
@@ -351,8 +376,11 @@ class TerraformProject:
         children: dict[str, ModuleInstance] = {}
         for decl in module.declarations:
             if isinstance(decl, TerraformModuleCall) and self._is_local_source(decl.source):
+                child_chain = call_chain + (decl.name,)
                 child_path = str((Path(abs_path) / decl.source).resolve())
-                children[decl.name] = self._instantiate(call_chain + (decl.name,), child_path, ancestry)
+                child = self._instantiate(child_chain, child_path, ancestry)
+                _validate_module_call(child_chain, decl, child.module)
+                children[decl.name] = child
         return ModuleInstance(call_chain=call_chain, module=module, children=children)
 
     @staticmethod

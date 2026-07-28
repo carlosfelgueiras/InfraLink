@@ -1,8 +1,9 @@
 from .parser import TerraformProject
 from .graph import DependencyGraph, to_dot
+import sys
 
 def main() -> None:
-    mod = TerraformProject("example")
+    mod = TerraformProject(sys.argv[1])
     print(to_dot(DependencyGraph(mod)))
 
 
