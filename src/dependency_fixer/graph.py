@@ -73,16 +73,23 @@ def _resolve_refs(refs: list[Reference], table: SymbolTable) -> list[Node]:
 
 class DependencyGraph:
     nodes: set[Node]
-    edges: dict[Node, set[Node]]  # node -> set of nodes it depends on
+    edges: dict[Node, set[Node]]  # node -> set of nodes it depends on (union of the two below)
+    implicit_edges: dict[Node, set[Node]]  # edges from ordinary attribute references
+    depends_on_edges: dict[Node, set[Node]]  # edges from the `depends_on` attribute specifically
 
     def __init__(self, project: TerraformProject):
         self.nodes = set()
         self.edges = {}
+        self.implicit_edges = {}
+        self.depends_on_edges = {}
         self._process_instance(project.root)
 
-    def _add_edge(self, node: Node, target: Node) -> None:
-        if target != node:
-            self.edges.setdefault(node, set()).add(target)
+    def _add_edge(self, node: Node, target: Node, *, via_depends_on: bool) -> None:
+        if target == node:
+            return
+        self.edges.setdefault(node, set()).add(target)
+        bucket = self.depends_on_edges if via_depends_on else self.implicit_edges
+        bucket.setdefault(node, set()).add(target)
 
     def _process_instance(self, instance: ModuleInstance) -> SymbolTable:
         call_chain, module = instance.call_chain, instance.module
@@ -101,11 +108,25 @@ class DependencyGraph:
             node = _node_id(call_chain, decl)
             self.nodes.add(node)
             self.edges.setdefault(node, set())
-            for target in _resolve_refs(decl.references, table):
-                self._add_edge(node, target)
+
+            # depends_on and implicit references are resolved independently (rather than
+            # derived from one another via set difference) so a target referenced both
+            # ways isn't lost from the implicit side — sets have no multiplicity, so a
+            # naive `edges - depends_on_edges` would erase the also-implicit occurrence.
+            depends_on_refs = decl.attributes.get("depends_on", [])
+            implicit_refs = list(decl.references)
+            for ref in depends_on_refs:
+                if ref in implicit_refs:
+                    implicit_refs.remove(ref)
+
+            for target in _resolve_refs(depends_on_refs, table):
+                self._add_edge(node, target, via_depends_on=True)
+            for target in _resolve_refs(implicit_refs, table):
+                self._add_edge(node, target, via_depends_on=False)
 
         # Wire each child's variables back to whatever the module call passes in for them,
-        # resolved against this (parent) module's table.
+        # resolved against this (parent) module's table. This is structural passthrough,
+        # not a depends_on declaration, so it's always an implicit edge.
         module_calls = {d.name: d for d in module.declarations if isinstance(d, TerraformModuleCall)}
         for call_name, child in instance.children.items():
             call_decl = module_calls.get(call_name)
@@ -116,7 +137,7 @@ class DependencyGraph:
                     continue
                 var_node = _node_id(child.call_chain, var_decl)
                 for target in _resolve_refs(call_decl.attributes[var_decl.name], table):
-                    self._add_edge(var_node, target)
+                    self._add_edge(var_node, target, via_depends_on=False)
 
         return table
 

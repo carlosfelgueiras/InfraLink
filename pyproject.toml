@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "pydantic-ai>=2.34.0",
     "python-hcl2>=8.1.2",
 ]
 
@@ -60,5 +61,12 @@ disallow_any_unimported = false
 [[tool.mypy.overrides]]
 # pytest decorators (mark.parametrize etc.) are typed as Any in pytest's stubs
 module = "tests.*"
+disallow_any_expr = false
+disallow_any_decorated = false
+
+[[tool.mypy.overrides]]
+# pydantic-ai's Agent.tool_plain decorator is typed to return Any (it supports
+# both bare-decorator and factory-decorator call forms)
+module = "dependency_fixer.agentic_check"
 disallow_any_expr = false
 disallow_any_decorated = false
