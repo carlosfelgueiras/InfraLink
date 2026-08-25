@@ -1,8 +1,8 @@
 from typing import Literal
 
 from pydantic_ai import Agent, ModelRetry
-from pydantic_ai.models.openai import OpenAIChatModel, OpenAIChatModelSettings
-from pydantic_ai.providers.openrouter import OpenRouterProvider
+from pydantic_ai.models.bedrock import BedrockConverseModel, BedrockModelSettings
+from pydantic_ai.providers.bedrock import BedrockProvider
 
 from .diagnostics import AnalysisContext, Category, Diagnostic, DiagnosticSink, Severity
 from .graph import Node, to_dot
@@ -29,11 +29,11 @@ how many findings you reported.
 
 
 class AgenticCheck:
-    """DiagnosticProvider that delegates to an LLM (over OpenRouter) to find
+    """DiagnosticProvider that delegates to an LLM (over AWS Bedrock) to find
     dependency problems that aren't mechanically formalizable — the counterpart to
     RedundantDependsOnCheck. The tool the model calls to report findings, and the
-    shape of what it can report, are fixed; only the model and its sampling
-    parameters are configurable per instance."""
+    shape of what it can report, are fixed; only the model and its connection/
+    sampling parameters are configurable per instance."""
 
     def __init__(
         self,
@@ -42,21 +42,27 @@ class AgenticCheck:
         effort: ReasoningEffort | None = None,
         temperature: float | None = None,
         api_key: str | None = None,
+        region_name: str | None = None,
     ) -> None:
         self._model_name = model_name
         self._effort = effort
         self._temperature = temperature
         self._api_key = api_key
+        self._region_name = region_name
 
     def run(self, context: AnalysisContext, sink: DiagnosticSink) -> None:
-        provider = OpenRouterProvider(api_key=self._api_key)
-        model = OpenAIChatModel(self._model_name, provider=provider)
+        provider = (
+            BedrockProvider(api_key=self._api_key, region_name=self._region_name)
+            if self._api_key is not None
+            else BedrockProvider(region_name=self._region_name)
+        )
+        model = BedrockConverseModel(self._model_name, provider=provider)
 
-        settings: OpenAIChatModelSettings = {}
+        settings: BedrockModelSettings = {}
         if self._temperature is not None:
             settings["temperature"] = self._temperature
         if self._effort is not None:
-            settings["openai_reasoning_effort"] = self._effort
+            settings["thinking"] = self._effort
 
         agent: Agent[None, str] = Agent(
             model,

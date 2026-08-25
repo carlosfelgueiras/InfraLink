@@ -1,6 +1,8 @@
 import argparse
 import sys
 
+from dotenv import load_dotenv
+
 from .agentic_check import AgenticCheck, ReasoningEffort
 from .checks import RedundantDependsOnCheck
 from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
@@ -13,18 +15,22 @@ class _Args(argparse.Namespace):
     agentic_model: str | None
     agentic_effort: ReasoningEffort | None
     agentic_temperature: float | None
+    agentic_region: str | None
 
 
 def main() -> None:
+    load_dotenv()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("path")
     parser.add_argument(
         "--agentic-model",
-        help="OpenRouter model id (e.g. anthropic/claude-sonnet-4.5). "
+        help="Bedrock model id (e.g. anthropic.claude-sonnet-4-5-20250929-v1:0). "
         "If set, also runs the LLM-based check alongside the mechanical ones.",
     )
     parser.add_argument("--agentic-effort", choices=["minimal", "low", "medium", "high"])
     parser.add_argument("--agentic-temperature", type=float)
+    parser.add_argument("--agentic-region", help="AWS region; falls back to AWS_DEFAULT_REGION.")
     args = parser.parse_args(namespace=_Args())
 
     project = TerraformProject(args.path)
@@ -36,6 +42,7 @@ def main() -> None:
             args.agentic_model,
             effort=args.agentic_effort,
             temperature=args.agentic_temperature,
+            region_name=args.agentic_region,
         ))
 
     context = AnalysisContext(project=project, graph=graph)
