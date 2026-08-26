@@ -1,4 +1,5 @@
 import argparse
+import logging
 import sys
 
 from dotenv import load_dotenv
@@ -9,6 +10,8 @@ from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
 from .graph import DependencyGraph
 from .parser import TerraformProject
 
+_LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
+
 
 class _Args(argparse.Namespace):
     path: str
@@ -16,6 +19,7 @@ class _Args(argparse.Namespace):
     agentic_effort: ReasoningEffort | None
     agentic_temperature: float | None
     agentic_region: str | None
+    log_level: str
 
 
 def main() -> None:
@@ -31,7 +35,15 @@ def main() -> None:
     parser.add_argument("--agentic-effort", choices=["minimal", "low", "medium", "high"])
     parser.add_argument("--agentic-temperature", type=float)
     parser.add_argument("--agentic-region", help="AWS region; falls back to AWS_DEFAULT_REGION.")
+    parser.add_argument(
+        "--log-level",
+        choices=_LOG_LEVELS,
+        default="WARNING",
+        help="Logging verbosity for dependency_fixer's own logger (tool calls, token usage, ...).",
+    )
     args = parser.parse_args(namespace=_Args())
+
+    logging.basicConfig(level=args.log_level, format="%(levelname)s %(name)s: %(message)s")
 
     project = TerraformProject(args.path)
     graph = DependencyGraph(project)
@@ -47,7 +59,10 @@ def main() -> None:
 
     context = AnalysisContext(project=project, graph=graph)
     for diagnostic in run_diagnostics(context, providers):
-        print(f"[{diagnostic.severity}] {diagnostic.category}: {diagnostic.message}", file=sys.stderr)
+        print(
+            f"[{diagnostic.severity}] ({diagnostic.origin}) {diagnostic.category}: {diagnostic.message}",
+            file=sys.stderr,
+        )
 
 
 if __name__ == "__main__":

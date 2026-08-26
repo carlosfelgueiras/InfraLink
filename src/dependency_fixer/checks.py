@@ -7,6 +7,8 @@ class RedundantDependsOnCheck:
     ordinary attribute references alone — i.e. no `depends_on` anywhere in the
     chain is needed to establish the dependency, so the explicit one is redundant."""
 
+    name = "redundant-depends-on-check"
+
     def run(self, context: AnalysisContext, sink: DiagnosticSink) -> None:
         graph = context.graph
         reachable_cache: dict[Node, set[Node]] = {}
@@ -37,5 +39,4 @@ class RedundantDependsOnCheck:
                             "already implied by attribute references"
                         ),
                         nodes=(node, target),
-                        origin="redundant-depends-on-check",
                     ))

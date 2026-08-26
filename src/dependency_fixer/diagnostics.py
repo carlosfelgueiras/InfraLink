@@ -1,5 +1,5 @@
 from collections.abc import Iterator, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Literal, Protocol
 
@@ -16,7 +16,7 @@ class Diagnostic:
     severity: Severity
     message: str
     nodes: tuple[Node, ...]
-    origin: str  # name of the provider that raised this diagnostic
+    origin: str = ""  # name of the provider that raised this; stamped by run_diagnostics
 
 
 class DiagnosticSink(Protocol):
@@ -57,11 +57,26 @@ class AnalysisContext:
 
 
 class DiagnosticProvider(Protocol):
+    @property
+    def name(self) -> str: ...
+
     def run(self, context: AnalysisContext, sink: DiagnosticSink) -> None: ...
+
+
+class _TaggingSink:
+    """Wraps a sink so every diagnostic a provider pushes is stamped with that
+    provider's name, regardless of what (if anything) the provider set itself."""
+
+    def __init__(self, sink: DiagnosticSink, origin: str) -> None:
+        self._sink = sink
+        self._origin = origin
+
+    def push(self, diagnostic: Diagnostic) -> None:
+        self._sink.push(replace(diagnostic, origin=self._origin))
 
 
 def run_diagnostics(context: AnalysisContext, providers: Sequence[DiagnosticProvider]) -> tuple[Diagnostic, ...]:
     collector = DiagnosticCollector()
     for provider in providers:
-        provider.run(context, collector)
+        provider.run(context, _TaggingSink(collector, provider.name))
     return collector.diagnostics

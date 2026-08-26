@@ -1,3 +1,4 @@
+import logging
 from typing import Literal
 
 from pydantic_ai import Agent, ModelRetry
@@ -6,6 +7,8 @@ from pydantic_ai.providers.bedrock import BedrockProvider
 
 from .diagnostics import AnalysisContext, Category, Diagnostic, DiagnosticSink, Severity
 from .graph import Node, to_dot
+
+logger = logging.getLogger(__name__)
 
 ReasoningEffort = Literal["minimal", "low", "medium", "high"]
 
@@ -50,6 +53,10 @@ class AgenticCheck:
         self._api_key = api_key
         self._region_name = region_name
 
+    @property
+    def name(self) -> str:
+        return f"agentic-check:{self._model_name}"
+
     def run(self, context: AnalysisContext, sink: DiagnosticSink) -> None:
         provider = (
             BedrockProvider(api_key=self._api_key, region_name=self._region_name)
@@ -71,7 +78,6 @@ class AgenticCheck:
         )
 
         valid_nodes = context.graph.nodes
-        origin = f"agentic-check:{self._model_name}"
 
         @agent.tool_plain
         def report_diagnostic(
@@ -91,20 +97,33 @@ class AgenticCheck:
             """
             unknown = [n for n in nodes if n not in valid_nodes]
             if unknown:
+                logger.warning(
+                    "%s: tool call report_diagnostic rejected — unknown node(s) %r",
+                    self.name, unknown,
+                )
                 raise ModelRetry(
                     f"Unknown node address(es) {unknown!r} — use addresses exactly "
                     "as they appear in the DOT graph."
                 )
+            logger.info(
+                "%s: tool call report_diagnostic(category=%r, severity=%r, nodes=%r): %s",
+                self.name, category, severity, nodes, message,
+            )
             sink.push(Diagnostic(
                 category=category,
                 severity=severity,
                 message=message,
                 nodes=tuple(nodes),
-                origin=origin,
             ))
             return "recorded"
 
-        agent.run_sync(self._build_prompt(context))
+        result = agent.run_sync(self._build_prompt(context))
+
+        usage = result.usage
+        logger.info(
+            "%s: run complete — requests=%d tool_calls=%d input_tokens=%d output_tokens=%d",
+            self.name, usage.requests, usage.tool_calls, usage.input_tokens, usage.output_tokens,
+        )
 
     def _build_prompt(self, context: AnalysisContext) -> str:
         sources = "\n\n".join(f"# {path}\n{text}" for path, text in context.source_files())

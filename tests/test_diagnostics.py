@@ -47,6 +47,7 @@ resource "aws_instance" "example" {
     assert len(diagnostics) == 1
     assert diagnostics[0].category == "redundant"
     assert diagnostics[0].nodes == (":resource.aws_instance.example", ":resource.aws_vpc.main")
+    assert diagnostics[0].origin == "redundant-depends-on-check"
 
 
 def test_non_redundant_depends_on_not_flagged() -> None:
