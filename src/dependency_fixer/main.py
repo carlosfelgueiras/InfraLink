@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from .agentic_check import AgenticCheck, ReasoningEffort
 from .checks import RedundantDependsOnCheck
 from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
-from .graph import DependencyGraph
+from .graph import DependencyGraph, to_dot
 from .parser import TerraformProject
 
 _LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
@@ -15,6 +15,7 @@ _LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
 
 class _Args(argparse.Namespace):
     path: str
+    graph: bool
     agentic_model: str | None
     agentic_effort: ReasoningEffort | None
     agentic_temperature: float | None
@@ -27,6 +28,12 @@ def main() -> None:
 
     parser = argparse.ArgumentParser()
     parser.add_argument("path")
+    parser.add_argument(
+        "--graph",
+        action="store_true",
+        help="Print the dependency graph as DOT and exit — skips all diagnostic "
+        "checks, mechanical and agentic.",
+    )
     parser.add_argument(
         "--agentic-model",
         help="Bedrock model id (e.g. anthropic.claude-sonnet-4-5-20250929-v1:0). "
@@ -47,6 +54,10 @@ def main() -> None:
 
     project = TerraformProject(args.path)
     graph = DependencyGraph(project)
+
+    if args.graph:
+        print(to_dot(graph))
+        return
 
     providers: list[DiagnosticProvider] = [RedundantDependsOnCheck()]
     if args.agentic_model:
