@@ -1,3 +1,4 @@
+import json
 from collections import defaultdict
 from typing import assert_never
 
@@ -215,3 +216,23 @@ def to_dot(graph: DependencyGraph) -> str:
 
     lines.append("}")
     return "\n".join(lines)
+
+
+def to_agent_json(graph: DependencyGraph) -> str:
+    """Serializes the graph for an LLM prompt: one object per node, with implicit
+    and `depends_on` dependencies broken out. Unlike `to_dot` (which renders their
+    union and carries Graphviz styling meant for a human viewer), this hands the
+    model the implicit/depends_on distinction directly instead of leaving it to
+    re-derive from the raw source."""
+    nodes: list[dict[str, str | list[str]]] = [
+        {
+            "id": node,
+            "kind": _kind(node),
+            "module": node.split(":", 1)[0],
+            "implicit_deps": sorted(graph.implicit_edges.get(node, set())),
+            "depends_on_deps": sorted(graph.depends_on_edges.get(node, set())),
+        }
+        for node in sorted(graph.nodes)
+    ]
+    payload: dict[str, list[dict[str, str | list[str]]]] = {"nodes": nodes}
+    return json.dumps(payload, separators=(",", ":"))

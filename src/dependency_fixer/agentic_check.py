@@ -6,7 +6,7 @@ from pydantic_ai.models.bedrock import BedrockConverseModel, BedrockModelSetting
 from pydantic_ai.providers.bedrock import BedrockProvider
 
 from .diagnostics import AnalysisContext, Category, DataDependencyFix, Diagnostic, DiagnosticSink, Severity
-from .graph import Node, to_dot
+from .graph import Node, to_agent_json
 
 logger = logging.getLogger(__name__)
 
@@ -14,13 +14,18 @@ ReasoningEffort = Literal["minimal", "low", "medium", "high"]
 
 _SYSTEM_PROMPT = """
 You are a Terraform dependency auditor. You are given a project's dependency graph
-(as DOT) and the full source of every .tf file in the project. Each graph node's
-address follows Terraform's own resource-addressing scheme, e.g.
-":resource.aws_instance.example" or "module.foo.resource.aws_instance.bar".
+as JSON — `{"nodes": [...]}`, where each node object has:
+  - "id": the node's address, Terraform's own resource-addressing scheme, e.g.
+    ":resource.aws_instance.example" or "module.foo:resource.aws_instance.bar".
+  - "kind": one of "resource", "data", "module", "var", "output", "provider".
+  - "module": the module instance this node belongs to ("" for the root module).
+  - "implicit_deps": node ids this node depends on via an ordinary attribute reference.
+  - "depends_on_deps": node ids this node depends on via an explicit `depends_on`.
+— and the full source of every .tf file in the project.
 
 The graph already captures every dependency implied by attribute references and by
-explicit `depends_on`. Your job is to find dependency problems that this mechanical
-analysis cannot see:
+explicit `depends_on` (that's exactly what "implicit_deps"/"depends_on_deps" are).
+Your job is to find dependency problems that this mechanical analysis cannot see:
 
 - "missing": `node` should depend on `target` (real-world/operational ordering that
   no attribute reference or `depends_on` expresses), but currently doesn't.
@@ -28,9 +33,9 @@ analysis cannot see:
   dependency already established some other way.
 
 For every problem you find, call `report_diagnostic` once with the exact `node` and
-`target` addresses implicated, copied verbatim from the DOT graph. `node` is the
-resource that has (or should have) the dependency; `target` is the resource it
-depends on (or should depend on).
+`target` addresses implicated, copied verbatim from the graph's "id" fields. `node`
+is the resource that has (or should have) the dependency; `target` is the resource
+it depends on (or should depend on).
 
 For a "missing" finding, if — and only if — there's a clean way to establish the
 dependency as an actual data reference instead of a bare `depends_on`, also pass
@@ -112,7 +117,7 @@ class AgenticCheck:
                 severity: "error", "warning", or "info".
                 message: human-readable explanation, referencing `node` and `target`.
                 node: the resource that has (or should have) the dependency,
-                    verbatim as it appears in the DOT graph (e.g.
+                    verbatim as it appears as a node "id" in the graph (e.g.
                     ":resource.aws_instance.example").
                 target: the resource `node` depends on (or should depend on),
                     same format as `node`.
@@ -130,7 +135,7 @@ class AgenticCheck:
                 )
                 raise ModelRetry(
                     f"Unknown node address(es) {unknown!r} — use addresses exactly "
-                    "as they appear in the DOT graph."
+                    "as they appear as node \"id\" fields in the graph."
                 )
             if fix is not None and category != "missing":
                 logger.warning(
@@ -163,6 +168,6 @@ class AgenticCheck:
     def _build_prompt(self, context: AnalysisContext) -> str:
         sources = "\n\n".join(f"# {path}\n{text}" for path, text in context.source_files())
         return (
-            f"Dependency graph (DOT):\n{to_dot(context.graph)}\n\n"
+            f"Dependency graph (JSON):\n{to_agent_json(context.graph)}\n\n"
             f"Project source files:\n{sources}"
         )
