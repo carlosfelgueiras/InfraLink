@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "httpx>=0.28.1",
     "pydantic-ai-slim[bedrock,openai]>=2.34.0",
     "python-dotenv>=1.2.3",
     "python-hcl2>=8.1.2",
@@ -69,5 +70,13 @@ disallow_any_decorated = false
 # pydantic-ai's Agent.tool_plain decorator is typed to return Any (it supports
 # both bare-decorator and factory-decorator call forms)
 module = "dependency_fixer.agentic_check"
+disallow_any_expr = false
+disallow_any_decorated = false
+
+[[tool.mypy.overrides]]
+# httpx.Response.json() is untyped (-> Any) by design, since it's arbitrary JSON;
+# that Any propagates through every dict/list access on a parsed response. Same
+# functools.lru_cache decorator issue as elsewhere.
+module = "dependency_fixer.registry_docs"
 disallow_any_expr = false
 disallow_any_decorated = false

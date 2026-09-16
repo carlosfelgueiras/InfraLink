@@ -1,12 +1,14 @@
 import logging
 from typing import Literal
 
+import httpx
 from pydantic_ai import Agent, ModelRetry
 from pydantic_ai.models.bedrock import BedrockConverseModel, BedrockModelSettings
 from pydantic_ai.providers.bedrock import BedrockProvider
 
 from .diagnostics import AnalysisContext, Category, DataDependencyFix, Diagnostic, DiagnosticSink, Severity
 from .graph import Node, to_agent_json
+from .registry_docs import ProviderDocNotFound, fetch_resource_doc
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +47,12 @@ expression for that field which references `target` at least once, so assigning
 Omit `fix` if no such data-dependency fix exists — a bare `depends_on` is still a
 valid way to close a "missing" finding, `fix` is only for when something more
 idiomatic is possible.
+
+If you're not sure whether a resource or data source type has real-world lifecycle
+behavior that would justify a "missing" finding (e.g. asynchronous provisioning,
+eventual consistency, a readiness delay after creation), call `fetch_provider_doc`
+to pull its official Terraform Registry documentation rather than guessing from
+memory alone.
 
 Only report findings you are reasonably confident about. When you are done, reply
 with a one-line summary of how many findings you reported.
@@ -156,6 +164,34 @@ class AgenticCheck:
                 fix=fix,
             ))
             return "recorded"
+
+        @agent.tool_plain
+        def fetch_provider_doc(provider: str, resource_type: str, namespace: str = "hashicorp") -> str:
+            """Fetch the official Terraform Registry documentation for a resource
+            or data source type, as markdown. Use this to check a type's real
+            lifecycle behavior (async provisioning, eventual consistency, readiness
+            delays) instead of guessing.
+
+            Args:
+                provider: the provider's short name, e.g. "aws", "azurerm", "google".
+                resource_type: the full type, e.g. "aws_db_instance". The
+                    provider's own prefix is stripped automatically.
+                namespace: the registry namespace publishing this provider.
+                    Default "hashicorp" is correct for the major official cloud
+                    providers; pass a different one for a community provider.
+            """
+            logger.info(
+                "%s: tool call fetch_provider_doc(namespace=%r, provider=%r, resource_type=%r)",
+                self.name, namespace, provider, resource_type,
+            )
+            try:
+                return fetch_resource_doc(namespace, provider, resource_type)
+            except ProviderDocNotFound as exc:
+                logger.warning("%s: fetch_provider_doc found nothing: %s", self.name, exc)
+                return str(exc)
+            except httpx.HTTPError as exc:
+                logger.warning("%s: fetch_provider_doc request failed: %s", self.name, exc)
+                return f"Failed to fetch documentation: {exc}"
 
         result = agent.run_sync(self._build_prompt(context))
 
