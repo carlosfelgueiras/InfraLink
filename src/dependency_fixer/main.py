@@ -8,7 +8,7 @@ from .checks import RedundantDependsOnCheck
 from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
 from .graph import DependencyGraph, to_dot
 from .parser import TerraformProject
-from .report import render_diagnostics
+from .report import render_diagnostics, render_diagnostics_json
 
 _LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
 
@@ -16,6 +16,7 @@ _LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
 class _Args(argparse.Namespace):
     path: str
     graph: bool
+    json: bool
     agentic_model: str | None
     agentic_effort: ReasoningEffort | None
     agentic_temperature: float | None
@@ -33,6 +34,12 @@ def main() -> None:
         action="store_true",
         help="Print the dependency graph as DOT and exit — skips all diagnostic "
         "checks, mechanical and agentic.",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print diagnostics as a single JSON document instead of the "
+        "human-readable report.",
     )
     parser.add_argument(
         "--agentic-model",
@@ -70,7 +77,10 @@ def main() -> None:
 
     context = AnalysisContext(project=project, graph=graph)
     diagnostics = run_diagnostics(context, providers)
-    render_diagnostics(diagnostics)
+    if args.json:
+        render_diagnostics_json(diagnostics)
+    else:
+        render_diagnostics(diagnostics)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 import sys
@@ -55,6 +56,31 @@ def render_diagnostics(diagnostics: Sequence[Diagnostic], stream: TextIO = sys.s
 
     print(rule, file=stream)
     print(_style(_summary(diagnostics), _BOLD, color=color), file=stream)
+
+
+def render_diagnostics_json(diagnostics: Sequence[Diagnostic], stream: TextIO = sys.stdout) -> None:
+    """Prints diagnostics as a single JSON document to `stream` — for scripts/
+    tooling to consume, as opposed to `render_diagnostics`'s human-readable report."""
+    payload: dict[str, list[dict[str, str | dict[str, str] | None]]] = {
+        "diagnostics": [_to_dict(d) for d in diagnostics],
+    }
+    print(json.dumps(payload, indent=2), file=stream)
+
+
+def _to_dict(diagnostic: Diagnostic) -> dict[str, str | dict[str, str] | None]:
+    fix = None if diagnostic.fix is None else {
+        "field": diagnostic.fix.field,
+        "expression": diagnostic.fix.expression,
+    }
+    return {
+        "category": diagnostic.category,
+        "severity": diagnostic.severity,
+        "message": diagnostic.message,
+        "node": diagnostic.node,
+        "target": diagnostic.target,
+        "fix": fix,
+        "origin": diagnostic.origin,
+    }
 
 
 def _summary(diagnostics: Sequence[Diagnostic]) -> str:
