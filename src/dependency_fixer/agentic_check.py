@@ -5,7 +5,7 @@ from pydantic_ai import Agent, ModelRetry
 from pydantic_ai.models.bedrock import BedrockConverseModel, BedrockModelSettings
 from pydantic_ai.providers.bedrock import BedrockProvider
 
-from .diagnostics import AnalysisContext, Category, Diagnostic, DiagnosticSink, Severity
+from .diagnostics import AnalysisContext, Category, DataDependencyFix, Diagnostic, DiagnosticSink, Severity
 from .graph import Node, to_dot
 
 logger = logging.getLogger(__name__)
@@ -20,14 +20,29 @@ address follows Terraform's own resource-addressing scheme, e.g.
 
 The graph already captures every dependency implied by attribute references and by
 explicit `depends_on`. Your job is to find dependency problems that this mechanical
-analysis cannot see: missing dependencies implied by real-world/operational ordering
-that no attribute reference or `depends_on` expresses, and redundant dependencies
-that duplicate a relationship already established some other way.
+analysis cannot see:
 
-For every problem you find, call `report_diagnostic` once with the exact node
-addresses implicated, copied verbatim from the DOT graph. Only report findings you
-are reasonably confident about. When you are done, reply with a one-line summary of
-how many findings you reported.
+- "missing": `node` should depend on `target` (real-world/operational ordering that
+  no attribute reference or `depends_on` expresses), but currently doesn't.
+- "redundant": `node` has an explicit `depends_on` on `target` that duplicates a
+  dependency already established some other way.
+
+For every problem you find, call `report_diagnostic` once with the exact `node` and
+`target` addresses implicated, copied verbatim from the DOT graph. `node` is the
+resource that has (or should have) the dependency; `target` is the resource it
+depends on (or should depend on).
+
+For a "missing" finding, if — and only if — there's a clean way to establish the
+dependency as an actual data reference instead of a bare `depends_on`, also pass
+`fix`: set `fix.field` to an attribute name on `node` and `fix.expression` to an HCL
+expression for that field which references `target` at least once, so assigning
+`field = expression` on `node` would make Terraform infer the ordering implicitly.
+Omit `fix` if no such data-dependency fix exists — a bare `depends_on` is still a
+valid way to close a "missing" finding, `fix` is only for when something more
+idiomatic is possible.
+
+Only report findings you are reasonably confident about. When you are done, reply
+with a one-line summary of how many findings you reported.
 """.strip()
 
 
@@ -84,18 +99,30 @@ class AgenticCheck:
             category: Category,
             severity: Severity,
             message: str,
-            nodes: list[Node],
+            node: Node,
+            target: Node,
+            fix: DataDependencyFix | None = None,
         ) -> str:
             """Report one dependency diagnostic finding.
 
             Args:
-                category: "redundant" or "missing".
+                category: "redundant" (an explicit depends_on from `node` to
+                    `target` is redundant) or "missing" (`node` should depend on
+                    `target` but doesn't).
                 severity: "error", "warning", or "info".
-                message: human-readable explanation, referencing the implicated nodes.
-                nodes: graph node addresses implicated, verbatim as they appear in
-                    the DOT graph (e.g. ":resource.aws_instance.example").
+                message: human-readable explanation, referencing `node` and `target`.
+                node: the resource that has (or should have) the dependency,
+                    verbatim as it appears in the DOT graph (e.g.
+                    ":resource.aws_instance.example").
+                target: the resource `node` depends on (or should depend on),
+                    same format as `node`.
+                fix: only for category="missing". An optional, more idiomatic
+                    alternative to a bare `depends_on`: set `field` (an attribute
+                    name on `node`) to `expression` (an HCL expression that must
+                    reference `target` at least once). Omit if no clean
+                    data-dependency fix exists.
             """
-            unknown = [n for n in nodes if n not in valid_nodes]
+            unknown = [n for n in (node, target) if n not in valid_nodes]
             if unknown:
                 logger.warning(
                     "%s: tool call report_diagnostic rejected — unknown node(s) %r",
@@ -105,15 +132,23 @@ class AgenticCheck:
                     f"Unknown node address(es) {unknown!r} — use addresses exactly "
                     "as they appear in the DOT graph."
                 )
+            if fix is not None and category != "missing":
+                logger.warning(
+                    "%s: tool call report_diagnostic rejected — fix given for category=%r",
+                    self.name, category,
+                )
+                raise ModelRetry("`fix` is only valid when category is 'missing'.")
             logger.info(
-                "%s: tool call report_diagnostic(category=%r, severity=%r, nodes=%r): %s",
-                self.name, category, severity, nodes, message,
+                "%s: tool call report_diagnostic(category=%r, severity=%r, node=%r, target=%r, fix=%r): %s",
+                self.name, category, severity, node, target, fix, message,
             )
             sink.push(Diagnostic(
                 category=category,
                 severity=severity,
                 message=message,
-                nodes=tuple(nodes),
+                node=node,
+                target=target,
+                fix=fix,
             ))
             return "recorded"
 

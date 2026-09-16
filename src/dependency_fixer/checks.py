@@ -38,5 +38,6 @@ class RedundantDependsOnCheck:
                             f"{node}: explicit depends_on of {target} is redundant — "
                             "already implied by attribute references"
                         ),
-                        nodes=(node, target),
+                        node=node,
+                        target=target,
                     ))

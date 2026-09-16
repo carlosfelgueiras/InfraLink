@@ -71,9 +71,16 @@ def main() -> None:
     context = AnalysisContext(project=project, graph=graph)
     for diagnostic in run_diagnostics(context, providers):
         print(
-            f"[{diagnostic.severity}] ({diagnostic.origin}) {diagnostic.category}: {diagnostic.message}",
+            f"[{diagnostic.severity}] ({diagnostic.origin}) {diagnostic.category} "
+            f"{diagnostic.node} -> {diagnostic.target}: {diagnostic.message}",
             file=sys.stderr,
         )
+        if diagnostic.fix is not None:
+            print(
+                f"    suggested fix: set `{diagnostic.fix.field}` on {diagnostic.node} to: "
+                f"{diagnostic.fix.expression}",
+                file=sys.stderr,
+            )
 
 
 if __name__ == "__main__":

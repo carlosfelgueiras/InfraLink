@@ -11,12 +11,31 @@ Category = Literal["redundant", "missing"]
 
 
 @dataclass(frozen=True)
+class DataDependencyFix:
+    """A suggested way to fix a "missing" diagnostic by wiring an actual data
+    reference into the dependent resource, instead of just adding a bare
+    `depends_on`. Setting `field = expression` on the dependent resource
+    (`Diagnostic.node`) should make Terraform infer the same ordering
+    implicitly, more idiomatically than an explicit `depends_on` would.
+    `expression` must reference `Diagnostic.target` at least once."""
+
+    field: str
+    expression: str
+
+
+@dataclass(frozen=True)
 class Diagnostic:
     category: Category
     severity: Severity
     message: str
-    nodes: tuple[Node, ...]
+    node: Node  # the resource that has (or should have) the dependency
+    target: Node  # the resource it depends on (or is missing a dependency on)
+    fix: DataDependencyFix | None = None  # only meaningful when category == "missing"
     origin: str = ""  # name of the provider that raised this; stamped by run_diagnostics
+
+    def __post_init__(self) -> None:
+        if self.fix is not None and self.category != "missing":
+            raise ValueError("Diagnostic.fix is only valid when category is 'missing'")
 
 
 class DiagnosticSink(Protocol):
