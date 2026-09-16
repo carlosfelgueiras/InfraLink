@@ -1,6 +1,5 @@
 import argparse
 import logging
-import sys
 
 from dotenv import load_dotenv
 
@@ -9,6 +8,7 @@ from .checks import RedundantDependsOnCheck
 from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
 from .graph import DependencyGraph, to_dot
 from .parser import TerraformProject
+from .report import render_diagnostics
 
 _LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
 
@@ -69,18 +69,8 @@ def main() -> None:
         ))
 
     context = AnalysisContext(project=project, graph=graph)
-    for diagnostic in run_diagnostics(context, providers):
-        print(
-            f"[{diagnostic.severity}] ({diagnostic.origin}) {diagnostic.category} "
-            f"{diagnostic.node} -> {diagnostic.target}: {diagnostic.message}",
-            file=sys.stderr,
-        )
-        if diagnostic.fix is not None:
-            print(
-                f"    suggested fix: set `{diagnostic.fix.field}` on {diagnostic.node} to: "
-                f"{diagnostic.fix.expression}",
-                file=sys.stderr,
-            )
+    diagnostics = run_diagnostics(context, providers)
+    render_diagnostics(diagnostics)
 
 
 if __name__ == "__main__":
