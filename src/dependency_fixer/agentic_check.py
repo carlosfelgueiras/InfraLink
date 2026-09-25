@@ -1,18 +1,48 @@
 import logging
-from typing import Literal
+from collections.abc import AsyncIterable
 
 import httpx
-from pydantic_ai import Agent, ModelRetry
-from pydantic_ai.models.bedrock import BedrockConverseModel, BedrockModelSettings
-from pydantic_ai.providers.bedrock import BedrockProvider
+from pydantic_ai import (
+    Agent,
+    FinalResultEvent,
+    FunctionToolCallEvent,
+    FunctionToolResultEvent,
+    ModelRetry,
+    PartDeltaEvent,
+    PartEndEvent,
+    PartStartEvent,
+    RunContext,
+)
+from pydantic_ai.messages import AgentStreamEvent, TextPartDelta, ThinkingPartDelta, ToolCallPartDelta
 
 from .diagnostics import AnalysisContext, Category, DataDependencyFix, Diagnostic, DiagnosticSink, Severity
 from .graph import Node, to_agent_json
+from .providers import PROFILES, ReasoningEffort
 from .registry_docs import ProviderDocNotFound, fetch_resource_doc
 
 logger = logging.getLogger(__name__)
 
-ReasoningEffort = Literal["minimal", "low", "medium", "high"]
+
+def _describe_stream_event(event: AgentStreamEvent) -> str:
+    match event:
+        case PartStartEvent(index=index, part=part):
+            return f"part_start[{index}]: {part.part_kind}"
+        case PartEndEvent(index=index, part=part):
+            return f"part_end[{index}]: {part.part_kind}"
+        case PartDeltaEvent(index=index, delta=TextPartDelta(content_delta=text)):
+            return f"part_delta[{index}]: text {text!r}"
+        case PartDeltaEvent(index=index, delta=ThinkingPartDelta(content_delta=text)):
+            return f"part_delta[{index}]: thinking {text!r}"
+        case PartDeltaEvent(index=index, delta=ToolCallPartDelta(tool_name_delta=name, args_delta=args)):
+            return f"part_delta[{index}]: tool_call name_delta={name!r} args_delta={args!r}"
+        case FunctionToolCallEvent(part=part):
+            return f"function_tool_call: {part.tool_name}(args={part.args})"
+        case FunctionToolResultEvent(part=part, content=content):
+            return f"function_tool_result: {part.tool_name} -> {content!r}"
+        case FinalResultEvent(tool_name=tool_name):
+            return f"final_result: tool_name={tool_name}"
+        case _:
+            return event.event_kind
 
 _SYSTEM_PROMPT = """
 You are a Terraform dependency auditor. You are given a project's dependency graph
@@ -59,45 +89,41 @@ with a one-line summary of how many findings you reported.
 """.strip()
 
 
+class UnknownProfile(ValueError):
+    """The requested agentic-check profile isn't in the PROFILES registry."""
+
+
 class AgenticCheck:
-    """DiagnosticProvider that delegates to an LLM (over AWS Bedrock) to find
-    dependency problems that aren't mechanically formalizable — the counterpart to
-    RedundantDependsOnCheck. The tool the model calls to report findings, and the
-    shape of what it can report, are fixed; only the model and its connection/
-    sampling parameters are configurable per instance."""
+    """DiagnosticProvider that delegates to an LLM to find dependency problems
+    that aren't mechanically formalizable — the counterpart to
+    RedundantDependsOnCheck. `profile` selects a backend (Bedrock, OpenRouter,
+    a generic OpenAI-compatible server, ...) from the `PROFILES` registry in
+    `providers.py`; the tool the model calls to report findings, and the shape
+    of what it can report, are fixed — only the backend and sampling
+    parameters are configurable per instance."""
 
     def __init__(
         self,
-        model_name: str,
+        profile: str,
         *,
         effort: ReasoningEffort | None = None,
         temperature: float | None = None,
-        api_key: str | None = None,
-        region_name: str | None = None,
     ) -> None:
-        self._model_name = model_name
+        self._profile = profile
         self._effort = effort
         self._temperature = temperature
-        self._api_key = api_key
-        self._region_name = region_name
 
     @property
     def name(self) -> str:
-        return f"agentic-check:{self._model_name}"
+        return f"agentic-check:{self._profile}"
 
     def run(self, context: AnalysisContext, sink: DiagnosticSink) -> None:
-        provider = (
-            BedrockProvider(api_key=self._api_key, region_name=self._region_name)
-            if self._api_key is not None
-            else BedrockProvider(region_name=self._region_name)
-        )
-        model = BedrockConverseModel(self._model_name, provider=provider)
+        backend = PROFILES.get(self._profile)
+        if backend is None:
+            raise UnknownProfile(f"unknown agentic profile {self._profile!r} — known profiles: {sorted(PROFILES)}")
 
-        settings: BedrockModelSettings = {}
-        if self._temperature is not None:
-            settings["temperature"] = self._temperature
-        if self._effort is not None:
-            settings["thinking"] = self._effort
+        model = backend.build_model()
+        settings = backend.build_settings(effort=self._effort, temperature=self._temperature)
 
         agent: Agent[None, str] = Agent(
             model,
@@ -105,9 +131,15 @@ class AgenticCheck:
             model_settings=settings or None,
         )
 
+        stream_debug = logger.isEnabledFor(logging.DEBUG)
+
+        async def log_stream_events(_ctx: RunContext[None], events: AsyncIterable[AgentStreamEvent]) -> None:
+            async for event in events:
+                logger.debug("%s: %s", self.name, _describe_stream_event(event))
+
         valid_nodes = context.graph.nodes
 
-        @agent.tool_plain
+        @agent.tool_plain(retries=3)
         def report_diagnostic(
             category: Category,
             severity: Severity,
@@ -193,13 +225,18 @@ class AgenticCheck:
                 logger.warning("%s: fetch_provider_doc request failed: %s", self.name, exc)
                 return f"Failed to fetch documentation: {exc}"
 
-        result = agent.run_sync(self._build_prompt(context))
+        result = agent.run_sync(
+            self._build_prompt(context),
+            event_stream_handler=log_stream_events if stream_debug else None,
+        )
 
         usage = result.usage
         logger.info(
             "%s: run complete — requests=%d tool_calls=%d input_tokens=%d output_tokens=%d",
             self.name, usage.requests, usage.tool_calls, usage.input_tokens, usage.output_tokens,
         )
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("%s: full chat trajectory: %s", self.name, result.all_messages_json().decode())
 
     def _build_prompt(self, context: AnalysisContext) -> str:
         sources = "\n\n".join(f"# {path}\n{text}" for path, text in context.source_files())

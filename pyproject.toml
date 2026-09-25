@@ -80,3 +80,9 @@ disallow_any_decorated = false
 module = "dependency_fixer.registry_docs"
 disallow_any_expr = false
 disallow_any_decorated = false
+
+[[tool.mypy.overrides]]
+# BedrockModelSettings/OpenAIChatModelSettings are TypedDicts whose backend-specific
+# keys (thinking, openai_reasoning_effort, ...) resolve through Any internally
+module = "dependency_fixer.providers"
+disallow_any_expr = false

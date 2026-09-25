@@ -3,11 +3,12 @@ import logging
 
 from dotenv import load_dotenv
 
-from .agentic_check import AgenticCheck, ReasoningEffort
+from .agentic_check import AgenticCheck
 from .checks import RedundantDependsOnCheck
 from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
 from .graph import DependencyGraph, to_dot
 from .parser import TerraformProject
+from .providers import PROFILES, ReasoningEffort
 from .report import render_diagnostics, render_diagnostics_json
 
 _LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR"]
@@ -17,10 +18,9 @@ class _Args(argparse.Namespace):
     path: str
     graph: bool
     json: bool
-    agentic_model: str | None
+    agentic_profile: str | None
     agentic_effort: ReasoningEffort | None
     agentic_temperature: float | None
-    agentic_region: str | None
     log_level: str
 
 
@@ -42,13 +42,13 @@ def main() -> None:
         "human-readable report.",
     )
     parser.add_argument(
-        "--agentic-model",
-        help="Bedrock model id (e.g. anthropic.claude-sonnet-4-5-20250929-v1:0). "
+        "--agentic-profile",
+        choices=sorted(PROFILES),
+        help="Backend/model profile from providers.py's PROFILES registry. "
         "If set, also runs the LLM-based check alongside the mechanical ones.",
     )
-    parser.add_argument("--agentic-effort", choices=["minimal", "low", "medium", "high"])
+    parser.add_argument("--agentic-effort", choices=["minimal", "low", "medium", "high"], default="low")
     parser.add_argument("--agentic-temperature", type=float)
-    parser.add_argument("--agentic-region", help="AWS region; falls back to AWS_DEFAULT_REGION.")
     parser.add_argument(
         "--log-level",
         choices=_LOG_LEVELS,
@@ -67,12 +67,11 @@ def main() -> None:
         return
 
     providers: list[DiagnosticProvider] = [RedundantDependsOnCheck()]
-    if args.agentic_model:
+    if args.agentic_profile:
         providers.append(AgenticCheck(
-            args.agentic_model,
+            args.agentic_profile,
             effort=args.agentic_effort,
             temperature=args.agentic_temperature,
-            region_name=args.agentic_region,
         ))
 
     context = AnalysisContext(project=project, graph=graph)
