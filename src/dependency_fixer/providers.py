@@ -142,5 +142,7 @@ PROFILES: dict[str, Backend] = {
     "bedrock-claude-sonnet": BedrockBackend(model_name="us.anthropic.claude-sonnet-4-5-20250929-v1:0"),
     "bedrock-llama-3.3-70b": BedrockBackend(model_name="us.meta.llama3-3-70b-instruct-v1:0"),
     "openrouter-claude-sonnet": OpenRouterBackend(model_name="anthropic/claude-sonnet-4.5"),
+    "openrouter-gpt-6-luna": OpenRouterBackend(model_name="openai/gpt-6-luna"),
+    "openrouter-deepseek-v4.1-flash-1017": OpenRouterBackend(model_name="deepseek/deepseek-v4.1-flash-1017"),
     "self-hosted-openai": SelfHostedOpenAIBackend(),
 }
