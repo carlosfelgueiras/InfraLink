@@ -88,9 +88,65 @@ Only report findings you are reasonably confident about. When you are done, repl
 with a one-line summary of how many findings you reported.
 """.strip()
 
+_NON_CONSERVATIVE_SYSTEM_PROMPT = """
+You are a Terraform dependency auditor. You are given a project's dependency graph
+as JSON — `{"nodes": [...]}`, where each node object has:
+  - "id": the node's address, Terraform's own resource-addressing scheme, e.g.
+    ":resource.aws_instance.example" or "module.foo:resource.aws_instance.bar".
+  - "kind": one of "resource", "data", "module", "var", "output", "provider".
+  - "module": the module instance this node belongs to ("" for the root module).
+  - "implicit_deps": node ids this node depends on via an ordinary attribute reference.
+  - "depends_on_deps": node ids this node depends on via an explicit `depends_on`.
+— and the full source of every .tf file in the project.
+
+The graph already captures every dependency implied by attribute references and by
+explicit `depends_on` (that's exactly what "implicit_deps"/"depends_on_deps" are).
+Your job is to find dependency problems that this mechanical analysis cannot see:
+
+- "missing": `node` should depend on `target` (real-world/operational ordering that
+  no attribute reference or `depends_on` expresses), but currently doesn't.
+- "redundant": `node` has an explicit `depends_on` on `target` that duplicates a
+  dependency already established some other way.
+
+For every problem you find, call `report_diagnostic` once with the exact `node` and
+`target` addresses implicated, copied verbatim from the graph's "id" fields. `node`
+is the resource that has (or should have) the dependency; `target` is the resource
+it depends on (or should depend on).
+
+For a "missing" finding, if — and only if — there's a clean way to establish the
+dependency as an actual data reference instead of a bare `depends_on`, also pass
+`fix`: set `fix.field` to an attribute name on `node` and `fix.expression` to an HCL
+expression for that field which references `target` at least once, so assigning
+`field = expression` on `node` would make Terraform infer the ordering implicitly.
+Omit `fix` if no such data-dependency fix exists — a bare `depends_on` is still a
+valid way to close a "missing" finding, `fix` is only for when something more
+idiomatic is possible.
+
+If you're not sure whether a resource or data source type has real-world lifecycle
+behavior that would justify a "missing" finding (e.g. asynchronous provisioning,
+eventual consistency, a readiness delay after creation), call `fetch_provider_doc`
+to pull its official Terraform Registry documentation rather than guessing from
+memory alone.
+
+When you are done, reply with a one-line summary of how many findings you reported.
+""".strip()
+
+SYSTEM_PROMPTS: dict[str, str] = {
+    "default": _SYSTEM_PROMPT,
+    "non-conservative": _NON_CONSERVATIVE_SYSTEM_PROMPT
+}
+"""Named, selectable system prompt variants — for A/B-ing prompt changes without
+mutating the default one every other profile/run relies on. Add a new variant
+here and select it via AgenticCheck(..., system_prompt="name"); "default" is
+unchanged unless this dict's "default" entry itself is edited."""
+
 
 class UnknownProfile(ValueError):
     """The requested agentic-check profile isn't in the PROFILES registry."""
+
+
+class UnknownSystemPrompt(ValueError):
+    """The requested system-prompt variant isn't in the SYSTEM_PROMPTS registry."""
 
 
 class AgenticCheck:
@@ -108,26 +164,35 @@ class AgenticCheck:
         *,
         effort: ReasoningEffort | None = None,
         temperature: float | None = None,
+        system_prompt: str = "default",
     ) -> None:
         self._profile = profile
         self._effort = effort
         self._temperature = temperature
+        self._system_prompt = system_prompt
 
     @property
     def name(self) -> str:
-        return f"agentic-check:{self._profile}"
+        suffix = f":{self._system_prompt}" if self._system_prompt != "default" else ""
+        return f"agentic-check:{self._profile}{suffix}"
 
     def run(self, context: AnalysisContext, sink: DiagnosticSink) -> None:
         backend = PROFILES.get(self._profile)
         if backend is None:
             raise UnknownProfile(f"unknown agentic profile {self._profile!r} — known profiles: {sorted(PROFILES)}")
 
+        system_prompt = SYSTEM_PROMPTS.get(self._system_prompt)
+        if system_prompt is None:
+            raise UnknownSystemPrompt(
+                f"unknown system prompt {self._system_prompt!r} — known prompts: {sorted(SYSTEM_PROMPTS)}"
+            )
+
         model = backend.build_model()
         settings = backend.build_settings(effort=self._effort, temperature=self._temperature)
 
         agent: Agent[None, str] = Agent(
             model,
-            system_prompt=_SYSTEM_PROMPT,
+            system_prompt=system_prompt,
             model_settings=settings or None,
         )
 

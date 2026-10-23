@@ -11,6 +11,7 @@ from pydantic_ai.providers.openrouter import OpenRouterProvider
 from pydantic_ai.settings import ModelSettings
 
 ReasoningEffort = Literal["minimal", "low", "medium", "high"]
+ServiceTier = Literal["auto", "default", "flex", "priority"]
 
 
 class MissingEnvVar(ValueError):
@@ -64,10 +65,15 @@ class BedrockBackend:
 
 @dataclass(frozen=True)
 class OpenRouterBackend:
-    """OpenRouter. Auth via `api_key` (falls back to `OPENROUTER_API_KEY`)."""
+    """OpenRouter. Auth via `api_key` (falls back to `OPENROUTER_API_KEY`).
+    `service_tier`, when set, requests OpenRouter's "flex"/"priority" capacity
+    tiers (a top-level `service_tier` field on the request — OpenAI, Google
+    Vertex, and Google AI Studio models support it for select models; "flex"
+    trades lower cost for higher latency/lower availability, best-effort)."""
 
     model_name: str
     api_key: str | None = None
+    service_tier: ServiceTier | None = None
 
     def build_model(self) -> Model:
         provider = OpenRouterProvider(api_key=self.api_key)
@@ -79,6 +85,8 @@ class OpenRouterBackend:
             settings["temperature"] = temperature
         if effort is not None:
             settings["openai_reasoning_effort"] = effort
+        if self.service_tier is not None:
+            settings["openai_service_tier"] = self.service_tier
         return settings
 
 
@@ -144,5 +152,10 @@ PROFILES: dict[str, Backend] = {
     "openrouter-claude-sonnet": OpenRouterBackend(model_name="anthropic/claude-sonnet-4.5"),
     "openrouter-gpt-6-luna": OpenRouterBackend(model_name="openai/gpt-6-luna"),
     "openrouter-deepseek-v4.1-flash-1017": OpenRouterBackend(model_name="deepseek/deepseek-v4.1-flash-1017"),
+    "openrouter-gpt-6.1-sol": OpenRouterBackend(model_name="openai/gpt-6.1-sol"),
+    "openrouter-gpt-6.1-sol-flex": OpenRouterBackend(model_name="openai/gpt-6.1-sol", service_tier="flex"),
+    "openrouter-poolside-laguna-s-2.1": OpenRouterBackend(model_name="poolside/laguna-s-2.1"),
+    "openrouter-mimo-v2.6-flash": OpenRouterBackend(model_name="xiaomi/mimo-v2.6-flash"),
+    "openrouter-glm-5.3-flash": OpenRouterBackend(model_name="z-ai/glm-5.3-flash"),
     "self-hosted-openai": SelfHostedOpenAIBackend(),
 }

@@ -3,7 +3,7 @@ import logging
 
 from dotenv import load_dotenv
 
-from .agentic_check import AgenticCheck
+from .agentic_check import SYSTEM_PROMPTS, AgenticCheck
 from .checks import RedundantDependsOnCheck
 from .diagnostics import AnalysisContext, DiagnosticProvider, run_diagnostics
 from .graph import DependencyGraph, to_dot
@@ -21,6 +21,7 @@ class _Args(argparse.Namespace):
     agentic_profile: str | None
     agentic_effort: ReasoningEffort | None
     agentic_temperature: float | None
+    agentic_system_prompt: str
     log_level: str
 
 
@@ -50,6 +51,12 @@ def main() -> None:
     parser.add_argument("--agentic-effort", choices=["minimal", "low", "medium", "high"], default="low")
     parser.add_argument("--agentic-temperature", type=float)
     parser.add_argument(
+        "--agentic-system-prompt",
+        choices=sorted(SYSTEM_PROMPTS),
+        default="default",
+        help="Named system-prompt variant from agentic_check.py's SYSTEM_PROMPTS registry.",
+    )
+    parser.add_argument(
         "--log-level",
         choices=_LOG_LEVELS,
         default="WARNING",
@@ -72,6 +79,7 @@ def main() -> None:
             args.agentic_profile,
             effort=args.agentic_effort,
             temperature=args.agentic_temperature,
+            system_prompt=args.agentic_system_prompt,
         ))
 
     context = AnalysisContext(project=project, graph=graph)
