@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, the function can be created before its execution role has the VPC access policy attached. Make the function wait for the VPC execution-role attachment to avoid operating without the permissions required for VPC networking.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, the function can be created before its execution role has the VPC access policy attached. Make the function wait for the VPC execution-role attachment to avoid operating without the permissions required for VPC networking.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, the function can be created before its execution role has the VPC access policy attached. Make the function wait for the VPC execution-role attachment to avoid operating without the permissions required for VPC networking.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, the function can be created before its execution role has the VPC access policy attached. Make the function wait for the VPC execution-role attachment to avoid operating without the permissions required for VPC networking.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, the function can be created before its execution role has the VPC access policy attached. Make the function wait for the VPC execution-role attachment to avoid operating without the permissions required for VPC networking.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda resource policy grants EventBridge invocation rights. Order target creation after this permission so scheduled invocations are authorized from the outset.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda resource policy grants EventBridge invocation rights. Order target creation after this permission so scheduled invocations are authorized from the outset.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda resource policy grants EventBridge invocation rights. Order target creation after this permission so scheduled invocations are authorized from the outset.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "An enabled SQS event source mapping can begin polling as soon as it is created, before the scale-up Lambda execution role's SQS permissions are installed. Make mapping creation wait for the policy that grants those permissions.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The API Gateway $default stage is auto-deployed and can expose the webhook route before Lambda's resource policy grants API Gateway invoke access. Order stage creation after the Lambda permission so the live endpoint is authorized when exposed.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This S3 object is deliberately uploaded after the bucket notification is configured, which can invoke the syncer immediately. Ensure the syncer's S3 access policy is installed before that trigger object is uploaded, or the initial sync can run without the permissions it needs.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled syncer can be invoked as soon as EventBridge has the target, but its execution role's S3 policy is installed separately. Make the target wait for that policy so an early scheduled invocation can access the distribution object.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Once the scheduled target is active, the scale-down Lambda may run before its execution role policy is installed. Order target creation after the policy that grants its runtime permissions.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool schedule may invoke the Lambda as soon as the target is configured, before its execution role policy is installed. Order target creation after the policy that grants the function its runtime permissions.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

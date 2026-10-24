@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudtrail.main depends on aws_s3_bucket.cloudtrail (via s3_bucket_name) but not on aws_s3_bucket_policy.cloudtrail, which grants cloudtrail.amazonaws.com s3:GetBucketAcl and s3:PutObject on the bucket. CloudTrail validates bucket write access when the trail is created and starts logging, so if the trail is applied before the bucket policy, creation fails (InsufficientS3BucketPolicyException) or early log deliveries are dropped. The bucket policy is a separate resource with no ordering edge to the trail, so an explicit depends_on is required (this matches the pattern in the official aws_cloudtrail documentation example).",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eventbridge's rule targets reference aws_sns_topic.security_alerts arn, which orders the module after the SNS topic, but nothing orders it after aws_sns_topic_policy.security_alerts. The topic policy is what grants events.amazonaws.com permission to sns:Publish; if the EventBridge targets are created before the policy is applied, event deliveries to the topic fail until the policy exists. An explicit depends_on from module.eventbridge on the topic policy ensures the policy is in place before alerts start flowing.",
+      "node": ":module.eventbridge",
+      "target": ":resource.aws_sns_topic_policy.security_alerts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

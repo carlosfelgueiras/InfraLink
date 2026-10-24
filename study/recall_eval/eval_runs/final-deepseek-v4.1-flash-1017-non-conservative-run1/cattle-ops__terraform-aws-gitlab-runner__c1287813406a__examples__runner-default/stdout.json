@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.local_file.public_ssh_key` has an explicit `depends_on = [\"tls_private_key.ssh\"]` that duplicates the dependency already established by `content = \"${tls_private_key.ssh.public_key_openssh}\"` (the graph already records `:resource.tls_private_key.ssh` in implicit_deps). The `depends_on` can be dropped.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.local_file.private_ssh_key` has an explicit `depends_on = [\"tls_private_key.ssh\"]` that duplicates the dependency already established by `content = \"${tls_private_key.ssh.private_key_pem}\"` (the graph already records `:resource.tls_private_key.ssh` in implicit_deps). The `depends_on` can be dropped.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` launches instances whose user-data registers the runner and writes the registration token into the SSM parameter named by `local.secure_parameter_store_runner_token_key`, but it has no dependency on `module.runner:resource.aws_ssm_parameter.runner_registration_token` (that node has zero edges in the graph). The parameter is created by Terraform with `value = \"null\"` and `lifecycle { ignore_changes = [\"value\"] }`. If the ASG's instances start before the parameter exists, user-data creates it and stores the real token; Terraform then creates its own parameter with value `null` afterwards and, because `value` is ignored on subsequent applies, the token is permanently lost and the runner never registers. The launch configuration (and therefore the ASG) must be ordered after the SSM parameter.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

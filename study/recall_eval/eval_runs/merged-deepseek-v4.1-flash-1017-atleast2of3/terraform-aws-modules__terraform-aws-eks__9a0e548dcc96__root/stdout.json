@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_autoscaling_group.workers` instances boot and immediately try to register with the cluster, authenticating with the worker IAM role, which must already be mapped in the `aws-auth` ConfigMap (`kubernetes_config_map.aws_auth`). The ASG only depends on the cluster, launch configuration and `random_pet.workers`, so instances can launch before the ConfigMap maps their role and fail to join the cluster. This operational ordering is not expressed anywhere; it needs an explicit `depends_on = [kubernetes_config_map.aws_auth]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`resource.aws_autoscaling_group.workers` launches self-managed EKS worker instances that authenticate to the cluster via the `aws-auth` ConfigMap (their role ARN is templated into `local.configmap_roles`), but nothing orders the ASG after `kubernetes_config_map.aws_auth`: the ASG's expressions only reference the cluster name, launch configuration and random_pet. The module authors added exactly this ordering to the managed node groups via `ng_depends_on` (which includes `kubernetes_config_map.aws_auth`) to avoid nodes being created before they can authenticate; the self-managed ASG has the same race and needs an explicit `depends_on` (or an equivalent reference) on the ConfigMap.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nSame issue as the Launch Configuration worker group: `aws_autoscaling_group.workers_launch_template` only depends on the cluster, the launch template and `random_pet.workers_launch_template`. Instances it launches authenticate with the worker IAM role, which must already be present in the `aws-auth` ConfigMap (`kubernetes_config_map.aws_auth`) before the nodes can join; nothing expresses that ordering, so add `depends_on = [kubernetes_config_map.aws_auth]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`resource.aws_autoscaling_group.workers_launch_template` launches self-managed EKS worker instances from a launch template whose role is registered in the `aws-auth` ConfigMap (`local.auth_launch_template_worker_roles`), yet the ASG does not depend on `kubernetes_config_map.aws_auth`. Only the cluster, launch template and random_pet are referenced. Like the managed node groups (which get this ordering through `ng_depends_on` in the `node_groups` module), the worker instances need the ConfigMap entry to exist before they can register with the cluster, so an explicit dependency on `kubernetes_config_map.aws_auth` is missing.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

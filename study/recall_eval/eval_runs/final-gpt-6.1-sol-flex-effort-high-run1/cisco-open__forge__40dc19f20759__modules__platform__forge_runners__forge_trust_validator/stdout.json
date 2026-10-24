@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "Module :module.forge_trust_validator_lambda already depends on :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda through logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name. Its explicit depends_on duplicates that dependency.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda already depends on :module.forge_trust_validator_lambda through arn = module.forge_trust_validator_lambda.lambda_function_arn. Its explicit depends_on duplicates that dependency.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_lambda_permission.forge_trust_validator_lambda already transitively depends on :module.forge_trust_validator_lambda: source_arn references the EventBridge rule, whose depends_on includes that module. The permission's direct depends_on on the module adds no ordering.",
+      "node": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.update_forge_role_trust must wait for :module.forge_trust_validator_lambda to create its execution role. The local-exec provisioner submits a trust policy whose AWS principal is the manually constructed validator role ARN; IAM validates that principal, so running before the module creates the role can fail with an invalid-principal error. The constructed ARN does not establish a dependency on the module. Add depends_on, or refactor the principal in local.lambda_trust_statement to use the module's lambda_role_arn output.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda should depend on :resource.aws_lambda_permission.forge_trust_validator_lambda so the enabled scheduled rule does not begin invoking its Lambda target before events.amazonaws.com has invocation permission. The provider documentation requires this permission for EventBridge invocation, but the target and permission currently can be created concurrently. Add depends_on on the permission to avoid this invocation-readiness race.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

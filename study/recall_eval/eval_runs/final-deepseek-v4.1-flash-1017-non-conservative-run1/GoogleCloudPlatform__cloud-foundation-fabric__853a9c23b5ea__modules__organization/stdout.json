@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_binding.authoritative can grant roles supplied in var.iam, including custom roles just created by google_organization_iam_custom_role.roles in this same module. Newly created custom roles are eventually consistent and may not be usable in an IAM policy write immediately, so without a dependency the binding can fail with \"role does not exist\". The source explicitly notes this ordering is \"left to the caller\", and currently there is neither an implicit reference nor a depends_on expressing it.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_binding.bindings takes arbitrary role strings from var.iam_bindings, which may name custom roles created by google_organization_iam_custom_role.roles in this module. Because custom roles are eventually consistent after creation, the binding should be ordered after the role exists; right now no attribute reference or depends_on establishes this ordering.",
+      "node": ":resource.google_organization_iam_binding.bindings",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_member.bindings takes arbitrary role strings from var.iam_bindings_additive, which may name custom roles created by google_organization_iam_custom_role.roles in this module. Newly created custom roles are eventually consistent, so the member binding should depend on role creation; currently nothing in the graph expresses that ordering.",
+      "node": ":resource.google_organization_iam_member.bindings",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

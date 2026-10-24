@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_monitoring_notification_channel.channels uses the Cloud Monitoring API (via `project = local.project.project_id`), but the graph shows no dependency (implicit or explicit) on :resource.google_project_service.project_services. Monitoring is not enabled by default on new projects; if this module is enabling `monitoring.googleapis.com` in the same apply, channel creation can run before the API is active and fail. The module already uses an explicit depends_on on project_services for every other API-dependent resource (e.g. google_compute_project_metadata_item.default, google_logging_project_sink.sink, google_cloud_quotas_quota_preference.default); this resource is missing it.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_monitoring_monitored_project.primary registers this project in metrics scopes through the Cloud Monitoring API, but the graph shows no dependency on :resource.google_project_service.project_services. The monitoring API is not enabled by default, so when this module provisions `monitoring.googleapis.com` in the same apply the monitored-project registration may execute before the API is usable. Like the other API-dependent resources in this module, it needs an explicit ordering on :resource.google_project_service.project_services.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

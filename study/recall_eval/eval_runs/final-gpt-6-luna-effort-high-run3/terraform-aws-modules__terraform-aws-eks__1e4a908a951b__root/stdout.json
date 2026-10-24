@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.null_resource.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the existing implicit dependency: the provisioner reads the cluster endpoint.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker Auto Scaling group can launch instances as soon as it is created, but it has no ordering dependency on the worker-node policy attachment. Ensure the policy is attached before launching worker instances.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-configuration worker Auto Scaling group can launch nodes before the ECR read-only policy is attached, potentially preventing nodes from pulling required images. Order group creation after this attachment.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-configuration worker Auto Scaling group can launch nodes before the CNI policy is attached, potentially disrupting pod networking. Order group creation after this attachment.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template worker Auto Scaling group can launch instances as soon as it is created, but it has no ordering dependency on the worker-node policy attachment. Ensure the policy is attached before launching worker instances.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template worker Auto Scaling group can launch nodes before the ECR read-only policy is attached, potentially preventing nodes from pulling required images. Order group creation after this attachment.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template worker Auto Scaling group can launch nodes before the CNI policy is attached, potentially disrupting pod networking. Order group creation after this attachment.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

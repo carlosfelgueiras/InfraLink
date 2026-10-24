@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project to an external Shared VPC host, which requires the Compute Engine API (`compute.googleapis.com`) to already be enabled in the service project. Nothing in its `host_project`/`service_project` arguments (both derived from `local.project`/variables) references `google_project_service.project_services`, so Terraform may attempt the attachment while the API is still being enabled and fail. Its sibling in the same file, `google_compute_shared_vpc_host_project.shared_vpc_host`, already carries `depends_on = [google_project_service.project_services]`; the service-project case needs the equivalent ordering (a bare `depends_on` is the practical fix here, since no clean attribute of this resource can reference the service-enablement resource).",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

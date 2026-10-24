@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale_up event source mapping requires the execution role's SQS receive/delete/get-attributes permissions before AWS will accept the mapping. Referencing the Lambda alone does not order it after aws_iam_role_policy.scale_up; add depends_on for that policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

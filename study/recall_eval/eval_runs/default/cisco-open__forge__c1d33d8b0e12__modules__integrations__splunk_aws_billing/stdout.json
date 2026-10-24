@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The S3 bucket notification should depend on the cur_per_resource_process Lambda permission so S3 cannot configure its notification before authorization to invoke that function exists. The source has a third Lambda notification block for this function, but the explicit depends_on list omits its permission.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

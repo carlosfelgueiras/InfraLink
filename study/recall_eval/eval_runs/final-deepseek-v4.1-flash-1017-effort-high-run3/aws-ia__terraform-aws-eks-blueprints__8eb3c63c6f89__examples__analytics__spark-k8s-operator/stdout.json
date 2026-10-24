@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.eks_blueprints_kubernetes_addons: explicit depends_on of :resource.aws_s3_object.this is redundant \u2014 already implied by attribute references",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": ":resource.aws_s3_object.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`module.eks_blueprints_kubernetes_addons` already depends on `aws_s3_object.this` implicitly \u2014 its `spark_history_server_helm_config` interpolates `aws_s3_object.this.key` (visible in the graph's implicit_deps). The explicit `depends_on` entry for `aws_s3_object.this` therefore duplicates an existing dependency.",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": ":resource.aws_s3_object.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`aws_eks_node_group.managed_ng` sets `node_role_arn = ... aws_iam_role.managed_ng[0].arn` (present in the graph's implicit_deps), so the explicit `depends_on` entry for `aws_iam_role.managed_ng` duplicates a dependency already established by that attribute reference.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_trust_policy` interpolates `aws_iam_role.emr_on_eks_execution.id` in its local-exec command (an implicit dependency already captured in the graph), so the explicit `depends_on` entry for `aws_iam_role.emr_on_eks_execution` is redundant.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_trust_policy` interpolates `kubernetes_namespace.spark.id` in its local-exec command (an implicit dependency already captured in the graph), so the explicit `depends_on` entry for `kubernetes_namespace.spark` is redundant.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.aws_eks_teams` creates Kubernetes namespaces, RBAC and service accounts against the cluster's API server, but it only depends on `module.aws_eks` (cluster creation) and never waits for the cluster-readiness gate. Unlike the managed/self-managed node-group and EMR modules (which all `depends_on = [kubernetes_config_map.aws_auth]`), this module can try to talk to the API server before the control plane is reachable/aws-auth is configured. It should depend on `kubernetes_config_map.aws_auth` (which itself depends on `data.http.eks_cluster_readiness`).",
+      "node": "module.eks_blueprints:module.aws_eks_teams",
+      "target": "module.eks_blueprints:resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

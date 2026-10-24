@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.helm_release.karpenter to :module.eks duplicates the dependency already inferred from references to module.eks outputs in the Helm values; Terraform already orders the release after the EKS module.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

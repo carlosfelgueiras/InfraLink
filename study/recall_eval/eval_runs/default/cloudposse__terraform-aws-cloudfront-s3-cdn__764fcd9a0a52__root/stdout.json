@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_cloudfront_distribution.default to :resource.aws_s3_bucket.origin duplicates the bucket dependency already established by the distribution's origin domain name, which flows through local.bucket_domain_name and local.bucket.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

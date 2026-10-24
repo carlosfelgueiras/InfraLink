@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on project_services is already transitive through jit_si (and the service-account data sources).",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.name already waits for project_services through service_identity_cmek.",
+      "node": ":output.name",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.number already waits for project_services through service_identity_cmek.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for project_services through service_identity_cmek.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for google_project.project through service_identity_cmek.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for data.google_project.project through service_identity_cmek.",
+      "node": ":output.project_id",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for project_services through service_identity_cmek.",
+      "node": ":output.service_accounts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for jit_si through service_identity_cmek.",
+      "node": ":output.service_accounts",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for bq_sa through service_identity_cmek.",
+      "node": ":output.service_accounts",
+      "target": ":data.google_bigquery_default_service_account.bq_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for gcs_sa through service_identity_cmek.",
+      "node": ":output.service_accounts",
+      "target": ":data.google_storage_project_service_account.gcs_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "shared_vpc_host_robots constructs service-agent emails without waiting for project_services to enable their APIs and provision the associated agents; IAM grants can race agent creation.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "shared_vpc_host_robots can grant roles to just-in-time service agents such as Pub/Sub before jit_si creates them; it should wait for jit_si.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

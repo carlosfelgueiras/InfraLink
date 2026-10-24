@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function conditionally uses VPC subnets/security groups, but it can be created before the VPC execution policy is attached. Ensure the VPC execution role policy attachment is complete before creating the VPC-configured function so its networking permissions are available.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

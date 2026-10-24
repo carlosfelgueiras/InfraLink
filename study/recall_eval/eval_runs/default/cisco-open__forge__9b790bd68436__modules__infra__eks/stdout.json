@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.karpenter applies Kubernetes resources via the Helm provider, but it is only ordered after patch_calico_installation; it should also wait for the EKS cluster to become active before configuring/installing Karpenter resources.",
+      "node": ":module.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The self-managed node group has a direct cluster dependency but may launch nodes before the Calico installation/patch has completed; its existing patch dependency is explicit and is present, so this is not a missing edge.",
+      "node": ":module.self_managed_node_group",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

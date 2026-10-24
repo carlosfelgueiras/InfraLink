@@ -1,0 +1,3 @@
+Attaching a service project to a Shared VPC host calls the Compute API on the host project, with the service project passed as a parameter. In practice, the service project needs compute.googleapis.com enabled, because the API returns an error if the project hasn't been enabled for Compute Engine. The service project here is `local.project.project_id`, and the module enables compute in `project_services`. The attachment's `depends_on` lists only the perimeter resources. It has no attribute reference to the services and no `depends_on` on them. The host resource, by contrast, does depend on `project_services`, which suggests the author saw the need there. The ordering requirement is real and the configuration doesn't express it.
+
+Correct

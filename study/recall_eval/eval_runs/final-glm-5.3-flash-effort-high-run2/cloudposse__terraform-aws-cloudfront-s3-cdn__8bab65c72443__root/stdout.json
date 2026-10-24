@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`aws_cloudfront_distribution.default` has an explicit `depends_on = [aws_s3_bucket.origin]`, but the dependency is already established implicitly: the distribution's origin `domain_name` comes from `local.bucket_domain_name`, which resolves through `local.origin_bucket` (and `local.origin_bucket_options.new`) to `aws_s3_bucket.origin[0]` (`bucket_regional_domain_name`/`website_endpoint`). Terraform already forces the bucket to be created before the distribution (and destroyed after it) via that attribute reference, so the explicit `depends_on` is redundant and can be removed.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

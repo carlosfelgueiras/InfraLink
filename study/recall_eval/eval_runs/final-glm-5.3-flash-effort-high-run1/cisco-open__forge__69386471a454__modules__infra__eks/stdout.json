@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [module.eks]` on helm_release.karpenter is redundant: the resource already references `module.eks.cluster_name` and `module.eks.cluster_endpoint` in its `values` template, so Terraform infers the dependency on :module.eks implicitly.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.wait_for_cluster has an explicit depends_on on aws_eks_cluster.this, but this ordering is already established implicitly: the resource's local-exec provisioner references aws_eks_cluster.this[0].endpoint in its environment block (ENDPOINT = aws_eks_cluster.this[0].endpoint), which already makes Terraform create the EKS cluster before this resource. The explicit depends_on entry is a duplicate and can be removed.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

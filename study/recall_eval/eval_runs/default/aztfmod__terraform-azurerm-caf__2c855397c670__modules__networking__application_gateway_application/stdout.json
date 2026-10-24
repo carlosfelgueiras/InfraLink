@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The request-routing-rule provisioning script can refer to a URL path map through `url_path_map_key`, but `set_request_routing_rule` has no dependency on `set_url_path_map`. Its explicit prerequisites only ensure subordinate objects, so map creation can race the rule creation.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Splunk AWS integration is enabled with metric-stream synchronization but does not wait for the inline role policy granting CloudWatch metric-stream and iam:PassRole permissions to be attached. The delay after role creation does not establish ordering on this policy attachment.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Splunk AWS integration can be created before the inline role policy granting its AWS inventory and data-collection permissions is attached. Add an ordering dependency so the remote integration is not provisioned before this policy.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

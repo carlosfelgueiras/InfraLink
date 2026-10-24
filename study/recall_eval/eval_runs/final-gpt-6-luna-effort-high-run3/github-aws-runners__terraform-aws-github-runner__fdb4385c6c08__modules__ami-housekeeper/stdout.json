@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function uses VPC configuration when subnet and security-group IDs are supplied, but it does not wait for the VPC execution policy attachment. Ensure the execution role has the required ENI permissions before creating the VPC-enabled function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC settings are supplied, the Lambda function needs the VPC execution policy attached to its role before it is created or used; the current graph only orders the function after the role itself.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function's AMI cleanup behavior requires the inline cleanup policy to be installed before the function can run successfully, but the graph does not order function creation after that policy.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When X-Ray tracing is enabled, the function's X-Ray policy should be installed before the function is used with tracing; no dependency on this policy is expressed.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda resource-based permission, leaving scheduled invocations unauthorized until that permission is created. Order target creation after the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin invoking the function before its managed log group and logging policy are ready. Waiting for the logging policy also ensures its referenced log group is created before the target is enabled.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

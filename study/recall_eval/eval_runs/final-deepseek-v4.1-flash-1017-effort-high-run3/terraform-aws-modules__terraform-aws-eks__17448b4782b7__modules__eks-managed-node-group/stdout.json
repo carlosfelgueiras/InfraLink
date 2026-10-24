@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_eks_node_group.this` provisions the Auto Scaling group / EC2 instances that assume the node IAM role, but it has no dependency on `aws_iam_role_policy_attachment.this` (the standard AmazonEKSWorkerNodePolicy / CNI / ECR attachments). Per the aws_eks_node_group docs, the node group must depend on its role's policy attachments so the policies exist before nodes are created and are only removed after the node group (and its instances/ENIs) are deleted \u2014 otherwise EKS cannot join nodes or delete the EC2 instances and ENIs on destroy. Today this is only covered transitively via the launch template's depends_on, which applies solely when a custom launch template is created and used. Add `aws_iam_role_policy_attachment.this` to the node group's `depends_on`.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_iam_role_policy_attachment.additional` attaches user-supplied policies to the same node IAM role consumed by `aws_eks_node_group.this`, but the node group has no ordering relative to it (the launch template's `depends_on` lists only `aws_iam_role_policy_attachment.this`, so nothing transitively covers the additional attachments). Nodes, and the pods on them that rely on those extra permissions, can be created before the additional policies are attached, and the policies can be detached before the node group is destroyed. Add `aws_iam_role_policy_attachment.additional` to the node group's `depends_on` as well.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

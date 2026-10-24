@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.oslogin_admins grants roles/compute.osAdminLogin, which GCP rejects unless OS Login is already enabled on the project. The resource that enables it (google_compute_project_metadata_item.oslogin_meta, key \"enable-oslogin\") has no ordering relationship with this member: no attribute reference and no depends_on. When var.oslogin is true, Terraform may apply the role grant before the metadata item is created and the Compute Engine API will fail the grant.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_compute_project_metadata_item.oslogin_meta",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.oslogin_users grants roles/compute.osLogin, which GCP rejects unless OS Login is already enabled on the project. The resource that enables it (google_compute_project_metadata_item.oslogin_meta, key \"enable-oslogin\") has no ordering relationship with this member: no attribute reference and no depends_on. When var.oslogin is true, Terraform may apply the role grant before the metadata item is created and the Compute Engine API will fail the grant.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_compute_project_metadata_item.oslogin_meta",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

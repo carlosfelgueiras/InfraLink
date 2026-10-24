@@ -1,0 +1,238 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs' wires REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields -> transform forgecicd_cloudwatchlogs_lambda_tenant_fields, but references it only by string in `variables`. There is no ordering dependency, so the props config can be applied before the transform exists. Add an implicit dependency on the transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs' references transform forgecicd_cloudwatchlogs_global_lambda_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists; the props can be created before the transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs' references transform forgecicd_extra_lambda_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists; the props can be created before the transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs:forgecicd' references transform forgecicd_cloudwatchlogs_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs:forgecicd' references transform forgecicd_cloudwatchlogs_extract_log_time_message only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs:forgecicd' references transform forgecicd_cloudwatchlogs_runner_pages_github_repo_name only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs:forgecicd' references transform forgecicd_cloudwatchlogs_runner_ci_result only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:cloudwatchlogs:forgecicd' references transform forgecicd_cloudwatchlogs_runner_gh_runner_version only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:metadata' references transform forgecicd_metadata_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:metadata' references transform forgecicd_metadata_instance_id only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_id",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:metadata' references transform forgecicd_metadata_image_id only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_image_id",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/aws:metadata' references transform forgecicd_metadata_instance_type only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_type",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:runner' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:runner' references transform forgecicd_kube_container_runner_ci_result only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_ci_result",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:runner' references transform forgecicd_kube_container_runner_gh_runner_version only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:init-docker-creds' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_docker_creds",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:init-dind-rootless' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_rootless",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:init-work' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_work",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:init-dind-externals' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_externals",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:dind' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_dind",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:listener' references transform forgecicd_kube_container_listener_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_listener",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:manager' references transform forgecicd_kube_container_manager_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_manager",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:worker' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_worker",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/kube:container:hook' references transform forgecicd_kube_container_runner_tenant_fields only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_hook",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/forgecicd:aws:billing:cur' references transform forgecicd_billing_cur_instance_id only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props stanza 'props/forgecicd:aws:billing:cur' references transform forgecicd_billing_cur_volume_id only by string in `variables` (REPORT-...). No ordering dependency exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_volume_id",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

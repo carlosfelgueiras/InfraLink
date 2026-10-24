@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The instance profile can be created before the inline Elasticsearch discovery policy is attached to its role. Make the profile wait for this policy so instances launched with it do not start before the required permissions are available.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When master nodes are enabled, this policy grants the role Auto Scaling group discovery permissions, but the instance profile can be created before the policy is attached. Make the profile wait for the policy so consumers of the profile do not launch before those permissions are available.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When S3 backups are configured, the backup policy may be attached after the instance profile has been created and used by cluster instances. Order profile creation after this policy so launched instances receive the configured S3 permissions.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.s3_backup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

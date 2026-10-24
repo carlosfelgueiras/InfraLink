@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit `depends_on = [aws_eks_cluster.this[0], ...]` on null_resource.wait_for_cluster is redundant: the provisioner's `environment = { ENDPOINT = aws_eks_cluster.this[0].endpoint }` already creates an implicit dependency on aws_eks_cluster.this, so the cluster is listed in both implicit_deps and depends_on_deps. The depends_on on aws_security_group_rule.cluster_private_access is NOT redundant and should be kept.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker nodes launched by this ASG can only join the cluster after kubernetes_config_map.aws_auth contains their IAM role ARN. The ASG (via aws_launch_configuration.workers / aws_iam_instance_profile.workers) and the aws-auth ConfigMap are sibling branches hanging off aws_eks_cluster.this with no ordering between them, so instances may be launched and left NotReady until the ConfigMap is applied. No attribute of the ASG can reference the ConfigMap, so this needs a bare depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same aws-auth race as the launch-configuration ASG: aws_autoscaling_group.workers_launch_template (via aws_launch_template.workers_launch_template / aws_iam_instance_profile.workers_launch_template) has no ordering against kubernetes_config_map.aws_auth, so its nodes may attempt to join before the ConfigMap listing their role is applied. Needs a bare depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EKS will not admit worker nodes whose IAM role lacks AmazonEKSWorkerNodePolicy. The ASG and aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy are parallel branches off aws_iam_role.workers with no ordering between them, so nodes could be provisioned before the policy is attached and fail to join the cluster. The null_data_source.node_groups hack covers module.node_groups but not this self-managed ASG; an explicit depends_on is needed since no ASG attribute can reference the attachment.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker nodes pull the kubelet/pause images from Amazon ECR at bootstrap, which requires AmazonEC2ContainerRegistryReadOnly on the node role. The ASG and aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly are unordered parallel branches off aws_iam_role.workers, so nodes could be provisioned before the policy is attached and fail to join. Needs a bare depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same as for the launch-configuration ASG: aws_autoscaling_group.workers_launch_template has no ordering against aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy (they are parallel branches off aws_iam_role.workers), so its nodes may be provisioned before EKS's required node policy is attached and fail to join. Needs a bare depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same as for the launch-configuration ASG: aws_autoscaling_group.workers_launch_template has no ordering against aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly, so its nodes may be provisioned before the ECR pull policy is attached and fail to bootstrap/join. Needs a bare depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

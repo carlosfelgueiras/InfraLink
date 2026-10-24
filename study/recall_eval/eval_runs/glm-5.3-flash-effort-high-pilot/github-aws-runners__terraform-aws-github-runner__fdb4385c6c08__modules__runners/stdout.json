@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_event_source_mapping.scale_up starts consuming the SQS build queue as soon as it is created, but nothing orders it after aws_iam_role_policy.scale_up (or the logging/xray policies on the same role). With backlogged queue messages the scale-up Lambda can be invoked before the freshly attached inline policies have propagated, causing AccessDenied invocation failures. An explicit depends_on from the event source mapping to the scale-up role policies closes this ordering gap.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down wires the scheduled rule to the scale-down Lambda but does not depend on aws_lambda_permission.scale_down, which authorizes events.amazonaws.com to invoke the function. The two resources are created in parallel after the rule; if the cron expression (default every 5 minutes) fires in that window the invocation is denied and the scheduled event is dropped. The event target should depend on the lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.ssm_housekeeper wires the housekeeper rule to the Lambda but does not depend on aws_lambda_permission.ssm_housekeeper, which authorizes events.amazonaws.com to invoke it. Both are created in parallel after the rule, so an early firing of the schedule can be denied. The event target should depend on the lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.scale_up reads runner configuration from SSM at invocation time (it only receives the path via the SSM_CONFIG_PATH environment variable), so it has no dependency on the module-managed runner-config SSM parameters such as aws_ssm_parameter.runner_agent_mode (as well as runner_config_run_as, jit_config_enabled, disable_default_labels, runner_enable_cloudwatch and token_path). Because the SQS event source mapping can invoke the function immediately with backlogged messages, those parameters must exist first; the scale-up Lambda should depend on the runner-config SSM parameters.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_ssm_parameter.runner_agent_mode",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool only references the scheduler role ARN in target.role_arn; it has no dependency on aws_iam_role_policy.scheduler, which grants that role lambda:InvokeFunction on the pool Lambda. Schedules are ENABLED by default, so the first scheduled invocation can occur before the policy is attached/propagated and fail. The schedule should depend on the scheduler role policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

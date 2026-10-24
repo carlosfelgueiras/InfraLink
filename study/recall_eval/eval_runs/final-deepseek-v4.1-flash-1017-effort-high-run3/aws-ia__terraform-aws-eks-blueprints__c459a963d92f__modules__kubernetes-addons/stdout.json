@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`module.crossplane:resource.kubectl_manifest.aws_provider_config` lists `module.crossplane:resource.kubectl_manifest.aws_provider` in its explicit `depends_on` in addition to `module.crossplane:resource.time_sleep.wait_30_seconds`. Because `time_sleep.wait_30_seconds` itself already declares `depends_on = [kubectl_manifest.aws_provider]`, the ordering on the provider manifest is already enforced transitively; listing `kubectl_manifest.aws_provider` directly is a duplicate of a dependency established another way and can be dropped (keeping the `time_sleep` entry, which is the meaningful CRD-readiness delay).",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.prometheus:module.helm_addon` installs the Prometheus chart with `serviceAccounts.server.create = false` and `serviceAccounts.server.name = \"amp-ingest\"`, plus a service-account annotation pointing at the AMP ingest IRSA role. That service account, its namespace object and the IRSA role are only created by `module.prometheus:module.irsa_amp_ingest`, which is not in `module.prometheus:module.helm_addon`'s dependency set (only the namespace resource is). The only reference is the role ARN inside `local.amp_config_values`, which reaches the IAM role but not the `kubernetes_service_account_v1.irsa` object, so the Helm install can start (and fail/pend on `serviceaccount \"amp-ingest\" not found`) before the service account exists. Adding an explicit ordering on the AMP ingest IRSA module closes the race.",
+      "node": "module.prometheus:module.helm_addon",
+      "target": "module.prometheus:module.irsa_amp_ingest",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver` passes `service_account_role_arn` and, per the `aws_eks_addon` documentation, \"the role must be assigned the IAM permissions required by the add-on\". The only ordering it currently has is through the IRSA role ARN, which terminates at `aws_iam_role.irsa`; the `aws_iam_role_policy_attachment.irsa` resources that actually grant the EBS permissions are not in its dependency set (they only depend on the role), so the add-on can be created while its role is still permission-less. An explicit ordering on the IRSA policy attachments ensures the role is fully provisioned first.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same pattern as the EBS CSI driver: `module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni` binds `service_account_role_arn`, and the AWS documentation states the role must already carry the add-on's required permissions (`AmazonEKS_CNI_Policy`, plus the IPv6 policy when enabled). The add-on only references the IRSA role ARN, which resolves to `aws_iam_role.irsa`; the `aws_iam_role_policy_attachment.irsa` resources that attach the CNI policies are siblings that finish independently, so the vpc-cni add-on (and the `aws-node` pods it launches) can come up before the role is actually authorized.",
+      "node": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

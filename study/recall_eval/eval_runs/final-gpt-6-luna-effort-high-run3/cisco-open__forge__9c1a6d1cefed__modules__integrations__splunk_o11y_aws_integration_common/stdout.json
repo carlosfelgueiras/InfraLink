@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Splunk AWS integration enables CloudWatch metric-stream synchronization and relies on permissions granted by this inline policy, but it depends only on the IAM role and the delay. Ensure this policy is attached before creating the integration.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Splunk AWS integration's role must have its inventory and service-read permissions attached before the integration is enabled. The existing dependency on the role does not guarantee that this inline policy has been created.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

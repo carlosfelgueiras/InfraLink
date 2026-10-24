@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The module call :module.aws_eks_teams provisions Kubernetes resources, but it does not wait for :data.http.eks_cluster_readiness. The readiness check is explicitly used to gate other Kubernetes operations because an ACTIVE EKS cluster can still have an API endpoint that is not yet healthy; add a module-level depends_on on the readiness check.",
+      "node": ":module.aws_eks_teams",
+      "target": ":data.http.eks_cluster_readiness",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.kubernetes_config_map.aws_auth to :module.aws_eks is redundant: :resource.kubernetes_config_map.aws_auth already depends on :data.http.eks_cluster_readiness, which itself depends on :module.aws_eks.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.kubernetes_config_map.amazon_vpc_cni to :module.aws_eks is redundant: :resource.kubernetes_config_map.amazon_vpc_cni already depends on :data.http.eks_cluster_readiness, which itself depends on :module.aws_eks.",
+      "node": ":resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from module.emr_on_eks:resource.null_resource.update_trust_policy to module.emr_on_eks:resource.kubernetes_namespace.spark duplicates its implicit dependency from the namespace ID interpolation in the provisioner command.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from module.emr_on_eks:resource.null_resource.update_trust_policy to module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution duplicates its implicit dependency from the role ID interpolation in the provisioner command.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng to module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng duplicates the implicit dependency from node_role_arn referencing the IAM role.",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng to module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng duplicates the dependency already established through the launch-template child module input/output chain.",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng to module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng duplicates the dependency already established transitively through the instance profile and launch-template child module input/output chain.",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

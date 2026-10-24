@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.ami_housekeeper is configured with a vpc_config whenever var.lambda_subnet_ids/var.lambda_security_group_ids are set, but it references only aws_iam_role.ami_housekeeper.arn \u2014 not aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role, which is what grants the execution role the ec2:CreateNetworkInterface/ENI permissions Lambda requires at creation time. Because these are independent resources, Terraform may create the function before the attachment is applied, and CreateFunction then fails with 'The provided execution role does not have permissions to call CreateNetworkInterface on EC2'. Add depends_on = [aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role] to the Lambda function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

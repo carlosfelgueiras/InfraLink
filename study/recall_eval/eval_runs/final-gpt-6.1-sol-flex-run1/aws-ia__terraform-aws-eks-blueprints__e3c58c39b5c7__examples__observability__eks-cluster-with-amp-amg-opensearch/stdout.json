@@ -1,0 +1,259 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks: explicit depends_on of module.aws-eks-accelerator-for-terraform:module.aws_eks is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams: explicit depends_on of module.aws-eks-accelerator-for-terraform:module.aws_eks is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_elasticsearch_domain.opensearch uses VPC deployment, which requires the Elasticsearch service-linked role. It must wait for aws_iam_service_linked_role.opensearch when that optional role is created; neither a reference nor depends_on currently orders them.",
+      "node": ":resource.aws_elasticsearch_domain.opensearch",
+      "target": ":resource.aws_iam_service_linked_role.opensearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_eks_node_group.managed_ng already references aws_iam_role.managed_ng through node_role_arn; its explicit dependency duplicates that ordering.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_eks_node_group.managed_ng already waits for aws_iam_instance_profile.managed_ng through its launch template dependency.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_instance_profile.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_eks_node_group.managed_ng already waits for aws_iam_role_policy_attachment.managed_ng through aws_launch_template.managed_node_groups.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role_policy_attachment.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_launch_template.managed_node_groups already waits for aws_iam_role.managed_ng through its explicit dependencies on the instance profile and policy attachments.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_launch_template.managed_node_groups",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.update_trust_policy already references aws_iam_role.emr_on_eks_execution in its provisioner command.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.update_trust_policy already references kubernetes_namespace.spark in its provisioner command.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "kubernetes_config_map.aws_auth already waits for module.aws_eks through data.http.eks_cluster_readiness and its cluster data source.",
+      "node": "module.aws-eks-accelerator-for-terraform:resource.kubernetes_config_map.aws_auth",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "kubernetes_config_map.amazon_vpc_cni already waits for module.aws_eks through data.http.eks_cluster_readiness and its cluster data source.",
+      "node": "module.aws-eks-accelerator-for-terraform:resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "kubectl_manifest.aws_provider_config already waits for kubectl_manifest.aws_provider through time_sleep.wait_30_seconds.",
+      "node": "module.kubernetes-addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.kubernetes-addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_service_account_v1.irsa uses the namespace name as a variable and can race kubernetes_namespace_v1.irsa. When namespace creation is enabled, order the service account after that namespace.",
+      "node": "module.kubernetes-addons.module.aws_for_fluent_bit.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.kubernetes-addons.module.aws_for_fluent_bit.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_service_account_v1.irsa can be created before kubernetes_namespace_v1.irsa because both use a shared namespace variable rather than a resource reference.",
+      "node": "module.kubernetes-addons.module.karpenter.module.irsa_addon:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.kubernetes-addons.module.karpenter.module.irsa_addon:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_service_account_v1.irsa must wait for kubernetes_namespace_v1.irsa when creating the KEDA namespace; the shared variable does not impose ordering.",
+      "node": "module.kubernetes-addons.module.keda.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.kubernetes-addons.module.keda.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_service_account_v1.irsa must wait for kubernetes_namespace_v1.irsa when creating the Argo Rollouts namespace; the shared variable does not impose ordering.",
+      "node": "module.kubernetes-addons.module.argo_rollouts.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.kubernetes-addons.module.argo_rollouts.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_service_account_v1.irsa must wait for kubernetes_namespace_v1.irsa when creating the ingress namespace; the shared variable does not impose ordering.",
+      "node": "module.kubernetes-addons.module.ingress_nginx.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.kubernetes-addons.module.ingress_nginx.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_deployment.aws_otel_eks_sidecar names the namespace from configuration and can race kubernetes_namespace.aws_otel_eks. Reference the created namespace.",
+      "node": "module.kubernetes-addons.module.aws_opentelemetry_collector:resource.kubernetes_deployment.aws_otel_eks_sidecar",
+      "target": "module.kubernetes-addons.module.aws_opentelemetry_collector:resource.kubernetes_namespace.aws_otel_eks",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "kubernetes_namespace.aws_otel_eks[0].metadata[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.prometheus disables creation of its AMP ingest service account but does not wait for module.irsa_amp_ingest to create that account and attach its permissions. A role ARN alone does not ensure the service account is ready.",
+      "node": "module.kubernetes-addons.module.prometheus:resource.helm_release.prometheus",
+      "target": "module.kubernetes-addons.module.prometheus:module.irsa_amp_ingest",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.self_managed_ng already waits for aws_iam_instance_profile.self_managed_ng through the launch-template output and launch_template_config variable.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.self_managed_ng already waits for aws_iam_role.self_managed_ng through its instance profile and policy attachments.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.argocd_application installs Argo CD Application objects and requires the CRDs and namespace installed by helm_release.argocd. The supplied graph contains no ordering edge (the source's resource.helm_release.argocd dependency should be corrected to helm_release.argocd).",
+      "node": "module.kubernetes-addons.module.argocd:resource.helm_release.argocd_application",
+      "target": "module.kubernetes-addons.module.argocd:resource.helm_release.argocd",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_secret.argocd_gitops uses the argocd namespace created by helm_release.argocd, but the supplied graph contains no dependency. Correct the source's resource.helm_release.argocd dependency to helm_release.argocd.",
+      "node": "module.kubernetes-addons.module.argocd:resource.kubernetes_secret.argocd_gitops",
+      "target": "module.kubernetes-addons.module.argocd:resource.helm_release.argocd",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

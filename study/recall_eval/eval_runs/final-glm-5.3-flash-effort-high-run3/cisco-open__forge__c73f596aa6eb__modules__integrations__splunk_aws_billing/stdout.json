@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_service: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_service is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource_process: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource_process is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_resource writes to aws_s3_bucket.aws_billing_report, but BCM Data Exports validates that the destination bucket policy grants access to bcm-data-exports.amazonaws.com at export-creation time. The bucket policy (aws_s3_bucket_policy.cur_bucket_policy) must exist before the export is created; no attribute reference or depends_on currently expresses this ordering, so a first apply can fail with Access Denied.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_service writes to aws_s3_bucket.aws_billing_report, but BCM Data Exports validates that the destination bucket policy grants access to bcm-data-exports.amazonaws.com at export-creation time. The bucket policy (aws_s3_bucket_policy.cur_bucket_policy) must exist before the export is created; no attribute reference or depends_on currently expresses this ordering, so a first apply can fail with Access Denied.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_resource already depends on aws_cloudwatch_log_group.cur_per_resource via the attribute reference logging_log_group = aws_cloudwatch_log_group.cur_per_resource.name; the explicit depends_on on the same resource is redundant.",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_resource_process already depends on aws_cloudwatch_log_group.cur_per_resource_process via the attribute reference logging_log_group = aws_cloudwatch_log_group.cur_per_resource_process.name; the explicit depends_on on the same resource is redundant.",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_service already depends on aws_cloudwatch_log_group.cur_per_service via the attribute reference logging_log_group = aws_cloudwatch_log_group.cur_per_service.name; the explicit depends_on on the same resource is redundant.",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

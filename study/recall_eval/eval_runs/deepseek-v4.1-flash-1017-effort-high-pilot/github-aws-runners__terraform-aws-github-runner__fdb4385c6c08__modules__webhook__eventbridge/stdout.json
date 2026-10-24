@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_cloudwatch_event_target.dispatcher` registers the dispatcher Lambda as an EventBridge target, but nothing orders it after `:resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda`. The target is a separate resource from the rule, so the dispatcher can be wired to the bus before the resource-based policy allowing `events.amazonaws.com` to invoke it exists \u2014 any `workflow_job` event arriving in that window is dropped with an access-denied error. The AWS provider docs for `aws_cloudwatch_event_target` explicitly call out that a Lambda target requires `aws_lambda_permission` to be in place.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.webhook` only references the webhook role ARN (`aws_iam_role.webhook_lambda.arn`), so it is not ordered after `:resource.aws_iam_role_policy.webhook_logging`. The function can be created and invoked (via API Gateway) while its execution role still lacks `logs:CreateLogGroup/CreateLogStream/PutLogEvents`, which makes the very first webhook invocations fail with CloudWatch Logs permission errors. Wiring the Lambda to its execution-role policies is the documented pattern for aws_lambda_function.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.dispatcher` is not ordered after `:resource.aws_iam_role_policy.dispatcher_logging`, so the function and the EventBridge target can be live before the dispatcher role can write to CloudWatch Logs. The first `workflow_job` events handled by the dispatcher fail with logs permission errors until the policy catches up.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.webhook` reads the GitHub App webhook secret/SSM parameters at cold start (PARAMETER_GITHUB_APP_WEBHOOK_SECRET), but has no dependency on `:resource.aws_iam_role_policy.webhook_ssm`. The function can be invoked before its role can `ssm:GetParameter*`, causing the first webhook deliveries to fail authentication.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.webhook` decrypts SecureString SSM parameters / encrypted environment variables, but is not ordered after `:resource.aws_iam_role_policy.webhook_kms`. Without the KMS policy attached first, invocations that touch the customer-managed key fail with KMS access-denied errors.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.webhook` publishes to the custom event bus on every accepted GitHub event, but is not ordered after `:resource.aws_iam_role_policy.webhook_eventbridge`. A webhook that arrives before the policy is attached cannot `events:PutEvents` and the job event is lost.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_eventbridge",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.webhook` is configured with an active `tracing_config` block, but is not ordered after `:resource.aws_iam_role_policy.xray`, so the function can run before its role may call `xray:PutTraceSegments`/`PutTelemetryRecords`.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the function runs inside a VPC, `:resource.aws_lambda_function.webhook` needs the `AWSLambdaVPCAccessExecutionRole` attachment to manage ENIs, but it has no dependency on `:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role`. The function can become invocable while the attachment is still pending, producing network/ENI permission failures on the first calls.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.dispatcher` reads SSM runner-matcher config at cold start (PARAMETER_RUNNER_MATCHER_CONFIG_PATH/VERSION), but is not ordered after `:resource.aws_iam_role_policy.dispatcher_ssm`. Events handled before the policy attaches fail on the SSM lookup.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.dispatcher` depends on `:resource.aws_iam_role_policy.dispatcher_sqs` for `sqs:SendMessage` to the job queues, but nothing orders the function after the policy. A `workflow_job` event consumed before the policy exists fails to enqueue and the job is lost.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.dispatcher` needs KMS access (encrypted environment / SSM values) but is not ordered after `:resource.aws_iam_role_policy.dispatcher_kms`, so early invocations can fail with KMS access-denied errors.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.dispatcher` has an active `tracing_config` block but is not ordered after `:resource.aws_iam_role_policy.dispatcher_xray`, so tracing calls from the first invocations fail because the execution role lacks the X-Ray permissions yet.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.dispatcher` is a VPC-attached function (dynamic `vpc_config`) yet has no ordering on `:resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role`. The function can be registered as an EventBridge target before the VPC access execution policy is attached, so the first dispatcher invocations fail on ENI permissions.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

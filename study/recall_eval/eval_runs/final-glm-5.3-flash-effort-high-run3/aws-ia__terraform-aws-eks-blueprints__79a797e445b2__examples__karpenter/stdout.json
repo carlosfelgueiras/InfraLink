@@ -1,0 +1,64 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.aws_provider_config has an explicit depends_on on kubectl_manifest.aws_provider, but this ordering is already established transitively via time_sleep.wait_60_seconds (which itself depends_on kubectl_manifest.aws_provider). The direct depends_on entry is redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.kubernetes_provider_config has an explicit depends_on on kubectl_manifest.kubernetes_provider, but this ordering is already established transitively via time_sleep.wait_60_seconds_kubernetes (which itself depends_on kubectl_manifest.kubernetes_provider). The direct depends_on entry is redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.helm_provider_config has an explicit depends_on on kubectl_manifest.helm_provider, but this ordering is already established transitively via time_sleep.wait_60_seconds_helm (which itself depends_on kubectl_manifest.helm_provider). The direct depends_on entry is redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.upbound_aws_provider_config has an explicit depends_on on kubectl_manifest.upbound_aws_provider, but this ordering is already established transitively via time_sleep.upbound_wait_60_seconds (which itself depends_on kubectl_manifest.upbound_aws_provider). The direct depends_on entry is redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.upbound_aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.upbound_aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot depends (via the RoleVersion/ClusterRoleVersion tags hack) on the Kubernetes Role and ClusterRole for the eks:addon-manager principal, but not on the corresponding RoleBinding kubernetes_role_binding_v1.adot. Without that binding the addon-manager has no permissions in the ADOT namespace, so the add-on can be installed before the RBAC prerequisites are in place and fail.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+      "fix": {
+        "field": "tags",
+        "expression": "merge(var.addon_context.tags, try(var.addon_config.tags, {}), { RoleBindingVersion = try(kubernetes_role_binding_v1.adot[0].metadata[0].resource_version, \"\") })"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot depends (via the RoleVersion/ClusterRoleVersion tags hack) on the Kubernetes Role and ClusterRole for the eks:addon-manager principal, but not on the corresponding ClusterRoleBinding kubernetes_cluster_role_binding_v1.adot. Without that cluster-level binding the addon-manager cannot create/update the ADOT CRDs, so the add-on can be installed before its RBAC prerequisites are in place and fail.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_cluster_role_binding_v1.adot",
+      "fix": {
+        "field": "tags",
+        "expression": "merge(var.addon_context.tags, try(var.addon_config.tags, {}), { ClusterRoleBindingVersion = try(kubernetes_cluster_role_binding_v1.adot[0].metadata[0].resource_version, \"\") })"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

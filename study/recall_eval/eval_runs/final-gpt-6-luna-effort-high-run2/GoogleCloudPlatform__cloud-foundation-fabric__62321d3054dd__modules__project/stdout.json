@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC service-project attachment uses the Compute API but has no ordering edge to the project service enablement. Enablement must complete before creating this association; add an explicit dependency on the project services.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This subnet IAM grant can include service-agent principals, but it does not wait for project service activation as the parallel project-level Shared VPC robot IAM grant does. Ensure APIs are enabled before applying the subnet IAM grant.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This subnet IAM grant can name Google-managed service agents, but it does not wait for service identity creation. Add the ordering dependency used by the corresponding project-level Shared VPC robot IAM grant.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The parallel project-level Shared VPC robot IAM grant waits for default service-account configuration before granting access; this subnet IAM grant can race that operation when it includes managed service-agent principals.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_default_service_accounts.default_service_accounts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This subnet IAM grant may include the BigQuery service agent, but it does not wait for the BigQuery default service-account lookup that the corresponding project-level Shared VPC robot grant uses to ensure that identity is available.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":data.google_bigquery_default_service_account.bq_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This subnet IAM grant may include the Cloud Storage service agent, but it does not wait for the Storage project service-account lookup that the corresponding project-level Shared VPC robot grant uses to ensure that identity is available.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":data.google_storage_project_service_account.gcs_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

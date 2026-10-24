@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.custom_role_id lists `google_organization_iam_custom_role.roles` in its `depends_on`, but its `value` already iterates over the same resource (`for role_id, role in google_organization_iam_custom_role.roles : ...`), which establishes the dependency implicitly. The explicit `depends_on` entry is therefore redundant and can be removed.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

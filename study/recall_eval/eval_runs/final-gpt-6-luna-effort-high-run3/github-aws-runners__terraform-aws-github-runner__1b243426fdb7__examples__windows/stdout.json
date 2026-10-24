@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before its Lambda invoke permission, allowing a scheduled invocation to fail during deployment. Make the target wait for the permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled scale-down target can become active before its Lambda invoke permission exists, so an invocation during deployment may fail. Make the target wait for the permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool EventBridge target can be created before the Lambda invoke permission, permitting a scheduled invocation to fail during deployment. Make the target wait for the permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping can become active before the scale-up execution role has its SQS permissions, which can cause polling or invocations to fail during deployment. Make the mapping wait for the role policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC networking is enabled, the execution role needs the VPC access policy before the function is created/configured; the function only references its role, not this attachment. Order the function after the VPC execution-role attachment.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC networking is enabled, the execution role needs the VPC access policy before the function is created/configured; the function only references its role, not this attachment. Order the function after the VPC execution-role attachment.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC networking is enabled, the execution role needs the VPC access policy before the function is created/configured; the function only references its role, not this attachment. Order the function after the VPC execution-role attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC networking is enabled, the execution role needs the VPC access policy before the function is created/configured; the function only references its role, not this attachment. Order the function after the VPC execution-role attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC networking is enabled, the execution role needs the VPC access policy before the function is created/configured; the function only references its role, not this attachment. Order the function after the VPC execution-role attachment.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

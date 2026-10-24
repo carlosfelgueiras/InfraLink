@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The integration can be created before the IAM role policies are attached, so Splunk may attempt AWS access before its permissions are ready. Add a dependency from :resource.signalfx_aws_integration.integration to :resource.aws_iam_role_policy.splunk_integration.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The integration can be created before the metric-stream managed policy is attached to the role, leaving required CloudWatch/IAM permissions unavailable during setup. Add a dependency from :resource.signalfx_aws_integration.integration to :resource.aws_iam_role_policy.splunk_managed_policy.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

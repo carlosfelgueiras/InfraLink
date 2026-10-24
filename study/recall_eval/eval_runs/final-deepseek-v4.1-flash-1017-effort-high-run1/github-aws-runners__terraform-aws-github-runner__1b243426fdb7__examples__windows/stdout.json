@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_event_source_mapping.scale_up` polls `aws_sqs_queue.queued_builds`, but nothing orders it after `aws_lambda_permission.scale_runners_lambda`, which is the resource-based policy granting `sqs.amazonaws.com` `lambda:InvokeFunction`. Both only reference the queue ARN and the function, so Terraform may create (and enable) the event source mapping before the invoke permission exists, leaving the mapping unable to consume messages from the build queue (and, depending on IAM propagation, failing the mapping creation). A bare `depends_on = [aws_lambda_permission.scale_runners_lambda]` on the mapping is the only way to express this ordering.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_runners_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.scale_down` wires the scale-down schedule rule to the Lambda, but it is not ordered after `aws_lambda_permission.scale_down`, which grants `events.amazonaws.com` invoke rights. Because the rule fires on a schedule (`var.scale_down_schedule_expression`, every minute in this example), a tick can occur between target creation and permission creation and the invocation fails silently. `aws_cloudwatch_event_target` should depend on the invoke permission (as the S3 notification in this repo already does for its Lambda permission).",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.syncer` points the syncer schedule rule at `aws_lambda_function.syncer`, but has no ordering against `aws_lambda_permission.syncer`, which is what grants `events.amazonaws.com` `lambda:InvokeFunction`. If the rule fires (`cron(27 * * * ? *)`) before the permission is applied, EventBridge's scheduled invoke is rejected. Add `depends_on = [aws_lambda_permission.syncer]` to the event target.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.pool` (created per `var.config.pool` schedule) connects the pool rule to `aws_lambda_function.pool` without any ordering against `aws_lambda_permission.pool`, the resource-based policy allowing `events.amazonaws.com` to invoke the function. A scheduled trigger that fires between target and permission creation fails, so the pool is never resized at apply time. The event target should depend on the invoke permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_project_iam_member.additive` builds its `role` argument directly from `var.iam_additive_roles`, which may contain ids of custom roles created by this same module (`google_project_iam_custom_role.roles` via `var.custom_roles`). Nothing in the code establishes ordering, so the additive bindings can be attempted before the custom role exists and fail (the module's own comment already notes additive roles \"might fail due to dynamic values\"). The authoritative counterpart `google_project_iam_binding.authoritative` explicitly orders itself after `google_project_iam_custom_role.roles` for exactly this reason; the additive members should do the same via `depends_on = [google_project_iam_custom_role.roles]`.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

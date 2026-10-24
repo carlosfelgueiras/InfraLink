@@ -1,0 +1,37 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.crossplane:resource.kubectl_manifest.aws_provider_config has `depends_on = [kubectl_manifest.aws_provider, time_sleep.wait_30_seconds]`, but time_sleep.wait_30_seconds already `depends_on = [kubectl_manifest.aws_provider]`. The ordering against kubectl_manifest.aws_provider is therefore already guaranteed transitively, making the direct depends_on on it redundant.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Provider ControllerConfig builds its `iam-role-arn` as a hand-constructed string \"...role/${eks_cluster_id}-aws-provider-irsa\" instead of referencing the IRSA role created by module.aws_provider_irsa. As a result it has no ordering on that IAM role (and the role module currently even depends on kubectl_manifest.aws_provider, i.e. it may be created after the provider is deployed). On first apply Crossplane can start the AWS provider pods before the role/trust policy the SA annotation points to exists, causing AssumeRoleWithWebIdentity failures. Wire the ControllerConfig to the role ARN so the dependency is real.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_controller_config",
+      "target": "module.crossplane:module.aws_provider_irsa",
+      "fix": {
+        "field": "yaml_body",
+        "expression": "templatefile(\"${path.module}/aws-provider/aws-controller-config.yaml\", { iam-role-arn = module.aws_provider_irsa[0].irsa_iam_role_arn })"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Terrajet Provider ControllerConfig builds its `iam-role-arn` as a hand-constructed string \"...role/${eks_cluster_id}-jet-aws-provider-irsa\" instead of referencing the IRSA role created by module.jet_aws_provider_irsa, so no ordering is established. On first apply the Terrajet provider pods can come up before that IAM role/trust policy exists, causing AssumeRoleWithWebIdentity failures. Reference the role ARN so the dependency is real.",
+      "node": "module.crossplane:resource.kubectl_manifest.jet_aws_controller_config",
+      "target": "module.crossplane:module.jet_aws_provider_irsa",
+      "fix": {
+        "field": "yaml_body",
+        "expression": "templatefile(\"${path.module}/aws-provider/jet-aws-controller-config.yaml\", { iam-role-arn = module.jet_aws_provider_irsa[0].irsa_iam_role_arn })"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

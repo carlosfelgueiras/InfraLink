@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.aws_s3_bucket_policy.access_log_policy attaches a policy to the access-log bucket while resource.aws_s3_bucket_public_access_block.access_log configures the bucket-level public access block for the same bucket, but neither references the other, so Terraform applies them in an unspecified order. If the bucket policy is applied before the public access block, AWS can reject the PutBucketPolicy call (with block_public_policy enabled) and the bucket temporarily lacks its public-access protections; the public access block should be established before the policy is attached.",
+      "node": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "target": ":resource.aws_s3_bucket_public_access_block.access_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.aws_s3_bucket.content enables access logging to resource.aws_s3_bucket.access_log via its logging block, but it only depends on the log bucket itself \u2014 not on resource.aws_s3_bucket_policy.access_log_policy, which enforces the Deny-non-TLS policy on the log bucket. Without that ordering, the content bucket (and its logging) can be created before the log bucket is secured, so access log objects are delivered to an unsecured bucket. The content bucket should depend on the log bucket policy being in place.",
+      "node": ":resource.aws_s3_bucket.content",
+      "target": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

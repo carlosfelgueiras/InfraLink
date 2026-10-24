@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_ecs_cluster_capacity_providers.this` registers the autoscaling capacity providers created by `aws_ecs_capacity_provider.this` with the cluster, but the graph shows no dependency edge between them (it only depends on `aws_ecs_cluster.this` and variables). AWS requires a capacity provider to exist before it can be associated with a cluster, so the association must be created after the capacity providers. As written, the association's `capacity_providers` list is built only from `var.autoscaling_capacity_providers` names, so Terraform may attempt the association before the providers exist and fail with \"The specified capacity provider does not exist\". Wiring the created providers' names into `capacity_providers` (or referencing them in `default_capacity_provider_strategy`) makes the ordering implicit.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.fargate_capacity_providers : try(v.name, k)], [for k, v in aws_ecs_capacity_provider.this : v.name]))"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

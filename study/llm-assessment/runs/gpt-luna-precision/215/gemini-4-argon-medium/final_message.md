@@ -1,0 +1,5 @@
+In `modules/runners/pool/main.tf`, `aws_scheduler_schedule.pool` configures EventBridge Scheduler to invoke `aws_lambda_function.pool` using the execution role `aws_iam_role.scheduler` (`target.role_arn = aws_iam_role.scheduler.arn`).
+
+The permission allowing this role to invoke the pool Lambda function (`lambda:InvokeFunction`) is granted separately by the inline policy resource `aws_iam_role_policy.scheduler`. Because `aws_scheduler_schedule.pool` only references `aws_iam_role.scheduler.arn`, `aws_lambda_function.pool.arn`, and `aws_scheduler_schedule_group.pool.name`, Terraform can create and enable the schedule concurrently with (or prior to) `aws_iam_role_policy.scheduler`. If the schedule triggers before the role policy is attached, EventBridge Scheduler will lack permission to invoke the Lambda function.
+
+Correct

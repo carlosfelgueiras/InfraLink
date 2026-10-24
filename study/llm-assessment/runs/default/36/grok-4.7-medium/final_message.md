@@ -1,0 +1,3 @@
+The audit configuration must be applied to a folder that already exists, but that ordering is already implied by the configuration. `google_folder_iam_audit_config.default` sets `folder = local.folder.name`, and `local.folder` is `try(google_folder.folder.0, null)` when `folder_create` is true. Terraform records references statically through both the conditional and `try()`, so the graph path is the audit config, then `local.folder`, then `google_folder.folder`. The folder `name` is computed and only known after creation, so the apply waits for the folder before the audit config. An extra `depends_on` is not required.
+
+Incorrect

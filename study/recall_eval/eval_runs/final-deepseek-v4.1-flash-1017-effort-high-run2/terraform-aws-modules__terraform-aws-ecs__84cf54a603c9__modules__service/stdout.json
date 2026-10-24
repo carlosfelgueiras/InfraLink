@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:data.aws_ecs_task_definition.this` sets `depends_on = [aws_ecs_task_definition.this]` solely so the task definition exists before the data source is read, but the data source already references `aws_ecs_task_definition.this[0].family` in its `task_definition` argument (shown in the graph as an implicit_dep on the same node). Terraform already orders the read after the resource is created, so the explicit `depends_on` on `:resource.aws_ecs_task_definition.this` is redundant and can be dropped.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_ecs_service.this` only orders itself against `aws_iam_role_policy_attachment.service`; nothing expresses that the *task execution* role must have its permissions attached before the service starts tasks. Tasks launched on first apply can fail to pull images / read SSM & Secrets Manager values (and the service can end up stuck or rolled back) if `aws_iam_role_policy_attachment.task_exec` has not been created yet. The task definition references `aws_iam_role.task_exec` but never the attachment, so the two are unordered. Add `aws_iam_role_policy_attachment.task_exec` (and any additional exec-role attachments) to the service's `depends_on`.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The same gap exists for `:resource.aws_ecs_service.ignore_task_definition`: it depends only on `aws_iam_role_policy_attachment.service`, so nothing forces `aws_iam_role_policy_attachment.task_exec` to exist before the service starts tasks. Without the execution-role permissions in place, the first deployment's tasks fail to fetch images/secrets. Add the task-exec policy attachment to this service's `depends_on` as well.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

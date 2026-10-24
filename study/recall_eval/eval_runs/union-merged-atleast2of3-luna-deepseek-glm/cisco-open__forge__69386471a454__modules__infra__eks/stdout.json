@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`helm_release.karpenter` deploys the Karpenter controller, which obtains AWS credentials through the EKS Pod Identity association created by `module.karpenter` (`create_pod_identity_association = true`). Pod Identity only works once the `eks-pod-identity-agent` add-on (`aws_eks_addon.eks_pod_identity_agent`) is installed on the nodes, yet nothing orders the Helm release after that add-on: the add-on only depends on `module.self_managed_node_group`, and the release runs with `wait = false`, so it is applied in parallel. Wire an explicit ordering from `helm_release.karpenter` to `aws_eks_addon.eks_pod_identity_agent` so the controller does not start without a credential agent available.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nThe Karpenter controller authenticates through EKS Pod Identity (module.karpenter sets create_pod_identity_association = true and the chart only configures a service account name, no IRSA annotation), so it requires the eks-pod-identity-agent add-on to be running to obtain credentials. helm_release.karpenter currently has no ordering relative to aws_eks_addon.eks_pod_identity_agent \u2014 they sit on parallel branches (helm_release.karpenter waits on module.eks/module.karpenter, while the add-on waits on module.self_managed_node_group) \u2014 so the controller can be deployed before the Pod Identity agent is available. Add depends_on = [aws_eks_addon.eks_pod_identity_agent] (or otherwise wire the ordering).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.karpenter` does not depend on the `aws_eks_addon.eks_pod_identity_agent` addon. Karpenter is configured with an EKS Pod Identity association (`create_pod_identity_association = true`), and its controller needs the Pod Identity Agent addon running to obtain AWS credentials. Without this ordering, the Helm release can start before the agent is available, leaving the Karpenter controller unable to authenticate.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks_managed_node_group:resource.aws_eks_node_group.this should depend on module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this so EKS role permissions are attached before node-group handling and remain attached until the node group is deleted. The provider documentation recommends this explicit ordering; the existing role ARN reference only orders the role itself.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.fargate_profile:resource.aws_eks_fargate_profile.this should depend on module.fargate_profile:resource.aws_iam_role_policy_attachment.this. The profile references the execution role, but that alone does not ensure the required Fargate pod execution permissions are attached before the profile can be used to launch pods.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

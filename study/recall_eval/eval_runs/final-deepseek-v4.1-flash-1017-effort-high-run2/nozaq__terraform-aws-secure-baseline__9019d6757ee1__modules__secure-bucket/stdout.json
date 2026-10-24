@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_s3_bucket_policy.access_log_policy` only references the bucket (`aws_s3_bucket.access_log[0].id`) and the policy document, so nothing forces the bucket-level Public Access Block to exist before the policy is attached. Both PUT Bucket ACL and PUT Bucket Policy behavior is governed by the Public Access Block settings (`block_public_policy`, `restrict_public_buckets`), so the public access block must be in place first \u2014 otherwise the bucket policy can be created (or later updated) while the bucket has no protection, and any policy that AWS evaluates as public will be rejected with AccessDenied. Establish the ordering with `depends_on = [aws_s3_bucket_public_access_block.access_log]` on `aws_s3_bucket_policy.access_log_policy`.",
+      "node": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "target": ":resource.aws_s3_bucket_public_access_block.access_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-3:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ap-northeast-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs delivers VPC Flow Logs to local.flow_logs_s3_arn (the audit log bucket) when vpc_flow_logs_destination_type is \"s3\", but has no dependency on :resource.aws_s3_bucket_policy.audit_log, which contains the AWSLogDelivery statements granting delivery.logs.amazonaws.com s3:PutObject. When the destination is S3, the flow log can be created before the bucket policy exists, so log delivery fails until the policy is applied (the same ordering the project already enforces for CloudTrail via cloudtrail_depends_on).",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

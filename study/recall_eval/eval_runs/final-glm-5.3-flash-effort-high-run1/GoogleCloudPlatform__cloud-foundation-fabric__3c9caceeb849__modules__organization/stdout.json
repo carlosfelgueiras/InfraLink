@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Output `organization_id` is documented as \"Organization id dependent on module resources\" and carries a depends_on list meant to gate downstream consumers on this module's resources \u2014 the same purpose as the sibling `id` output, whose identical list includes google_logging_organization_settings.default. `organization_id` omits it, so a consumer module that receives this output (e.g., a subsequent bootstrap stage creating logging settings or sinks in the same organization) can be applied concurrently with google_logging_organization_settings.default instead of after it.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_logging_organization_settings.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

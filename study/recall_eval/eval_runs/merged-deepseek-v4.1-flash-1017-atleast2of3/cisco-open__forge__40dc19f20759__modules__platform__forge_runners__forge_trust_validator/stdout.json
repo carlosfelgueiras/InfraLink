@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nnull_resource.update_forge_role_trust updates each forge role's trust policy to grant the lambda execution role (arn:...:role/${var.prefix}-forge-trust-validator) sts:AssumeRole, but it has no dependency on module.forge_trust_validator_lambda which creates that role. The trust update can run before the trusted lambda role exists, so the relationship should be ordered after the module.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nnull_resource.update_forge_role_trust rewrites the forge roles' assume-role trust policies to allow the trust-validator Lambda's execution role to assume them, but it has no dependency on module.forge_trust_validator_lambda, which is the resource that actually creates that IAM role (the trust ARN is hand-built from account_id + prefix). It should be ordered after the module \u2014 ideally by referencing the module's real `lambda_role_arn` output instead of reconstructing the ARN.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nnull_resource.update_forge_role_trust updates each Forge role's assume-role policy to trust the trust-validator Lambda role (`arn:aws:iam::...:role/${var.prefix}-forge-trust-validator`), which is created by module.forge_trust_validator_lambda. It has no dependency on the module, so Terraform can grant trust before that role exists. It should depend on the module so the Lambda role is created first.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ role_name = each.value.name, future_sha = sha1(local.concatenated_trust_json[each.key]), validator_role_arn = module.forge_trust_validator_lambda.lambda_role_arn }"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_org_policy_policy.default has an explicit depends_on on google_tags_tag_key.default, but this is already implied by google_tags_tag_value.default (also in the same depends_on list), whose parent attribute references google_tags_tag_key.default.id.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id has an explicit depends_on on google_tags_tag_key.default, but this is already implied by google_tags_tag_key_iam_binding.default (also in the depends_on list), whose tag_key attribute references google_tags_tag_key.default.id.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id has an explicit depends_on on google_tags_tag_value.default, but this is already implied by google_tags_tag_value_iam_binding.default (also in the depends_on list), whose tag_value attribute references google_tags_tag_value.default.id.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id has an explicit depends_on on google_tags_tag_key.default, but this is already implied by google_tags_tag_key_iam_binding.default (also in the depends_on list), whose tag_key attribute references google_tags_tag_key.default.id.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id has an explicit depends_on on google_tags_tag_value.default, but this is already implied by google_tags_tag_value_iam_binding.default (also in the depends_on list), whose tag_value attribute references google_tags_tag_value.default.id.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

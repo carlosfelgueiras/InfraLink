@@ -1,0 +1,7 @@
+Confirmed: there's no reference or `depends_on` anywhere connecting `signalfx_aws_integration.integration` (directly or transitively) to `aws_iam_role_policy.splunk_managed_policy`. The `time_sleep.wait_30_seconds` resource that the integration depends on only waits on `aws_iam_role.splunk_integration`, not on either IAM role policy attachment.
+
+The integration sets `use_metric_streams_sync = true`, which per the SignalFx/Splunk provider documentation explicitly requires the IAM role to carry `cloudwatch:ListMetricStreams`, `cloudwatch:GetMetricStream`, `cloudwatch:PutMetricStream`, `cloudwatch:DeleteMetricStream`, `cloudwatch:StartMetricStreams`, `cloudwatch:StopMetricStreams`, and `iam:PassRole` — exactly the permissions granted by `aws_iam_role_policy.splunk_managed_policy` (the "SplunkManagedMetricStreams" policy). Since Terraform has no ordering information tying these together, it could create/enable the `signalfx_aws_integration` resource (which triggers Splunk's attempt to validate/configure metric streams against the role) before the policy granting those permissions is attached, risking failures or inconsistent state. This matches a documented real-world issue with these provider resources (see the HashiCorp discussion thread on this exact dependency pattern).
+
+This is a genuine ordering gap not covered by any attribute reference or `depends_on` in the configuration.
+
+Correct

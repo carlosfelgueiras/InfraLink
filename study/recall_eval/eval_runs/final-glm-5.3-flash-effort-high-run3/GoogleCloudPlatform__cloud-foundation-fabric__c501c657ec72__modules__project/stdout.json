@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project via the Compute Engine XPN association API, which requires compute.googleapis.com (and any other listed services) to be enabled first. It has no depends_on on google_project_service.project_services, so on a fresh apply the API enablement and the association can race and the association can fail intermittently. Every other API-dependent resource in this module (shared_vpc_host, service identities, data sources, compute metadata, default service accounts) carries this depends_on; add it here too.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

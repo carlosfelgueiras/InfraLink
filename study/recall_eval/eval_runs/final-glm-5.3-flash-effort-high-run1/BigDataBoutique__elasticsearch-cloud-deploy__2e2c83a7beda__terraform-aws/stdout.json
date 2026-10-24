@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.data_nodes launches Elasticsearch data nodes that must discover and join masters provided by aws_autoscaling_group.master_nodes (ASG-based discovery via the instance role); the master ASG must exist first, but no dependency expresses this ordering.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.cluster_bootstrap_state writes the cluster bootstrap marker file with a local-exec provisioner; it must run only after aws_instance.bootstrap_node (which performs the one-time cluster bootstrap) has been created, otherwise the state marker is recorded before bootstrap completes. The null resource currently has no dependency on it.",
+      "node": ":resource.null_resource.cluster_bootstrap_state",
+      "target": ":resource.aws_instance.bootstrap_node",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

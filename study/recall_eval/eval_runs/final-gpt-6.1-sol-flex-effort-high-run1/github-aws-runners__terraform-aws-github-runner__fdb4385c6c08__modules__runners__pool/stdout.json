@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.pool must wait for :resource.aws_iam_role_policy_attachment.pool_vpc_execution_role when VPC networking is configured. Referencing the execution role does not wait for its policy attachment; Lambda creation can otherwise fail because the role lacks permissions to create network interfaces. Add depends_on for the attachment resource.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.pool references its execution role but does not wait for :resource.aws_iam_role_policy.pool to install the runner-management permissions. The schedule can begin invoking the function before that policy is installed, causing authorization failures. Add depends_on for this policy so the function is not exposed to its downstream schedule before its required permissions are attached.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, :resource.aws_lambda_function.pool does not wait for :resource.aws_iam_role_policy.pool_xray. Both depend on the role independently, so scheduled invocations can start before the X-Ray permissions are installed and fail to publish trace data. Add depends_on for the conditional policy resource.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When an AMI SSM parameter is configured, :resource.aws_lambda_function.pool does not wait for :resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read. The shared execution-role reference does not order policy attachment before function readiness, so initial scheduled invocations can lack access to the configured AMI parameter. Add depends_on for the attachment resource.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_scheduler_schedule.pool is enabled by default but does not wait for :resource.aws_iam_role_policy.scheduler, which grants its execution role lambda:InvokeFunction. Referencing the role ARN orders role creation only, allowing the schedule to activate before invocation permission is installed. Add depends_on for this policy.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_scheduler_schedule.pool can activate before :resource.aws_iam_role_policy.pool_logging is installed, allowing invocations before the managed log group and its logging permissions are ready. Add depends_on for the logging policy on the schedule; that policy already depends on the log group. Ordering the schedule here avoids introducing a cycle through the log group's existing dependency on the Lambda function.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs (props/aws:cloudwatchlogs) sets \"REPORT-forgecicd_trust_validation\" pointing at the transform stanza splunk_configs_conf.forgecicd_trust_validation, but does not depend on it. Because the value is a literal string, Terraform infers no ordering; the props stanza must be created only after the referenced transform exists, so an explicit ordering is required (depends_on or a real reference).",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs (props/aws:cloudwatchlogs) sets \"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" pointing at the transform stanza splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields, but does not depend on it. The literal string value creates no implicit dependency, so the props stanza may be applied before the referenced transform exists; an explicit ordering is required.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

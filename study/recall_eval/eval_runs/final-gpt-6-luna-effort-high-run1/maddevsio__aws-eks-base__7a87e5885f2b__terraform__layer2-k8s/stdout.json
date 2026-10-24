@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from `:resource.helm_release.certificate` to `:resource.helm_release.cert_manager` is redundant: the certificate release already depends on `:resource.helm_release.cluster_issuer`, which itself depends on `:resource.helm_release.cert_manager`, so Terraform has the required transitive ordering.",
+      "node": ":resource.helm_release.certificate",
+      "target": ":resource.helm_release.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output value already references `module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user`; its explicit `depends_on` repeats that same dependency.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output value already references `module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user`; its explicit `depends_on` repeats that same dependency.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart configures PVCs with `storageClassName: advanced`, but `:resource.helm_release.elk` has no ordering dependency on the Kubernetes StorageClass. Ensure the class exists before Helm creates the claims to avoid transient pending claims or Helm readiness timeouts.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Loki chart configures persistent storage with `storageClassName: advanced`, but `:resource.helm_release.loki_stack` does not depend on the Kubernetes StorageClass. Ordering the class first avoids a race when Helm creates the PVC.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Prometheus chart configures persistent storage with `storageClassName: advanced`, but `:resource.helm_release.prometheus_operator` does not depend on the Kubernetes StorageClass. Create the class before Helm creates its PVCs to avoid a readiness race.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VictoriaMetrics chart configures persistent storage with `storageClassName: advanced`, but `:resource.helm_release.victoria_metrics_k8s_stack` has no ordering dependency on the Kubernetes StorageClass.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK chart's Elasticsearch and Kibana workloads refer to the `elastic-credentials` Kubernetes Secret, but the release has no dependency ensuring that the Secret exists before Helm starts those workloads.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK chart's Elasticsearch and Kibana workloads mount `elastic-certificates`, but the Helm release can start before this Secret is created. Add ordering so the referenced Secret is present when workloads are installed.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Elasticsearch chart configuration uses the `elasticsearch-s3-user-creds` Secret for its S3 keystore, but `:resource.helm_release.elk` does not wait for that Secret before installing the chart.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Kibana chart configuration references the `kibana-encryption-key` Secret, but `:resource.helm_release.elk` has no dependency ensuring the Secret is created before the workloads are installed.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK release runs an init container that registers an S3 snapshot repository using the IAM user's credentials. Those credentials are created independently of the inline policy, so the release could start before `module.aws_iam_elastic_stack:resource.aws_iam_user_policy.this` grants the required S3 permissions.",
+      "node": ":resource.helm_release.elk",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_user_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The IAM MFA AWS Config rule should wait for the eu-north-1 Config baseline recorder; the project\u2019s stated ordering is after all regional recorders, but this module is omitted from its explicit depends_on list.",
+      "node": ":resource.aws_config_config_rule.iam_mfa",
+      "target": ":module.config_baseline_eu-north-1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The unused-credentials AWS Config rule should wait for the eu-north-1 Config baseline recorder; the project\u2019s stated ordering is after all regional recorders, but this module is omitted from its explicit depends_on list.",
+      "node": ":resource.aws_config_config_rule.unused_credentials",
+      "target": ":module.config_baseline_eu-north-1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The user-no-policies AWS Config rule should wait for the eu-north-1 Config baseline recorder; the project\u2019s stated ordering is after all regional recorders, but this module is omitted from its explicit depends_on list.",
+      "node": ":resource.aws_config_config_rule.user_no_policies",
+      "target": ":module.config_baseline_eu-north-1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The no-full-admin-access AWS Config rule should wait for the eu-north-1 Config baseline recorder; the project\u2019s stated ordering is after all regional recorders, but this module is omitted from its explicit depends_on list.",
+      "node": ":resource.aws_config_config_rule.no_policies_with_full_admin_access",
+      "target": ":module.config_baseline_eu-north-1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "CloudTrail creation should wait for the audit bucket policy that grants CloudTrail delivery access. The AWS provider documentation demonstrates an explicit dependency on the bucket policy to prevent a creation race; no such ordering is expressed here.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The organization Config aggregator should wait for the AWSConfigRoleForOrganizations policy attachment on its role. The provider documentation's organization-aggregator example explicitly depends on the attachment; the current reference to the role ARN only orders the aggregator after role creation.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

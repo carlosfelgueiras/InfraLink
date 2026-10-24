@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on aws_iam_role.managed_ng is redundant because node_role_arn already references aws_iam_role.managed_ng[0].arn, which establishes the same dependency implicitly.",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on aws_iam_role.emr_on_eks_execution is redundant because the local-exec command already references aws_iam_role.emr_on_eks_execution.id.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on kubernetes_namespace.spark is redundant because the local-exec command already references kubernetes_namespace.spark.id.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The aws_eks_teams module creates Kubernetes namespaces, RBAC resources, and manifests but has no ordering dependency on the aws-auth ConfigMap or cluster readiness. Its Kubernetes resources can race with cluster/API readiness; add depends_on = [kubernetes_config_map.aws_auth] so they are created only after read-readiness and aws-auth are applied.",
+      "node": ":module.aws_eks_teams",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ClusterRoleBinding's role_ref.name is a literal string instead of a reference to kubernetes_cluster_role.team, so Terraform does not order the binding after the ClusterRole. It can be applied before the role exists.",
+      "node": "module.aws_eks_teams:resource.kubernetes_cluster_role_binding.team",
+      "target": "module.aws_eks_teams:resource.kubernetes_cluster_role.team",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The RoleBinding's role_ref.name is a literal string instead of a reference to kubernetes_role.team, so Terraform does not order the binding after the Role. It can be applied before the role exists.",
+      "node": "module.aws_eks_teams:resource.kubernetes_role_binding.team",
+      "target": "module.aws_eks_teams:resource.kubernetes_role.team",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The RoleBinding's role_ref.name is local.emr_service_name instead of a reference to kubernetes_role.emr_containers, so Terraform does not order the binding after the Role. It can be applied before the role exists.",
+      "node": "module.emr_on_eks:resource.kubernetes_role_binding.emr_containers",
+      "target": "module.emr_on_eks:resource.kubernetes_role.emr_containers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Windows support is enabled, the ASG launches Windows nodes using the node IAM role, but it does not depend on the eks_windows_cni policy attachment. Nodes can launch before the role has the required Windows CNI EC2 permissions; add aws_iam_role_policy_attachment.eks_windows_cni to the ASG's depends_on.",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role_policy_attachment.eks_windows_cni",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

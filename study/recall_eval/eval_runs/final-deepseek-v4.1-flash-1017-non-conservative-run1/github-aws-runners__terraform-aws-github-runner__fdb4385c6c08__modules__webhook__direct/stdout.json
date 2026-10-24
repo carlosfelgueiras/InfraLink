@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.webhook` only references `aws_iam_role.webhook_lambda.arn`, so it can be created (and invoked via the API Gateway permission) before the role's inline policies exist. `webhook_logging` grants the function's basic CloudWatch Logs permissions; without an ordering edge the function can be created/invoked while logs:CreateLogStream/PutLogEvents are not yet effective, and the first invocations fail to write logs. Add `depends_on = [aws_iam_role_policy.webhook_logging]` to the function (no attribute reference can express this).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The webhook Lambda's core job is publishing to the job queues, and `aws_iam_role_policy.webhook_sqs` is the only thing granting that. Because `aws_lambda_function.webhook` depends solely on the role (not on the role's inline policies), the function can be created and receive traffic before the SQS publish policy is in place, causing AccessDenied on the first webhook deliveries. Add `depends_on = [aws_iam_role_policy.webhook_sqs]`.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_function.webhook` is configured (via environment variables) to read the GitHub App webhook secret and runner-matcher parameters from SSM, but nothing orders it after `aws_iam_role_policy.webhook_ssm`, which is what grants ssm:GetParameter on those ARNs. A cold start or invocation landing before the policy exists fails during parameter resolution. Add `depends_on = [aws_iam_role_policy.webhook_ssm]` to the function.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `var.config.kms_key_arn` is supplied, the function needs the KMS decrypt permissions granted by `aws_iam_role_policy.webhook_kms` (e.g. to read encrypted queue messages). The graph shows no edge from `aws_lambda_function.webhook` to that policy, so the function can go live before the policy is attached. Add `depends_on = [aws_iam_role_policy.webhook_kms]`.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `var.config.lambda_subnet_ids` is non-empty the function is VPC-attached, and Lambda needs the AWSLambdaVPCAccessExecutionRole permissions (ENI create/describe/delete) granted by `aws_iam_role_policy_attachment.webhook_vpc_execution_role` to set up its network interfaces. Because the attachment and `aws_lambda_function.webhook` both depend only on the role, they are created concurrently and the function can fail or warn with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". Add `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]`.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `var.config.tracing_config.mode` is set, the function emits X-Ray segments and `aws_iam_role_policy.xray` is what grants xray:PutTraceSegments/PutTelemetryRecords \u2014 the same condition that turns on the function's `tracing_config` block. Both resources are gated by that flag but nothing orders the function after the policy, so tracing can be enabled before the permissions propagate and segments are rejected. Add `depends_on = [aws_iam_role_policy.xray]`.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

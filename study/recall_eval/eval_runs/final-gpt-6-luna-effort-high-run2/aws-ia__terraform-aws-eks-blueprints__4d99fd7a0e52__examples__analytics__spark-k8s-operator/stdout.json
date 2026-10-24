@@ -1,0 +1,169 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency duplicates the implicit dependency: `aws_eks_node_group.managed_ng` references `aws_iam_role.managed_ng[0].arn` through `node_role_arn`, so it already waits for the IAM role.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_trust_policy` interpolates both `kubernetes_namespace.spark.id` and `aws_iam_role.emr_on_eks_execution.id`, so its explicit dependencies on those same resources duplicate the implicit references.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_trust_policy` interpolates `aws_iam_role.emr_on_eks_execution.id`, so the explicit dependency on that role is already established by an ordinary attribute reference.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`aws_iam_role.managed_ng` is listed in `aws_eks_node_group.managed_ng`'s explicit `depends_on`, but `node_role_arn` references that role, creating the same dependency implicitly.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The IRSA service account can be created before the Prometheus namespace: its namespace is a literal/config value, while `kubernetes_namespace_v1.prometheus` is created separately. The service account API operation requires that namespace to exist.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus.module.irsa_amp_ingest:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:resource.kubernetes_namespace_v1.prometheus",
+      "fix": {
+        "field": "metadata[0].namespace",
+        "expression": "kubernetes_namespace_v1.prometheus[0].metadata[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS add-on receives the IRSA role ARN, but not a dependency on the policy attachment. The add-on can be created and begin using the role before its required EBS CSI IAM permissions are attached; make it wait for the IRSA policy attachment.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target sends events to this SQS queue, but the target does not wait for the queue policy granting `events.amazonaws.com` permission to send. It may be configured before that authorization is in place.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC CNI EKS add-on gets the IRSA role ARN from the child module, but that reference does not ensure its IAM policy attachment has completed. The add-on can start before the role has the CNI permissions it needs.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS add-on controller relies on the ADOT role and cluster-role bindings for its permissions, but the add-on does not depend on those bindings. It may be created before the necessary authorization is established.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ADOT EKS add-on relies on the cluster-role binding that grants its add-on manager permissions, but no dependency ensures that binding exists before add-on creation.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_cluster_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile is explicitly ordered after the standard pod execution policy attachment but can still be created before the additional CloudWatch logging policy is attached to its role. Order profile creation after this attachment so Fargate logging permissions are present.",
+      "node": "module.eks_blueprints.module.aws_eks_fargate_profiles:resource.aws_eks_fargate_profile.eks_fargate",
+      "target": "module.eks_blueprints.module.aws_eks_fargate_profiles:resource.aws_iam_role_policy_attachment.cwlogs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For a Windows self-managed node group, `aws_iam_role_policy_attachment.eks_windows_cni` grants the EC2 read permissions needed by the Windows CNI. The Auto Scaling group can launch instances before that conditional attachment is complete.",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role_policy_attachment.eks_windows_cni",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The AMP query IRSA service account can be created before the `prometheus` namespace. Its namespace value is not an attribute reference to the separately managed namespace resource, and its IRSA module has namespace creation disabled.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus.module.irsa_amp_query:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:resource.kubernetes_namespace_v1.prometheus",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

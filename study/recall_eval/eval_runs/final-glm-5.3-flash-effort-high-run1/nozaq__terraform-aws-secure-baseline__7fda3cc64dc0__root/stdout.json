@@ -1,0 +1,157 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The CloudTrail trail created by module.cloudtrail_baseline (aws_cloudtrail.global) receives the audit-log bucket name as a plain string, so Terraform infers no dependency on the bucket policy. CloudTrail's CreateTrail API validates that the S3 bucket policy permits cloudtrail.amazonaws.com; if :resource.aws_s3_bucket_policy.audit_log has not been applied yet, trail creation fails with InsufficientS3BucketPolicyException. The aws_s3_bucket_policy should be created before the trail is created (the provider's own documentation shows a bare `depends_on` on the bucket policy for exactly this race).",
+      "node": ":module.cloudtrail_baseline",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_ap-northeast-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_ap-northeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_ap-northeast-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_ap-northeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_ap-south-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_ap-south-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_ap-southeast-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_ap-southeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_ap-southeast-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_ap-southeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_ca-central-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_ca-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_eu-central-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_eu-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_eu-north-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_eu-north-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_eu-west-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_eu-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_eu-west-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_eu-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_eu-west-3 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_eu-west-3",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_sa-east-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_sa-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_us-east-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_us-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_us-east-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_us-east-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_us-west-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_us-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config recorder started by module.config_baseline_us-west-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.",
+      "node": ":module.config_baseline_us-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The S3 bucket policy can be applied before the origin bucket exists: its bucket argument is derived from locals/variables rather than the bucket resource, and its current graph has no dependency on aws_s3_bucket.origin. Order policy creation after the bucket.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket.origin[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The S3 public access block operates on the origin bucket but receives its bucket name from a local, so Terraform does not ensure the newly created bucket exists first. Add an implicit bucket reference to order creation.",
+      "node": ":resource.aws_s3_bucket_public_access_block.origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket.origin[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

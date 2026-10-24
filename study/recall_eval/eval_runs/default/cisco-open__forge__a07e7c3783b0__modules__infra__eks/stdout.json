@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.null_resource.apply_ec2_node_class to :module.eks is redundant because the resource's triggers and manifest inputs already reference outputs from :module.eks.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :data.aws_eks_cluster.cluster to :module.eks is redundant because :resource.time_sleep.wait_300_seconds already depends on :module.eks, and this data source explicitly depends on the sleep resource.",
+      "node": ":data.aws_eks_cluster.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :data.aws_eks_cluster_auth.cluster to :module.eks is redundant because :resource.time_sleep.wait_300_seconds already depends on :module.eks, and this data source explicitly depends on the sleep resource.",
+      "node": ":data.aws_eks_cluster_auth.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.null_resource.update_kubeconfig to :module.eks is redundant because its provisioner command references :module.eks output(s).",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

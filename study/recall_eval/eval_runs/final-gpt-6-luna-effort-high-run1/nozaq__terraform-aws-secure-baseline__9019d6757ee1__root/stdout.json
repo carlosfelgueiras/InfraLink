@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The organization configuration aggregator uses the role ARN, but that reference only orders it after the IAM role itself. AWS Config requires the organization's role policy to be attached before creating the aggregator; add an explicit dependency on the attachment to avoid a race.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

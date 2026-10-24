@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_autoscaling_group.ng to :resource.aws_launch_template.ng duplicates the attribute-reference dependency: the launch template is referenced in the ASG's launch_template_specification.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_eks_node_group.ng to :resource.aws_iam_role.ng duplicates the direct attribute-reference dependency through node_role_arn.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_autoscaling_group.ng to :resource.aws_iam_role.ng is already guaranteed by its dependency chain through :resource.aws_launch_template.ng and :resource.aws_iam_instance_profile.ng, which both ultimately depend on the role.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When App Mesh is enabled, the node role receives the X-Ray write permission from :resource.aws_iam_role_policy_attachment.xray-write. :resource.aws_autoscaling_group.ng launches the self-managed worker nodes but does not wait for that attachment, so instances may start before the role has the permission needed by App Mesh/X-Ray workloads. Add an explicit dependency to order ASG creation after the optional attachment.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When App Mesh is enabled, :resource.aws_eks_node_group.ng provisions worker nodes using the node role, but it does not wait for :resource.aws_iam_role_policy_attachment.xray-write. This can leave managed nodes starting before the role has the X-Ray permission needed by App Mesh workloads; include the optional attachment in the node group's ordering dependencies.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

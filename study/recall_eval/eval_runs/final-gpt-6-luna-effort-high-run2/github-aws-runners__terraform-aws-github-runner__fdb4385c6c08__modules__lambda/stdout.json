@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function is configured to use VPC subnets, but it can be created before the VPC execution policy is attached to its role. Ensure the execution policy attachment completes first so Lambda has the required network-interface permissions.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

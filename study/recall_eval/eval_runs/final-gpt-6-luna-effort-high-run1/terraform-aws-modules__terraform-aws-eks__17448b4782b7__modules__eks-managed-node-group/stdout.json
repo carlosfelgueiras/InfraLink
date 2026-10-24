@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS node group should wait for the standard IAM policy attachments to be established; the AWS provider documentation recommends an explicit dependency so permissions are present before node-group operations. No clean attribute reference exists because the attachment resource exports no attributes.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS node group should wait for the additional IAM policy attachments to be established so any configured role permissions are present before node-group operations. The attachment resource exports no attributes, so a clean data-reference fix is unavailable.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.ng already depends implicitly on aws_launch_template.ng through mixed_instances_policy.launch_template, so the explicit depends_on entry for the launch template is redundant.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_eks_node_group.ng already references aws_iam_role.ng through node_role_arn, so the explicit depends_on entry for the IAM role is redundant.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When App Mesh/X-Ray is enabled, aws_iam_role_policy_attachment.xray-write attaches the X-Ray permissions to the node role, but aws_autoscaling_group.ng can launch instances before that attachment completes. It should be ordered with the other node role policy attachments.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When App Mesh/X-Ray is enabled, aws_iam_role_policy_attachment.xray-write attaches the X-Ray permissions to the node role, but aws_eks_node_group.ng can create nodes before that attachment completes. It should be ordered with the other node role policy attachments.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.alb-ingress's helm_release.albingress references only the IRSA role ARN output; that output does not depend on aws_iam_role_policy_attachment.irsa, so the controller can start before its IAM policies are attached. The release should be ordered after the policy attachment.",
+      "node": "module.alb-ingress:resource.helm_release.albingress",
+      "target": "module.alb-ingress.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.container-insights's helm_release.containerinsights references only the IRSA role ARN output; that output does not depend on aws_iam_role_policy_attachment.irsa, so the controller can start before its IAM policies are attached. The release should be ordered after the policy attachment.",
+      "node": "module.container-insights:resource.helm_release.containerinsights",
+      "target": "module.container-insights.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.cluster-autoscaler's helm_release.autoscaler references only the IRSA role ARN output; that output does not depend on aws_iam_role_policy_attachment.irsa, so the controller can start before its IAM policies are attached. The release should be ordered after the policy attachment.",
+      "node": "module.cluster-autoscaler:resource.helm_release.autoscaler",
+      "target": "module.cluster-autoscaler.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.app-mesh's helm_release.appmesh references only the IRSA role ARN output; that output does not depend on aws_iam_role_policy_attachment.irsa, so the controller can start before its IAM policies are attached. The release should be ordered after the policy attachment.",
+      "node": "module.app-mesh:resource.helm_release.appmesh",
+      "target": "module.app-mesh.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

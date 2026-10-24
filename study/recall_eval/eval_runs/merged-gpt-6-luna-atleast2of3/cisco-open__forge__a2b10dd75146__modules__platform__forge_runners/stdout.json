@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Helm release configures runner pods to use this service account, but the service account and release can currently be created concurrently. Order the release after the service account so workloads cannot be installed against a not-yet-created account.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe runner scale-set Helm release can install workloads that use the runner service account, but it does not wait for Terraform to create that Kubernetes service account. Ensure the service account exists before deploying the release.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe scale-set Helm release can install workloads that use this pod identity, but it has no dependency on the association. Ensure the EKS Pod Identity association is established before the release can start workloads that need those credentials.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe runner scale-set Helm release can create workloads that rely on EKS Pod Identity, but it has no dependency on the Pod Identity association. Ensure the association is established before deploying workloads that use it.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThis module reads the GitHub App secrets through its own Secrets Manager data sources, but the module call has no dependency on the root module's secret seeding. It can attempt those reads before the secrets or initial versions exist; make the module wait for the seed versions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nmodule.github_app_runner_group reads the root-managed GitHub App secrets through child-module data sources, but it has no ordering dependency on the resources that create and seed those secrets. Make the module wait for the seeded secret versions to avoid a first-apply lookup racing creation.",
+      "node": ":module.github_app_runner_group",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThis module reads the GitHub App secrets through its own Secrets Manager data sources, but the module call has no dependency on the root module's secret seeding. It can attempt those reads before the secrets or initial versions exist; make the module wait for the seed versions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nmodule.github_global_lock reads the root-managed GitHub App secrets through child-module data sources, but it has no ordering dependency on the resources that create and seed those secrets. Make the module wait for the seeded secret versions to avoid a first-apply lookup racing creation.",
+      "node": ":module.github_global_lock",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

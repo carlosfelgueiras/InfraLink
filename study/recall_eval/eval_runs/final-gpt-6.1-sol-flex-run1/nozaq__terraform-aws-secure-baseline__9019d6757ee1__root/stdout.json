@@ -1,0 +1,184 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "CloudTrail global must wait for cloudwatch_delivery_policy: referencing the role ARN does not ensure its log-stream creation and PutLogEvents permissions have been installed.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "CloudTrail global must wait for local-account-cloudtrail to grant sns:Publish before configuring SNS notifications; the topic reference alone does not order its policy.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The organization aggregator must wait for the config_organization policy attachment to grant AWSConfigRoleForOrganizations permissions. Its role ARN reference only waits for the role, not this attachment.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet creation requires the default VPC to exist; default subnet has no reference to default VPC, so a missing default VPC can cause parallel creation to fail.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-northeast-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-northeast-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_ap-northeast-3:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-northeast-3:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-south-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-southeast-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-southeast-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ca-central-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-central-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-north-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-west-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-west-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-west-3:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_sa-east-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-east-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-east-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-west-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Default subnet must wait for default VPC creation when the regional default VPC is absent; no reference establishes this order.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-west-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

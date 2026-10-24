@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.shared_vpc_host_iam grants roles/compute.networkUser on the Shared VPC host project, but has no dependency on the service-project attachment google_compute_shared_vpc_service_project.shared_vpc_service (its depends_on is empty). The host-side networkUser bindings should be applied only after the service project is associated with the host, otherwise the grant and the association can race/interfere with each other. Since the host project is external (var.shared_vpc_service_config.host_project), a bare depends_on is the only way to express this ordering.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_iam",
+      "target": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam grants roles/compute.networkUser on host-project subnets for the configured members, but has no dependency on the service-project attachment google_compute_shared_vpc_service_project.shared_vpc_service. Subnet-level networkUser grants for a Shared VPC service project should be created after the service project is attached to the host; nothing in the graph (no attribute reference and no depends_on) establishes this ordering. No data-reference fix exists because the host project is supplied via var.shared_vpc_service_config, so a bare depends_on is required.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

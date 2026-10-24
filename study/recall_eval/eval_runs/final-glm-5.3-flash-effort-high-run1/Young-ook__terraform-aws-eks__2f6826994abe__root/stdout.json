@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.time_sleep.wait explicitly depends_on aws_eks_cluster.cp, but this ordering is already guaranteed transitively: time_sleep.wait depends on kubernetes_config_map.aws-auth, which itself has an explicit depends_on on aws_eks_cluster.cp. The direct edge duplicates an existing dependency path.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.time_sleep.wait explicitly depends_on aws_autoscaling_group.ng, but this ordering is already guaranteed transitively: time_sleep.wait depends on kubernetes_config_map.aws-auth, which itself has an explicit depends_on on aws_autoscaling_group.ng. The direct edge duplicates an existing dependency path.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_autoscaling_group.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

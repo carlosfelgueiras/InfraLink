@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_key.default can have IAM bindings (via google_tags_tag_key_iam_binding.default) whose roles are organization custom roles created by google_organization_iam_custom_role.roles (e.g. 'organizations/123/roles/myRole'). The tag key already carries an explicit depends_on on the other organization IAM resources, but not on the custom role resource, so a tag-key IAM binding referencing a custom role could be applied before the role exists. The custom role must be created first.",
+      "node": ":resource.google_tags_tag_key.default",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The depends_on on google_organization_iam_custom_role.roles in output.custom_role_id is redundant: the output's value already iterates over google_organization_iam_custom_role.roles (the for_each expression references it), which establishes the same dependency implicitly.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

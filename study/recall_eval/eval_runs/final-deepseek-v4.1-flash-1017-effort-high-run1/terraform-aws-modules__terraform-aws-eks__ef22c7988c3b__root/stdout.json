@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.eks_managed_node_group:resource.aws_eks_node_group.this` only orders against `module.eks_managed_node_group:resource.aws_iam_role.this` (through `node_role_arn`); it has no dependency on `module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this`. The node role ARN exists before the AmazonEKSWorkerNodePolicy / AmazonEC2ContainerRegistryReadOnly / CNI policies are attached to it, so Terraform may create the node group (and EKS start launching and joining instances) while the role is still permissionless, and on destroy the role can be stripped of permissions before EKS has finished terminating instances and ENIs. The AWS provider documentation for `aws_eks_node_group` explicitly recommends depending on the role policy attachments for exactly this reason. The launch template's own `depends_on` only covers the case where this module creates the launch template.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.fargate_profile:resource.aws_eks_fargate_profile.this` references the pod execution role only through `pod_execution_role_arn` (a dependency on `module.fargate_profile:resource.aws_iam_role.this`), and never depends on `module.fargate_profile:resource.aws_iam_role_policy_attachment.this`. The Fargate profile is submitted to EKS with that role before `AmazonEKSFargatePodExecutionRolePolicy` and the CNI policy are attached to it, so profile creation can fail (the role is not yet authorized to run Fargate pods / manage ENIs) or pods scheduled to the profile cannot pull images or register. On destroy the reverse ordering is also unguarded. Add `depends_on = [aws_iam_role_policy_attachment.this]` to `aws_eks_fargate_profile.this`; there is no attribute reference that can carry this ordering, since the attachment exposes no attributes the profile consumes.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

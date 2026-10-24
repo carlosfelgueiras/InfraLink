@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe CloudFront distribution should wait for :resource.aws_s3_bucket_policy.default so the OAI access policy is attached before the distribution begins serving requests; otherwise initial requests to the private S3 origin can receive access-denied responses. No clean attribute reference to the policy is available here, so use an explicit depends_on.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe CloudFront distribution can be created before the S3 bucket policy grants its origin access identity read access, potentially leaving the origin inaccessible during startup. Make the distribution depend on the policy so the access policy is in place first; there is no clean configuration attribute on the distribution that can reference the policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe CloudFront distribution should wait for :resource.aws_s3_bucket_policy.default so its private S3 origin's read policy is installed before the distribution can serve traffic. The distribution currently references the bucket and origin access identity, but has no dependency on the policy resource; this ordering requires an explicit depends_on.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

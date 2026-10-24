@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "data.aws_ecs_task_definition.this already references aws_ecs_task_definition.this through `task_definition = aws_ecs_task_definition.this[0].family`, which establishes the ordering implicitly, so the explicit `depends_on = [aws_ecs_task_definition.this]` (commented \"Needs to exist first on first deployment\") is redundant.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_task_definition.this only references the task execution role (`aws_iam_role.task_exec[0].arn`) but not aws_iam_role_policy_attachment.task_exec, which grants that role its ECR pull and CloudWatch Logs permissions. Nothing ties the task definition (and the service/task set that immediately start tasks with it) to the attachment, so tasks can be launched against an execution role that does not yet have permissions and fail to pull the image or write logs. The module already expresses the analogous ordering for the service role via `depends_on = [aws_iam_role_policy_attachment.service]`.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

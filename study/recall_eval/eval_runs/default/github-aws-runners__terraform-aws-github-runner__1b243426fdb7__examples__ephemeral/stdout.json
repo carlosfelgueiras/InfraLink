@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runners module consumes subnet IDs and VPC ID from module.base, but the VPC module's VPC/network creation may complete before its dependent resources are operationally ready; adding a readiness dependency on module.base would ensure its full provisioning finishes before runners are created.",
+      "node": ":module.runners",
+      "target": ":module.base",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

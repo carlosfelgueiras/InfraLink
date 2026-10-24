@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.csi: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:module.csi` already has an implicit dependency on `:module.eks` through its `eks_name` and `oidc` inputs, so the explicit `depends_on` duplicates that ordering.",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

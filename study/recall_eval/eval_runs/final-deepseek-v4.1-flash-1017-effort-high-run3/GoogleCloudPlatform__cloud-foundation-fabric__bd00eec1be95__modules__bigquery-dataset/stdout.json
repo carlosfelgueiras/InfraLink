@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_table.views creates BigQuery views whose query strings (each.value.query) commonly reference tables created by google_bigquery_table.default in the same module. BigQuery resolves/validates a view's query against existing tables at creation time, so a view created before its underlying table exists fails with \"Not found: Table\". The dependency is not captured because the query is an opaque string with no attribute reference. google_bigquery_table.views should depend on google_bigquery_table.default (e.g. a bare depends_on = [google_bigquery_table.default]).",
+      "node": ":resource.google_bigquery_table.views",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

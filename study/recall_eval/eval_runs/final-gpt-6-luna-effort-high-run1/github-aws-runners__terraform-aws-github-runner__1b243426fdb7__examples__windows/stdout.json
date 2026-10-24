@@ -1,0 +1,148 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The API Gateway stage can become callable before API Gateway has permission to invoke the webhook Lambda. Make the stage wait for the Lambda permission so requests do not race an authorization failure.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App update can register the endpoint before the API Gateway route exists; the endpoint value depends on the API URL and path, not on route creation. Make the update wait for the route to be usable.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App update can register the endpoint before its API Gateway stage is deployed. Make the update wait for the stage so the newly registered URL is serving traffic.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "An EventBridge schedule can invoke the scale-down Lambda as soon as the target is installed, but the target does not wait for its Lambda invoke permission. Order target creation after the permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled syncer target may become active before EventBridge has permission to invoke the Lambda. Make the target wait for the corresponding Lambda permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "A pool schedule can invoke the pool Lambda as soon as its target is installed, but the target does not wait for the Lambda invoke permission. Order target creation after the permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Enabling the S3 notification can immediately expose the syncer to object-created events, including the deployment trigger, before its execution role has the S3 permissions needed to process them. Make notification activation wait for the syncer policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_notification.on_deploy",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the distribution bucket is configured with a KMS key, the S3 notification can deliver an event before the syncer role's KMS permissions are attached. Make notification activation wait for the conditional KMS policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_notification.on_deploy",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-down schedule may invoke the Lambda before its execution role has the AWS permissions needed by the handler. Make the EventBridge target wait for the scale-down role policy.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled syncer target may invoke the Lambda before its role has the S3 permissions needed to synchronize the distribution. Make the target wait for the syncer role policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the syncer uses KMS encryption, a scheduled invocation can race the attachment of its KMS permissions. Make the target wait for the conditional KMS role policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool schedule may invoke the Lambda before the execution role policy granting the handler's required AWS access is attached. Make the EventBridge target wait for that policy.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The API stage can expose the webhook before its Lambda execution role has permission to publish accepted events to SQS. Make stage activation wait for the webhook SQS policy.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The API stage can expose the webhook before its Lambda execution role has the required SSM access. Make stage activation wait for the webhook SSM policy.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the workflow-job queue is enabled, the API can become callable before the webhook role has its queue-specific permissions. Make stage activation wait for the conditional workflow-job SQS policy.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_workflow_job_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping can begin polling and invoking the scale-up Lambda once enabled, but it does not wait for the Lambda execution role policy that grants access to the queue and other required resources. Ensure the policy is attached before activating the mapping.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

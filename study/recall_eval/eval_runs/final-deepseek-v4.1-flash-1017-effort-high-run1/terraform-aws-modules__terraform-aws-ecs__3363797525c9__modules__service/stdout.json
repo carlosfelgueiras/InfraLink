@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_service.this uses the ECS infrastructure IAM role for VPC Lattice (vpc_lattice_configurations.role_arn = local.infrastructure_iam_role_arn, i.e. aws_iam_role.infrastructure_iam_role), but its depends_on only waits for aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy, not the VPC Lattice policy attachment. The AmazonECSInfrastructureRolePolicyForVpcLattice policy must be attached to the role before the service is created (and must outlive it), otherwise ECS may be unable to assume the role / perform Lattice actions, or the policy could be destroyed too early (DRAINING race). Add aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy to the service's depends_on. No clean attribute-based fix exists (there is no attribute on the service that references the attachment).",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_service.ignore_task_definition uses the ECS infrastructure IAM role for VPC Lattice (vpc_lattice_configurations.role_arn = local.infrastructure_iam_role_arn, i.e. aws_iam_role.infrastructure_iam_role), but its depends_on only waits for aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy, not the VPC Lattice policy attachment. The AmazonECSInfrastructureRolePolicyForVpcLattice policy must be attached to the role before the service is created (and outlive it), otherwise ECS may fail to assume the role / perform Lattice actions, or the policy could be destroyed too early (DRAINING race). Add aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy to depends_on. No clean attribute-based fix exists.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_task_definition.this uses aws_iam_role.tasks as task_role_arn, and its depends_on already waits for the task-role's external policy attachment (aws_iam_role_policy_attachment.tasks) plus the execution-role attachments, but it does NOT wait for aws_iam_role_policy_attachment.tasks_internal, which attaches the module-created policy (aws_iam_policy.tasks, granting ECS Exec / custom task-role statements) to the very same aws_iam_role.tasks. This asymmetry means tasks could start before the task role has its ECS Exec permissions, and the policy could be torn down before the task definition. Add aws_iam_role_policy_attachment.tasks_internal to the task definition's depends_on. No clean attribute-based fix exists (task_role_arn references the role, not the attachment).",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks_internal",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

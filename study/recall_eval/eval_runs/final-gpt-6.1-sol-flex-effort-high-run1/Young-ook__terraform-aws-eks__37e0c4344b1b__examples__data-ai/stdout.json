@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.csi: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on :module.eks in :module.csi duplicates its existing implicit dependency through module.eks.cluster.name and module.eks.oidc.",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

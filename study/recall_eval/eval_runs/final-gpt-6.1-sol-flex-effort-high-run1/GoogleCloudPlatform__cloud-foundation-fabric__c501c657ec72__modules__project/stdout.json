@@ -1,0 +1,280 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_identity_cmek already waits for google_project_service.project_services through google_project_service_identity.jit_si and the BigQuery/Storage service-account data sources; the direct depends_on entry duplicates that ordering.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_project_iam_member.shared_vpc_host_robots already waits for google_project_service.project_services through its service-identity, default-service-account, and service-account-data dependencies; the direct depends_on entry is redundant.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.services already depends on google_project_service.project_services transitively through google_project_service_identity.jit_si, making its direct depends_on entry redundant.",
+      "node": ":output.services",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.name already waits for google_project_service.project_services through google_compute_shared_vpc_service_project.service_projects, service_identity_cmek, and shared_vpc_host_robots; its direct depends_on entry is redundant.",
+      "node": ":output.name",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for data.google_bigquery_default_service_account.bq_sa through google_kms_crypto_key_iam_member.service_identity_cmek; the direct depends_on entry duplicates that ordering.",
+      "node": ":output.service_accounts",
+      "target": ":data.google_bigquery_default_service_account.bq_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for data.google_storage_project_service_account.gcs_sa through google_kms_crypto_key_iam_member.service_identity_cmek; the direct depends_on entry is redundant.",
+      "node": ":output.service_accounts",
+      "target": ":data.google_storage_project_service_account.gcs_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already depends on google_project_service.project_services through service_identity_cmek, jit_si, and the service-account data sources; its direct depends_on entry is redundant.",
+      "node": ":output.service_accounts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.service_accounts already waits for google_project_service_identity.jit_si through google_kms_crypto_key_iam_member.service_identity_cmek; its direct depends_on entry is redundant.",
+      "node": ":output.service_accounts",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for data.google_project.project through google_kms_crypto_key_iam_member.service_identity_cmek; the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_project.project through google_kms_crypto_key_iam_member.service_identity_cmek; the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_compute_shared_vpc_host_project.shared_vpc_host through google_compute_shared_vpc_service_project.service_projects; the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_project_service.project_services through its Shared VPC, service-identity, IAM, and CMEK dependencies; the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_project_service_identity.jit_si through google_kms_crypto_key_iam_member.service_identity_cmek and google_project_iam_member.shared_vpc_host_robots; the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_project_service_identity.servicenetworking through google_project_iam_member.servicenetworking and google_project_iam_member.shared_vpc_host_robots; the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service_identity.servicenetworking",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.number already waits for google_compute_shared_vpc_host_project.shared_vpc_host through google_compute_shared_vpc_service_project.service_projects; the direct depends_on entry is redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.number already waits for google_project_service.project_services through its Shared VPC, service-identity, IAM, and CMEK dependencies; the direct depends_on entry is redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.number already waits for google_project_service_identity.jit_si through google_kms_crypto_key_iam_member.service_identity_cmek and google_project_iam_member.shared_vpc_host_robots; the direct depends_on entry is redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.number already waits for google_project_service_identity.servicenetworking through google_project_iam_member.servicenetworking and google_project_iam_member.shared_vpc_host_robots; the direct depends_on entry is redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service_identity.servicenetworking",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for data.google_project.project through google_kms_crypto_key_iam_member.service_identity_cmek; the direct depends_on entry is redundant.",
+      "node": ":output.project_id",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for google_project.project through google_kms_crypto_key_iam_member.service_identity_cmek; the direct depends_on entry is redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for google_compute_shared_vpc_host_project.shared_vpc_host through google_compute_shared_vpc_service_project.service_projects; the direct depends_on entry is redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for google_project_service.project_services through its Shared VPC, service-identity, IAM, and CMEK dependencies; the direct depends_on entry is redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for google_project_service_identity.jit_si through google_kms_crypto_key_iam_member.service_identity_cmek and google_project_iam_member.shared_vpc_host_robots; the direct depends_on entry is redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.project_id already waits for google_project_service_identity.servicenetworking through google_project_iam_member.servicenetworking and google_project_iam_member.shared_vpc_host_robots; the direct depends_on entry is redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service_identity.servicenetworking",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service has no ordering against google_project_service.project_services. When this module enables compute.googleapis.com for the service project, attachment can race API enablement, and teardown can disable the API before detachment. Wait for the managed Compute API service.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": {
+        "field": "service_project",
+        "expression": "try(google_project_service.project_services[\"compute.googleapis.com\"].project, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_policy.default does not wait for google_project_service.project_services. When orgpolicy.googleapis.com is enabled by this module in the API consumer project, policy operations can race enablement or run after API disablement during teardown. Order policies after that managed API.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_project_service.project_services",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project_service.project_services[\"orgpolicy.googleapis.com\"].project, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_project_exclusion.logging-exclusion has no dependency on google_project_service.project_services. If logging.googleapis.com is managed here, exclusions can race API enablement and can be deleted after the API is disabled. Wire the exclusion's project to the managed Logging API.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project_service.project_services[\"logging.googleapis.com\"].project, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_essential_contacts_contact.contact has no ordering against google_project_service.project_services. When essentialcontacts.googleapis.com is managed here and this project is the API consumer, contact creation can race enablement and deletion can follow disablement. This dependency is needed for that supported configuration; an externally managed billing/quota project's API must be handled separately.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project_service.project_services[\"essentialcontacts.googleapis.com\"].project, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_custom_role.roles has no ordering against google_project_service.project_services. When iam.googleapis.com is being enabled by this module, custom-role creation can call the IAM API before enablement completes; destruction can likewise disable the API before deleting the roles. Create custom roles after the managed IAM API.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project_service.project_services",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project_service.project_services[\"iam.googleapis.com\"].project, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC Flow Logs policy attachment is created independently of the per-region flow-log modules. Each flow-log resource uses the publisher role ARN, but may be created before its inline publish policy is attached, causing initial log delivery failures; add an ordering dependency or wire the policy attachment into the module setup.",
+      "node": ":module.vpc_baseline_ap-northeast-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline module's flow-log resource depends on the publisher role ARN but not on the policy attachment that grants CloudWatch Logs publishing permissions. Ensure the policy is attached before flow-log creation.",
+      "node": ":module.vpc_baseline_ap-northeast-2",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_ap-northeast-3",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_ap-south-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_ap-southeast-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_ap-southeast-2",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_ca-central-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_eu-central-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_eu-north-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_eu-west-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_eu-west-2",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_us-east-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_us-west-2",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_us-east-2",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_eu-west-3",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_sa-east-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The VPC baseline's flow-log resource can be created before the shared publisher role's inline policy grants CloudWatch Logs permissions. Add ordering from this module to the publisher policy.",
+      "node": ":module.vpc_baseline_us-west-1",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

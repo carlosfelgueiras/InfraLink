@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_tags_tag_binding.binding` resolves `tag_value` via a static context lookup (`lookup(local.ctx.tag_values, each.value, each.value)`) with no data reference to the tag values managed by this module. The Tag Bindings API requires the TagValue to already exist (`tagValues/{id}` or namespaced format), so when the referenced values are created in this same module (e.g. with `tags_config.force_context_ids` making their ids predictable for `var.tag_bindings`), the binding can be created before the value exists and fail at apply time. It needs to wait for `google_tags_tag_value.default` to be created first; since values may also be externally managed, a bare `depends_on = [google_tags_tag_value.default]` is the idiomatic fix.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

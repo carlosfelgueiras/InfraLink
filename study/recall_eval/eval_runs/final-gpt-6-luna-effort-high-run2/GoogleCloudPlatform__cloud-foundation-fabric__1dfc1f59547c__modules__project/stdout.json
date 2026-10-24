@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The additive IAM member accepts arbitrary roles, including custom roles created by this module, but it has no dependency on those role resources. It can attempt to assign a custom role before that role exists; the authoritative IAM binding already accounts for this ordering.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This IAM member resource can grant a custom role from this module, but it has no dependency on the custom-role resources. It may attempt the grant before the role exists.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This IAM member resource has no dependency on the project's API service resources. Like the authoritative IAM binding, it should wait for service setup so IAM operations do not race service enablement and teardown.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login administrator IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login user IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login service-account-user IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login compute-viewer IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

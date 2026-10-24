@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nnull_resource.delete_http_settings does not depend on null_resource.delete_probe. HTTP settings reference the probe, so on destroy the settings must be removed before the probe. delete_http_settings currently lists null_resource.set_probe instead \u2014 a create-only resource with no destroy provisioner \u2014 so delete_probe has no incoming ordering and can be destroyed in the first wave, deleting the probe while HTTP settings still reference it (referential-integrity failure). It should depend on null_resource.delete_probe.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndelete_http_settings depends on create-time set_probe, whose destruction is a no-op, so it does not enforce teardown ordering against delete_probe. HTTP settings reference the probe, so delete_http_settings must be destroyed before delete_probe; add delete_probe (or replace set_probe) in depends_on.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nnull_resource.delete_http_settings has a destroy-time provisioner that removes an HTTP setting which references a probe on the Application Gateway. The probe must not be removed until after the HTTP setting is gone, so delete_http_settings must be destroyed before delete_probe. It currently depends_on null_resource.set_probe (a create-only resource whose destroy does nothing), which does not order the actual probe deletion. It should depend on null_resource.delete_probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nnull_resource.delete_http_listener does not depend on null_resource.delete_frontend_port. HTTP listeners reference the frontend port, so on destroy the listener must be removed before the frontend port. delete_http_listener currently lists null_resource.set_frontend_port instead \u2014 a create-only resource with no destroy provisioner \u2014 leaving delete_frontend_port with no incoming ordering, so the port may be deleted while a listener still references it. delete_http_listener should depend on null_resource.delete_frontend_port.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndelete_http_listener depends on create-time set_frontend_port, which has no destroy provisioner, rather than on delete_frontend_port. The listener references the frontend port, so during teardown delete_http_listener must run before delete_frontend_port.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nnull_resource.delete_http_listener has a destroy-time provisioner that removes an HTTP listener which references a frontend port. The frontend port cannot be removed until after the listener is gone, so delete_http_listener must be destroyed before delete_frontend_port. It currently depends_on null_resource.set_frontend_port (a create-only resource with no destroy provisioner), which does not order the actual frontend-port deletion. It should depend on null_resource.delete_frontend_port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The task definition waits on the `tasks`, `task_exec`, and `task_exec_additional` role policy attachments via depends_on, but omits `aws_iam_role_policy_attachment.tasks_internal`, which attaches the internal tasks policy (including the ECS Exec `ssmmessages:*` permissions) to the tasks role. AWS IAM propagation means the task role may not yet have those permissions when tasks launched from this definition start, breaking ECS Exec. This mirrors the existing depends_on guards already present on this resource.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks_internal",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The service passes `role_arn = local.infrastructure_iam_role_arn` into `vpc_lattice_configurations`, but only has a depends_on on the EBS infrastructure role policy attachment. When VPC Lattice configurations are used, the `AmazonECSInfrastructureRolePolicyForVpcLattice` attachment (`aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy`) must be attached (and propagated) before the service is created, otherwise ECS cannot assume the role with the required permissions. A bare `depends_on` is needed here since no attribute of the service can reference the attachment.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same issue as `aws_ecs_service.this`: this variant of the service also passes the infrastructure IAM role ARN into `vpc_lattice_configurations` but only depends on the EBS policy attachment, not on `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy`. The VPC Lattice policy must be attached and propagated before the service is created. A bare `depends_on` is needed here since no attribute of the service can reference the attachment.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

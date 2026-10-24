@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module already has an implicit dependency on the log group through its `logging_log_group` input, so the explicit `depends_on` duplicates that ordering.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The event target already depends implicitly on the Lambda module through its `arn = module.forge_trust_validator_lambda.lambda_function_arn` reference, so this explicit `depends_on` duplicates that dependency.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The provisioner updates each Forge role's trust policy to name the Lambda execution role as a principal. That principal must exist when AWS accepts the trust-policy update, so this resource must wait for the Lambda module to create its execution role; currently it can run concurrently with the module.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ role_name = each.value.name, future_sha = sha1(local.concatenated_trust_json[each.key]), lambda_role_arn = module.forge_trust_validator_lambda.lambda_role_arn }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_monitoring_notification_channel.channels calls the Cloud Monitoring API against `local.project.project_id`, but has no ordering relationship with :resource.google_project_service.project_services. Sibling observability resources in this module (e.g. logging sinks, quota preferences) already depend on project_services for exactly this reason; without it, channels can be applied before monitoring.googleapis.com is activated and fail with an API-not-enabled error.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_logging_project_exclusion.logging-exclusion uses the Cloud Logging API on `local.project.project_id` but has no dependency on :resource.google_project_service.project_services. The sibling resource google_logging_project_sink.sink in the same file already depends_on project_services; logging.googleapis.com must be activated before exclusions can be created.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_logging_metric.metrics calls the Cloud Logging API against `local.project.project_id` with no dependency on :resource.google_project_service.project_services. Like the project's log sinks (which do depend on project_services), log-based metrics require logging.googleapis.com to be enabled first.",
+      "node": ":resource.google_logging_metric.metrics",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_logging_log_scope.log-scopes is a Cloud Logging API resource parented at `projects/${local.project.project_id}` but has no dependency on :resource.google_project_service.project_services, so it can be applied before logging.googleapis.com is activated for the project.",
+      "node": ":resource.google_logging_log_scope.log-scopes",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_monitoring_monitored_project.primary uses the Cloud Monitoring API but has no dependency on :resource.google_project_service.project_services; the monitoring API must be activated in the project before monitored projects can be registered.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project via the Compute API, but unlike google_compute_shared_vpc_host_project.shared_vpc_host (which depends_on project_services) it has no dependency on :resource.google_project_service.project_services, so it may run before compute.googleapis.com is enabled.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam performs Compute API subnetwork IAM operations but has an empty depends_on. Its sibling resource google_compute_subnetwork_iam_member.shared_vpc_host_robots depends_on :resource.google_project_service.project_services (among others) for the same kind of call; this resource should too, so it does not apply before the compute API is activated.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_project_iam_member.shared_vpc_host_iam is only meaningful when this project is configured as a Shared VPC service project (network_users grants on the host), yet it has an empty depends_on. Its sibling google_project_iam_member.shared_vpc_host_robots depends_on :resource.google_project_service.project_services and :resource.google_project_service_identity.default to ensure the service agents it references exist; this resource should carry the same ordering.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_iam",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_essential_contacts_contact.contact is created at `projects/${local.project.project_id}` via the Essential Contacts API but depends only on IAM bindings, not on :resource.google_project_service.project_services. The essentialcontacts.googleapis.com API should be activated before contacts are created, consistent with how other service-backed resources in this module order against project_services.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

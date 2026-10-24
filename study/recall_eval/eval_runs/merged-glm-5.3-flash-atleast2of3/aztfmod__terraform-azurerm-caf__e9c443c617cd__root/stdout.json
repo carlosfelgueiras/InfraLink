@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nThe null_resource register_aks_msi_preview_feature runs a local-exec script that registers the Microsoft.ContainerService \"AAD-V2\" feature and polls until the provider reports it as Registered (the source notes this can take around 30 minutes). The AKS cluster is created with managed Azure AD RBAC (role_based_access_control.azure_active_directory.managed = true), which requires that feature/preview registration to be complete before the cluster can be provisioned. However, azurerm_kubernetes_cluster.aks references none of the null_resource's outputs (it has none) and no attribute reference or depends_on orders the cluster after the registration resource, so Terraform may create the cluster before (or concurrently with) feature registration and fail. Add an explicit depends_on from the cluster to the null_resource.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.aks_clusters:resource.azurerm_kubernetes_cluster.aks configures role_based_access_control with azure_active_directory managed = true unconditionally, which requires the Microsoft.ContainerService AAD-V2 preview feature and provider to be registered first. module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature performs exactly that registration via local-exec (and can take ~30 minutes), but the cluster has no dependency on it \u2014 nothing references the null_resource, so Terraform may create the cluster before (or without waiting for) the feature registration, failing cluster creation. A bare depends_on is required; no attribute of the cluster can carry this ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe AKS cluster module.aks_clusters:resource.azurerm_kubernetes_cluster.aks enables managed Azure AD (role_based_access_control.azure_active_directory.managed = true), which requires the AAD-V2 preview feature to be registered with Microsoft.ContainerService. The null_resource register_aks_msi_preview_feature performs that registration (and can take ~30 minutes to complete), but the cluster has no dependency on it, so the cluster can be created before the feature registration finishes and fail. Add `depends_on = [null_resource.register_aks_msi_preview_feature]` to the cluster.",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

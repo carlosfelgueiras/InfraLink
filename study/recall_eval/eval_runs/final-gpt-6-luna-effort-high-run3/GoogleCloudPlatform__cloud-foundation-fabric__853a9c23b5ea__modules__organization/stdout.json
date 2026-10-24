@@ -1,0 +1,139 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:resource.google_org_policy_policy.default` to `:resource.google_tags_tag_key.default` is transitively covered by its dependency on `:resource.google_tags_tag_value.default`, which already depends on the tag key.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_org_policy_custom_constraint.constraint` is transitively covered by `:output.id` depending on `:resource.google_org_policy_policy.default`, which depends on the custom constraint.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_organization_iam_binding.authoritative` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on this IAM binding.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_organization_iam_binding.bindings` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on this IAM binding.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_organization_iam_member.bindings` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on this IAM member.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_organization_iam_custom_role.roles` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on these custom roles.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_tags_tag_key.default` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which depends on the tag key; the tag-value dependency also provides a path to the key.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.id` to `:resource.google_tags_tag_value.default` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on the tag values.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_org_policy_custom_constraint.constraint` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which depends on the custom constraint.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_organization_iam_binding.authoritative` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on this IAM binding.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_organization_iam_binding.bindings` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on this IAM binding.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_organization_iam_member.bindings` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on this IAM member.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_organization_iam_custom_role.roles` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on these custom roles.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_tags_tag_key.default` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which depends on the tag key; the tag-value dependency also provides a path to the key.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:output.organization_id` to `:resource.google_tags_tag_value.default` is transitively covered by its dependency on `:resource.google_org_policy_policy.default`, which itself depends on the tag values.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

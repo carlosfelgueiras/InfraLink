@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module already has an implicit dependency on the log group through `logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name`; the explicit `depends_on` duplicates that dependency.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The event target already depends on the Lambda module through `arn = module.forge_trust_validator_lambda.lambda_function_arn`; its explicit `depends_on` duplicates that dependency.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The Lambda permission already depends on the Lambda module through its `function_name` reference? The source uses a literal name, but this explicit dependency is necessary to ensure the Lambda exists before permission creation.",
+      "node": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

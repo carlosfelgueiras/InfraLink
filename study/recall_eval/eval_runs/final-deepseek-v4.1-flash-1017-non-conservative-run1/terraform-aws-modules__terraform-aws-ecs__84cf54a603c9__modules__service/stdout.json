@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:data.aws_ecs_task_definition.this` has an explicit `depends_on` on `:resource.aws_ecs_task_definition.this`, but the data source's `task_definition = aws_ecs_task_definition.this[0].family` argument already establishes the identical implicit dependency (the graph records it in both `implicit_deps` and `depends_on_deps`). The bare `depends_on` block (\"Needs to exist first on first deployment\") duplicates the attribute reference and can be removed without changing ordering.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

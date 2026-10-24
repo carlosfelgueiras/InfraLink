@@ -1,0 +1,262 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_instance_profile.instance adds a role using local.aws_iam_role_instance_name, which does not reference aws_iam_role.instance. With create_runner_iam_role enabled, profile creation can attempt to add the role before it exists. Reference the managed role directly.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[count.index].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy.instance uses a computed role name rather than referencing aws_iam_role.instance. Both resources are created when logging and managed-role creation are enabled, so PutRolePolicy can run before the role exists.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.instance_docker_machine_policy references the policy but identifies aws_iam_role.instance only through an independently computed name. Attaching the policy can race creation of the role.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[count.index].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.docker_machine_cache_instance attaches the cache policy to the runner-agent role, but its computed role name does not order it after aws_iam_role.instance. Reference the managed role when enabled, retaining the external-role fallback.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When enabled alongside managed-role creation, aws_iam_role_policy_attachment.eip can attempt to attach its policy before aws_iam_role.instance exists. Their shared computed name creates no resource dependency.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.instance_session_manager_policy uses an independently computed role name and can attach its policy before aws_iam_role.instance is created. Preserve support for an externally managed role with a conditional reference.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.instance_session_manager_aws_managed has no dependency on aws_iam_role.instance despite attaching AmazonSSMManagedInstanceCore to that role when managed-role creation is enabled. The attachment can run before the role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.service_linked_role attaches to aws_iam_role.instance using only a computed name. With both options enabled, Terraform can attempt the attachment before role creation completes.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.ssm references the SSM policy but not aws_iam_role.instance, whose computed name it uses. Attaching the policy can therefore race creation of the managed runner-agent role.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.user_defined_policies can attach supplied policies before aws_iam_role.instance exists because role is only an independently computed string. Reference the managed role conditionally so externally managed roles remain supported.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_launch_template.gitlab_runner_instance specifies its instance-profile name through local.aws_iam_role_instance_name, without referencing aws_iam_instance_profile.instance. Consequently the downstream Auto Scaling group can launch before the managed profile exists. Reference the profile's name in the iam_instance_profile block, preserving the external-profile case.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": {
+        "field": "iam_instance_profile.name",
+        "expression": "var.create_runner_iam_role ? aws_iam_instance_profile.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance immediately launches a runner agent, but does not wait for aws_iam_role_policy_attachment.instance_docker_machine_policy. An instance profile alone does not ensure the agent has the EC2 and iam:PassRole permissions needed to provision Docker machines. Order instance launch after this attachment when it is enabled.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When token management is enabled, aws_autoscaling_group.gitlab_runner_instance can start its user-data registration script before aws_iam_role_policy_attachment.ssm grants Parameter Store access. Wait for the attachment before launching the agent so bootstrap token reads/writes are authorized.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "With EIP assignment enabled, aws_autoscaling_group.gitlab_runner_instance can run the EIP user-data snippet before aws_iam_role_policy_attachment.eip grants the required permissions. The EIP resource's existence does not order launch after the policy attachment; wait for the attachment before bootstrapping the agent.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.eip",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "With managed-role CloudWatch logging enabled, aws_autoscaling_group.gitlab_runner_instance can start its logging bootstrap before aws_iam_role_policy.instance has granted logging permissions. Wait for the inline policy before launching the agent to avoid unauthorized initial log delivery.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance starts a runner that can immediately accept jobs using the configured S3 cache, but it does not wait for aws_iam_role_policy_attachment.docker_machine_cache_instance. Cache bucket/policy creation alone does not grant access to the agent role; order launch after the cache-policy attachment when present.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When service-linked-role creation is allowed, aws_autoscaling_group.gitlab_runner_instance can start provisioning Spot Docker machines before aws_iam_role_policy_attachment.service_linked_role grants the agent permission to create the required service-linked role. Wait for this attachment before starting the agent, especially in accounts where that service-linked role does not yet exist.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_autoscaling_group.gitlab_runner_instance can run the registration user-data script before aws_ssm_parameter.runner_registration_token has been initialized. The script uses an independently constructed parameter name and manages its value, so parallel creation can either encounter a missing parameter or race Terraform's initial value=\"null\" write. Create the parameter before launching the agent.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance passes an independently computed Sentry parameter name to bootstrap without waiting for aws_ssm_parameter.runner_sentry_dsn. When bootstrap reads or updates this parameter, it can race Terraform's placeholder creation. Initialize the managed parameter before launching the agent.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_ssm_parameter.runner_sentry_dsn",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When CloudWatch logging is enabled, aws_autoscaling_group.gitlab_runner_instance configures the log group by a separately computed name and can start log delivery before aws_cloudwatch_log_group.environment exists. Ensure the managed log group, including retention and optional KMS configuration, is created before agent bootstrap.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For the docker+machine executor, aws_autoscaling_group.gitlab_runner_instance starts the agent that provisions and connects to Docker machines, but it does not wait for aws_security_group_rule.docker_machine_ssh_runner. Referencing security groups does not ensure this separate SSH ingress rule exists; install it before the agent can provision workers.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_security_group_rule.docker_machine_ssh_runner",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For the docker+machine executor, aws_autoscaling_group.gitlab_runner_instance can start accepting jobs before aws_security_group_rule.docker_machine_docker_runner permits the agent to reach worker Docker daemons on TCP 2376. Group creation alone does not include this separately managed ingress rule; order launch after the rule.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_security_group_rule.docker_machine_docker_runner",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.terminate_runner_instances references its execution role but does not wait for aws_iam_role_policy_attachment.lambda to grant EC2 termination, lifecycle completion, and log-write permissions. The function can become an EventBridge target before those permissions exist. Add ordering after the attachment; its policy dependency also ensures the managed Lambda log group exists first.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_lambda_function.terminate_runner_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_iam_role_policy_attachment.lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.terminate_instances can begin delivering termination events before aws_lambda_permission.unqualified_alias_triggers allows EventBridge to invoke the function. The target uses the unqualified function ARN, so it should wait specifically for the unqualified permission, not merely the published-version permission.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_cloudwatch_event_target.terminate_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_lambda_permission.unqualified_alias_triggers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_lifecycle_hook.terminate_instances can activate termination lifecycle events before aws_cloudwatch_event_target.terminate_instances has connected those events to the cleanup Lambda. A termination in that window can time out with CONTINUE without cleaning up worker instances. Create the event target and its invocation prerequisites before enabling the hook.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_autoscaling_lifecycle_hook.terminate_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_cloudwatch_event_target.terminate_instances",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

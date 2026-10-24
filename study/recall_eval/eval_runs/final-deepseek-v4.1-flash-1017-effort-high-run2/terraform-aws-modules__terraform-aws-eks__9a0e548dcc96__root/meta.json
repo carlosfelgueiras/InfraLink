@@ -1,0 +1,120 @@
+{
+  "repo": "terraform-aws-modules__terraform-aws-eks",
+  "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+  "resolved_sha": "9a0e548dcc9606ac79522363f26aacfc01647ff3",
+  "module_dir": ".",
+  "profile": "openrouter-deepseek-v4.1-flash-1017",
+  "effort": "high",
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "terraform-aws-modules__terraform-aws-eks",
+      "pr_number": 933,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/933",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/db9bb0b48201b09b4c1df82b10c2aceac4981520",
+      "commit_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520",
+      "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+      "commit_subject": "feat: worker launch templates and configurations depend on security group rules and IAM policies (#933)",
+      "commit_date": "2020-07-12T17:14:36+02:00",
+      "file": "cluster.tf",
+      "module_dir": ".",
+      "holder_address": "aws_eks_cluster.this",
+      "added_targets": [
+        "aws_security_group_rule.cluster_egress_internet",
+        "aws_security_group_rule.cluster_https_worker_ingress"
+      ],
+      "pre_existing_targets": [
+        "aws_cloudwatch_log_group.this",
+        "aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy",
+        "aws_iam_role_policy_attachment.cluster_AmazonEKSServicePolicy"
+      ],
+      "already_implicit": {
+        "aws_security_group_rule.cluster_egress_internet": false,
+        "aws_security_group_rule.cluster_https_worker_ingress": false
+      },
+      "verify_error": null
+    },
+    {
+      "repo": "terraform-aws-modules__terraform-aws-eks",
+      "pr_number": 933,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/933",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/db9bb0b48201b09b4c1df82b10c2aceac4981520",
+      "commit_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520",
+      "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+      "commit_subject": "feat: worker launch templates and configurations depend on security group rules and IAM policies (#933)",
+      "commit_date": "2020-07-12T17:14:36+02:00",
+      "file": "workers.tf",
+      "module_dir": ".",
+      "holder_address": "aws_launch_configuration.workers",
+      "added_targets": [
+        "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+        "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+        "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+        "aws_iam_role_policy_attachment.workers_additional_policies",
+        "aws_security_group_rule.cluster_primary_ingress_workers",
+        "aws_security_group_rule.workers_egress_internet",
+        "aws_security_group_rule.workers_ingress_cluster",
+        "aws_security_group_rule.workers_ingress_cluster_https",
+        "aws_security_group_rule.workers_ingress_cluster_kubelet",
+        "aws_security_group_rule.workers_ingress_cluster_primary",
+        "aws_security_group_rule.workers_ingress_self"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy": false,
+        "aws_iam_role_policy_attachment.workers_additional_policies": false,
+        "aws_security_group_rule.cluster_primary_ingress_workers": false,
+        "aws_security_group_rule.workers_egress_internet": false,
+        "aws_security_group_rule.workers_ingress_cluster": false,
+        "aws_security_group_rule.workers_ingress_cluster_https": false,
+        "aws_security_group_rule.workers_ingress_cluster_kubelet": false,
+        "aws_security_group_rule.workers_ingress_cluster_primary": false,
+        "aws_security_group_rule.workers_ingress_self": false
+      },
+      "verify_error": null
+    },
+    {
+      "repo": "terraform-aws-modules__terraform-aws-eks",
+      "pr_number": 933,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/933",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/db9bb0b48201b09b4c1df82b10c2aceac4981520",
+      "commit_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520",
+      "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+      "commit_subject": "feat: worker launch templates and configurations depend on security group rules and IAM policies (#933)",
+      "commit_date": "2020-07-12T17:14:36+02:00",
+      "file": "workers_launch_template.tf",
+      "module_dir": ".",
+      "holder_address": "aws_launch_template.workers_launch_template",
+      "added_targets": [
+        "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+        "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+        "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+        "aws_iam_role_policy_attachment.workers_additional_policies",
+        "aws_security_group_rule.cluster_primary_ingress_workers",
+        "aws_security_group_rule.workers_egress_internet",
+        "aws_security_group_rule.workers_ingress_cluster",
+        "aws_security_group_rule.workers_ingress_cluster_https",
+        "aws_security_group_rule.workers_ingress_cluster_kubelet",
+        "aws_security_group_rule.workers_ingress_cluster_primary",
+        "aws_security_group_rule.workers_ingress_self"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy": false,
+        "aws_iam_role_policy_attachment.workers_additional_policies": false,
+        "aws_security_group_rule.cluster_primary_ingress_workers": false,
+        "aws_security_group_rule.workers_egress_internet": false,
+        "aws_security_group_rule.workers_ingress_cluster": false,
+        "aws_security_group_rule.workers_ingress_cluster_https": false,
+        "aws_security_group_rule.workers_ingress_cluster_kubelet": false,
+        "aws_security_group_rule.workers_ingress_cluster_primary": false,
+        "aws_security_group_rule.workers_ingress_self": false
+      },
+      "verify_error": null
+    }
+  ]
+}

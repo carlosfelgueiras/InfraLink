@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks_managed_node_group's aws_iam_role_policy_attachment.this attaches the IPv6 CNI policy only by a constructed ARN string (\"arn:...:policy/AmazonEKS_CNI_IPv6_Policy\") instead of referencing aws_iam_policy.cni_ipv6_policy. When cluster_ip_family = \"ipv6\" and create_cni_ipv6_iam_policy = true, the attachment can be created before the account-level policy exists (no attribute reference or depends_on links them), causing an apply failure. Add an explicit dependency on aws_iam_policy.cni_ipv6_policy.",
+      "node": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.fargate_profile's aws_iam_role_policy_attachment.this attaches the IPv6 CNI policy only by a constructed ARN string (\"arn:...:policy/AmazonEKS_CNI_IPv6_Policy\") instead of referencing aws_iam_policy.cni_ipv6_policy. When cluster_ip_family = \"ipv6\" and create_cni_ipv6_iam_policy = true, the attachment can be created before the policy exists (no attribute reference or depends_on links them). Add an explicit dependency on aws_iam_policy.cni_ipv6_policy.",
+      "node": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.self_managed_node_group's aws_iam_role_policy_attachment.this attaches the IPv6 CNI policy only by a constructed ARN string (\"arn:...:policy/AmazonEKS_CNI_IPv6_Policy\") instead of referencing aws_iam_policy.cni_ipv6_policy. When cluster_ip_family = \"ipv6\" and create_cni_ipv6_iam_policy = true, the attachment can be created before the account-level policy exists (no attribute reference or depends_on links them). Add an explicit dependency on aws_iam_policy.cni_ipv6_policy.",
+      "node": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

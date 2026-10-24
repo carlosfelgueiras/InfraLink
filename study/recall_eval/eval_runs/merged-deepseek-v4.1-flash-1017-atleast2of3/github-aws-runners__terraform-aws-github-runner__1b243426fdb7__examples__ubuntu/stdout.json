@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-insecure-transport policy to the dead-letter queue, but its `queue_url` is `aws_sqs_queue.queued_builds.id` (the main build queue), so the graph shows a dependency on `aws_sqs_queue.queued_builds` only and none on `aws_sqs_queue.queued_builds_dlq`. As a result the DLQ is never protected by the policy and can even be created after its policy. It should reference the DLQ, which both fixes the policy target and establishes the missing ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is the TLS-only policy intended for the dead-letter queue, but its `queue_url` points at `aws_sqs_queue.queued_builds` (the main build queue) instead of `aws_sqs_queue.queued_builds_dlq`. It therefore has no dependency on the DLQ at all: the DLQ is created with no queue policy (nothing in the config ever references it except the outputs), and this resource plus `aws_sqs_queue_policy.build_queue_policy` both manage the same queue's single policy, so they overwrite each other and drift on every apply. The resource should be ordered against (and wired to) the dead-letter queue.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_alloydb_user.users depends on the primary cluster by its cluster argument, but AlloyDB user creation should wait until the primary instance exists; the provider's user examples explicitly order user creation after an instance. Reference the instance through the user's cluster field to express that ordering.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": {
+        "field": "cluster",
+        "expression": "google_alloydb_instance.primary.cluster"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

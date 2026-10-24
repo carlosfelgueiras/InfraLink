@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper is created as soon as its execution role exists (via the role ARN reference), but nothing orders the role's AMI-cleanup permissions (aws_iam_role_policy.ami_housekeeper) before the function. On a first apply, the IAM policy can be attached after the function is created, so the function (and its first EventBridge invocation) could run with an execution role that lacks the AMI deregistration/describe permissions it needs, failing with AccessDenied. A bare depends_on on aws_iam_role_policy.ami_housekeeper is the idiomatic way to guarantee the execution permissions exist before the function does.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled (var.tracing_config.mode != null), aws_lambda_function.ami_housekeeper sets tracing_config and emits X-Ray traces on every invocation, but the aws_iam_role_policy.ami_housekeeper_xray policy granting xray:PutTraceSegments is attached independently of the function and could land after it. The first invocations would then emit traces that fail due to missing permissions. A bare depends_on on aws_iam_role_policy.ami_housekeeper_xray ensures the X-Ray permissions are in place before the function exists.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper is created before its CloudWatch Logs permissions: the implicit ordering chain is lambda -> aws_cloudwatch_log_group.ami_housekeeper -> aws_iam_role_policy.lambda_logging (the policy embeds the log group ARN, and the log group's name references the function). At function creation time the execution role therefore cannot yet write logs; a first invocation could fail to create log streams. A bare depends_on on aws_iam_role_policy.lambda_logging would normally close this, but note that in the current configuration it would create a cycle (log group -> function) until the log group's name is decoupled from the function (see the related finding on aws_cloudwatch_log_group.ami_housekeeper).",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.ami_housekeeper can be deployed with vpc_config (when var.lambda_subnet_ids/var.lambda_security_group_ids are set), which requires the execution role to already carry the AWSLambdaVPCAccessExecutionRole permissions (ec2:CreateNetworkInterface, etc.) for Lambda to attach its Hyperplane ENI. aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role is created independently of the function with no ordering between them, so the ENI setup at function creation can fail if the attachment lands after the function. A bare depends_on on the attachment guarantees the VPC execution permissions are in place before the function is created.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_log_group.ami_housekeeper currently depends on aws_lambda_function.ami_housekeeper (its name references aws_lambda_function.ami_housekeeper.function_name), so the function is created first and the managed log group afterwards. If the function is invoked in that window (it is wired to a scheduled EventBridge rule), Lambda auto-creates /aws/lambda/<name> with default settings, which then collides with this resource (\"The specified log group already exists\"). The documented pattern is to pre-create the log group and add a bare depends_on on the function. Note: adding that depends_on requires first decoupling the log group's name from the function \u2014 e.g. name = \"/aws/lambda/${var.prefix}-ami-housekeeper\", which matches function_name = \"${var.prefix}-ami-housekeeper\" \u2014 otherwise a cycle would result.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.ami_housekeeper registers the scheduled rule's target (the function's ARN), but per the provider documentation an EventBridge rule can only invoke a Lambda function once the resource-based permission from aws_lambda_permission.ami_housekeeper exists. Nothing orders the permission before the target, so if the target lands first, the rule's scheduled invocations fail with AccessDenied until the permission is applied. A bare depends_on on aws_lambda_permission.ami_housekeeper is the idiomatic fix.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

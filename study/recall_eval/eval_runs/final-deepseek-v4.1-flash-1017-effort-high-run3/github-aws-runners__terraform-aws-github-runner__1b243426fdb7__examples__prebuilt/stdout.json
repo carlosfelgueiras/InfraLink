@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` registers the runners webhook endpoint with the GitHub App via a local-exec script as soon as `module.runners:output.webhook` is known, but that output is derived from `aws_apigatewayv2_api.webhook.api_endpoint` plus the static local `webhook_endpoint` (\"webhook\"), so the address string is known before the `$default` stage, the `POST /webhook` integration/route and `aws_lambda_permission.webhook` exist. In that window `https://<api-id>.execute-api.<region>.amazonaws.com/webhook` returns 403/404, so GitHub's webhook validation ping fails and, because the provisioner is `on_failure = continue`, the failure is silent and the App keeps an endpoint that only starts working later. The null_resource should depend on `module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook` (which deploys the API) \u2014 and ideally transitively on `aws_apigatewayv2_route.webhook` / `aws_lambda_permission.webhook`. No data-reference fix is available because `modules/webhook/outputs.tf` does not export the stage, so a bare `depends_on` (or a new module output) is required.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

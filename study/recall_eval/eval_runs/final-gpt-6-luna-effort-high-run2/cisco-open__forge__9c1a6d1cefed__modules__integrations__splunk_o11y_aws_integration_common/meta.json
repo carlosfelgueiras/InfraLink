@@ -1,0 +1,36 @@
+{
+  "repo": "cisco-open__forge",
+  "parent_sha": "c1d76f4b12007bf490f56e8aff1494f44047237f^",
+  "resolved_sha": "9c1a6d1cefed0744e3a8bc9eea391fea492a64de",
+  "module_dir": "modules/integrations/splunk_o11y_aws_integration_common",
+  "profile": "openrouter-gpt-6-luna",
+  "effort": "high",
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "cisco-open__forge",
+      "pr_number": 554,
+      "pr_url": "https://github.com/cisco-open/forge/pull/554",
+      "commit_url": "https://github.com/cisco-open/forge/commit/c1d76f4b12007bf490f56e8aff1494f44047237f",
+      "commit_sha": "c1d76f4b12007bf490f56e8aff1494f44047237f",
+      "parent_sha": "c1d76f4b12007bf490f56e8aff1494f44047237f^",
+      "commit_subject": "fix(integrations): preserve Splunk permissions during destroy (#554)",
+      "commit_date": "2026-07-27T12:56:15-06:00",
+      "file": "modules/integrations/splunk_o11y_aws_integration_common/signalfx.tf",
+      "module_dir": "modules/integrations/splunk_o11y_aws_integration_common",
+      "holder_address": "signalfx_aws_integration.integration",
+      "added_targets": [
+        "aws_iam_role_policy.splunk_integration",
+        "aws_iam_role_policy.splunk_managed_policy"
+      ],
+      "pre_existing_targets": [
+        "time_sleep.wait_30_seconds"
+      ],
+      "already_implicit": {
+        "aws_iam_role_policy.splunk_integration": false,
+        "aws_iam_role_policy.splunk_managed_policy": false
+      },
+      "verify_error": null
+    }
+  ]
+}

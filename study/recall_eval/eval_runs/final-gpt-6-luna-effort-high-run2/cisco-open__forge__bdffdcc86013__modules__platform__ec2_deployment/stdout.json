@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda: explicit depends_on of module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.runners: explicit depends_on of :data.external.download_lambdas is redundant \u2014 already implied by attribute references",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :module.runners to :data.external.download_lambdas is redundant because :module.runners already has an implicit dependency on that data source.",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda to module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda is redundant because the module already references the log group's name via logging_log_group.",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda to module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda is redundant because the target's arn already references the Lambda module output.",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda to module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda is redundant because the module already references the log group's name via logging_log_group.",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The SSM parameter data source reads the runner AMI parameter paths that the runners module provisions, but it has no dependency on that module. On an initial apply the lookup can run before those parameters exist; add an explicit dependency on :module.runners.",
+      "node": ":data.aws_ssm_parameter.ami_id",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

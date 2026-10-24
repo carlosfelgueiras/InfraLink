@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main has no dependency on :resource.aws_cloudwatch_log_group.main \u2014 the ordering here is actually inverted: the log group's `name` is derived from `aws_lambda_function.main.function_name`, so the function is created (and may be invoked) before its `/aws/lambda/...` log group exists, letting Lambda auto-create an unmanaged log group with no retention/KMS settings and making the subsequent Terraform create fail with ResourceAlreadyExistsException. The AWS provider documentation for `aws_lambda_function` explicitly recommends ensuring the log group exists first (`depends_on = [aws_cloudwatch_log_group.example]`). A data reference can't be used without introducing a cycle (the log group name is computed from the function name), so a bare `depends_on = [aws_cloudwatch_log_group.main]` on the function (with the log group name derived from the prefix/name instead of the function resource) is the fix.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

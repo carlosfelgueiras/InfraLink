@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already references the access key ID, so its explicit dependency on the same access-key resource duplicates the implicit dependency.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already references the access key secret, so its explicit dependency on the same access-key resource duplicates the implicit dependency.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on cert_manager is transitively established because cluster_issuer already depends on cert_manager, and certificate depends on cluster_issuer.",
+      "node": ":resource.helm_release.certificate",
+      "target": ":resource.helm_release.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart references this secret for Elasticsearch credentials; ensure the secret is created before installing the release so chart workloads do not start while the required secret is absent.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart mounts this certificates secret for Elasticsearch and Kibana; ensure it exists before installing the release.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart consumes this S3 credentials secret; ensure it exists before installing the release.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart configures Kibana to consume this encryption-key secret; ensure it exists before installing the release.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK chart creates persistent volumes using storage class advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Loki chart configures persistent storage with storageClassName advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Prometheus chart configures persistent volumes with storageClassName advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VictoriaMetrics chart configures persistent volumes with storageClassName advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

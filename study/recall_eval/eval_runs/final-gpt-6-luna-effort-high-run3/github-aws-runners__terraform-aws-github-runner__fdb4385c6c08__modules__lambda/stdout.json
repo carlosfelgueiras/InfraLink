@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created with VPC configuration before its execution role has the VPC access policy attached. Ensure the VPC execution policy is attached before configuring the function so Lambda can create and manage the required network interfaces.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.aws_provider_config already waits for kubectl_manifest.aws_provider through time_sleep.wait_60_seconds, whose depends_on includes that provider. Remove the direct provider dependency and retain the sleep dependency.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.upbound_aws_provider_config already waits for kubectl_manifest.upbound_aws_provider through time_sleep.upbound_wait_60_seconds. The direct provider entry duplicates that ordering; retain the sleep dependency.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.upbound_aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.upbound_aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.kubernetes_provider_config already waits for kubectl_manifest.kubernetes_provider through time_sleep.wait_60_seconds_kubernetes. Remove the direct provider entry, retaining the sleep dependency.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.helm_provider_config already waits for kubectl_manifest.helm_provider through time_sleep.wait_60_seconds_helm. The direct provider dependency is redundant; retain the sleep dependency.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.helm_controller_config references kubernetes_service_account_v1.helm_provider, which explicitly depends on module.helm_addon. Its own depends_on on module.helm_addon duplicates this transitive ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_controller_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.helm_provider_clusterolebinding references kubernetes_service_account_v1.helm_provider, which explicitly depends on module.helm_addon. The manifest's direct module.helm_addon dependency is therefore redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider_clusterolebinding",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.kubernetes_controller_config references kubernetes_service_account_v1.kubernetes_controller, which explicitly depends on module.helm_addon. Its direct depends_on on module.helm_addon duplicates this ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_controller_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.kubernetes_controller_clusterolebinding references kubernetes_service_account_v1.kubernetes_controller, which explicitly depends on module.helm_addon. Its direct dependency on module.helm_addon is redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_controller_clusterolebinding",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The self-managed CoreDNS module.helm_addon waits for remove_default_coredns_deployment but not null_resource.modify_kube_dns. When migration is enabled, Helm must wait for modify_kube_dns to finish adding Helm ownership annotations and labels to the existing kube-dns Service; otherwise installation can fail because Helm cannot adopt that Service. Add an explicit dependency on modify_kube_dns.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:resource.null_resource.modify_kube_dns",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Prometheus module.helm_addon installs into local.namespace_name, a plain string, and does not wait for kubernetes_namespace_v1.prometheus. Its Helm release defaults to create_namespace=false, so installation can race namespace creation. Pass the resource-backed local.namespace instead.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:resource.kubernetes_namespace_v1.prometheus",
+      "fix": {
+        "field": "helm_config",
+        "expression": "merge({ name = local.name, chart = local.name, version = \"15.17.0\", repository = \"https://prometheus-community.github.io/helm-charts\", description = \"Prometheus helm Chart deployment configuration\", values = [templatefile(\"${path.module}/values.yaml\", { operating_system = try(var.helm_config.operating_system, \"linux\") })] }, var.helm_config, { namespace = local.create_namespace ? kubernetes_namespace_v1.prometheus[0].metadata[0].name : local.namespace_name })"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Argo Workflows module.helm_addon and kubernetes_namespace_v1.this can create the same namespace concurrently: the chart configuration enables create_namespace, while Terraform separately manages that namespace. Order Helm after the namespace resource to avoid an AlreadyExists race.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.argo_workflows:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.argo_workflows:resource.kubernetes_namespace_v1.this",
+      "fix": {
+        "field": "helm_config",
+        "expression": "merge(local.helm_config, { namespace = try(kubernetes_namespace_v1.this[0].metadata[0].name, local.helm_config[\"namespace\"]) })"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Fluent Bit module.helm_addon receives a log group name from local.log_group_name rather than aws_cloudwatch_log_group.aws_for_fluent_bit. Because the IAM policy permits logs:CreateLogGroup, running Fluent Bit before the Terraform-managed log group exists can let it create that group first, causing Terraform's creation to fail or logs to arrive before encryption and retention are configured. Reference the managed group's name in the default chart values.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_for_fluent_bit:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_for_fluent_bit:resource.aws_cloudwatch_log_group.aws_for_fluent_bit",
+      "fix": {
+        "field": "helm_config",
+        "expression": "merge(local.default_helm_config, { values = [templatefile(\"${path.module}/values.yaml\", { aws_region = var.addon_context.aws_region_name, log_group_name = var.create_cw_log_group ? aws_cloudwatch_log_group.aws_for_fluent_bit[0].name : local.log_group_name, service_account = local.service_account })] }, var.helm_config)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_emrcontainers_virtual_cluster.this references the namespace but not kubernetes_role_binding_v1.this. EMR registration needs the emr-containers user to have access to that namespace; creating the virtual cluster before the binding exists can fail authorization. Depend on the binding so it is also retained until virtual-cluster deletion completes.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.emr_on_eks:resource.aws_emrcontainers_virtual_cluster.this",
+      "target": "module.eks_blueprints_kubernetes_addons.module.emr_on_eks:resource.kubernetes_role_binding_v1.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.adot waits for kubernetes_role_v1.adot through its tags, but not kubernetes_role_binding_v1.adot. The Role alone does not grant eks:addon-manager namespace permissions. Wait for the binding before creating the ADOT add-on, and retain it during add-on deletion.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.adot waits for kubernetes_cluster_role_v1.adot but not kubernetes_cluster_role_binding_v1.adot. Its cluster-wide prerequisite permissions are ineffective until that binding exists, so add-on installation can race RBAC authorization. Add a dependency on the cluster role binding.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_cluster_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubectl_manifest.helm_provider supplies a ControllerConfig name to its template but only depends on helm_provider_clusterolebinding. It can therefore start Crossplane provider installation before kubectl_manifest.helm_controller_config exists. Depend on the ControllerConfig manifest as well as the binding.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_controller_config",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.vpc_cni references module.irsa_addon.irsa_iam_role_arn, whose output depends only on the IAM role, not its policy attachments. The VPC CNI can start using that role before AmazonEKS_CNI_Policy and any additional policies are attached. Depend on the whole module.irsa_addon (or make its role ARN output depend on the attachments).",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni:module.irsa_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver consumes the role ARN output from module.irsa_addon, but that output does not wait for IAM policy attachments. Ensure module.irsa_addon is complete before starting the managed driver so its service-account role already has the required EBS permissions.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver:module.irsa_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When AMP integration is enabled, Prometheus module.helm_addon sets serviceAccounts.server.create=false and uses amp-ingest, but references only module.irsa_amp_ingest's role ARN. That output waits for the IAM role, not the Kubernetes service account or policy attachments. Depend on the whole module.irsa_amp_ingest before installing the release so its required service account and permissions exist.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.irsa_amp_ingest",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cert_manager_istio_csr installs into the cert-manager namespace with create_namespace=false and uses cert-manager Certificate resources. When both add-ons are managed here, it must wait for module.cert_manager to create the namespace and install cert-manager's CRDs/webhook; the shared addon_context does not order the two modules.",
+      "node": "module.eks_blueprints_kubernetes_addons:module.cert_manager_istio_csr",
+      "target": "module.eks_blueprints_kubernetes_addons:module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.cert_manager_csi_driver defaults to namespace cert-manager without enabling namespace creation. When module.cert_manager is creating that namespace in this configuration, the CSI driver can race it and fail with NamespaceNotFound. Order the CSI driver after module.cert_manager; configurations using an externally installed cert-manager must supply that prerequisite separately.",
+      "node": "module.eks_blueprints_kubernetes_addons:module.cert_manager_csi_driver",
+      "target": "module.eks_blueprints_kubernetes_addons:module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Karpenter aws_cloudwatch_event_target.this can become active before aws_sqs_queue_policy.this grants EventBridge sqs:SendMessage. It references only the queue and rule, so interruption events can encounter AccessDenied during provisioning and the policy can be removed before the target during teardown. Depend on the queue policy before enabling delivery.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.karpenter:resource.aws_cloudwatch_event_target.this",
+      "target": "module.eks_blueprints_kubernetes_addons.module.karpenter:resource.aws_sqs_queue_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.aws_node_termination_handler_rule_target references the queue but not aws_sqs_queue_policy.aws_node_termination_handler_queue_policy. Order target creation after the policy granting EventBridge sqs:SendMessage, preventing an active termination-event target from delivering to a queue before its permission is configured.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.app_2048 creates an ALB Ingress but has no ordering against module.aws_load_balancer_controller. When both are enabled, the Ingress can race controller/webhook installation; on destroy, the controller can disappear before it removes the Ingress's ALB resources and finalizers. Depend on the controller module so installation precedes the sample app and controller removal follows app cleanup.",
+      "node": "module.eks_blueprints_kubernetes_addons:module.app_2048",
+      "target": "module.eks_blueprints_kubernetes_addons:module.aws_load_balancer_controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

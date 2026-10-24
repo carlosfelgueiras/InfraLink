@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_service.ignore_task_definition` has the same `vpc_lattice_configurations` block wired to `local.infrastructure_iam_role_arn` (the Amazon ECS infrastructure IAM role), but its `depends_on` only lists `aws_iam_role_policy_attachment.service` and `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy`. The `AmazonECSInfrastructureRolePolicyForVpcLattice` attachment is missing, and since the role ARN flows through a local there is no implicit dependency, so the service may be created before the infrastructure role has the VPC Lattice policy.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_service.this` configures `vpc_lattice_configurations` with `role_arn = local.infrastructure_iam_role_arn`, which is the Amazon ECS infrastructure IAM role. That role only becomes usable once the `AmazonECSInfrastructureRolePolicyForVpcLattice` managed policy is attached by `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy`. The resource's `depends_on` covers the EBS counterpart (`infrastructure_iam_role_ebs_policy`) for `volume_configuration` but omits the VPC Lattice attachment, and because `role_arn` is resolved through a local, Terraform infers no ordering either. The service can therefore be created before the Lattice policy attachment lands, which (like the EBS case) fails during apply / IAM eventual consistency.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

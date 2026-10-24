@@ -1,0 +1,109 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.helm_release.karpenter to :module.karpenter is redundant because the release values already reference outputs from that module.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.null_resource.apply_ec2_node_class to :module.eks is redundant because its triggers/template data reference outputs from the EKS module.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.null_resource.apply_ec2_node_class to :module.karpenter is redundant because its triggers and manifest reference outputs from the Karpenter module.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.null_resource.update_kubeconfig to :module.eks is redundant because the provisioner command references module.eks.cluster_name.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Calico installation custom resource should be created only after the Tigera operator has finished becoming available; the explicit ordering only waits for the operator manifest apply command, not necessarily operator readiness.",
+      "node": ":resource.null_resource.create_calico_installation",
+      "target": ":resource.null_resource.apply_tigera_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS add-ons should follow creation of the cluster itself; the current explicit ordering waits for the self-managed node group but does not express dependence on :module.eks.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS add-on should follow creation of the cluster itself; the current explicit ordering waits for the self-managed node group but does not express dependence on :module.eks.",
+      "node": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

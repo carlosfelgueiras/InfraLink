@@ -1,0 +1,33 @@
+{
+  "repo": "github-aws-runners__terraform-aws-github-runner",
+  "parent_sha": "2f844ab45fdb17eab96cd6224379f2db6aaf518e^",
+  "resolved_sha": "fdb4385c6c08d3d7adae70481570b0899d4c9dd9",
+  "module_dir": "modules/ami-housekeeper",
+  "profile": "merged(min_runs=1): merged-gpt-6-luna-atleast2of3,merged-deepseek-v4.1-flash-1017-atleast2of3,merged-glm-5.3-flash-atleast2of3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "github-aws-runners__terraform-aws-github-runner",
+      "pr_number": 5324,
+      "pr_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/pull/5324",
+      "commit_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/commit/2f844ab45fdb17eab96cd6224379f2db6aaf518e",
+      "commit_sha": "2f844ab45fdb17eab96cd6224379f2db6aaf518e",
+      "parent_sha": "2f844ab45fdb17eab96cd6224379f2db6aaf518e^",
+      "commit_subject": "fix(lambda): create log groups before functions (#5324)",
+      "commit_date": "2026-09-02T15:36:02+02:00",
+      "file": "modules/ami-housekeeper/main.tf",
+      "module_dir": "modules/ami-housekeeper",
+      "holder_address": "aws_lambda_function.ami_housekeeper",
+      "added_targets": [
+        "aws_cloudwatch_log_group.ami_housekeeper"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_cloudwatch_log_group.ami_housekeeper": false
+      },
+      "verify_error": null
+    }
+  ]
+}

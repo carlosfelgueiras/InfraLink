@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The project IAM member resources should wait for project service enablement, as the authoritative IAM binding does; otherwise IAM API calls can race API activation.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "OS Login IAM grants should wait for the Compute API to be enabled before applying role bindings; no dependency on the service-enablement resource is expressed.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "OS Login IAM grants should wait for the Compute API to be enabled before applying role bindings; no dependency on the service-enablement resource is expressed.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "OS Login IAM grants should wait for the Compute API to be enabled before applying role bindings; no dependency on the service-enablement resource is expressed.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

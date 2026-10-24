@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_fargate_profile.fargate: explicit depends_on of :resource.aws_iam_role.fargate is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng lists :resource.aws_launch_template.ng in depends_on, but the ASG already references the launch template via aws_launch_template.ng[each.key].id and .latest_version in mixed_instances_policy, so the implicit dependency already guarantees the ordering; the explicit depends_on entry is redundant.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_fargate_profile.fargate lists :resource.aws_iam_role.fargate in depends_on, but pod_execution_role_arn = aws_iam_role.fargate.0.arn already establishes the same dependency implicitly, so the explicit depends_on entry is redundant. (The dependency on the eks-fargate policy attachment is still needed.)",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng lists :resource.aws_iam_role.ng in depends_on, but node_role_arn = aws_iam_role.ng.0.arn already establishes the dependency implicitly, so the explicit depends_on entry is redundant. (The dependencies on the eks-ng, eks-cni and ecr-read policy attachments remain necessary.)",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

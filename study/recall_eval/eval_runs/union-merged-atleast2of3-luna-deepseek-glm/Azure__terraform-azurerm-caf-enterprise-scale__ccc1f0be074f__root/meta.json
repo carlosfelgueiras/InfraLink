@@ -1,0 +1,45 @@
+{
+  "repo": "Azure__terraform-azurerm-caf-enterprise-scale",
+  "parent_sha": "2fff77ea6a8a0fbd6087ed9ec3c65b86daae3045^",
+  "resolved_sha": "ccc1f0be074f00084b93e24d90f1455e8c3913a8",
+  "module_dir": ".",
+  "profile": "merged(min_runs=1): merged-gpt-6-luna-atleast2of3,merged-deepseek-v4.1-flash-1017-atleast2of3,merged-glm-5.3-flash-atleast2of3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "Azure__terraform-azurerm-caf-enterprise-scale",
+      "pr_number": 429,
+      "pr_url": "https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/pull/429",
+      "commit_url": "https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/commit/2fff77ea6a8a0fbd6087ed9ec3c65b86daae3045",
+      "commit_sha": "2fff77ea6a8a0fbd6087ed9ec3c65b86daae3045",
+      "parent_sha": "2fff77ea6a8a0fbd6087ed9ec3c65b86daae3045^",
+      "commit_subject": "feat!: implement hub network mesh peering (#429)",
+      "commit_date": "2022-08-12T14:24:31+01:00",
+      "file": "resources.management_groups.tf",
+      "module_dir": ".",
+      "holder_address": "azurerm_management_group_subscription_association.enterprise_scale",
+      "added_targets": [
+        "azurerm_management_group.level_1",
+        "azurerm_management_group.level_2",
+        "azurerm_management_group.level_3",
+        "azurerm_management_group.level_4",
+        "azurerm_management_group.level_5",
+        "azurerm_management_group.level_6"
+      ],
+      "pre_existing_targets": [
+        "time_sleep.after_azurerm_management_group"
+      ],
+      "already_implicit": {
+        "azurerm_management_group.level_1": false,
+        "azurerm_management_group.level_2": false,
+        "azurerm_management_group.level_3": false,
+        "azurerm_management_group.level_4": false,
+        "azurerm_management_group.level_5": false,
+        "azurerm_management_group.level_6": false
+      },
+      "verify_error": null
+    }
+  ]
+}

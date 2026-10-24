@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.wait_for_cluster declares an explicit depends_on on aws_eks_cluster.this, but the dependency is already established implicitly: its local-exec provisioner sets environment = { ENDPOINT = aws_eks_cluster.this[0].endpoint }. The explicit depends_on merely duplicates the ordering Terraform already infers from that attribute reference.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers launches self-managed worker instances that must authenticate via the aws-auth ConfigMap, but nothing orders it after kubernetes_config_map.aws_auth. The managed node group path is gated on the ConfigMap through data.null_data_source.node_groups, yet the self-managed worker ASG references only the cluster, launch configuration, and IAM role, so its nodes can boot and fail to register before aws-auth maps the worker role. It should depend on (or otherwise reference) kubernetes_config_map.aws_auth.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template launches self-managed worker instances that must authenticate via the aws-auth ConfigMap, but it is not ordered after kubernetes_config_map.aws_auth. The managed node group path is gated on the ConfigMap (and worker role policies) via data.null_data_source.node_groups, but this launch-template ASG references only the cluster, launch template, and IAM role, so instances can start and fail to join before aws-auth contains the worker role. It should depend on (or otherwise reference) kubernetes_config_map.aws_auth.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

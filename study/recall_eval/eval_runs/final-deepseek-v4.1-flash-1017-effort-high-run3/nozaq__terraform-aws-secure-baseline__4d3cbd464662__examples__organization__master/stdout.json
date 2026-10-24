@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.secure_baseline provisions organization-scoped resources (the CloudTrail organization trail via is_organization_trail=true, the AWS Config organization aggregator, the IAM Access Analyzer of type ORGANIZATION, and the audit bucket policy that reads data.aws_organizations_organization.org). All of these require the AWS Organization \u2014 with the cloudtrail/access-analyzer/config service principals enabled \u2014 to already exist. However, nothing in the graph makes module.secure_baseline depend on aws_organizations_organization.org: it is completely orphaned (no node references it), so on a fresh apply the module's org-scoped resources/data sources can be created before the organization exists and fail. Add depends_on = [aws_organizations_organization.org] to the module call.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubernetes_service_account_v1.zombie_runner_cleanup is created in var.controller_config.namespace, the namespace provisioned by module.controller (kubernetes_namespace.controller_namespace). It has no dependency on module.controller, so Terraform may try to create this ServiceAccount before the namespace exists and fail with \"namespace not found\". It should wait for module.controller.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubernetes_role_v1.zombie_runner_cleanup is created in var.controller_config.namespace (provisioned by module.controller) and its rule targets the actions.github.com/ephemeralrunners CRD that the controller's Helm release installs. Without a dependency on module.controller it can be applied before the namespace/CRDs exist.",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubernetes_role_binding_v1.zombie_runner_cleanup lives in var.controller_config.namespace, which is created by module.controller, but it only depends on the sibling SA/Role resources in the root module and never on module.controller. It can therefore be applied before the namespace (and controller CRDs) exist.",
+      "node": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubernetes_cron_job_v1.zombie_runner_cleanup runs in var.controller_config.namespace and relies on the actions.github.com/ephemeralrunners CRD installed by module.controller's Helm release, but has no dependency on module.controller. It can race ahead of the namespace/CRD creation and fail.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_pod_identity_association.eks_pod_identity binds the service account kubernetes_service_account_v1.runner_sa to the IAM role, but references the SA only by the var.service_account string and therefore has no ordering dependency on the SA resource. Point service_account at the SA resource so the association is created after the service account exists.",
+      "node": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "service_account",
+        "expression": "kubernetes_service_account_v1.runner_sa[0].metadata[0].name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The gha_runner_scale_set Helm release renders runner pods that run as the service account created by kubernetes_service_account_v1.runner_sa, but it only passes var.service_account as a string, so Terraform has no dependency on the SA resource. The release (wait=true by default) can be applied before the service account exists; it should be ordered after kubernetes_service_account_v1.runner_sa.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

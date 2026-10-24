@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The aws_eks_cluster.this must wait for aws_iam_role_policy_attachment.cluster_encryption so the cluster role has the encryption permissions before EKS creates the encrypted cluster. The attachment exists only when the encryption policy is enabled; add ordering for that case.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The aws_eks_node_group.this should wait for aws_iam_role_policy_attachment.additional; the node group may otherwise launch nodes before custom policies required by those nodes are attached.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_cluster.this should wait for aws_iam_role_policy_attachment.additional so any configured additional cluster-role permissions are attached before EKS creates the cluster.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

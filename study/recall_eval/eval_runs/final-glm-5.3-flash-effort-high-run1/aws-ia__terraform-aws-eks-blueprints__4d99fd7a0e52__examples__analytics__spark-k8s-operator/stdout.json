@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.eks_blueprints:resource.kubernetes_config_map.aws_auth` has an explicit `depends_on` on `module.eks_blueprints:module.aws_eks`, but this ordering is already established twice: (1) the aws-auth data (via locals) references `module.aws_eks.cluster_id`, and (2) `aws_auth` already `depends_on` `module.eks_blueprints:data.http.eks_cluster_readiness`, which transitively depends on `module.aws_eks` (through `data.aws_eks_cluster.cluster`). The explicit `depends_on` on the module is redundant and can be removed.",
+      "node": "module.eks_blueprints:resource.kubernetes_config_map.aws_auth",
+      "target": "module.eks_blueprints:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.eks_blueprints:resource.kubernetes_config_map.amazon_vpc_cni` has an explicit `depends_on` on `module.eks_blueprints:module.aws_eks`, but it also `depends_on` `module.eks_blueprints:data.http.eks_cluster_readiness`, which transitively depends on `module.aws_eks` (through `data.aws_eks_cluster.cluster`). The explicit dependency on the module duplicates that path and is redundant.",
+      "node": "module.eks_blueprints:resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": "module.eks_blueprints:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy` has an explicit `depends_on` on `module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark`, but the namespace is already referenced implicitly in the `local-exec` command string (`--namespace ${kubernetes_namespace.spark.id}`), which Terraform records as a real resource reference. The explicit `depends_on` duplicates this and is redundant.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy` has an explicit `depends_on` on `module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution`, but the role is already referenced implicitly in the `local-exec` command string (`--role-name ${aws_iam_role.emr_on_eks_execution.id}`), which Terraform records as a real resource reference. The explicit `depends_on` duplicates this and is redundant.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng` has an explicit `depends_on` on `module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng`, but the node group already references the role implicitly via `node_role_arn = aws_iam_role.managed_ng[0].arn`, so Terraform infers that ordering. The explicit `depends_on` entry duplicates this implicit reference and is redundant.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

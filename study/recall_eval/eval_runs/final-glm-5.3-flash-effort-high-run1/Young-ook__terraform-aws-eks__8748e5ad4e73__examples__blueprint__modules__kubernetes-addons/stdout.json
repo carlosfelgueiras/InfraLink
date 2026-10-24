@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks-addons builds AWS-managed IAM policy ARNs (AmazonEBSCSIDriverPolicy, AmazonPrometheusRemoteWriteAccess, CloudWatchAgentServerPolicy, etc.) using local.aws.partition, which resolves to module.aws.partition.partition. The dependency graph has no edge from module.eks-addons to module.aws, so the partition data source chain feeding those policy ARNs is not expressed.",
+      "node": ":module.eks-addons",
+      "target": ":module.aws",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.local_file.halconfig renders the Spinnaker halconfig template with local.aws.id and local.aws.region (i.e., module.aws.caller.account_id and module.aws.region.name), so its content depends on data from module.aws, but no dependency on module.aws is present in the graph.",
+      "node": ":resource.local_file.halconfig",
+      "target": ":module.aws",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

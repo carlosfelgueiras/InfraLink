@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`kubernetes_deployment.aws_otel_eks_sidecar` places its pods in namespace `aws-otel-eks` using a hard-coded local string instead of a reference to `kubernetes_namespace.aws_otel_eks`, so Terraform may attempt to create the deployment before the namespace exists and the apply fails with \"namespaces \\\"aws-otel-eks\\\" not found\".\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.kubernetes-addons.module.aws_opentelemetry_collector:resource.kubernetes_deployment.aws_otel_eks_sidecar sets metadata.namespace from the local string local.default_addon_config[\"namespace\"] instead of referencing kubernetes_namespace.aws_otel_eks, so there is no ordering between them and the deployment is applied before the namespace exists on a fresh cluster. Add an explicit dependency (or reference the namespace resource) so the deployment is created after the namespace.",
+      "node": "module.kubernetes-addons.module.aws_opentelemetry_collector:resource.kubernetes_deployment.aws_otel_eks_sidecar",
+      "target": "module.kubernetes-addons.module.aws_opentelemetry_collector:resource.kubernetes_namespace.aws_otel_eks",
+      "fix": {
+        "field": "namespace",
+        "expression": "kubernetes_namespace.aws_otel_eks[0].metadata[0].name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

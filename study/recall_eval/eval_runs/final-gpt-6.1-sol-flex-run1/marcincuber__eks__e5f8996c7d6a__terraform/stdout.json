@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.cluster must wait for aws_iam_role_policy_attachments_exclusive.cluster to attach the EKS service permissions; referencing the role alone does not order policy attachment and can cause cluster creation or deletion failures.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_cluster.cluster should wait for aws_cloudwatch_log_group.cluster before enabling control-plane logging. Otherwise EKS can auto-create the same log group, racing Terraform's creation and losing the intended retention/encryption management.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.eks_node_group_al2023 must wait for aws_iam_role_policy_attachments_exclusive.eks_node_group so workers have their EKS, CNI and image-pull permissions before bootstrapping. The node_role_arn reference waits only for the role, not its policy attachments.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver should wait for aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa so its service-account role has EBS permissions before the driver starts; the role ARN reference does not wait for policy attachment.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot should wait for aws_iam_role_policy_attachments_exclusive.adot_collector so the collector's telemetry permissions are attached before it starts. Referencing the role alone does not establish this ordering.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.karpenter_spot_interruption should wait for aws_sqs_queue_policy.karpenter_spot_interruption to authorize EventBridge delivery before activating the target; otherwise interruption events can fail delivery during provisioning.",
+      "node": ":resource.aws_cloudwatch_event_target.karpenter_spot_interruption",
+      "target": ":resource.aws_sqs_queue_policy.karpenter_spot_interruption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch should wait for aws_cloudwatch_log_group.cluster_performance so the agent cannot auto-create this Terraform-managed log group first, causing a creation conflict.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_performance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch should wait for aws_cloudwatch_log_group.cluster_application before agents start writing application logs, avoiding auto-creation racing the Terraform-managed log group.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_application",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch should wait for aws_cloudwatch_log_group.cluster_dataplane before agents start writing dataplane logs, avoiding auto-creation racing the Terraform-managed log group.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_dataplane",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch should wait for aws_cloudwatch_log_group.cluster_host before agents start writing host logs, avoiding auto-creation racing the Terraform-managed log group.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

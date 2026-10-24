@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EBS CSI EKS add-on gets its service-account role ARN from the IRSA module, but that output only depends on the IAM role, not the policy attachment. The add-on may become active before the role has the permissions it needs; ensure the IRSA policy attachment completes first.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC CNI EKS add-on uses the IRSA role ARN, while the role's IAM policy attachment is not included in that ARN's dependency chain. The add-on could be created before its required CNI permissions are attached.",
+      "node": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the SQS queue policy grants EventBridge permission to send messages. This creates a window in which matching events may fail delivery; order target creation after the queue policy.",
+      "node": "module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This explicit dependency is redundant: the target provider manifest is already an ancestor of the time-sleep resource, which the provider-config manifest depends on.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nWhen App Mesh tracing is enabled, worker nodes use the node role for X-Ray permissions. Make :resource.aws_autoscaling_group.ng wait for :resource.aws_iam_role_policy_attachment.xray-write so instances do not start before that role permission is attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen App Mesh is enabled, the node role receives the X-Ray write permission from :resource.aws_iam_role_policy_attachment.xray-write. :resource.aws_autoscaling_group.ng launches the self-managed worker nodes but does not wait for that attachment, so instances may start before the role has the permission needed by App Mesh/X-Ray workloads. Add an explicit dependency to order ASG creation after the optional attachment.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nWhen App Mesh tracing is enabled, managed worker nodes use the node role for X-Ray permissions. Make :resource.aws_eks_node_group.ng wait for :resource.aws_iam_role_policy_attachment.xray-write so the node group is not provisioned before that role permission is attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen App Mesh is enabled, :resource.aws_eks_node_group.ng provisions worker nodes using the node role, but it does not wait for :resource.aws_iam_role_policy_attachment.xray-write. This can leave managed nodes starting before the role has the X-Ray permission needed by App Mesh workloads; include the optional attachment in the node group's ordering dependencies.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

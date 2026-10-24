@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.null_resource.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the endpoint attribute reference in the provisioner environment, which already orders the wait resource after the cluster.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit ng_depends_on list makes module.node_groups:resource.aws_eks_node_group.workers wait for :resource.aws_eks_cluster.this, but its cluster_name input is already derived from the cluster name and establishes that dependency implicitly.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit ng_depends_on list makes module.node_groups:resource.random_pet.node_groups wait for :resource.aws_eks_cluster.this, but its keepers.node_group_name already references var.cluster_name, which is derived from the cluster.",
+      "node": "module.node_groups:resource.random_pet.node_groups",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy; instances can start before their IAM role has the worker-node permissions required to join the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy; instances can start before the worker role's CNI permissions are attached.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly; instances can start before the worker role's ECR read permissions are attached.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch worker instances before :resource.kubernetes_config_map.aws_auth maps their IAM role, creating a race in which the nodes cannot authenticate to the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy; instances can start before their IAM role has the worker-node permissions required to join the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy; instances can start before the worker role's CNI permissions are attached.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly; instances can start before the worker role's ECR read permissions are attached.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template Auto Scaling group can launch worker instances before :resource.kubernetes_config_map.aws_auth maps their IAM role, creating a race in which the nodes cannot authenticate to the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

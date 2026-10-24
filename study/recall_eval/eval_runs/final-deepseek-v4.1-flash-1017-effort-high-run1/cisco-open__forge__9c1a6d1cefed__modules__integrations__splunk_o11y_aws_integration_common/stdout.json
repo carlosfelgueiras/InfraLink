@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.time_sleep.wait_30_seconds` exists purely to let the IAM role become usable before `signalfx_aws_integration.integration` is created, but it only waits on `:resource.aws_iam_role.splunk_integration`. The role's inline policy `:resource.aws_iam_role_policy.splunk_integration` is attached concurrently, so the 30s window can start (and elapse) before the policy is actually attached. Splunk Observability validates/uses the role's permissions when the integration is created, and IAM policy attachments are eventually consistent, so this race recreates the manual-intervention failure the delay is meant to prevent. Make the sleep depend on the policy attachment too.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ splunk_integration_policy_id = aws_iam_role_policy.splunk_integration.id }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.time_sleep.wait_30_seconds` gates creation of `signalfx_aws_integration.integration`, which is configured with `use_metric_streams_sync = true` and therefore needs the CloudWatch metric-stream and `iam:PassRole` permissions granted by `:resource.aws_iam_role_policy.splunk_managed_policy`. That policy is applied to the role in parallel with the sleep, so the integration can be created (and validated by Splunk) before the role actually has those permissions. Order the sleep after the managed policy attachment.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ splunk_managed_policy_id = aws_iam_role_policy.splunk_managed_policy.id }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

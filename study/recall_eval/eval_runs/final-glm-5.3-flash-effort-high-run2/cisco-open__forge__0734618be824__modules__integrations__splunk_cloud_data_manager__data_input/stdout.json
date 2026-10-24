@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_s3_object.cloudformation_template: explicit depends_on of :resource.random_uuid.splunk_input_uuid is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "resource \"aws_s3_object\" \"cloudformation_template\" has an explicit depends_on entry for random_uuid.splunk_input_uuid, but the dependency is already inferred implicitly: the object's key, source, and source_hash attributes all reference random_uuid.splunk_input_uuid.result. The explicit depends_on can be removed.",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

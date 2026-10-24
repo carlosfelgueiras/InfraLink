@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "delete_http_settings must run before the probe is removed (HTTP settings reference the probe via enable_probe/probe), but no dependency expresses that: its depends_on lists the create-time set_probe rather than the cleanup resource delete_probe. It should depend on delete_probe so the HTTP-settings cleanup is destroyed before the probe cleanup.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "set_probe depends_on set_backend_pools (the probe is provisioned after the backend pool), but delete_probe declares no depends_on at all. On destroy the probe must be removed before the backend pool it is associated with, so delete_probe should depend on delete_backend_pool to mirror the create-time ordering.",
+      "node": ":resource.null_resource.delete_probe",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The HTTP listener references a frontend port (set_http_listener depends_on set_frontend_port), so on destroy the listener cleanup must happen before the frontend-port cleanup. delete_http_listener instead lists the create-time set_frontend_port, which establishes no destroy ordering; it should depend on delete_frontend_port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer configures vpc_config (via var.lambda_subnet_ids / var.lambda_security_group_ids), but it does not depend on aws_iam_role_policy_attachment.syncer_vpc_execution_role, the resource that attaches AWSLambdaVPCAccessExecutionRole to its execution role. AWS creates the function's Hyperplane ENIs during function creation and requires the role to already have those EC2 network permissions; since the attachment and the function are currently only siblings under aws_iam_role.syncer_lambda, the function can be created before the policy is attached (and before IAM propagates it), causing \"the provided execution role does not have permissions to call CreateNetworkInterface\" failures. Add an explicit depends_on of the function on the attachment (a bare depends_on is appropriate here; the attachment is counted and has no attribute worth referencing).",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

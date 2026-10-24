@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer can be created, and the scheduled EventBridge rule can fire, before aws_lambda_permission.syncer has granted events.amazonaws.com permission to invoke the Lambda. The target should wait for the Lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer is created in parallel with aws_iam_role_policy_attachment.syncer_vpc_execution_role. When lambda_subnet_ids is non-empty, Lambda requires AWSLambdaVPCAccessExecutionRole to be attached to the execution role in order to create ENIs during function creation, so the function should depend on the VPC execution role attachment.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

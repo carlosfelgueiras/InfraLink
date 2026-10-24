@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_event_source_mapping.scale_up references only the queue ARN and the scale-up function ARN, so Terraform is free to create the mapping before the function's execution role can poll the queue. Lambda validates the execution role at CreateEventSourceMapping time (sqs:ReceiveMessage / DeleteMessage / GetQueueAttributes), which are granted by aws_iam_role_policy.scale_up; the role policy and the mapping are siblings in the graph, so a fresh apply can fail with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\". Add depends_on = [aws_iam_role_policy.scale_up] to the event source mapping.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer depends implicitly on aws_cloudwatch_event_rule.syncer and aws_lambda_function.syncer, but not on aws_lambda_permission.syncer, which is what actually grants events.amazonaws.com the right to invoke the syncer function. As the provider docs for aws_cloudwatch_event_target state, the Lambda cannot be invoked by the rule until that resource policy exists; the scheduled rule (cron(27 * * * ? *)) can fire in the window where the target is attached but the permission is not yet created, and the invocation fails. The other S3-triggered path in this module already models exactly this ordering (aws_s3_bucket_notification.on_deploy depends_on aws_lambda_permission.on_deploy).",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down references the scale-down rule name and the scale-down function ARN, but nothing ties it to aws_lambda_permission.scale_down (statement AllowExecutionFromCloudWatch) \u2014 the two are siblings, since the permission only references the rule and the function. Until that resource policy exists EventBridge cannot invoke the scale-down Lambda, yet the schedule (cron(*\\/5 * * * ? *) by default, every minute in the windows example) starts firing as soon as the rule and target exist. Add depends_on = [aws_lambda_permission.scale_down] to the event target.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.pool references aws_cloudwatch_event_rule.pool[count.index].name and aws_lambda_function.pool.arn only; aws_lambda_permission.pool (AllowExecutionFromCloudWatch-<n>), which grants events.amazonaws.com permission to invoke the pool Lambda, is an unordered sibling. The pool rules fire on their configured schedule_expression immediately after creation, so an invocation can be rejected until the permission is applied. Add depends_on = [aws_lambda_permission.pool] to the event target.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_bucket_policy.action_dist_bucket_policy attaches a policy to the action-distribution bucket, but has no ordering relationship with aws_s3_bucket_public_access_block.action_dist, which sets block_public_policy = true. When the public access block has not yet been applied, AWS evaluates the bucket without those settings and can reject the PutBucketPolicy call (or briefly allow a wider window than intended). The public access block must be in place before the bucket policy is attached \u2014 this operational ordering is not expressed by any attribute reference or depends_on.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_policy.action_dist_bucket_policy",
+      "target": "module.runners.module.runner_binaries:resource.aws_s3_bucket_public_access_block.action_dist",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

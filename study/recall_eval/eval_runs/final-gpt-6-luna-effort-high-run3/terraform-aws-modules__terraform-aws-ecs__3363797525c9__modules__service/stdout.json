@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service uses the infrastructure role for VPC Lattice, but it can be created before the VPC Lattice permissions are attached. Add an ordering dependency so ECS does not configure the service with a role that is not yet authorized for VPC Lattice.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The task definition can be registered and downstream tasks can start before the tasks role's internal policy is attached. Make the task definition wait for the internal attachment so the role permissions are in place before use.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks_internal",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

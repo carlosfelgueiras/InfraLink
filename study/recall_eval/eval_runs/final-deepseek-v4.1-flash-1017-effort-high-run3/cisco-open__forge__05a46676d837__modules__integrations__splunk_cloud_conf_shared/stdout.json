@@ -1,0 +1,316 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs` references the transform stanza `forgecicd_cloudwatchlogs_lambda_tenant_fields` by name in its `REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields` variable, but the graph records no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields`. The props stanza should depend on the transform it references.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\", \"\"), \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\", \"REPORT-forgecicd_extra_lambda_tenant_fields\" = \"forgecicd_extra_lambda_tenant_fields\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs` references the transform stanza `forgecicd_cloudwatchlogs_global_lambda_tenant_fields` by name in its `REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields` variable, but the graph records no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields`. The props stanza should depend on the transform it references.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_lambda_tenant_fields\", \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\", \"\"), \"REPORT-forgecicd_extra_lambda_tenant_fields\" = \"forgecicd_extra_lambda_tenant_fields\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs` references the transform stanza `forgecicd_extra_lambda_tenant_fields` by name in its `REPORT-forgecicd_extra_lambda_tenant_fields` variable, but the graph records no dependency on `splunk_configs_conf.forgecicd_extra_lambda_tenant_fields`. The props stanza should depend on the transform it references.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_lambda_tenant_fields\", \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\", \"REPORT-forgecicd_extra_lambda_tenant_fields\" = replace(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_init_docker_creds` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_docker_creds",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_init_dind_rootless` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_rootless",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_init_work` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_work",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_init_dind_externals` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_externals",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_dind` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_dind",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_listener` references the transform stanza `forgecicd_kube_container_listener_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_listener",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_listener_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_manager` references the transform stanza `forgecicd_kube_container_manager_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_manager",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_manager_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_log_worker` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_worker",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_log_hook` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_hook",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd` references the transform stanza `forgecicd_cloudwatchlogs_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\", \"\"), \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = \"forgecicd_cloudwatchlogs_extract_log_time_message\", \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\", \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = \"forgecicd_cloudwatchlogs_runner_ci_result\", \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = \"forgecicd_cloudwatchlogs_runner_gh_runner_version\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd` references the transform stanza `forgecicd_cloudwatchlogs_extract_log_time_message` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = \"forgecicd_cloudwatchlogs_runner_tenant_fields\", \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\", \"\"), \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\", \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = \"forgecicd_cloudwatchlogs_runner_ci_result\", \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = \"forgecicd_cloudwatchlogs_runner_gh_runner_version\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd` references the transform stanza `forgecicd_cloudwatchlogs_runner_pages_github_repo_name` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = \"forgecicd_cloudwatchlogs_runner_tenant_fields\", \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = \"forgecicd_cloudwatchlogs_extract_log_time_message\", \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\", \"\"), \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = \"forgecicd_cloudwatchlogs_runner_ci_result\", \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = \"forgecicd_cloudwatchlogs_runner_gh_runner_version\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd` references the transform stanza `forgecicd_cloudwatchlogs_runner_ci_result` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = \"forgecicd_cloudwatchlogs_runner_tenant_fields\", \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = \"forgecicd_cloudwatchlogs_extract_log_time_message\", \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\", \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\", \"\"), \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = \"forgecicd_cloudwatchlogs_runner_gh_runner_version\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd` references the transform stanza `forgecicd_cloudwatchlogs_runner_gh_runner_version` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = \"forgecicd_cloudwatchlogs_runner_tenant_fields\", \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = \"forgecicd_cloudwatchlogs_extract_log_time_message\", \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\", \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = \"forgecicd_cloudwatchlogs_runner_ci_result\", \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = replace(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_metadata` references the transform stanza `forgecicd_metadata_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_metadata_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = replace(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\", \"\"), \"REPORT-forgecicd_metadata_instance_id\" = \"forgecicd_metadata_instance_id\", \"REPORT-forgecicd_metadata_image_id\" = \"forgecicd_metadata_image_id\", \"REPORT-forgecicd_metadata_instance_type\" = \"forgecicd_metadata_instance_type\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_metadata` references the transform stanza `forgecicd_metadata_instance_id` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_metadata_instance_id`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = \"forgecicd_metadata_tenant_fields\", \"REPORT-forgecicd_metadata_instance_id\" = replace(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\", \"\"), \"REPORT-forgecicd_metadata_image_id\" = \"forgecicd_metadata_image_id\", \"REPORT-forgecicd_metadata_instance_type\" = \"forgecicd_metadata_instance_type\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_metadata` references the transform stanza `forgecicd_metadata_image_id` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_metadata_image_id`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_image_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = \"forgecicd_metadata_tenant_fields\", \"REPORT-forgecicd_metadata_instance_id\" = \"forgecicd_metadata_instance_id\", \"REPORT-forgecicd_metadata_image_id\" = replace(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\", \"\"), \"REPORT-forgecicd_metadata_instance_type\" = \"forgecicd_metadata_instance_type\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_metadata` references the transform stanza `forgecicd_metadata_instance_type` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_metadata_instance_type`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_type",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = \"forgecicd_metadata_tenant_fields\", \"REPORT-forgecicd_metadata_instance_id\" = \"forgecicd_metadata_instance_id\", \"REPORT-forgecicd_metadata_image_id\" = \"forgecicd_metadata_image_id\", \"REPORT-forgecicd_metadata_instance_type\" = replace(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_aws_billing_cur` references the transform stanza `forgecicd_billing_cur_instance_id` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_billing_cur_instance_id`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_billing_cur_instance_id\" = replace(splunk_configs_conf.forgecicd_billing_cur_instance_id.name, \"transforms/\", \"\"), \"REPORT-forgecicd_billing_cur_volume_id\" = \"forgecicd_billing_cur_volume_id\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_aws_billing_cur` references the transform stanza `forgecicd_billing_cur_volume_id` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_billing_cur_volume_id`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_volume_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_billing_cur_instance_id\" = \"forgecicd_billing_cur_instance_id\", \"REPORT-forgecicd_billing_cur_volume_id\" = replace(splunk_configs_conf.forgecicd_billing_cur_volume_id.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_runner` references the transform stanza `forgecicd_kube_container_runner_tenant_fields` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\", \"\"), \"REPORT-forgecicd_kube_container_runner_ci_result\" = \"forgecicd_kube_container_runner_ci_result\", \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = \"forgecicd_kube_container_runner_gh_runner_version\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_runner` references the transform stanza `forgecicd_kube_container_runner_ci_result` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_ci_result`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_ci_result",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\", \"REPORT-forgecicd_kube_container_runner_ci_result\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\", \"\"), \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = \"forgecicd_kube_container_runner_gh_runner_version\" }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`splunk_configs_conf.forgecicd_kube_container_runner` references the transform stanza `forgecicd_kube_container_runner_gh_runner_version` via its `REPORT-...` variable but has no dependency on `splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version`.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\", \"REPORT-forgecicd_kube_container_runner_ci_result\" = \"forgecicd_kube_container_runner_ci_result\", \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = replace(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\", \"\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_monitoring_notification_channel.channels creates Monitoring notification channels in this project, but has no dependency on the project's API enablement. If monitoring.googleapis.com is among the enabled services, the channel creation can race with (or precede) API activation and fail. Sibling observability/operational resources in this module (sinks, IAM bindings, quotas, compute metadata) all declare depends_on on google_project_service.project_services; this resource should too.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_monitoring_notification_channel.channels is created against the Cloud Monitoring API but has no dependency on google_project_service.project_services. When the project is newly created by this module, the monitoring.googleapis.com API activation runs asynchronously after project creation; without ordering, channel creation can race API enablement and fail (the sibling google_logging_project_sink.sink already carries exactly this depends_on).",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_monitoring_alert_policy.alerts creates Cloud Monitoring alert policies in this project, which requires the Monitoring API to be enabled first. It references notification channels via an attribute but has no ordering against API activation. All other API-dependent resources in this module gate on google_project_service.project_services via depends_on; this resource should as well.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_monitoring_alert_policy.alerts is created against the Cloud Monitoring API but only depends on the notification channels (which are themselves unordered with respect to API activation). It needs a dependency on google_project_service.project_services so monitoring.googleapis.com is fully enabled before the alert policy is written, matching the ordering google_logging_project_sink.sink already has.",
+      "node": ":resource.google_monitoring_alert_policy.alerts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_monitoring_monitored_project.primary attaches metric scopes via the Monitoring API, which must be enabled in the project before the resource can be created. There is no attribute reference or depends_on ordering it after google_project_service.project_services, unlike every other API-dependent resource in this module.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_monitoring_monitored_project.primary attaches this project as a monitored project in a metrics scope via the Cloud Monitoring API, but has no dependency on google_project_service.project_services. On a freshly created project the monitoring API may still be activating when this resource is created, causing a spurious failure.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_compute_project_default_network_tier.default_network_tier sets the project default network tier via the Compute Engine API, which must be enabled in the project before this call succeeds. The adjacent google_compute_project_metadata_item.default resource in the same file explicitly depends on google_project_service.project_services for exactly this reason; the network tier resource lacks the same ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_compute_project_default_network_tier.default_network_tier sets the project-wide Compute Engine default network tier via the Compute API, but has no dependency on google_project_service.project_services. The sibling resource google_compute_project_metadata_item.default depends on the service activation for the same compute.googleapis.com API; this resource should too, otherwise creation can race API enablement on a new project.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_compute_project_default_network_tier.default_network_tier calls the Compute Engine project setDefaultNetworkTier API, which requires compute.googleapis.com to be enabled. It is only gated on var.default_network_tier being set \u2014 unlike google_compute_project_metadata_item.default (which both guards on compute being in available_services and depends on the service resource), it has no ordering with respect to API activation and can fail on a fresh project. Add a depends_on for google_project_service.project_services.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

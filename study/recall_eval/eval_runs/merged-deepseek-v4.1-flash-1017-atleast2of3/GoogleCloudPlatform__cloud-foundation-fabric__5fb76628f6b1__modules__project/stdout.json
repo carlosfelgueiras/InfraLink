@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service associates this project as a Shared VPC service project, which requires the Compute API to be enabled in the project first. Unlike its siblings google_compute_shared_vpc_host_project.shared_vpc_host (which depends_on google_project_service.project_services) and service_projects (which inherits that ordering), this resource only depends on the VPC-SC perimeter resources and has no path to google_project_service.project_services. Add it to depends_on (no clean data reference exists since the project id is referenced via local.project.project_id).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, which requires the Compute API in the service project. It only depends on the VPC-SC perimeter resources, not on google_project_service.project_services.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\ngoogle_compute_project_default_network_tier.default_network_tier calls the Compute API (projects.setDefaultNetworkTier) and must run after the Compute API is enabled. Its sibling in main.tf, google_compute_project_metadata_item.default, carries depends_on = [google_project_service.project_services], but default_network_tier has no such ordering (its only reference is var.default_network_tier, and the project comes via local.project.project_id). Add google_project_service.project_services to depends_on.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ngoogle_compute_project_default_network_tier.default_network_tier configures a Compute Engine project setting, which requires compute.googleapis.com to be enabled. Unlike google_compute_project_metadata_item.default, it has no depends_on on google_project_service.project_services, so it can be applied before the Compute API finishes enabling.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\ngoogle_compute_project_default_network_tier.default_network_tier configures the Compute Engine default network tier, so the Compute API must be enabled first. It has no dependency on google_project_service.project_services (unlike the sibling google_compute_project_metadata_item.default).",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

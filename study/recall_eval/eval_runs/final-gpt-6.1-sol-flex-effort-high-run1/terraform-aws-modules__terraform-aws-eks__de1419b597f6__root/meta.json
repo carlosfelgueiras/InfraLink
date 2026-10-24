@@ -1,0 +1,35 @@
+{
+  "repo": "terraform-aws-modules__terraform-aws-eks",
+  "parent_sha": "49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d^",
+  "resolved_sha": "de1419b597f6db444146535a633b0e7a945bcd3d",
+  "module_dir": ".",
+  "profile": "openrouter-gpt-6.1-sol-flex",
+  "effort": "high",
+  "temperature": null,
+  "system_prompt": "default",
+  "cases": [
+    {
+      "repo": "terraform-aws-modules__terraform-aws-eks",
+      "pr_number": 815,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/815",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d",
+      "commit_sha": "49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d",
+      "parent_sha": "49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d^",
+      "commit_subject": "fix: Fix destroy failure when talking to EKS endpoint on private network (#815)",
+      "commit_date": "2020-03-24T23:19:41+01:00",
+      "file": "cluster.tf",
+      "module_dir": ".",
+      "holder_address": "null_resource.wait_for_cluster",
+      "added_targets": [
+        "aws_security_group_rule.cluster_private_access"
+      ],
+      "pre_existing_targets": [
+        "aws_eks_cluster.this"
+      ],
+      "already_implicit": {
+        "aws_security_group_rule.cluster_private_access": false
+      },
+      "verify_error": null
+    }
+  ]
+}

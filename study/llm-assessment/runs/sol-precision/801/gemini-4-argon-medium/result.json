@@ -1,0 +1,39 @@
+{
+  "id": "801",
+  "config": "gemini-4-argon-medium",
+  "model": "openrouter/google/gemini-4-argon#medium",
+  "agent": null,
+  "repo": "aws-ia__terraform-aws-eks-blueprints",
+  "commit": "c55de99ba5834ebe181d07a38c28838342559329",
+  "module_dir": ".",
+  "node": ":data.aws_iam_policy_document.eks_key",
+  "target": ":module.aws_eks",
+  "verdict": "Correct",
+  "ambiguous": false,
+  "matches": [
+    "Correct",
+    "Correct"
+  ],
+  "session_id": "ses_e961f42fdffe4vCWEclAK9ZSli",
+  "exit_code": 1,
+  "duration_seconds": 169.93449670798145,
+  "cost": 0.0481342,
+  "tokens": {
+    "input": 21655,
+    "output": 208,
+    "reasoning": 0,
+    "cache_read": 27442,
+    "cache_write": 0
+  },
+  "tool_calls": 13,
+  "errors": [
+    {
+      "type": "provider.internal",
+      "message": "Upstream idle timeout exceeded",
+      "status": 200,
+      "response": {
+        "body": "{\"id\":\"gen-1792777698-hneGEncQRwrQFUm1Xelk\",\"object\":\"chat.completion.chunk\",\"created\":1792777698,\"model\":\"google/gemini-4-argon\",\"provider\":\"Google\",\"choices\":[],\"error\":{\"code\":504,\"message\":\"Upstream idle timeout exceeded\",\"metadata\":{\"error_type\":\"timeout\"}}}"
+      }
+    }
+  ]
+}

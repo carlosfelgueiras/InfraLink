@@ -1,0 +1,166 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after the custom constraint.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after this IAM binding.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after this IAM binding.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after the custom roles.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after the IAM members.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The tag-key IAM binding dependency already transitively orders this output after the tag keys.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The tag-value IAM binding dependency already orders this output after the tag values.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after the custom constraint.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after this IAM binding.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after this IAM binding.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after the custom roles.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy dependency already orders this output after the IAM members.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The tag-key IAM binding dependency already orders this output after the tag keys.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The tag-value IAM binding dependency already orders this output after the tag values.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy's dependency on tag values leads through tag keys to this IAM binding, making the direct edge redundant.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy's dependency on tag values leads through tag keys to this IAM binding, making the direct edge redundant.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy's dependency on tag values leads through tag keys to these IAM members, making the direct edge redundant.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The policy already depends on tag values, which implicitly depend on these tag keys.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

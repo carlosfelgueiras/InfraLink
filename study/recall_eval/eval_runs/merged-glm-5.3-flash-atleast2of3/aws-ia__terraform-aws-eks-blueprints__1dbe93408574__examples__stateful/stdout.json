@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\n`:resource.kubernetes_storage_class_v1.gp3` uses the provisioner `ebs.csi.aws.com`, which is provided by the self-managed aws-ebs-csi-driver Helm add-on installed by `:module.eks_blueprints_kubernetes_addons`. The graph shows no dependency (implicit or explicit) on that module, so Terraform may create the gp3 storage class before the EBS CSI driver is deployed (or destroy the driver first), leaving PVCs backed by this class unusable.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`:resource.kubernetes_storage_class_v1.gp3` uses the `ebs.csi.aws.com` provisioner, which is provided by the aws-ebs-csi-driver add-on installed via `:module.eks_blueprints_kubernetes_addons` (enable_self_managed_aws_ebs_csi_driver = true). There is no attribute reference or depends_on linking the storage class to that module, so the storage class can be created before the CSI driver's Helm release is deployed and volumes provisioned against this class can fail.",
+      "node": ":resource.kubernetes_storage_class_v1.gp3",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\n`:resource.kubernetes_storage_class_v1.efs` references `module.efs.id` (captured in its implicit deps) and uses the provisioner `efs.csi.aws.com`, which is provided by the aws-efs-csi-driver add-on installed by `:module.eks_blueprints_kubernetes_addons` (`enable_aws_efs_csi_driver = true`). There is no dependency on that module, so the storage class can be created while the EFS CSI driver is not yet installed, making dynamically provisioned EFS volumes fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`:resource.kubernetes_storage_class_v1.efs` uses the `efs.csi.aws.com` provisioner (dynamic provisioning via `provisioningMode = efs-ap`), which is provided by the aws-efs-csi-driver add-on installed via `:module.eks_blueprints_kubernetes_addons` (enable_aws_efs_csi_driver = true). It only depends on `:module.efs` (for `fileSystemId`), not on the addons module, so the storage class can be created before the EFS CSI driver is running and PVCs against it cannot be provisioned.",
+      "node": ":resource.kubernetes_storage_class_v1.efs",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

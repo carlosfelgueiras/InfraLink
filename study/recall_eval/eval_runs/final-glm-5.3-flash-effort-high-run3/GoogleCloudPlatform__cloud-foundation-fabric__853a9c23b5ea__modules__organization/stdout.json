@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_binding.binding references its tag value only as a plain string from var.tag_bindings, with no attribute reference to google_tags_tag_value.default. When a bound value is one this module creates, the TagValue must exist before the TagBinding can be created (the tagBindings API fails with \"tag value not found\" if applied concurrently or before the value is ready), but no dependency expresses that ordering. Add a depends_on on google_tags_tag_value.default.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint performs an organization-level API write whose required permission (e.g. Orgpolicy Policy Admin) may be granted to the deploying identity by this module's own authoritative IAM bindings. Every other org-level resource in this module (google_org_policy_policy.default, google_tags_tag_key.default, google_logging_organization_sink.sink) gates on google_organization_iam_binding.authoritative for exactly this reason; the custom constraint resource has no such dependency, so IAM and the constraint can be applied in the wrong order. Add a depends_on.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint has no dependency on google_organization_iam_binding.bindings, although creating a custom constraint on the organization requires permissions that the module's own var.iam_bindings may be granting to the deploying identity. The sibling org-level resources (google_org_policy_policy.default, google_tags_tag_key.default, google_logging_organization_sink.sink) all wait for this binding resource first; the custom constraint should too. Add a depends_on.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint has no dependency on google_organization_iam_member.bindings, although creating a custom constraint on the organization requires permissions that the module's own var.iam_bindings_additive may be granting to the deploying identity. The sibling org-level resources (google_org_policy_policy.default, google_tags_tag_key.default, google_logging_organization_sink.sink) all wait for this IAM member resource first; the custom constraint should too. Add a depends_on.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

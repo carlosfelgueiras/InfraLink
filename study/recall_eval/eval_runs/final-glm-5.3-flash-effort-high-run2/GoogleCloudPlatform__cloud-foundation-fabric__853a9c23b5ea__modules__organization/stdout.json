@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint is an organization-level mutation but has no ordering relative to the organization IAM bindings. Every other organization-level resource in this module (google_org_policy_policy.default, google_logging_organization_sink.sink, google_tags_tag_key.default) explicitly waits for the org IAM bindings via depends_on, so that (a) org policies applied later cannot block these mutations and (b) permissions freshly granted by those bindings have propagated. The custom constraint, which lives in the same OrgPolicy API family as google_org_policy_policy.default, is created in parallel with the bindings and can fail in a fresh bootstrap when its required OrgPolicy permissions were just granted by those bindings.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint should also wait for google_organization_iam_binding.bindings, mirroring the explicit ordering that google_org_policy_policy.default, google_logging_organization_sink.sink and google_tags_tag_key.default already establish for all three organization IAM resources. Without it, constraint creation races with these bindings and can hit permission-propagation failures on a first apply.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint should also wait for google_organization_iam_member.bindings, completing the module's established \"org IAM first\" ordering for organization-level resources (the additive IAM bindings are the third org IAM resource that google_org_policy_policy.default, google_logging_organization_sink.sink and google_tags_tag_key.default all wait on).",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_policy.default can restrict tag-attachment operations on the organization (the same class of restrictive org policy that makes this module order tag keys and tag values before org policies via its existing depends_on on google_tags_tag_key.default / google_tags_tag_value.default). google_tags_tag_binding.binding attaches a tag value to the organization but is unordered relative to the policy: if the policy is applied first and restricts tags, the binding creation is blocked. The binding should be ordered before the policy, e.g. via a depends_on on the binding from google_org_policy_policy.default, consistent with how the module already sequences all other tag resources before org policies.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_binding.binding",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

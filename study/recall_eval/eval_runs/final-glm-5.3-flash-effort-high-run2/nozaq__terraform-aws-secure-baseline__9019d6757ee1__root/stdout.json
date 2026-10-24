@@ -1,0 +1,166 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_config_configuration_aggregator.organization references :resource.aws_iam_role.config_organization via organization_aggregation_source.role_arn, but registering the organization as an aggregation source requires the AWSConfigRoleForOrganizations policy to already be attached to that role. Terraform will not wait for :resource.aws_iam_role_policy_attachment.config_organization, so the aggregator creation can fail. A depends_on on the policy attachment is required.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-3:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ap-northeast-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs delivers flow logs to the audit log S3 bucket (log_destination = local.s3_destination_arn), but has no dependency on :resource.aws_s3_bucket_policy.audit_log, whose AWSLogDeliveryAclCheck/AWSLogDeliveryWrite statements grant delivery.logs.amazonaws.com access. If the flow log is created before the bucket policy is applied, log delivery silently fails.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

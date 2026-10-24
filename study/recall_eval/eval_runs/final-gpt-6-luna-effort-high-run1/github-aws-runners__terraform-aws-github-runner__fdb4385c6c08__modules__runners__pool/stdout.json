@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created before its inline execution policy is installed, so an immediate invocation may run without the permissions defined by the policy. Make the function wait for this role policy.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created before the CloudWatch Logs execution policy is installed, so it may fail to write logs on initial invocation. Make the function wait for this logging policy.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function references its execution role, but that does not order creation of this inline policy. When the function is invoked before the policy is installed, its core pool operations can fail for lack of permissions; make the function wait for the policy.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the Lambda function is configured for VPC access, its execution role needs the VPC access policy before the function is invoked so Lambda can manage the required network interfaces. The function and this attachment currently depend only on the role, so the attachment can be created later.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule references the Scheduler role but not its inline invoke policy, so it can become enabled before the role is authorized to invoke the Lambda. Make the schedule wait for this policy.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The enabled schedule can invoke the Lambda before its execution role's pool permissions are installed. Order schedule creation after this inline policy so an early invocation does not fail for missing permissions.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If VPC networking is configured, an enabled schedule could invoke the Lambda before its execution role has the VPC access policy. Order schedule creation after this conditional policy attachment.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the AMI SSM parameter is configured, an enabled schedule could invoke the Lambda before the role's parameter-read policy is attached. Order schedule creation after this conditional attachment.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When X-Ray tracing is enabled, the Lambda execution role's X-Ray policy may be installed after the schedule is enabled, causing early invocations to lack tracing permissions. Order the schedule after this conditional policy.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.pool_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The enabled schedule may invoke the Lambda before its execution role's CloudWatch Logs policy is installed, preventing the invocation from writing to the managed log group. Order schedule creation after this inline policy.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

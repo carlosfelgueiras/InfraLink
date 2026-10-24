@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_config_configuration_aggregator.organization` passes the aggregator role ARN to `organization_aggregation_source { role_arn = ... }`, so Terraform only knows the role itself must exist \u2014 nothing forces `aws_iam_role_policy_attachment.config_organization` (which attaches AWSConfigRoleForOrganizations) to be applied first. Because `role_arn` references `aws_iam_role.config_organization[0].arn` and not the policy attachment, the aggregator can be created while the role still has no Organizations permissions, and AWS Config's attempt to call AssumeRole on that role fails (AccessDenied). The AWS provider documentation for this resource explicitly shows `depends_on = [aws_iam_role_policy_attachment.organization]` for exactly this reason.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.cloudtrail_baseline:resource.aws_cloudtrail.global` sets `sns_topic_name = aws_sns_topic.cloudtrail-sns-topic[0].arn`, so it depends on the topic but not on `module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail`, the policy that actually authorises `cloudtrail.amazonaws.com` to publish to it. CloudTrail validates the topic policy when the trail is created/started, so without an ordering edge the trail can be created before the topic policy lands and the API rejects it. (The same problem is already handled for the S3 bucket via the `cloudtrail_depends_on` variable, but the SNS topic policy is not part of that list.)",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.cloudtrail_baseline:resource.aws_cloudtrail.global` references only `aws_iam_role.cloudwatch_delivery[0].arn` for `cloud_watch_logs_role_arn`; nothing orders it after `module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy`, which grants the role `logs:CreateLogStream` / `logs:PutLogEvents`. Since the trail always enables logging on create, CloudTrail can validate/deliver to CloudWatch Logs while the role is still permission-less, producing \"Insufficient permissions to write to CloudWatch Logs\" failures. The trail should explicitly depend on the role policy.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

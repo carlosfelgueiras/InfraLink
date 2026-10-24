@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_alloydb_user.users has no dependency on google_alloydb_instance.primary; its only ordering dependency is the primary cluster (cluster = google_alloydb_cluster.primary.id). AlloyDB only allows database users/roles to be created once the cluster has a primary instance \u2014 the provider's documented examples for both ALLOYDB_BUILT_IN and ALLOYDB_IAM_USER users explicitly add `depends_on = [google_alloydb_instance.<primary>]`. Without it, applying a fresh project can race: Terraform may attempt users.create while the primary instance is still provisioning, and the API call fails. Add `depends_on = [google_alloydb_instance.primary]` to google_alloydb_user.users.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

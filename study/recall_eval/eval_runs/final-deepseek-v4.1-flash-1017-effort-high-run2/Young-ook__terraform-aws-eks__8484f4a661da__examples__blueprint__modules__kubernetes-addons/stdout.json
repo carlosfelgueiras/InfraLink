@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "local_file.halconfig generates its halconfig script from local.aws.id and local.aws.region, which resolve to module.aws.caller.account_id and module.aws.region.name, but the graph only records dependencies on module.devops and var.features. The dependency on module.aws (the aws-partitions module) is hidden behind the local value and is not captured, so nothing guarantees module.aws is read before the file is written. Establishing a direct reference to module.aws (or adding depends_on) makes the ordering explicit.",
+      "node": ":resource.local_file.halconfig",
+      "target": ":module.aws",
+      "fix": {
+        "field": "content",
+        "expression": "templatefile(\"${path.module}/scripts/templates/halconfig.tpl\", {\n    aws_id            = module.aws.caller.account_id\n    aws_region        = module.aws.region.name\n    spin_managed_role = module.devops.addons.irsa[\"spinnaker\"].arn\n    spin_irsa_cli     = module.devops.addons.irsa[\"spinnaker\"].kubecli\n  })"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

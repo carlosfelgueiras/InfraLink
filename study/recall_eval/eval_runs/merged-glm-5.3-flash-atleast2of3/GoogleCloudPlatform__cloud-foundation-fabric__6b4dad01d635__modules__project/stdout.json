@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, which requires the Compute Engine API to be enabled in the service project before the attachment can succeed. Its sibling resources in shared-vpc.tf (google_compute_shared_vpc_host_project.shared_vpc_host and google_compute_shared_vpc_service_project.service_projects) both declare depends_on on google_project_service.project_services, but this resource has no such ordering, so it can race API enablement when the project is created in the same apply.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, but has no dependency on google_project_service.project_services. The service project's APIs (notably compute.googleapis.com) must be enabled before the XPN attachment is made; without this ordering the attachment can race with (or precede) API enablement and fail or leave the association unusable. The host-side siblings (shared_vpc_host, service_projects) both declare explicit depends_on on the API enablement; the service-side attachment is the only one without it.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project to var.shared_vpc_service_config.host_project, but has no ordering relationship with google_project_service.project_services. Attaching a service project requires the Compute Engine API (and any other requested services) to already be enabled in the service project; if the API activation in project_services is still in flight, the attachment fails or the project is attached before it is usable. Every other resource in shared-vpc.tf (shared_vpc_host, service_projects, and the shared_vpc_host_robots IAM members) guards on project_services \u2014 this resource should too, since its only implicit dependency is var.shared_vpc_service_config.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

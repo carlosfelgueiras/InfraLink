@@ -1,0 +1,3 @@
+The `google_compute_project_default_network_tier` resource calls the Compute API. Its `project` argument comes from `local.project.project_id`, which is the project itself and not the service activation. It has no `depends_on`. The neighbouring `google_compute_project_metadata_item` resource does depend on `google_project_service.project_services`, which shows the intended pattern. When `compute.googleapis.com` is enabled by this module, the network tier call can run before the API is on, and that would fail.
+
+Correct

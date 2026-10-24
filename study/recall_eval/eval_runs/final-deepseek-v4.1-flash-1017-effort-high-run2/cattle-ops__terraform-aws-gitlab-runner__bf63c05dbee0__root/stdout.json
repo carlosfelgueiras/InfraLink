@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_iam_role_policy_attachment.instance_docker_machine_policy attaches to the runner-agent role via `role = local.aws_iam_role_instance_name` (computed string) instead of a reference to aws_iam_role.instance. It is gated on the same `var.create_runner_iam_role` condition as the role, so it can run before the role is created and fail to attach.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name` (a name string built from variables), not a reference to aws_iam_role.instance. When create_runner_iam_role = true the profile and role are created in parallel, so the profile can be created before the role exists, failing with NoSuchEntity. Its docker-machine sibling correctly uses `role = aws_iam_role.docker_machine.name`, which is why that edge exists. Wire the role in as a real reference.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_iam_role_policy.instance (logging policy) uses `role = local.aws_iam_role_instance_name` (computed string) rather than a reference to aws_iam_role.instance. It is created whenever `var.enable_cloudwatch_logging && var.create_runner_iam_role`, so in the default setup it can be applied before the runner-agent role exists and fail with NoSuchEntity.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

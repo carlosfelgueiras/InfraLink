@@ -1,0 +1,61 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module already has an implicit dependency on the log group through its logging_log_group argument, so this explicit depends_on duplicates that ordering.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The EventBridge target already implicitly depends on the Lambda module through its arn argument, so the explicit depends_on duplicates that dependency.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The null_resource updates a Forge role trust policy to name the Lambda execution role as a principal, but it does not wait for the Lambda module to create that role. Ensure the role exists before applying the trust-policy update.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ role_name = each.value.name, future_sha = sha1(local.concatenated_trust_json[each.key]), lambda_role_arn = module.forge_trust_validator_lambda.lambda_role_arn }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can become active before the Lambda permission is installed, allowing scheduled invocations to fail authorization. Make the target wait for the permission resource.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

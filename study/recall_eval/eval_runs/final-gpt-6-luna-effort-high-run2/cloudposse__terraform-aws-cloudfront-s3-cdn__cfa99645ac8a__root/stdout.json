@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudFront distribution can be created before the S3 bucket policy grants its origin access identity read access, potentially leaving the origin inaccessible during startup. Make the distribution depend on the policy so the access policy is in place first; there is no clean configuration attribute on the distribution that can reference the policy.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on from the distribution to the origin bucket duplicates the ordering already inferred through local.bucket_domain_name/local.bucket, which references aws_s3_bucket.origin.*.id.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

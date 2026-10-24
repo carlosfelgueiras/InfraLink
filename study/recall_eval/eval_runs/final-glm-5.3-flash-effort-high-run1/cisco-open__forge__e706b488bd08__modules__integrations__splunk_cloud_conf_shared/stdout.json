@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs sets the variable \"REPORT-forgecicd_trust_validation\" = \"forgecicd_trust_validation\", referencing the transform stanza managed by splunk_configs_conf.forgecicd_trust_validation, but has no implicit or explicit dependency on it. Unlike the other REPORT-* entries (which are backed by depends_on entries), this transform could be created/updated out of order, leaving the props/aws:cloudwatchlogs stanza pointing at a missing or stale transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs sets the variable \"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = \"forgecicd_extra_lambda_ec2_tenant_fields\", referencing the transform stanza managed by splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields, but has no implicit or explicit dependency on it. Its depends_on covers the lambda/global/extra_lambda tenant-field transforms but omits this one, so the props stanza may be applied before the transform it references exists.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

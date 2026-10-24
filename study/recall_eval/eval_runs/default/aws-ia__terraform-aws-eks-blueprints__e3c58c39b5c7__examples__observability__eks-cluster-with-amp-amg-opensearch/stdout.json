@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks: explicit depends_on of module.aws-eks-accelerator-for-terraform:module.aws_eks is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams: explicit depends_on of module.aws-eks-accelerator-for-terraform:module.aws_eks is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The OpenSearch domain references its security group, but AWS requires the OpenSearch service-linked role to exist before domain creation; the domain has no dependency on the role. Add an explicit dependency (a role ARN cannot be used as a meaningful domain input here).",
+      "node": ":resource.aws_elasticsearch_domain.opensearch",
+      "target": ":resource.aws_iam_service_linked_role.opensearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed Prometheus workspace can be provisioned in parallel with the EKS cluster, although the module receives the cluster ID; the workspace alias may be cluster-derived and this usage expresses a dependency only through a derived local. No explicit module ordering ensures cluster creation precedes workspace provisioning.",
+      "node": "module.aws-eks-accelerator-for-terraform:module.aws_managed_prometheus",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from module.aws_eks_teams to module.aws_eks duplicates the implicit dependency through the eks_cluster_id input.",
+      "node": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from module.emr_on_eks to module.aws_eks duplicates the implicit dependency through the eks_cluster_id input.",
+      "node": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from null_resource.update_trust_policy to aws_iam_role.emr_on_eks_execution duplicates its implicit reference to that role in the provisioner command.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from null_resource.update_trust_policy to kubernetes_namespace.spark duplicates its implicit reference to the namespace in the provisioner command.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from aws_eks_node_group.managed_ng to aws_iam_role.managed_ng duplicates the implicit reference to the role ARN in node_role_arn.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

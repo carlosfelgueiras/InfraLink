@@ -1,0 +1,39 @@
+{
+  "repo": "cisco-open__forge",
+  "parent_sha": "ae4bbb71fcbaaf9b3faf87248f3606af289f32cc^",
+  "resolved_sha": "a07e7c3783b0622c539c6c7633b35c5b57b58a4f",
+  "module_dir": "modules/infra/eks",
+  "profile": "merged(min_runs=2): final-gpt-6-luna-effort-high-run1,final-gpt-6-luna-effort-high-run2,final-gpt-6-luna-effort-high-run3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "cisco-open__forge",
+      "pr_number": 77,
+      "pr_url": "https://github.com/cisco-open/forge/pull/77",
+      "commit_url": "https://github.com/cisco-open/forge/commit/ae4bbb71fcbaaf9b3faf87248f3606af289f32cc",
+      "commit_sha": "ae4bbb71fcbaaf9b3faf87248f3606af289f32cc",
+      "parent_sha": "ae4bbb71fcbaaf9b3faf87248f3606af289f32cc^",
+      "commit_subject": "test: remove dependencies for kapenter (#77)",
+      "commit_date": "2025-07-11T10:32:11-06:00",
+      "file": "modules/infra/eks/karpenter.tf",
+      "module_dir": "modules/infra/eks",
+      "holder_address": "module.karpenter",
+      "added_targets": [
+        "time_sleep.wait_300_seconds"
+      ],
+      "pre_existing_targets": [
+        "aws_eks_addon.aws_ebs_csi_driver",
+        "aws_eks_addon.eks_pod_identity_agent",
+        "data.aws_eks_cluster_auth.cluster",
+        "module.self_managed_node_group",
+        "null_resource.create_calico_installation"
+      ],
+      "already_implicit": {
+        "time_sleep.wait_300_seconds": false
+      },
+      "verify_error": null
+    }
+  ]
+}

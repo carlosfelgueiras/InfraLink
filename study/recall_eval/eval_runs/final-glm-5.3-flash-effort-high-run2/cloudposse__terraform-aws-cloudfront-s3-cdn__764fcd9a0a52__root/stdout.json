@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.aws_cloudfront_distribution.default declares an explicit depends_on on resource.aws_s3_bucket.origin, but this ordering is already established implicitly: the distribution's origin.domain_name is set from local.bucket_domain_name, which derives from local.bucket, and local.bucket references aws_s3_bucket.origin.*.id. Terraform follows references through locals when building the dependency graph, so the explicit depends_on duplicates an already-inferred dependency and can be removed.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

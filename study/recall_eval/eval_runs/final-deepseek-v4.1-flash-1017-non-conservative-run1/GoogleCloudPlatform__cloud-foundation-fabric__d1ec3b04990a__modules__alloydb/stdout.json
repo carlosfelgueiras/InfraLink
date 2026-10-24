@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_alloydb_user.users only references google_alloydb_cluster.primary, so it is created in parallel with google_alloydb_instance.primary. AlloyDB users (both ALLOYDB_BUILT_IN and ALLOYDB_IAM_USER) can only be provisioned once the cluster has a running instance \u2014 the registry documentation for google_alloydb_user includes `depends_on = [google_alloydb_instance.default]` in every example. Without that ordering the user creation can race the instance and fail with a cluster-not-ready error. Add an explicit dependency on google_alloydb_instance.primary, or (preferably) derive the user's `cluster` from the instance so Terraform infers the ordering.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": {
+        "field": "cluster",
+        "expression": "google_alloydb_instance.primary.cluster"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

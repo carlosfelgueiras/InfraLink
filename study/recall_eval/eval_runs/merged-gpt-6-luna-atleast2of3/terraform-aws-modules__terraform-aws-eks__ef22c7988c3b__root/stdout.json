@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Fargate profile uses this execution role, but it does not wait for the role's managed policies to be attached. The profile may become usable before its required pod-execution/CNI permissions are in place.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nmodule.fargate_profile:resource.aws_eks_fargate_profile.this should depend on module.fargate_profile:resource.aws_iam_role_policy_attachment.this. The profile references the execution role, but that alone does not ensure the required Fargate pod execution permissions are attached before the profile can be used to launch pods.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EKS managed node group uses this IAM role but does not wait for its required managed policies to be attached. The AWS provider documentation specifically recommends this dependency so EKS can properly handle node instances and network interfaces.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nmodule.eks_managed_node_group:resource.aws_eks_node_group.this should depend on module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this so EKS role permissions are attached before node-group handling and remain attached until the node group is deleted. The provider documentation recommends this explicit ordering; the existing role ARN reference only orders the role itself.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\n`module.eks_managed_node_group:resource.aws_eks_node_group.this` should wait for `module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this` so EKS has the node-role permissions before creating or deleting the managed node group. The provider documentation specifically recommends this ordering; the launch-template dependency only covers cases where that template is actually created.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

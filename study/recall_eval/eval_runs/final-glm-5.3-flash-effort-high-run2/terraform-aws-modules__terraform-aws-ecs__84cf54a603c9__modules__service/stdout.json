@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on` on `:data.aws_ecs_task_definition.this` pointing at `:resource.aws_ecs_task_definition.this` is redundant: the data source already references `aws_ecs_task_definition.this[0].family` in its `task_definition` attribute, so Terraform already infers the same ordering. The bare `depends_on` can be removed.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_ecs_task_definition.this` sets `execution_role_arn` from `aws_iam_role.task_exec`, but there is no ordering guarantee that `:resource.aws_iam_role_policy_attachment.task_exec` has attached the execution policy before tasks using this task definition are launched (the module does this for the service role via `depends_on` on `aws_iam_role_policy_attachment.service`). Without it, a first apply can launch tasks before the ECR/Logs/Secrets permissions are attached, causing task launch failures. A data-reference fix is not possible since no task-definition attribute can reference the attachment, so an explicit `depends_on` on the attachment is needed.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_ecs_task_definition.this` references `aws_iam_role.tasks` as its `task_role_arn`, but the inline policy `:resource.aws_iam_role_policy.tasks` (which carries the task statements and the `ssmmessages:*` permissions required for ECS Exec) is not ordered before tasks are launched. The task role can be assumed by tasks before its inline policy is attached, breaking task-role permissions (e.g. ECS Exec) on initial deployment. No task-definition attribute can reference the role policy, so an explicit `depends_on` is the appropriate fix.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

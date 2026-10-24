@@ -1,0 +1,202 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.cluster references the cluster IAM role, but does not wait for aws_iam_role_policy_attachments_exclusive.cluster to attach its required EKS permissions. Add an explicit dependency so cluster creation cannot race policy attachment. The provider documentation explicitly requires ordering EKS cluster operations after its role permissions.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When control-plane logging is enabled, aws_eks_cluster.cluster can automatically create /aws/eks/${var.name_prefix}/cluster before aws_cloudwatch_log_group.cluster creates the same group, causing ResourceAlreadyExistsException and bypassing the intended retention/encryption configuration. Make aws_eks_cluster.cluster wait for aws_cloudwatch_log_group.cluster; their shared name_prefix and KMS references do not establish this ordering.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.eks_node_group_al2023 uses aws_iam_role.eks_node_group.arn with create_iam_role=false, but does not wait for aws_iam_role_policy_attachments_exclusive.eks_node_group. That resource attaches the worker-node, CNI and ECR permissions needed for nodes to initialize and join the cluster. Order node-group creation after those policy attachments; referencing the role alone does not do so.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver references the service-account role but not aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa, which attaches AmazonEBSCSIDriverPolicy. Wait for that attachment before deploying the driver so its AWS operations do not initially fail with AccessDenied.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot references aws_iam_role.adot_collector but can start before aws_iam_role_policy_attachments_exclusive.adot_collector attaches its Prometheus, X-Ray and CloudWatch permissions. Make the add-on depend on that attachment so its configured service-account role is authorized before use.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.karpenter_spot_interruption can activate event delivery before aws_sqs_queue_policy.karpenter_spot_interruption grants events.amazonaws.com permission to send messages. Depend on the queue policy so interruption-event delivery is authorized before the targets are installed; the existing queue ARN reference only waits for the queue.",
+      "node": ":resource.aws_cloudwatch_event_target.karpenter_spot_interruption",
+      "target": ":resource.aws_sqs_queue_policy.karpenter_spot_interruption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.core_dns and module.eks_node_group_al2023 can be created concurrently after the control plane. CoreDNS runs Deployment pods and needs schedulable workers to become healthy; the add-on's ACTIVE-state wait can time out if node provisioning is delayed. Make the add-on wait for module.eks_node_group_al2023, the compute capacity configured in this project.",
+      "node": ":resource.aws_eks_addon.core_dns",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver has no ordering against module.eks_node_group_al2023. Its controller Deployment needs worker capacity to become healthy, so concurrent installation can leave the add-on waiting for pods and eventually timing out while workers are still provisioning. Make it depend on the node-group module.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.kubecost deploys workloads that require schedulable nodes, but only waits for the EKS control plane. Order it after module.eks_node_group_al2023 so the add-on health wait does not race creation of the project's worker capacity.",
+      "node": ":resource.aws_eks_addon.kubecost",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot installs an operator Deployment that needs worker capacity to become healthy. It currently can begin alongside module.eks_node_group_al2023 and time out waiting for unscheduled pods if node provisioning is delayed. Make the add-on depend on the node-group module.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch installs amazon-cloudwatch-observability, including operator workloads that require workers. Its cluster reference does not wait for module.eks_node_group_al2023. Order installation after that module to avoid racing the add-on's health wait against worker provisioning.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.snapshot_controller needs worker nodes for its controller Deployment to become healthy, but it can start as soon as the control plane exists. Add an ordering dependency on module.eks_node_group_al2023 so its add-on readiness wait does not race worker provisioning.",
+      "node": ":resource.aws_eks_addon.snapshot_controller",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.amazon_cloudwatch_observability waits for a log group and the control plane, but not for module.eks_node_group_al2023. Its operator workloads need schedulable workers to become healthy. Order the add-on after the node-group module to prevent its readiness wait from racing worker creation.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.metrics_server runs a Deployment requiring worker capacity, but has no dependency on module.eks_node_group_al2023. Make it wait for that module so add-on creation does not time out waiting for pods while the project's workers are still provisioning.",
+      "node": ":resource.aws_eks_addon.metrics_server",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.kube_state_metrics needs schedulable workers for its Deployment to become healthy, but currently only waits for the control plane. Depend on module.eks_node_group_al2023 so the add-on's readiness wait cannot race creation of the configured worker capacity.",
+      "node": ":resource.aws_eks_addon.kube_state_metrics",
+      "target": ":module.eks_node_group_al2023",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch starts CloudWatch observability agents that can automatically create the Container Insights performance log group. It does not wait for aws_cloudwatch_log_group.cluster_performance, which manages the same name. Order the add-on after that log group to avoid a ResourceAlreadyExistsException race and ensure Terraform's retention configuration is installed first.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_performance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch can start log collection before aws_cloudwatch_log_group.cluster_application creates the matching Container Insights application group. The agents may auto-create that group, causing Terraform's creation to fail. Make the add-on wait for aws_cloudwatch_log_group.cluster_application.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_application",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch can start log collection and auto-create the Container Insights dataplane group before aws_cloudwatch_log_group.cluster_dataplane manages it. Add an ordering dependency on that log group to prevent a same-name creation race and preserve the configured retention.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_dataplane",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.cloudwatch can start log collection and auto-create the Container Insights host group before aws_cloudwatch_log_group.cluster_host creates it. Make the add-on depend on that log group to avoid a ResourceAlreadyExistsException race.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.amazon_cloudwatch_observability explicitly waits only for the performance log group. When aws_cloudwatch_log_group.cluster_application is enabled, the add-on's log collector can auto-create its matching application group first, causing Terraform's creation to fail. Also order the add-on after aws_cloudwatch_log_group.cluster_application.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_application",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.amazon_cloudwatch_observability does not wait for aws_cloudwatch_log_group.cluster_dataplane. When that group is enabled, the add-on's log collector can auto-create the same dataplane group before Terraform, producing a creation conflict. Extend its dependencies to include aws_cloudwatch_log_group.cluster_dataplane.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_dataplane",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.amazon_cloudwatch_observability does not wait for aws_cloudwatch_log_group.cluster_host. When that group is enabled, host-log collection can auto-create the same group before Terraform creates it, causing a ResourceAlreadyExistsException. Order the add-on after aws_cloudwatch_log_group.cluster_host as well as its existing performance-group dependency.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

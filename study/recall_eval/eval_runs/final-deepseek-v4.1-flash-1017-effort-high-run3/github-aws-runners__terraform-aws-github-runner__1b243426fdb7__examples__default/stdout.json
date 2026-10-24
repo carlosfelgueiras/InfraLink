@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is created with a vpc_config (subnet_ids/security_group_ids), but AWS Lambda requires the execution role to already have EC2 ENI permissions (AWSLambdaVPCAccessExecutionRole) at CreateFunction time, otherwise it fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". The function only references aws_iam_role.webhook_lambda, so it can be created before aws_iam_role_policy_attachment.webhook_vpc_execution_role. Add a depends_on (or otherwise order) so the VPC execution-role attachment is created first.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.scale_up uses a vpc_config but only references aws_iam_role.scale_up; it never depends on aws_iam_role_policy_attachment.scale_up_vpc_execution_role. Lambda creation will fail if the role lacks AWSLambdaVPCAccessExecutionRole at that moment, so the function must be ordered after the VPC execution-role attachment (e.g. via depends_on).",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.scale_down uses a vpc_config but only references aws_iam_role.scale_down; it never depends on aws_iam_role_policy_attachment.scale_down_vpc_execution_role. Lambda creation will fail if the role lacks AWSLambdaVPCAccessExecutionRole at that moment, so the function must be ordered after the VPC execution-role attachment (e.g. via depends_on).",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool uses a vpc_config but only references aws_iam_role.pool; it never depends on aws_iam_role_policy_attachment.pool_vpc_execution_role. Lambda creation will fail if the role lacks AWSLambdaVPCAccessExecutionRole at that moment, so the function must be ordered after the VPC execution-role attachment (e.g. via depends_on).",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer uses a vpc_config but only references aws_iam_role.syncer_lambda; it never depends on aws_iam_role_policy_attachment.syncer_vpc_execution_role. Lambda creation will fail if the role lacks AWSLambdaVPCAccessExecutionRole at that moment, so the function must be ordered after the VPC execution-role attachment (e.g. via depends_on).",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

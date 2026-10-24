@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nmodule.webhook-github-app:resource.null_resource.update_app registers the GitHub App webhook via local-exec using the endpoint URL built from module.multi-runner:output.webhook. That endpoint value only references aws_apigatewayv2_api.webhook.api_endpoint, not the $default stage, so Terraform can run the local-exec (and GitHub will start delivering webhooks to the URL) before module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook exists / has auto-deployed the POST /webhook route \u2014 the endpoint would then return errors until the stage deploys. The null_resource should be ordered after the stage is created.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe GitHub App webhook registration in null_resource.update_app should also wait for the API Gateway stage to be deployed ($default with auto_deploy). The stage has no dependency on the route in the current graph and the null_resource has no dependency on the stage at all, so the local-exec can run against an API endpoint that is not yet serving traffic. An explicit depends_on is needed since the endpoint output references only the API resource.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe null_resource 'update_app' reconfigures the GitHub App to deliver webhooks to the API Gateway endpoint (module.multi-runner.webhook.endpoint). Its only ordering comes from the webhook output, which resolves to the aws_apigatewayv2_api object (plus the webhook lambda, log group, and role). It has no dependency on the aws_apigatewayv2_stage ('$default', auto_deploy) \u2014 nor on the aws_apigatewayv2_route/integration behind it \u2014 so Terraform may run the update-app.sh local-exec while the stage that makes the endpoint serve traffic is still being created, briefly pointing the GitHub App webhook at a non-functional URL. Add a depends_on for the webhook stage so the endpoint is deployed before the GitHub App is updated.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThe `adot` add-on deployed by `module.eks-addons` requires cert-manager to be installed and ready, but cert-manager is created by `module.base`, not `module.ctl`. `module.eks-addons` only has `depends_on = [module.ctl]`; it has no direct dependency on `module.base`. The cert-manager ordering currently only holds indirectly because `module.ctl` happens to `depends_on module.base`, so the real requirement (adot \u2192 cert-manager from base) is not expressed directly. It should depend directly on `module.base` (a bare `depends_on` is appropriate here since adot consumes no output of the cert-manager module).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nmodule.eks-addons installs the `adot` add-on, whose own comment states it \"requires a cert-manager from helm-addons.\" cert-manager is provisioned by module.base (base = cert-manager + metrics-server), not by module.ctl. Yet eks-addons only declares `depends_on = [module.ctl]`, so it does not directly depend on module.base where cert-manager actually lives \u2014 the ordering is only accidentally satisfied via ctl\u2192base. The cert-manager readiness that adot needs should be expressed directly as a dependency on module.base.",
+      "node": ":module.eks-addons",
+      "target": ":module.base",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

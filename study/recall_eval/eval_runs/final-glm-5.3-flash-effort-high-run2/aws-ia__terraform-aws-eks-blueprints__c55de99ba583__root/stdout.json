@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.aws_eks_teams creates Kubernetes API objects (namespaces, service accounts, roles, role bindings, kubectl manifests) against the EKS cluster, but has no dependency on resource.kubernetes_config_map.aws_auth (or the cluster-readiness gate). Every other consumer of the cluster's Kubernetes API in this project (the managed/self-managed/fargate node-group modules and module.emr_on_eks) explicitly depends on kubernetes_config_map.aws_auth to ensure the cluster API server is reachable and aws-auth has been applied before the kubernetes provider runs. Without it, Terraform may attempt to create team namespaces/roles before the cluster is ready, causing apply failures.",
+      "node": ":module.aws_eks_teams",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "resource.kubernetes_config_map.aws_auth already depends on :module.aws_eks implicitly: its `data` (via the aws-auth locals such as local.managed_node_group_aws_auth_config_map and local.platform_teams_config_map) references module.aws_eks.cluster_id, which is captured in its implicit_deps. The explicit depends_on on module.aws_eks duplicates this. The depends_on on data.http.eks_cluster_readiness is the meaningful part and should be kept.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.kubernetes_config_map.amazon_vpc_cni's explicit depends_on on module.aws_eks is redundant: it already depends on data.http.eks_cluster_readiness, which in turn depends on module.aws_eks (via data.aws_eks_cluster), so the cluster ordering is already guaranteed transitively.",
+      "node": ":resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy's explicit depends_on on aws_iam_role.emr_on_eks_execution is redundant: the local-exec provisioner command already references aws_iam_role.emr_on_eks_execution.id, so the dependency is captured in implicit_deps.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy's explicit depends_on on kubernetes_namespace.spark is redundant: the local-exec provisioner command already references kubernetes_namespace.spark.id, so the dependency is captured in implicit_deps.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.managed_ng's explicit depends_on on aws_iam_role.managed_ng is redundant: the resource's `node_role_arn` attribute already references aws_iam_role.managed_ng[0].arn, so the dependency is captured in implicit_deps. The depends_on entries for the instance profile and policy attachment are not redundant and should be kept.",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

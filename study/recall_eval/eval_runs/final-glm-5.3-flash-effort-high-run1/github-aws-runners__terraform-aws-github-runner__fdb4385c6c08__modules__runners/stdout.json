@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale-up lambda embeds the job-retry check queue URL in its environment: `JOB_RETRY_CONFIG = jsonencode(local.job_retry_config)` where `local.job_retry_config` reads `module.job_retry[0].job_retry_check_queue.url`. The dependency graph shows no edge from :resource.aws_lambda_function.scale_up to module.job_retry:output.job_retry_check_queue (the reference is hidden behind a local), so the function could be created before the job-retry queue exists and would not be updated when the queue URL changes. Add `depends_on = [module.job_retry]` (or otherwise surface the queue reference in a direct attribute) on the scale-up lambda.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": "module.job_retry:output.job_retry_check_queue",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping activates polling immediately when created, so if :var.sqs_build_queue has backlogged messages the lambda is invoked right away. Meanwhile :resource.aws_cloudwatch_log_group.scale_up is created in parallel (both depend only on the lambda function), so Lambda can auto-create the \"/aws/lambda/...\" log group before Terraform creates the managed one, making the aws_cloudwatch_log_group creation fail with \"already exists\". :resource.aws_lambda_event_source_mapping.scale_up should depend on :resource.aws_cloudwatch_log_group.scale_up (e.g. a bare depends_on) so the log group exists before polling begins.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_cloudwatch_log_group.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The job-retry SQS event source mapping starts polling the check queue as soon as it is created, but module.job_retry.module.job_retry:resource.aws_cloudwatch_log_group.main is created in parallel with it (both depend only on the lambda function). A backlogged queue can trigger an invocation before the managed log group exists, causing Lambda to auto-create it and the aws_cloudwatch_log_group creation to fail. module.job_retry:resource.aws_lambda_event_source_mapping.job_retry should depend on module.job_retry.module.job_retry:resource.aws_cloudwatch_log_group.main (e.g. a bare depends_on).",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry.module.job_retry:resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_ecs_cluster_capacity_providers.this associates capacity providers with the cluster by name, including the autoscaling capacity providers created by aws_ecs_capacity_provider.this (their names come from var.autoscaling_capacity_providers). AWS requires the capacity provider to exist before it can be associated with a cluster (and to be detached before deletion), but no implicit or explicit dependency on aws_ecs_capacity_provider.this is recorded \u2014 the only reference to those resources is inside the nested dynamic \\\"default_capacity_provider_strategy\\\" block and is not captured as a dependency. Without this ordering, the association can be applied before the capacity providers are created and fail. Add a depends_on, or better, build the autoscaling portion of the capacity_providers set from the created resources' name attributes (identical values: try(each.value.name, each.key)), which establishes the ordering as a data dependency.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat(\n    [for k, v in var.fargate_capacity_providers : try(v.name, k)],\n    [for k, v in aws_ecs_capacity_provider.this : v.name]\n  ))"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

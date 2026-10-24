@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references the transform `forgecicd_trust_validation` via its variables map (`\"REPORT-forgecicd_trust_validation\" = \"forgecicd_trust_validation\"`), but has no dependency on it \u2014 neither an implicit reference (the value is a plain string) nor an explicit depends_on. The props stanza could be created before the transform exists, breaking the REPORT field extraction. All sibling transforms referenced by this resource are listed in its depends_on; this one is missing.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references the transform `forgecicd_extra_lambda_ec2_tenant_fields` via its variables map (`\"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = \"forgecicd_extra_lambda_ec2_tenant_fields\"`), but has no dependency on it \u2014 neither an implicit reference (the value is a plain string) nor an explicit depends_on. The props stanza could be created before the transform exists, breaking the REPORT field extraction. All sibling transforms referenced by this resource are listed in its depends_on; this one is missing.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

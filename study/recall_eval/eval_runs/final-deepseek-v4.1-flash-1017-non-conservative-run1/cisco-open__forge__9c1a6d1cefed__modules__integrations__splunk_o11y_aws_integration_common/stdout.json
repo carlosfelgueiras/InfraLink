@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "time_sleep.wait_30_seconds only gates on aws_iam_role.splunk_integration, so it does not wait for aws_iam_role_policy.splunk_integration to be attached to that role. The permission policy is a sibling of the sleep (both depend only on the role), so the 30s IAM-readiness delay can elapse before the role actually carries its permissions \u2014 and signalfx_aws_integration.integration (which depends on this sleep) can then be created against a role that Splunk cannot yet use. The sleep should also depend on aws_iam_role_policy.splunk_integration so the delay covers the full role setup.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ splunk_integration_policy = aws_iam_role_policy.splunk_integration.id }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "time_sleep.wait_30_seconds does not depend on aws_iam_role_policy.splunk_managed_policy, so the metric-streams policy (which grants iam:PassRole and cloudwatch:*MetricStream permissions) is not ordered before the delay finishes. Because signalfx_aws_integration.integration uses use_metric_streams_sync/enable_aws_usage and depends on this sleep, Splunk can attempt to set up metric streams while the role still lacks those permissions, hitting the manual-intervention bad state the sleep is meant to prevent. The sleep should also depend on aws_iam_role_policy.splunk_managed_policy.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ splunk_managed_policy = aws_iam_role_policy.splunk_managed_policy.id }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

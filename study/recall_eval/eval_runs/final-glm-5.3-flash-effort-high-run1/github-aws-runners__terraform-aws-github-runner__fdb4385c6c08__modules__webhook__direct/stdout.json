@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook reads SSM parameters at cold start (PARAMETER_GITHUB_APP_WEBHOOK_SECRET, PARAMETER_RUNNER_MATCHER_CONFIG_PATH) via its execution role, but Terraform only orders it against the role itself (aws_iam_role.webhook_lambda.arn), not against aws_iam_role_policy.webhook_ssm. The function can be created before the SSM read permission is attached, causing AccessDeniedException on the first invocation.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook publishes to SQS job queues via its execution role, but Terraform only orders it against the role itself, not against aws_iam_role_policy.webhook_sqs. The function can go live before the SQS publish permission exists, causing AccessDenied on first queue publish.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook uses environment variables that may be encrypted with var.config.kms_key_arn; when KMS is in use the function must already be able to decrypt them or invocation fails with KMSAccessDeniedException. Terraform only orders the function against the role itself, not against aws_iam_role_policy.webhook_kms, so the function can be created before the KMS grant is in place.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook needs its execution role to have CloudWatch Logs permissions from the moment it can be invoked, but Terraform only orders it against the role itself, not against aws_iam_role_policy.webhook_logging. The function can be created (and invoked by API Gateway) before the logging policy is attached.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled (var.config.tracing_config.mode != null), aws_lambda_function.webhook emits X-Ray traces and needs xray:PutTraceSegments permissions from the first invocation, but Terraform only orders it against the role itself, not against the conditional aws_iam_role_policy.xray.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC config is present, aws_lambda_function.webhook requires its role to carry the AWSLambdaVPCAccessExecutionRole permissions at creation, but Terraform only orders it against the role itself, not against the conditional aws_iam_role_policy_attachment.webhook_vpc_execution_role. The provider docs explicitly recommend depends_on from the function onto the role policy attachment for exactly this case.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

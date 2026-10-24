@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is created before aws_cloudwatch_log_group.webhook, because the log group's name is derived from aws_lambda_function.webhook.function_name (the dependency currently runs the wrong way). For the Lambda to write to the managed log group with the configured retention/KMS (instead of letting Lambda auto-create an unmanaged log group on first invocation), the managed log group should exist before the function. No attribute reference expresses this ordering in the needed direction; the log group name should be refactored (e.g. derived from a local like \"${var.config.prefix}-webhook\") so the function can be ordered after the log group.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

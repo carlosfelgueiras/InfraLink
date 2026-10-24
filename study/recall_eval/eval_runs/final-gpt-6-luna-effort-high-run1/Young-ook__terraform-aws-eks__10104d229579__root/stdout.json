@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_fargate_profile.fargate: explicit depends_on of :resource.aws_iam_role.fargate is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency on the launch template duplicates the direct attribute-reference dependency already established by the launch_template_specification in this autoscaling group.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency on the node-group IAM role duplicates the direct attribute-reference dependency from node_role_arn.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency on the Fargate IAM role duplicates the direct attribute-reference dependency from pod_execution_role_arn.",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency on the node-group IAM role is already established transitively through the launch template, which depends on the instance profile and role.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency on the EKS cluster is already established transitively through the autoscaling group, which itself references the cluster.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When enable_ssm is true, this self-managed node group installs and starts the SSM agent, but its autoscaling group does not wait for the SSM managed-instance policy attachment. Instances can start before the role has the permissions needed for SSM registration.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When enable_ssm is true, the managed node group's launch template installs and starts the SSM agent, but the node group does not wait for the SSM managed-instance policy attachment. Nodes can start before their role has the permissions needed for SSM registration.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

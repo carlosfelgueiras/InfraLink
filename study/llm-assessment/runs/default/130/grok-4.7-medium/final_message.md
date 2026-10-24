@@ -1,0 +1,5 @@
+The syncer Lambda and the VPC execution-role attachment are siblings, not ordered. `aws_lambda_function.syncer` only references `aws_iam_role.syncer_lambda.arn`. `aws_iam_role_policy_attachment.syncer_vpc_execution_role` only references that same role’s name and attaches `AWSLambdaVPCAccessExecutionRole` when `lambda_subnet_ids` is non-empty. There is no attribute reference or `depends_on` from the function to the attachment, so Terraform can create them in parallel.
+
+When a VPC config is set, `CreateFunction` checks that the execution role can call `ec2:CreateNetworkInterface`. If the managed policy is not attached yet, creation fails with `InvalidParameterValueException`. The attachment must exist before the function is created, and the configuration does not express that ordering.
+
+Correct

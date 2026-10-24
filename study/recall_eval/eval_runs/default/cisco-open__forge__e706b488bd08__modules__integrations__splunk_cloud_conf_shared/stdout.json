@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.splunk_configs_conf.forgecicd_aws_billing_cur to :resource.splunk_configs_conf.forgecicd_billing_cur_instance_id duplicates the configuration reference: the props configuration names this transform in its REPORT variable.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.splunk_configs_conf.forgecicd_aws_billing_cur to :resource.splunk_configs_conf.forgecicd_billing_cur_volume_id duplicates the configuration reference: the props configuration names this transform in its REPORT variable.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_volume_id",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `variables` map of :resource.splunk_configs_conf.forgecicd_cloudwatchlogs refers by transform name to :resource.splunk_configs_conf.forgecicd_trust_validation, but no attribute reference or explicit dependency ensures the transform is created before the props configuration.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to be the deny-insecure-transport policy for the dead-letter queue, but it sets `queue_url = aws_sqs_queue.queued_builds.id`, so the only edge in the graph is to the main build queue and the DLQ (`aws_sqs_queue.queued_builds_dlq`) is never referenced. That both duplicates `aws_sqs_queue_policy.build_queue_policy`'s ownership of the same queue's policy and leaves the DLQ \u2014 the target of `aws_sqs_queue.queued_builds`' `redrive_policy.deadLetterTargetArn` \u2014 without any policy. The policy should be attached to and ordered after `aws_sqs_queue.queued_builds_dlq`.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

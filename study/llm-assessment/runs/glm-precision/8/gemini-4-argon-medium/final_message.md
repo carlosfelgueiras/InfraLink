@@ -1,0 +1,8 @@
+The reported missing dependency is **Correct**.
+
+### Analysis
+- **Source (`google_project_iam_member.shared_vpc_host_robots`):** Defined in `modules/project/shared-vpc.tf` (lines 66–75), this resource grants IAM roles on the Shared VPC host project to service agent robot accounts (`local.service_accounts_robots[each.value.service]`), where valid keys come from `local._service_accounts_robot_services` in `modules/project/service-accounts.tf` (including the JIT service agents `secretmanager`, `pubsub`, and `cloudasset`).
+- **Target (`google_project_service_identity.jit_si`):** Defined in `modules/project/service-accounts.tf` (lines 88–94), this resource triggers the creation of just-in-time service identities for `secretmanager.googleapis.com`, `pubsub.googleapis.com`, and `cloudasset.googleapis.com`.
+- **Missing Dependency:** Because `local.service_accounts_robots` constructs robot service account emails statically using only `local.project.number`, `google_project_iam_member.shared_vpc_host_robots` only has an implicit dependency on `google_project.project` (or `data.google_project.project`) and no implicit or explicit (`depends_on`) dependency on `google_project_service_identity.jit_si`. Unlike `google_kms_crypto_key_iam_member.service_identity_cmek` and the `service_accounts` output—both of which explicitly list `google_project_service_identity.jit_si` in `depends_on`—`shared_vpc_host_robots` can attempt to bind IAM roles before the service identity exists in GCP, causing the IAM API call to fail.
+
+Correct

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_ecs_task_definition.this only references the task execution role (`aws_iam_role.task_exec[0].arn`) but not aws_iam_role_policy_attachment.task_exec, which grants that role its ECR pull and CloudWatch Logs permissions. Nothing ties the task definition (and the service/task set that immediately start tasks with it) to the attachment, so tasks can be launched against an execution role that does not yet have permissions and fail to pull the image or write logs. The module already expresses the analogous ordering for the service role via `depends_on = [aws_iam_role_policy_attachment.service]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_ecs_task_definition.this` uses the task execution role via `execution_role_arn = try(aws_iam_role.task_exec[0].arn, ...)`, which only orders it after the role itself, not after `aws_iam_role_policy_attachment.task_exec`. The execution role has no permissions (ECR pull, CloudWatch Logs) until that attachment exists, so a service/task set that launches tasks with this revision can fail with image-pull or logging errors. A bare `depends_on = [aws_iam_role_policy_attachment.task_exec]` (mirroring the `aws_iam_role_policy_attachment.service` depends_on already used on the service) closes the gap; there is no attribute on the task definition that can reference the attachment.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

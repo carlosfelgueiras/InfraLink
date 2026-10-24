@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry wires the job-retry SQS queue to the job-retry lambda but depends only on module.job_retry:resource.aws_sqs_queue.job_retry_check_queue and the lambda module output. The role policy that actually grants the function's role sqs:ReceiveMessage/DeleteMessage on that queue (module.job_retry:resource.aws_iam_role_policy.job_retry) is not in its dependency set, so on a first apply the mapping can be created before the policy exists and AWS rejects it (\"The provided execution role does not have permissions to call ReceiveMessage on SQS\"). Add an explicit depends_on on that role policy.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_event_source_mapping.scale_up is created without any ordering relative to aws_iam_role_policy.scale_up, the policy (`scale-up-policy`) that grants the scale-up function's execution role permission to poll var.sqs_build_queue. Lambda validates the execution role when CreateEventSourceMapping is called and fails with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\" if the policy has not been applied yet. Add `depends_on = [aws_iam_role_policy.scale_up]` to :resource.aws_lambda_event_source_mapping.scale_up.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

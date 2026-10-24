@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_cluster.cluster references aws_iam_role.cluster.arn but not aws_iam_role_policy_attachments_exclusive.cluster, which attaches the required AmazonEKSClusterPolicy and other policies. Because aws_iam_role_policy_attachments_exclusive is a separate resource, Terraform has no ordering edge, and EKS validates the cluster role's permissions during create and needs them during delete of EKS-managed infrastructure. The provider documentation explicitly requires depends_on on the role policy attachments here.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks_node_group_al2023 (which creates the aws_eks_node_group) references aws_iam_role.eks_node_group.arn but not aws_iam_role_policy_attachments_exclusive.eks_node_group, which attaches the required AmazonEKSWorkerNodePolicy/AmazonEKS_CNI_Policy/AmazonEC2ContainerRegistryReadOnly policies. Without an edge to the attachment, the node group may be created before the role's policies are attached, and EKS validates the node role permissions on node group create and needs them on delete. The provider docs require depends_on on the role policy attachments for aws_eks_node_group.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

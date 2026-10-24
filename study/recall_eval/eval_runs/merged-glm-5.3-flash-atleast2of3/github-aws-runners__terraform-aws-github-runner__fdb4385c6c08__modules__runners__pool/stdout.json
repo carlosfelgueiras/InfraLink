@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_lambda_function.pool is created before aws_cloudwatch_log_group.pool (the log group only depends on the function via its name attribute). Lambda auto-creates the /aws/lambda/<function_name> log group as soon as the function is created, with default retention and no KMS key, so the subsequent creation of aws_cloudwatch_log_group.pool fails with ResourceAlreadyExistsException \u2014 or the auto-created group shadows the managed one and retention_in_days/kms_key_id/log_class never take effect. The function must be created after the log group. Note: a bare depends_on would cycle because the log group name references aws_lambda_function.pool.function_name; the idiomatic fix is to compute the log group name from the same \"${var.config.prefix}-pool\" value (e.g. a local) instead of the resource attribute, then reference the log group from the lambda.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_lambda_function.pool should depend on aws_cloudwatch_log_group.pool: the log group is named \"/aws/lambda/${aws_lambda_function.pool.function_name}\", which makes Terraform create the function first, but AWS then auto-creates that same log group with default settings when the function is created. Terraform's subsequent aws_cloudwatch_log_group.pool creation then fails with ResourceAlreadyExistsException (or, if it lands first, the retention/kms_key_id/log_class settings are silently lost to the auto-created group). The aws_lambda_function documentation explicitly recommends depends_on = [aws_cloudwatch_log_group.example] for this pattern. Note a bare depends_on cannot be added as-is because the log group's name already references the function (creating a cycle) \u2014 derive the log group name independently (e.g. from var.config.prefix, which equals the function name) and then order the function after the log group.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

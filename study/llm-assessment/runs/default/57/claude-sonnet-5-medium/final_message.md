@@ -1,0 +1,7 @@
+No other file references `delete_frontend_port`, confirming it has no incoming dependency edges from any other resource — nothing forces it to run after `delete_http_listener`.
+
+Looking at the analogous, correctly-written pattern in `http_settings.tf`: `delete_http_settings` depends on `delete_backend_pool`, `delete_ssl_cert`, `delete_root_cert` — i.e., delete-on-delete ordering. By contrast, `delete_http_listener` depends on `delete_http_settings`, `delete_backend_pool`, `delete_ssl_cert`, `delete_root_cert` (all correct delete-time dependencies) but then lists `set_frontend_port` instead of `delete_frontend_port`. Since `set_frontend_port` has no destroy-time provisioner and no relation to `delete_frontend_port`, this depends_on provides no actual destroy-time ordering guarantee between the listener deletion and the frontend port deletion.
+
+Since an Application Gateway frontend port cannot be removed while an HTTP listener still references it (API-level constraint), and the listener delete script runs via `on_failure = fail`, Terraform's destroy order must guarantee `delete_http_listener` completes before `delete_frontend_port`. That ordering is not established — the existing `depends_on` entry points to the wrong resource (`set_frontend_port`, a create-only resource), leaving a genuine gap matching the described bug pattern seen elsewhere in this file (compare with the correctly structured `delete_http_settings`).
+
+Correct

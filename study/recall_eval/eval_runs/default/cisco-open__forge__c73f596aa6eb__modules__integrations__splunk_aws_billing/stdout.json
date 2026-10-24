@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_service: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_service is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource_process: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource_process is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module already references the CloudWatch log group through logging_log_group, so the explicit depends_on duplicates an implicit dependency.",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module already references the CloudWatch log group through logging_log_group, so the explicit depends_on duplicates an implicit dependency.",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module already references the CloudWatch log group through logging_log_group, so the explicit depends_on duplicates an implicit dependency.",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The BCM Data Exports export writes to this bucket, and the bucket policy grants the export service permission to write there. Ensure the bucket policy is installed before creating the export; the bucket reference alone does not establish that ordering.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The BCM Data Exports export writes to this bucket, and the bucket policy grants the export service permission to write there. Ensure the bucket policy is installed before creating the export; the bucket reference alone does not establish that ordering.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output value directly iterates over `google_organization_iam_custom_role.roles`, so the attribute reference already establishes this dependency; the explicit `depends_on` is redundant.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "IAM bindings may grant one of the custom roles created by this module, but the binding's role key is supplied as a variable and does not reference the custom-role resource. Ensure custom roles exist before applying bindings to avoid setting a policy that refers to a role not yet created.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Additive IAM members may be assigned one of the custom roles created by this module, but the member's role is supplied as a variable and does not reference the custom-role resource. Ensure custom roles exist before applying these grants.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The authoritative IAM policy may contain bindings for custom roles created by this module, but its policy data is assembled from variables and does not reference the custom-role resource. Ensure custom roles exist before applying a policy that may grant them.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

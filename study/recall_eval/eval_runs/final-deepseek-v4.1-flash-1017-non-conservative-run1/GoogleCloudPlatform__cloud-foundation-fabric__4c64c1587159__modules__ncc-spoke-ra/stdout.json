@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_network_connectivity_spoke.spoke-ra` links the router appliance VMs into the NCC hub, but it only depends on the hub (`google_network_connectivity_hub.hub`) and input variables \u2014 nothing orders it after the BGP sessions that make those appliances usable. The Cloud Router peers `google_compute_router_peer.peer_0` (which peer with the same appliance VMs via `router_appliance_instance = each.value.vm`) must exist and have their BGP sessions established before the spoke is created/becomes functional. Add an explicit `depends_on = [google_compute_router_peer.peer_0, google_compute_router_peer.peer_1]` on the spoke; no attribute of the spoke can reference a router peer, so there is no idiomatic data-reference fix.",
+      "node": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "target": ":resource.google_compute_router_peer.peer_0",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_network_connectivity_spoke.spoke-ra` also needs ordering after the second BGP session, `google_compute_router_peer.peer_1`, which peers with the router appliance VMs over the redundant interface `google_compute_router_interface.intf_1`. Because `peer_0` and `peer_1` are independent resources, an explicit dependency covering `peer_0` alone does not order the spoke after `peer_1`; the spoke must depend on both so the REDUNDANT BGP pair is up before the NCC spoke is created. No spoke attribute can reference a router peer, so a bare `depends_on` is the appropriate fix rather than a data reference.",
+      "node": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "target": ":resource.google_compute_router_peer.peer_1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

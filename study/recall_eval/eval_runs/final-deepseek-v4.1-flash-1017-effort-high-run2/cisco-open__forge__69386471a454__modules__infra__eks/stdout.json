@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter declares depends_on = [module.eks], but its values string already references module.eks.cluster_name and module.eks.cluster_endpoint, so Terraform already infers the dependency on module.eks. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Karpenter controller authenticates through EKS Pod Identity (module.karpenter sets create_pod_identity_association = true and the chart only configures a service account name, no IRSA annotation), so it requires the eks-pod-identity-agent add-on to be running to obtain credentials. helm_release.karpenter currently has no ordering relative to aws_eks_addon.eks_pod_identity_agent \u2014 they sit on parallel branches (helm_release.karpenter waits on module.eks/module.karpenter, while the add-on waits on module.self_managed_node_group) \u2014 so the controller can be deployed before the Pod Identity agent is available. Add depends_on = [aws_eks_addon.eks_pod_identity_agent] (or otherwise wire the ordering).",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

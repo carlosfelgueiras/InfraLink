@@ -1,0 +1,241 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, module.multi-runner.module.runner_binaries:resource.aws_lambda_function.syncer must wait for module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role. Referencing the IAM role does not wait for this separately managed attachment; Lambda needs its ENI permissions during VPC provisioning. Add depends_on on the attachment, which also preserves the permissions until the function is deleted.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, module.multi-runner.module.runners:resource.aws_lambda_function.scale_up must wait for module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role. The role ARN reference does not order this attachment, so Lambda can attempt VPC provisioning before its execution role has the required ENI permissions. Add depends_on on the attachment.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, module.multi-runner.module.runners:resource.aws_lambda_function.scale_down must wait for module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role. Both currently depend only on the role, allowing function creation before the attachment supplies the ENI permissions required for VPC provisioning. Add depends_on on the attachment.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When pool Lambda VPC subnets are configured, module.multi-runner.module.runners.module.pool:resource.aws_lambda_function.pool must wait for module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role. Referencing the role does not wait for its managed-policy attachment, which supplies the ENI permissions needed during Lambda VPC provisioning. Add depends_on on the attachment.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When webhook Lambda VPC subnets are configured, module.multi-runner.module.webhook:resource.aws_lambda_function.webhook must wait for module.multi-runner.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role. The function's role reference does not wait for this attachment, so VPC provisioning can start before the execution role receives the required ENI permissions. Add depends_on on the attachment.",
+      "node": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up must wait for module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up, which grants its execution role access to the build SQS queue. AWS validates the execution role's queue-consumption permissions when creating the mapping; waiting only for the function does not wait for this policy and can produce an insufficient SQS permissions error. Add depends_on on the policy.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger immediately invokes the syncer through its S3 notification, but does not wait for module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer. The notification dependency establishes invocation permission, not the execution role's permission to write the runner distribution to S3. Add depends_on on this execution policy so the first synchronization cannot race its installation.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger should wait for module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging before emitting its deployment notification. Otherwise the first syncer invocation can run before its logging policy and managed log group exist, losing startup logs or racing automatic log-group creation. Depending on the logging policy also orders the log group without introducing the cycle that a function-to-logging-policy dependency would create.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a KMS encryption key is configured, module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger must wait for module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms before triggering the initial sync. The trigger and function reference the encryption configuration, but neither waits for the execution role's KMS policy, so the initial distribution upload can fail with AccessDenied. Add depends_on on the optional policy collection.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer enables scheduled invocation without waiting for module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer. Both reference the rule and function, but neither waits for the other. Add depends_on on the permission so a scheduled event cannot be delivered before EventBridge is authorized to invoke the function.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down should wait for module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down. Creating the target activates the existing enabled schedule, but its current references do not wait for EventBridge invocation permission. Add depends_on on the permission to avoid an unauthorized invocation during apply.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool should wait for module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool. The scheduled targets and their invocation permissions currently can be created in parallel, allowing a pool adjustment event before EventBridge has permission to invoke the function. Add depends_on on the permission collection.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app publishes the webhook URL to GitHub without waiting for module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook. Its endpoint input ultimately references the API object, not the serving stage, so GitHub can start delivering events before the default stage exists. Ensure the stage is included in the readiness dependencies exported to this consumer, or order the GitHub-app update after the webhook module is fully ready.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app can configure GitHub to send events before module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook exists. The output supplying the endpoint references the API and a constant path, but not the route or integration. Include the route in the endpoint's exported readiness dependencies, or wait for completion of the webhook module before updating GitHub.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app should wait for module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook before enabling GitHub deliveries. Referencing the API endpoint and Lambda does not wait for API Gateway's invocation grant, so early requests can fail even when the route exists. Propagate this readiness dependency through the webhook outputs or wait for the webhook module before the app update.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When bucket versioning is enabled, module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger can be uploaded before module.multi-runner.module.runner_binaries:resource.aws_s3_bucket_versioning.action_dist finishes configuring versioning. Reference the versioning resource's bucket to order the initial write and its sync-triggering notification after versioning configuration. The provider documentation also recommends a 15-minute propagation interval on first enablement; dependency ordering alone does not implement that interval.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_s3_bucket_versioning.action_dist",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket_versioning.action_dist.bucket"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners:resource.aws_lambda_function.scale_down can become invocable before module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_down is installed. Its scheduled target and invocation permission wait for the function but not its execution policy, so an early scheduled invocation can lack the AWS and GitHub-credential access needed to scale down. Add depends_on on this execution policy to make function readiness include those permissions.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_function.pool does not wait for module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy.pool. The function's scheduled targets can therefore activate before its execution role has the permissions required to adjust the runner pool and read GitHub credentials. Add depends_on on the execution policy; its reference to the role alone does not order it before the function.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook should wait for module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_ssm before being exposed to requests. The parameter-name reference waits for the secret's existence, not for the execution role's permission to read it. Without ordering this separate policy, the first webhook delivery can fail while loading the verification secret. Add depends_on on the policy.",
+      "node": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook should wait for module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_sqs. The queue configuration and role references do not wait for this separate publish-permission policy; API Gateway and GitHub can begin delivering events while the webhook execution role still cannot enqueue builds. Add depends_on on the policy.",
+      "node": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the workflow-job events queue is enabled, module.multi-runner.module.webhook:resource.aws_lambda_function.webhook should wait for module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_workflow_job_sqs. Referencing the queue waits for its existence but not the execution role's separately managed publish permissions, so early requests can fail when copying workflow events. Add depends_on on the optional policy collection.",
+      "node": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_workflow_job_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up enables queue polling without waiting for module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up_logging. The log group and logging policy are created after the function on a separate branch, so queued events can invoke it before logging is ready. Add depends_on on the logging policy; that also waits for the managed log group and avoids adding a cyclic dependency to the function.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down can activate scheduled invocations before module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_down_logging exists. The policy and its log group depend on the function but the target does not wait for them, so an early invocation can lose logs or race managed log-group creation. Add depends_on on the logging policy at the target rather than creating a cycle at the function.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_down_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool can deliver a scheduled pool event before module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy.pool_logging and its managed log group are ready. Add depends_on on the logging policy to make logging available before activating the targets; a dependency from the function to this policy would instead create a cycle.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer activates an enabled schedule without waiting for module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging. A scheduled invocation can therefore precede installation of the logging policy and creation of its log group, independently of the S3 deployment trigger. Add depends_on on the logging policy at this target.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app should wait for module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_logging before enabling GitHub deliveries. The exported endpoint includes the function's log group but does not wait for the separate logging policy, so initial requests can arrive while the execution role cannot write logs. Propagate this readiness dependency through the webhook output or wait for the complete webhook module before updating the app.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

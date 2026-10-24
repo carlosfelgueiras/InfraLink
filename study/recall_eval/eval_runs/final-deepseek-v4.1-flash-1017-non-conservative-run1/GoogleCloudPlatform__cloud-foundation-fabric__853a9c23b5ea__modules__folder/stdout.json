@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_folder_sink.sink already has an explicit depends_on on google_folder_iam_binding.authoritative to guarantee folder-level IAM is settled (IAM is eventually consistent) before the sink is created, but the sibling authoritative folder-IAM resource google_folder_iam_binding.bindings (from var.iam_bindings) is not waited on. A role this binding grants/revokes on the folder can therefore race with the sink's creation. Add google_folder_iam_binding.bindings to the sink's depends_on (no clean attribute reference expresses this ordering).",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "By the same reasoning that makes google_logging_folder_sink.sink wait on google_folder_iam_binding.authoritative, the additive folder-IAM resource google_folder_iam_member.bindings (from var.iam_bindings_additive) is also not waited on. Grants applied to the folder via this resource can race with (or not yet be propagated when) the sink is created. Add google_folder_iam_member.bindings to the sink's depends_on (no clean attribute reference expresses this ordering).",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

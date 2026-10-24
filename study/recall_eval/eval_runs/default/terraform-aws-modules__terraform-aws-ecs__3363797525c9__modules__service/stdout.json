@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The task definition references the container-definition module output, but that output is built using the CloudWatch log group name via try(..., \"\"). Terraform's graph may see the module dependency, yet the resource's log group creation is internal to the module and not guaranteed to precede ECS task definition registration; ECS can reject a task definition referencing a not-yet-created log group. Add a dependency at the module boundary so task definition waits for container-definition module resources.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": "module.container_definition:resource.aws_cloudwatch_log_group.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

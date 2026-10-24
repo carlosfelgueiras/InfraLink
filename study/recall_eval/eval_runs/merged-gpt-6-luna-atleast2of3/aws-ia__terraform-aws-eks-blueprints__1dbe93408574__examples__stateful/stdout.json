@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Kubernetes add-ons module is launched without the configured data-plane wait value, so it can install add-ons before the managed node group is ready. Wire the node-group ARN into data_plane_wait_arn to make the existing dataplane wait gate it.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe root Kubernetes-addons module is not gated on the managed node group becoming available. This example provisions add-ons that expect a usable EKS data plane, and its data_plane_wait_arn input is left at its empty default rather than being wired to the node-group output. Make the module wait for the managed node group before deploying add-ons.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe stateful example enables EKS managed node groups but does not pass their ARN through data_plane_wait_arn or otherwise order Kubernetes add-on deployment after the managed node group. Add-ons may begin before worker nodes are available, affecting workload scheduling and data-plane-dependent add-ons.",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "fix": {
+        "field": "data_plane_wait_arn",
+        "expression": "join(\",\", module.eks_blueprints.managed_node_group_arn)"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

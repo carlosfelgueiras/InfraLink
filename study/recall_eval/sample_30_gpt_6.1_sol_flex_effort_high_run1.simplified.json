@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1450,
+    "node": ":resource.aws_cloudtrail.main",
+    "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+    "message": "aws_cloudtrail.main references the log bucket but does not wait for aws_s3_bucket_policy.cloudtrail to grant CloudTrail GetBucketAcl and PutObject permissions. Trail creation can race policy installation and fail with InsufficientS3BucketPolicyException. Use the policy's bucket attribute for s3_bucket_name to establish the missing ordering.",
+    "github_url": "https://github.com/maddevsio/aws-eks-base/tree/c4893f3c22a5e9c80109d7093ae4d9403e6118d0/terraform/layer1-aws"
+  },
+  {
+    "id": 661,
+    "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+    "target": ":module.eks_blueprints_kubernetes_addons",
+    "message": "kubectl_manifest.cluster_pca_issuer applies an AWSPCAClusterIssuer custom resource, but does not wait for module.eks_blueprints_kubernetes_addons to install the AWS Private CA issuer CRD. Cluster endpoint and CA ARN references do not establish this ordering, so a fresh apply can fail with an unknown resource kind. Add depends_on = [module.eks_blueprints_kubernetes_addons].",
+    "github_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/68b597d3ae478b974330455bd7439da5a3689af7/examples/tls-with-aws-pca-issuer"
+  },
+  {
+    "id": 323,
+    "node": ":resource.google_organization_iam_member.additive",
+    "target": ":resource.google_organization_iam_custom_role.roles",
+    "message": "google_organization_iam_member.additive takes its role from string-valued inputs without depending on google_organization_iam_custom_role.roles. If an additive grant uses a custom role created here, Terraform can attempt the grant before creating the role. Reference the managed role name when available.",
+    "github_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/tree/39b27ac25e38ebef72984911a3f25ec8fa193698/modules/organization"
+  },
+  {
+    "id": 1555,
+    "node": "module.secure_baseline.module.vpc_baseline_eu-central-1:data.aws_subnets.default",
+    "target": "module.secure_baseline.module.vpc_baseline_eu-central-1:resource.aws_default_vpc.default",
+    "message": "data.aws_subnets.default in eu-central-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/4d3cbd46466267d34722f08e01e589c1d14d0d65/examples/organization/master"
+  },
+  {
+    "id": 993,
+    "node": "module.runner:data.template_file.gitlab_runner",
+    "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+    "message": "module.runner:data.template_file.gitlab_runner passes the SSM token parameter name through a local string, without depending on module.runner:resource.aws_ssm_parameter.runner_registration_token. The ASG can therefore boot and let user-data read or write the token before Terraform initializes the parameter to \"null\", causing a missing-parameter or competing-creation race. Use the managed parameter's name in the template variables to order the launch transitively.",
+    "github_url": "https://github.com/cattle-ops/terraform-aws-gitlab-runner/tree/c1287813406a930e2c6d5a5a2caf938cb198496c/examples/runner-public"
+  },
+  {
+    "id": 958,
+    "node": "module.terminate_instances_lifecycle_function:resource.aws_lambda_function.terminate_runner_instances",
+    "target": "module.terminate_instances_lifecycle_function:resource.aws_iam_role_policy_attachment.lambda",
+    "message": "aws_lambda_function.terminate_runner_instances references its execution role but does not wait for aws_iam_role_policy_attachment.lambda to grant EC2 termination, lifecycle completion, and log-write permissions. The function can become an EventBridge target before those permissions exist. Add ordering after the attachment; its policy dependency also ensures the managed Lambda log group exists first.",
+    "github_url": "https://github.com/cattle-ops/terraform-aws-gitlab-runner/tree/bf63c05dbee0cd8eb7c9f8007365c58a50712429"
+  },
+  {
+    "id": 936,
+    "node": ":resource.aws_iam_instance_profile.instance",
+    "target": ":resource.aws_iam_role.instance",
+    "message": "aws_iam_instance_profile.instance adds a role using local.aws_iam_role_instance_name, which does not reference aws_iam_role.instance. With create_runner_iam_role enabled, profile creation can attempt to add the role before it exists. Reference the managed role directly.",
+    "github_url": "https://github.com/cattle-ops/terraform-aws-gitlab-runner/tree/bf63c05dbee0cd8eb7c9f8007365c58a50712429"
+  },
+  {
+    "id": 719,
+    "node": "module.eks_blueprints_kubernetes_addons.module.argo_workflows:module.helm_addon",
+    "target": "module.eks_blueprints_kubernetes_addons.module.argo_workflows:resource.kubernetes_namespace_v1.this",
+    "message": "Argo Workflows module.helm_addon and kubernetes_namespace_v1.this can create the same namespace concurrently: the chart configuration enables create_namespace, while Terraform separately manages that namespace. Order Helm after the namespace resource to avoid an AlreadyExists race.",
+    "github_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/79a797e445b254fbaed84cc99c6f1dd376d086ca/examples/karpenter"
+  },
+  {
+    "id": 1550,
+    "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-3:data.aws_subnets.default",
+    "target": "module.secure_baseline.module.vpc_baseline_ap-northeast-3:resource.aws_default_vpc.default",
+    "message": "data.aws_subnets.default in ap-northeast-3 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/4d3cbd46466267d34722f08e01e589c1d14d0d65/examples/organization/master"
+  },
+  {
+    "id": 641,
+    "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+    "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+    "message": "aws_eks_addon.adot waits for kubernetes_role_v1.adot but not kubernetes_role_binding_v1.adot. Creating a Role does not grant its permissions to eks:addon-manager; the binding must exist before EKS installs or removes the managed ADOT resources.",
+    "github_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/4d99fd7a0e52b81962c7b09dd0d80c3c54ff5bd2/examples/analytics/spark-k8s-operator"
+  },
+  {
+    "id": 1488,
+    "node": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+    "target": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_sns_topic_policy.config",
+    "message": "aws_config_delivery_channel.bucket in eu-north-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/4d3cbd46466267d34722f08e01e589c1d14d0d65/examples/organization/master"
+  },
+  {
+    "id": 1554,
+    "node": "module.secure_baseline.module.vpc_baseline_ca-central-1:data.aws_subnets.default",
+    "target": "module.secure_baseline.module.vpc_baseline_ca-central-1:resource.aws_default_vpc.default",
+    "message": "data.aws_subnets.default in ca-central-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/4d3cbd46466267d34722f08e01e589c1d14d0d65/examples/organization/master"
+  },
+  {
+    "id": 1709,
+    "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+    "target": ":resource.aws_s3_bucket_policy.audit_log",
+    "message": "The ca-central-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Referencing the bucket does not wait for the policy granting Config access, so destination validation can race with permission installation. Establish ordering through the root module call or a channel-specific dependency input.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/9019d6757ee116114b0318457e872c8da2d574a9"
+  },
+  {
+    "id": 1350,
+    "node": ":resource.aws_lambda_function.ami_housekeeper",
+    "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+    "message": "When tracing is configured, :resource.aws_lambda_function.ami_housekeeper does not wait for :resource.aws_iam_role_policy.ami_housekeeper_xray. Its role reference orders only role creation, so the scheduled target can invoke the function before its X-Ray permissions are installed, losing initial traces. Add depends_on on the counted policy resource to order tracing permissions before the function and its downstream trigger.",
+    "github_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/tree/fdb4385c6c08d3d7adae70481570b0899d4c9dd9/modules/ami-housekeeper"
+  },
+  {
+    "id": 626,
+    "node": "module.eks_blueprints_kubernetes_addons.module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+    "target": "module.eks_blueprints_kubernetes_addons.module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+    "message": "When enabled, ExternalDNS creates its IRSA service account independently of its namespace. kubernetes_service_account_v1.irsa must wait for kubernetes_namespace_v1.irsa when namespace creation is enabled, or its creation can fail.",
+    "github_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/4d99fd7a0e52b81962c7b09dd0d80c3c54ff5bd2/examples/analytics/spark-k8s-operator"
+  },
+  {
+    "id": 1396,
+    "node": "module.pool:resource.aws_scheduler_schedule.pool",
+    "target": ":resource.aws_ssm_parameter.runner_config_run_as",
+    "message": "module.pool:resource.aws_scheduler_schedule.pool can launch runners before :resource.aws_ssm_parameter.runner_config_run_as creates their run_as bootstrap setting. Passing a config path string into the pool module does not wait for this parameter. Order pool activation after parameter creation, for example with a dependency on the parameter on the parent pool module.",
+    "github_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/tree/fdb4385c6c08d3d7adae70481570b0899d4c9dd9/modules/runners"
+  },
+  {
+    "id": 1224,
+    "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+    "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+    "message": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer activates scheduled invocation without waiting for module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer. The enabled rule can fire before EventBridge has permission to invoke the function. Add depends_on on the permission so the target is activated only after invocation is authorized.",
+    "github_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/tree/1b243426fdb76fc9fff2d244df357f15bbbb7b24/examples/ephemeral"
+  },
+  {
+    "id": 363,
+    "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+    "target": ":resource.google_project_service.project_services",
+    "message": "google_logging_project_exclusion.logging-exclusion requires the Logging API but does not wait for google_project_service.project_services. Exclusion creation can race logging.googleapis.com enablement.",
+    "github_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/tree/5fb76628f6b177253f69634d5519e6d7296c2ebf/modules/project"
+  },
+  {
+    "id": 361,
+    "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+    "target": ":resource.google_project_service.project_services",
+    "message": "google_compute_shared_vpc_service_project.shared_vpc_service waits for perimeter membership but not google_project_service.project_services. When the module enables compute.googleapis.com, service-project attachment can race that activation.",
+    "github_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/tree/5fb76628f6b177253f69634d5519e6d7296c2ebf/modules/project"
+  },
+  {
+    "id": 632,
+    "node": "module.eks_blueprints_kubernetes_addons.module.adot_collector_haproxy.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+    "target": "module.eks_blueprints_kubernetes_addons.module.adot_collector_haproxy.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+    "message": "When enabled, the HAProxy ADOT collector creates an IRSA namespace and service account without ordering them. kubernetes_service_account_v1.irsa must wait for kubernetes_namespace_v1.irsa when namespace creation is enabled.",
+    "github_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/4d99fd7a0e52b81962c7b09dd0d80c3c54ff5bd2/examples/analytics/spark-k8s-operator"
+  },
+  {
+    "id": 923,
+    "node": ":module.synapse_workspaces",
+    "target": ":module.keyvault_access_policies",
+    "message": ":module.synapse_workspaces creates four Key Vault secrets when generating SQL administrator credentials, but unlike the other secret-writing modules it does not wait for :module.keyvault_access_policies. Referencing the vault ID only establishes vault existence, not the executing principal's secret permissions. When those permissions are supplied by the configured access policies, secret creation can race the grants; add module-level ordering on the access-policy module.",
+    "github_url": "https://github.com/aztfmod/terraform-azurerm-caf/tree/9365e69cad179af92ac680117c087e35d9a722b7"
+  },
+  {
+    "id": 946,
+    "node": ":resource.aws_launch_template.gitlab_runner_instance",
+    "target": ":resource.aws_iam_instance_profile.instance",
+    "message": "aws_launch_template.gitlab_runner_instance specifies its instance-profile name through local.aws_iam_role_instance_name, without referencing aws_iam_instance_profile.instance. Consequently the downstream Auto Scaling group can launch before the managed profile exists. Reference the profile's name in the iam_instance_profile block, preserving the external-profile case.",
+    "github_url": "https://github.com/cattle-ops/terraform-aws-gitlab-runner/tree/bf63c05dbee0cd8eb7c9f8007365c58a50712429"
+  },
+  {
+    "id": 1309,
+    "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+    "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+    "message": "When Lambda subnets are configured, module.runners.module.runners:resource.aws_lambda_function.scale_down must wait for module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role. VPC provisioning and cleanup require the attachment's ENI-management permissions, but the function's role reference does not order this attachment.",
+    "github_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/tree/1b243426fdb76fc9fff2d244df357f15bbbb7b24/examples/windows"
+  },
+  {
+    "id": 1408,
+    "node": ":resource.aws_lambda_function.webhook",
+    "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+    "message": "aws_lambda_function.webhook references the execution role but does not wait for aws_iam_role_policy_attachment.webhook_vpc_execution_role. When lambda_subnet_ids is nonempty, Lambda needs the attached EC2 network-interface permissions to provision its VPC networking; function creation can race policy attachment and fail. Add depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role], which also keeps these permissions attached until the function is destroyed.",
+    "github_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/tree/fdb4385c6c08d3d7adae70481570b0899d4c9dd9/modules/webhook/direct"
+  },
+  {
+    "id": 358,
+    "node": ":resource.google_compute_router_peer.peer_0",
+    "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+    "message": "google_compute_router_peer.peer_0 configures BGP sessions for router appliances registered by google_network_connectivity_spoke.spoke-ra. Those appliances must be registered with the NCC spoke before their router-appliance BGP peers are configured. Both resources currently read the VM information independently from input variables, so no dependency enforces this ordering. Add depends_on = [google_network_connectivity_spoke.spoke-ra] to peer_0.",
+    "github_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/tree/4c64c1587159b319527de1a7f2b70a92698e2100/modules/ncc-spoke-ra"
+  },
+  {
+    "id": 1366,
+    "node": ":resource.aws_lambda_function.scale_down",
+    "target": ":resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+    "message": ":resource.aws_lambda_function.scale_down must depend on :resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role when deployed in a VPC. The role ARN reference does not order this separate attachment, so Lambda can attempt to provision network interfaces before the execution role has the required EC2 permissions. The dependency also preserves those permissions during function deletion.",
+    "github_url": "https://github.com/github-aws-runners/terraform-aws-github-runner/tree/fdb4385c6c08d3d7adae70481570b0899d4c9dd9/modules/runners"
+  },
+  {
+    "id": 801,
+    "node": ":data.aws_iam_policy_document.eks_key",
+    "target": ":module.aws_eks",
+    "message": ":data.aws_iam_policy_document.eks_key constructs the cluster IAM-role principal from its expected ARN instead of referencing the role created by :module.aws_eks. Consequently, the KMS key consuming this document can be created before that principal exists, causing KMS to reject the policy as containing an invalid principal. Reference the module's cluster_iam_role_arn output in the principal identifiers to order policy consumption after role creation. Use the role output rather than a broad depends_on on the EKS module, since the cluster itself consumes the KMS key.",
+    "github_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/c55de99ba5834ebe181d07a38c28838342559329"
+  },
+  {
+    "id": 1529,
+    "node": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+    "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+    "message": "aws_config_configuration_recorder_status.recorder in us-west-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/4d3cbd46466267d34722f08e01e589c1d14d0d65/examples/organization/master"
+  },
+  {
+    "id": 1461,
+    "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+    "target": ":module.eks_node_group_al2023",
+    "message": "aws_eks_addon.aws_ebs_csi_driver has no ordering against module.eks_node_group_al2023. Its controller Deployment needs worker capacity to become healthy, so concurrent installation can leave the add-on waiting for pods and eventually timing out while workers are still provisioning. Make it depend on the node-group module.",
+    "github_url": "https://github.com/marcincuber/eks/tree/e5f8996c7d6a4732743f5eb24ad297ed9f7c6bf5/terraform"
+  },
+  {
+    "id": 1514,
+    "node": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+    "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+    "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-1 enables recording without waiting for aws_iam_role_policy.recorder_publish_policy. The recorder's role reference does not wait for its S3/SNS delivery permissions. Add ordering at recorder activation, rather than a whole-module dependency on this policy, because the policy itself references regional SNS outputs.",
+    "github_url": "https://github.com/nozaq/terraform-aws-secure-baseline/tree/4d3cbd46466267d34722f08e01e589c1d14d0d65/examples/organization/master"
+  }
+]

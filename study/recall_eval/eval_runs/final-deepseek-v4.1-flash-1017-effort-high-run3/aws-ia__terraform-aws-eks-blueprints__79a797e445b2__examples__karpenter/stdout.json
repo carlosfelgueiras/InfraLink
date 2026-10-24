@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubectl_manifest.karpenter_provisioner defines a Provisioner whose spec sets `providerRef: { name: default }`, i.e. it references the AWSNodeTemplate named \"default\" that is created by kubectl_manifest.karpenter_node_template. The graph only records a dependency on module.eks_blueprints_kubernetes_addons (needed for the Karpenter CRDs), so Terraform is free to apply the Provisioner before the AWSNodeTemplate exists. Karpenter then cannot resolve its provider (`default`), the Provisioner never becomes usable and nodes are never provisioned. It must be ordered after kubectl_manifest.karpenter_node_template (e.g. `depends_on = [kubectl_manifest.karpenter_node_template]`).",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the self-managed CoreDNS chart replaces the EKS default deployment, resource null_resource.modify_kube_dns annotates and labels the already existing `kube-dns` Service (meta.helm.sh/release-name, meta.helm.sh/release-namespace, app.kubernetes.io/managed-by=Helm) so that Helm is allowed to adopt it. The self-managed CoreDNS helm_release.addon only depends on null_resource.remove_default_coredns_deployment (via its `blueprints.connection` set value); it has no ordering edge to null_resource.modify_kube_dns. Terraform can therefore run the Helm install in parallel with the annotation step, and Helm fails with \"Service \\\"kube-dns\\\" ... exists and cannot be imported into the current release: invalid ownership metadata\". The helm release must depend on null_resource.modify_kube_dns.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_coredns.module.helm_addon:resource.helm_release.addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:resource.null_resource.modify_kube_dns",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

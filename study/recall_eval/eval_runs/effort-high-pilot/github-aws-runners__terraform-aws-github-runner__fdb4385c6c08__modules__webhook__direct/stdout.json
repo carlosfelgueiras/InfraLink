@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC networking is configured, the Lambda function needs the VPC execution policy attached so AWS Lambda can create and manage its network interfaces. The function currently depends only on the IAM role, not on this conditional policy attachment; ensure the attachment completes before the function is created.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

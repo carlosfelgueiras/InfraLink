@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EKS cluster encryption configuration can use the KMS key created by module.kms, but the cluster role's encryption policy is not attached until this resource completes. The cluster should wait for this attachment so EKS has the required KMS permissions when creating the encrypted cluster.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe cluster encryption configuration can use a KMS key, but the cluster role's encryption policy attachment is not ordered before cluster creation. EKS needs the role permissions to use the configured key; add an explicit dependency so cluster creation cannot race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS cluster can be created with encryption enabled before the cluster role's cluster-encryption policy attachment is applied. The role must have the required KMS permissions before EKS provisions the cluster; add an explicit ordering dependency.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nCreating this Kubernetes ConfigMap requires the EKS Kubernetes API to be available, but the resource has no dependency on the cluster. Add an ordering dependency so Terraform does not attempt to manage aws-auth before the cluster exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe aws-auth ConfigMap is managed through the Kubernetes API but has no dependency on the EKS cluster. When no node-group module references contribute an indirect edge, Terraform may attempt to manage the ConfigMap before the cluster/API exists; order it after the cluster.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe managed node group uses the IAM role but has no dependency on its worker-node policy attachments. The AWS provider documentation recommends ordering the node group after these permissions are attached (and before they are removed); otherwise provisioning or deletion can race the policy attachments.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EKS managed node group can be created without waiting for its IAM role policy attachments, and AWS documents that these permissions must be established before node group handling (including deletion). Add an ordering dependency on the required worker-node policy attachments.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS managed node group uses an IAM role whose required worker-node policies are attached by this resource, but the node group has no dependency on the attachment. The launch-template dependency only orders this when a custom launch template is actually used; with `use_custom_launch_template = false`, the node group can be created before its role permissions are ready. Add an explicit dependency so EKS node-group creation and deletion are ordered around the policy attachment.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThe Fargate profile can become active and start scheduling pods before its pod execution role has the required managed policy attached. Order profile creation after the role policy attachment so Fargate workloads do not race permission setup.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Fargate profile can be created before the Fargate pod execution role's required managed policy is attached. The profile may become usable and start pods before that permission is available; order profile creation after the policy attachment.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

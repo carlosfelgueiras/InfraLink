@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_bucket_policy.access_log_policy attaches a policy to the access-log bucket, but has no ordering relationship with aws_s3_bucket_public_access_block.access_log, which sets block_public_policy = true on the same bucket. With no attribute reference or depends_on linking them, Terraform may apply the policy and the public access block in parallel or in the wrong order, causing PutBucketPolicy to be rejected or leaving the enforcement ordering undefined. The public access block should be created before the bucket policy is attached.",
+      "node": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "target": ":resource.aws_s3_bucket_public_access_block.access_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

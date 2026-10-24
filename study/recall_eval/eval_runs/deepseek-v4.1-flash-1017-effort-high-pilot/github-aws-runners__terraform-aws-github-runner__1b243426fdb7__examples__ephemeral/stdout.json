@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up` consumes the build queue with the scale-up function's execution role, but the only thing that grants that role `sqs:ReceiveMessage` / `sqs:DeleteMessage` / `sqs:GetQueueAttributes` (and the KMS decrypt rights) is `module.runners.module.runners:resource.aws_iam_role_policy.scale_up`, which is not referenced anywhere by the event source mapping. AWS validates the execution role when CreateEventSourceMapping is called, so on a fresh apply Terraform may create the mapping while the role still has no inline policy, failing with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\". Nothing in the graph orders the mapping after the role policy; it needs `depends_on = [aws_iam_role_policy.scale_up]` (no clean data reference exists, since the policy's payload is not shared with the mapping).",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_s3_object.trigger` exists solely to fire the `s3:ObjectCreated:*` notification that invokes the syncer lambda on first deploy, but it only waits for the bucket, the function and `aws_s3_bucket_notification.on_deploy`. The syncer's permission to read/write the distribution bucket (`s3:PutObject` on `aws_s3_bucket.action_dist`) is granted by `module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer`, which the trigger object does not depend on. Because the role and bucket are both created early, Terraform can upload the trigger object and have S3 invoke the function before that inline policy is attached, causing the initial binary sync to fail with AccessDenied (and leaving the bucket empty until the next scheduled event-rule run). Add `depends_on = [aws_iam_role_policy.syncer]` to the trigger object; there is no attribute through which the IAM policy could be referenced.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

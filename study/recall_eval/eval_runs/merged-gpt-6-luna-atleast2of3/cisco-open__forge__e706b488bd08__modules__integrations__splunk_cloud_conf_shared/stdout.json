@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe props configuration references the trust-validation transform through REPORT-forgecicd_trust_validation, but it has no dependency on the transform; ensure the transform exists before this configuration is applied.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe props configuration references the trust-validation transform through REPORT-forgecicd_trust_validation, but it does not depend on the transform resource; ensure the transform exists before applying this props configuration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\n`:resource.splunk_configs_conf.forgecicd_cloudwatchlogs` configures `REPORT-forgecicd_trust_validation` with this transform's name, but it has no dependency on the transform. Ensure the transform exists before applying the props configuration.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe props configuration references the extra Lambda EC2 tenant-fields transform through REPORT-forgecicd_extra_lambda_ec2_tenant_fields, but it has no dependency on the transform; ensure the transform exists before this configuration is applied.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe props configuration references the extra EC2 Lambda tenant-fields transform in its REPORT settings but does not depend on that transform, so it may be created before the referenced transform.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\n`:resource.splunk_configs_conf.forgecicd_cloudwatchlogs` configures `REPORT-forgecicd_extra_lambda_ec2_tenant_fields` with this transform's name, but it has no dependency on the transform. Ensure the transform exists before applying the props configuration.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

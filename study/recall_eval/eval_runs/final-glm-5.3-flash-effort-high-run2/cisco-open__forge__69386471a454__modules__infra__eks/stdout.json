@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "resource.helm_release.karpenter has an explicit depends_on on :module.eks, but it already depends on module.eks implicitly through attribute references in its values template (module.eks.cluster_name and module.eks.cluster_endpoint in the settings block). The explicit depends_on duplicates an existing implicit dependency and can be removed.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

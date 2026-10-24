@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.local_file.public_ssh_key to :resource.tls_private_key.ssh duplicates the dependency already established by the content reference.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.local_file.private_ssh_key to :resource.tls_private_key.ssh duplicates the dependency already established by the content reference.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

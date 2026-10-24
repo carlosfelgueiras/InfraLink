@@ -1,0 +1,36 @@
+{
+  "repo": "maddevsio__aws-eks-base",
+  "parent_sha": "82fca5af788109fcd3bd91f600da96991042e02d^",
+  "resolved_sha": "7a87e5885f2bf76ac1e961b325879aad307755b5",
+  "module_dir": "terraform/layer2-k8s",
+  "profile": "merged(min_runs=2): final-deepseek-v4.1-flash-1017-effort-high-run1,final-deepseek-v4.1-flash-1017-effort-high-run2,final-deepseek-v4.1-flash-1017-effort-high-run3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "maddevsio__aws-eks-base",
+      "pr_number": 271,
+      "pr_url": "https://github.com/maddevsio/aws-eks-base/pull/271",
+      "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/82fca5af788109fcd3bd91f600da96991042e02d",
+      "commit_sha": "82fca5af788109fcd3bd91f600da96991042e02d",
+      "parent_sha": "82fca5af788109fcd3bd91f600da96991042e02d^",
+      "commit_subject": "enh: update used helm-charts to the latest versions (#271)",
+      "commit_date": "2022-04-21T13:39:08+06:00",
+      "file": "terraform/layer2-k8s/eks-victoria-metrics-k8s-stack.tf",
+      "module_dir": "terraform/layer2-k8s",
+      "holder_address": "helm_release.victoria_metrics_k8s_stack",
+      "added_targets": [
+        "helm_release.ingress_nginx"
+      ],
+      "pre_existing_targets": [
+        "helm_release.calico_daemonset",
+        "kubectl_manifest.kube_prometheus_stack_operator_crds"
+      ],
+      "already_implicit": {
+        "helm_release.ingress_nginx": false
+      },
+      "verify_error": null
+    }
+  ]
+}

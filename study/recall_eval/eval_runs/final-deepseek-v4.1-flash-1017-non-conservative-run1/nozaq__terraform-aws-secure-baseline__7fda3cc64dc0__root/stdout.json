@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_configuration_aggregator.organization only implicitly depends on aws_iam_role.config_organization (via role_arn). The aggregator must be created only after aws_iam_role_policy_attachment.config_organization has attached AWSConfigRoleForOrganizations to that role; otherwise AWS Config's EnableAwsServiceAccess / aggregation setup runs against a role with no permissions and creation fails. The provider documentation's own organization-aggregation example adds `depends_on = [aws_iam_role_policy_attachment.organization]` for this reason. No attribute reference can express this ordering (the policy attachment has no attributes consumed by the aggregator), so a bare depends_on is the fix.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudtrail.global is passed s3_bucket_name through local.audit_log_bucket_id, so no reference links it to the audit bucket's policy, and the trail is created without waiting for aws_s3_bucket_policy.audit_log. CloudTrail validates the bucket policy (s3:GetBucketAcl / s3:PutObject for cloudtrail.amazonaws.com) at trail creation time and fails with InsufficientS3BucketPolicyException if the policy is not yet in place \u2014 the hash to the trail's own documentation example shows `depends_on = [aws_s3_bucket_policy.example]`. Since the ordering is against a policy resource (not a value the trail consumes), a bare depends_on from the trail/module onto aws_s3_bucket_policy.audit_log is required.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

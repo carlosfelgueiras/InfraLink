@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default serves content from the S3 origin using the origin access identity, but it has no dependency on aws_s3_bucket_policy.default, which is what grants that identity access to the bucket. If the distribution is provisioned before the bucket policy is applied, the origin returns 403 errors until the policy lands. An explicit depends_on on aws_s3_bucket_policy.default is needed since no attribute of the distribution references the policy.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on = [\"aws_s3_bucket.origin\"] on aws_cloudfront_distribution.default is redundant: the distribution's origin.domain_name is set to local.bucket_domain_name, which is derived from local.bucket, which references aws_s3_bucket.origin.*.id. That attribute-reference chain through the locals already forces Terraform to create the bucket before the distribution, so the explicit depends_on duplicates an existing implicit dependency.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

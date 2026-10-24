@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function should wait for its AMI-housekeeper inline policy to be attached before it can be invoked with the permissions this function needs; referencing only the execution role does not order this policy creation. Add an explicit dependency because there is no suitable Lambda argument to reference this policy.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, the Lambda function needs the X-Ray role policy before it handles traced invocations. Its role reference does not imply ordering on this separate inline policy resource.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For VPC-configured Lambda functions, the execution role needs the VPC access policy before Lambda configures networking. The role-name reference does not order this separate policy attachment before function creation.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda invoke permission, even though that permission is required for the rule to invoke the function. Order target creation after the permission to avoid a window where scheduled invocations are unauthorized.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can become callable before its CloudWatch Logs inline policy is attached, causing invocations to fail to write logs. The function's role reference does not ensure this separate policy is ready; explicitly order function creation after the logging policy.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

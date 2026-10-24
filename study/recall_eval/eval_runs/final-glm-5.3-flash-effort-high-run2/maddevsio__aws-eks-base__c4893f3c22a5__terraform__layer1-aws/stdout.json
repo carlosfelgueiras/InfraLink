@@ -1,0 +1,55 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`kubectl_manifest.aws_auth_configmap` applies the aws-auth ConfigMap to the EKS cluster, but the graph shows no dependency at all on `module.eks` (its `yaml_body` comes from `local.aws_auth_configmap_yaml`, which is built from `module.eks.aws_auth_configmap_yaml`, but that edge was not captured). Operationally this resource must not be applied until the cluster exists and is reachable: on a first apply, the kubectl provider would try to talk to a cluster that has not been created yet. Add an explicit `depends_on = [module.eks]` to guarantee the cluster is created first.",
+      "node": ":resource.kubectl_manifest.aws_auth_configmap",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_cloudtrail.main` depends only on the S3 bucket itself, not on `aws_s3_bucket_policy.cloudtrail`. CloudTrail validates the bucket policy granting `cloudtrail.amazonaws.com` the `s3:GetBucketAcl`/`s3:PutObject` permissions when the trail is created/updated; if the policy is not yet applied, trail creation can fail or the trail will be created but will be unable to deliver logs (AWS may stop logging within hours). The official `aws_cloudtrail` documentation explicitly shows `depends_on = [aws_s3_bucket_policy.example]` in its reference example. There is no attribute on the trail that can reference the bucket policy, so a bare `depends_on` is the right fix.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.eventbridge` creates EventBridge rules whose targets publish to `aws_sns_topic.security_alerts` (referenced via the topic ARN), but it has no dependency on `aws_sns_topic_policy.security_alerts`. The topic policy granting `events.amazonaws.com` permission to publish (`Allow_Publish_Events`) is what actually authorizes EventBridge deliveries; if the policy is applied after the rules/targets, events fired in that window are dropped. There is no attribute on the module that could reference the topic policy, so a bare `depends_on` is the right fix.",
+      "node": ":module.eventbridge",
+      "target": ":resource.aws_sns_topic_policy.security_alerts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.acm` requests an ACM certificate for `local.domain_name` with DNS validation, but the graph shows no dependency on the Route 53 zone (`module.r53_zone` when `var.create_r53_zone` is true, `data.aws_route53_zone.main` otherwise \u2014 only `var.create_acm_certificate` is captured). When the hosted zone is created in the same apply, DNS validation records cannot be created in a zone that doesn't exist yet, and the certificate will hang in PENDING_VALIDATION. Setting `zone_id` directly to the full `local.zone_id` expression (which references `module.r53_zone.route53_zone_zone_id` and `data.aws_route53_zone.main[0].zone_id`) establishes the ordering as a real data dependency instead of `depends_on`.",
+      "node": ":module.acm",
+      "target": ":module.r53_zone",
+      "fix": {
+        "field": "zone_id",
+        "expression": "var.create_r53_zone ? element(keys(module.r53_zone.route53_zone_zone_id), 0) : (var.zone_id != null ? var.zone_id : data.aws_route53_zone.main[0].zone_id)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "`module.acm` also lacks a dependency on `data.aws_route53_zone.main`, which is the zone source used when `var.create_r53_zone` is false. While reading an existing zone usually resolves without ordering problems, the same `zone_id = local.zone_id` data-dependency fix covers this case and makes the certificate's dependency on the chosen hosted zone explicit.",
+      "node": ":module.acm",
+      "target": ":data.aws_route53_zone.main",
+      "fix": {
+        "field": "zone_id",
+        "expression": "var.create_r53_zone ? element(keys(module.r53_zone.route53_zone_zone_id), 0) : (var.zone_id != null ? var.zone_id : data.aws_route53_zone.main[0].zone_id)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

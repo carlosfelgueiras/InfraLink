@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runners.module.runner_binaries:resource.aws_s3_bucket_policy.action_dist_bucket_policy and module.runners.module.runner_binaries:resource.aws_s3_bucket_public_access_block.action_dist both depend only on the bucket, so Terraform applies them in parallel. If PutBucketPolicy for the ForceSSL/ForceSSE policy runs while the public access block (block_public_policy/restrict_public_buckets) is still being configured on the bucket, AWS rejects the PutBucketPolicy call with \"A conflicting conditional operation is currently in progress against this resource\", failing the apply and leaving the distribution bucket without its access policy. The bucket policy must be applied only after the public access block has been configured. Since the policy resource has no attribute that can reference the public access block, an explicit `depends_on = [aws_s3_bucket_public_access_block.action_dist]` is required.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_policy.action_dist_bucket_policy",
+      "target": "module.runners.module.runner_binaries:resource.aws_s3_bucket_public_access_block.action_dist",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

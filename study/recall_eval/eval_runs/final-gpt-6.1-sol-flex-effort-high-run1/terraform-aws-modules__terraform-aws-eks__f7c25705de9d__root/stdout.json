@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_eks_cluster.this does not wait for :resource.aws_iam_role_policy_attachment.additional. Additional policies on the cluster role can be attached concurrently with cluster creation or detached before cluster deletion. Include this attachment set in the cluster's depends_on so configured control-plane permissions remain available throughout cluster handling, as recommended by the provider documentation.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.eks_managed_node_group:resource.aws_eks_node_group.this must wait for module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this. Referencing the node role does not order its policy attachments. The dependency on the module-created launch template cannot protect configurations that disable that template or use an existing template. The provider explicitly requires these permissions before node-group creation and until node-group deletion completes.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks_managed_node_group:resource.aws_eks_node_group.this has no ordering dependency on module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional. When additional node-role policies are configured, nodes and their workloads can start before those permissions are attached, and the policies can be removed before node-group teardown. Add this attachment set to the node group's depends_on.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.fargate_profile:resource.aws_eks_fargate_profile.this references the execution role but does not wait for module.fargate_profile:resource.aws_iam_role_policy_attachment.this, which attaches AmazonEKSFargatePodExecutionRolePolicy. The profile can be provisioned and matching pods can start without their required execution permissions. Depend on the attachment set to establish creation ordering and retain permissions through profile deletion.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.fargate_profile:resource.aws_eks_fargate_profile.this does not wait for module.fargate_profile:resource.aws_iam_role_policy_attachment.additional. Configured additional execution-role permissions can therefore be absent when matching Fargate pods start, or be detached before profile teardown. Include these attachments in the profile's depends_on alongside its required policy attachments.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.self_managed_node_group:resource.aws_launch_template.this waits for the standard role-policy attachments but not module.self_managed_node_group:resource.aws_iam_role_policy_attachment.additional. This leaves the documented policy-readiness barrier incomplete: instances using this template can start workloads before their additional node-role permissions are attached, and those permissions can disappear prematurely during teardown. Include the additional attachment set in the existing depends_on.",
+      "node": "module.self_managed_node_group:resource.aws_launch_template.this",
+      "target": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_eks_cluster.this does not depend on :resource.aws_iam_role_policy_attachment.cluster_encryption. When attach_cluster_encryption_policy is enabled, the cluster's KMS permissions can be attached concurrently with cluster creation and detached before cluster teardown. Add this attachment to the cluster's depends_on so its configured encryption permissions are available for the cluster lifecycle; the key ARN reference alone does not order this separate attachment.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.eks_managed_node_group should depend on :resource.aws_iam_policy.cni_ipv6_policy when this project creates the IPv6 CNI policy. The child module reconstructs the policy ARN from the account ID and literal AmazonEKS_CNI_IPv6_Policy name instead of receiving a reference to the policy resource, so its role-policy attachment can run before that policy exists and fail with NoSuchEntity. Add a module-level depends_on to order these operations and prevent premature policy deletion.",
+      "node": ":module.eks_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.self_managed_node_group should depend on :resource.aws_iam_policy.cni_ipv6_policy when this project creates the IPv6 CNI policy. The child module builds its ARN from the account ID and hard-coded policy name; this does not order its role-policy attachment after policy creation. Add a module-level depends_on to prevent attachment failures and deletion of the policy before its attachments are removed.",
+      "node": ":module.self_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.fargate_profile should depend on :resource.aws_iam_policy.cni_ipv6_policy when the project creates that policy and the profile attaches it. The child module constructs the IPv6 policy ARN using the literal AmazonEKS_CNI_IPv6_Policy name, so its IAM attachment can race policy creation. Add a module-level depends_on to establish creation and reverse destruction ordering.",
+      "node": ":module.fargate_profile",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_eks_addon.this has no dependency on :resource.aws_iam_openid_connect_provider.oidc_provider. For add-ons configured with service_account_role_arn, the provider documentation requires an IAM OIDC provider for the cluster; the supplied role ARN does not establish ordering against this locally created provider. Add depends_on so IRSA-enabled add-ons are not installed before their OIDC provider exists or retained after it is deleted.",
+      "node": ":resource.aws_eks_addon.this",
+      "target": ":resource.aws_iam_openid_connect_provider.oidc_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

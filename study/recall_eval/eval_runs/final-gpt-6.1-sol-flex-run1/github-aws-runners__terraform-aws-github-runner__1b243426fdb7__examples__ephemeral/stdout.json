@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale_up event source mapping must wait for aws_iam_role_policy.scale_up, which grants its execution role permission to consume SQS messages. Depending only on the function does not order this policy; AWS can reject mapping creation without ReceiveMessage/DeleteMessage/GetQueueAttributes permissions.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, aws_lambda_function.webhook must wait for webhook_vpc_execution_role to grant the execution role ENI-management permissions; its role ARN reference does not order the attachment. This also preserves permissions during VPC Lambda deletion.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, aws_lambda_function.scale_up must wait for scale_up_vpc_execution_role to grant ENI-management permissions. Referencing the role does not wait for this attachment, risking creation failure and premature permission removal during deletion.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, aws_lambda_function.scale_down must wait for scale_down_vpc_execution_role to grant ENI-management permissions. Its role reference does not order the policy attachment or preserve it through function deletion.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, aws_lambda_function.pool must wait for pool_vpc_execution_role to grant ENI-management permissions. The role reference alone leaves function creation and policy attachment unordered and allows premature permission removal during deletion.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, aws_lambda_function.syncer must wait for syncer_vpc_execution_role to grant ENI-management permissions. Referencing the execution role does not order this attachment or retain its permissions through function deletion.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger immediately invokes the syncer via S3 notification, but does not wait for aws_iam_role_policy.syncer to grant the function S3 access. Order the trigger after this policy so initial synchronization cannot race its required permissions.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger initiates the first syncer invocation without waiting for aws_iam_role_policy.lambda_logging. Wait for the logging policy so the initial invocation can write logs; this also transitively waits for the managed log group.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a KMS key is configured, aws_s3_object.trigger can invoke the syncer before aws_iam_role_policy.lambda_kms grants the execution role access to that key. Wait for this policy before initiating the deployment-time synchronization so encrypted S3 operations do not race the required KMS permissions.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

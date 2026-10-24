@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_organization_settings.default creates/updates organization-level logging settings, which requires the same organization-scope roles/permissions that the module grants via its google_organization_iam_binding resources. Its sibling google_logging_organization_sink.sink in logging.tf explicitly depends_on these IAM bindings for exactly this reason, but this resource does not, so its creation can race ahead of the permission grants. No attribute reference establishes this ordering (its inputs come from var.logging_settings / locals), so it must be modeled explicitly.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_audit_config.default configures organization-level audit/data-access logging, which depends on the organization IAM bindings being applied first (the same ordering that google_logging_organization_sink.sink models with its depends_on list). This resource has no attribute reference to the IAM bindings \u2014 it only uses var.logging_data_access and the numeric org id \u2014 so the required ordering is invisible to the graph and must be added explicitly.",
+      "node": ":resource.google_organization_iam_audit_config.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_organization_exclusion.logging-exclusion creates an organization-level logging exclusion, which requires the org-scope logging permissions granted by the module's google_organization_iam_binding resources to be in place first. Its sibling google_logging_organization_sink.sink in the same file depends_on these bindings, but this resource does not, so it can be created before the permissions exist. The dependency is not expressed by any attribute reference (it only reads var.logging_exclusions and the org id).",
+      "node": ":resource.google_logging_organization_exclusion.logging-exclusion",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

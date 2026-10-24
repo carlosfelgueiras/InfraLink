@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When service_identity_iam is configured for a just-in-time service (secretmanager, pubsub, cloudasset), the referenced member is the service identity that google_project_service_identity.jit_si explicitly triggers into existence; that generation is an asynchronous operation (create timeout of 20 minutes) and the service account does not exist until it succeeds. google_project_iam_member.shared_vpc_host_robots references these identities but has no dependency on jit_si, so the IAM grant can race ahead of identity creation and fail with an unknown member error.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.shared_vpc_host_robots grants roles in the host project to this project's Google-managed robot service identities (e.g. service-NUMBER@gcp-sa-*). These service accounts are only created after the corresponding APIs are enabled, i.e. after google_project_service.project_services completes (SA creation is asynchronous following API activation). Without this dependency Terraform may attempt the IAM grant before the robot service account exists and the API will reject the unknown member. The module already expresses this ordering for every other consumer of these identities (see google_kms_crypto_key_iam_member.service_identity_cmek and the service_accounts output), but this resource has none.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

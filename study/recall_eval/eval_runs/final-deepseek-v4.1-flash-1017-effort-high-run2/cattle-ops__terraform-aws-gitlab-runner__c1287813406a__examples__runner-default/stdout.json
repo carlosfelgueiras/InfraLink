@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.public_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but its `content` already references `tls_private_key.ssh.public_key_openssh`, so the explicit `depends_on` duplicates an ordering Terraform already infers. The depends_on can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.private_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but its `content` already references `tls_private_key.ssh.private_key_pem`, so the explicit `depends_on` duplicates an ordering Terraform already infers. The depends_on can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_autoscaling_group.gitlab_runner_instance` launches the runner agent, whose user-data registers the runner and writes the registration token into SSM. That requires the instance role to already have the SSM policy attached (`aws_iam_role_policy_attachment.ssm`). The ASG only depends transitively on the role (via launch config -> instance profile -> aws_iam_role.instance), not on the role's policy attachments, so an instance can boot before the SSM policy is attached and fail to store the token. Add an explicit `depends_on` on the IAM role policy attachment(s).",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

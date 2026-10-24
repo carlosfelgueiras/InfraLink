@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_notification.cur_notification declares three lambda_function destinations, but its depends_on only covers aws_lambda_permission.cur_per_resource and aws_lambda_permission.cur_per_service. The third destination (module.cur_per_resource_process.lambda_function_arn) has no ordering guarantee with aws_lambda_permission.cur_per_resource_process. S3 validates each notification destination by checking that the Lambda function already has an invoke permission, so PutBucketNotificationConfiguration can fail with \"Unable to validate the following destination configurations\" if the permission is created after the notification. Add aws_lambda_permission.cur_per_resource_process to depends_on.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_resource writes to aws_s3_bucket.aws_billing_report, but only depends on the bucket itself. The Data Exports service validates the destination bucket policy when the export is created (this is why data.aws_iam_policy_document.cur_bucket_policy contains the EnableAWSDataExportsToWriteToS3AndCheckPolicy statement for bcm-data-exports.amazonaws.com). Because aws_s3_bucket_policy.cur_bucket_policy is a separate resource with no ordering relation, creation can fail with a destination/policy validation error. Make the export depend on aws_s3_bucket_policy.cur_bucket_policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_service writes to aws_s3_bucket.aws_billing_report, but only depends on the bucket itself. The Data Exports service validates the destination bucket policy when the export is created (hence the EnableAWSDataExportsToWriteToS3AndCheckPolicy statement for bcm-data-exports.amazonaws.com in data.aws_iam_policy_document.cur_bucket_policy). Since aws_s3_bucket_policy.cur_bucket_policy is an independent resource, the export can be created before the policy exists and fail destination validation. Make the export depend on aws_s3_bucket_policy.cur_bucket_policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_service sets function_name from the plain local string local.cur_per_service_lambda_name, so it has no dependency on the Lambda function created by module.cur_per_service. Nothing orders the permission after the function, so on a first apply Lambda AddPermission can fail with ResourceNotFoundException while the function still does not exist. Reference the module output instead of the literal name.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_resource sets function_name from the plain local string local.cur_per_resource_lambda_name, so it does not depend on the Lambda function created by module.cur_per_resource. The permission can be created before the function exists and fail with ResourceNotFoundException. Reference the module output instead of the literal name.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_resource_process sets function_name from the plain local string local.cur_per_resource_process_lambda_name, so it does not depend on the Lambda function created by module.cur_per_resource_process. The permission can be created before the function exists and fail with ResourceNotFoundException. Reference the module output instead of the literal name.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

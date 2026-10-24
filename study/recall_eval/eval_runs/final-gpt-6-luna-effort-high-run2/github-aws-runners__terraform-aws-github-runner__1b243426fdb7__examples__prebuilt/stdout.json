@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled EventBridge target may become active before Lambda grants EventBridge permission to invoke the function; order target creation after the corresponding Lambda permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled EventBridge target may become active before Lambda grants EventBridge permission to invoke the function; order target creation after the corresponding Lambda permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled EventBridge target may become active before Lambda grants EventBridge permission to invoke the function; order target creation after the corresponding Lambda permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook can be updated to the API URL before the route is configured, so initial webhook deliveries may fail. Ensure the app update runs after the API Gateway route is created.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook can be updated to the API URL before the API Gateway stage is ready, so initial deliveries may fail. Ensure the app update runs after the stage is deployed.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook can be activated before API Gateway has permission to invoke its Lambda integration. Ensure the app update runs after this Lambda permission is installed.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

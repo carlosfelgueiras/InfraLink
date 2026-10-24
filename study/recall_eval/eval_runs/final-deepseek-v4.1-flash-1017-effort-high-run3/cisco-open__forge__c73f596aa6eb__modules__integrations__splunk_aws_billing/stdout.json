@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_service: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_service is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource_process: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource_process is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_resource has `depends_on = [aws_cloudwatch_log_group.cur_per_resource]`, but the module already references that resource implicitly through `logging_log_group = aws_cloudwatch_log_group.cur_per_resource.name`. The depends_on adds no ordering that the attribute reference doesn't already create, so it can be dropped.",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_resource_process has `depends_on = [aws_cloudwatch_log_group.cur_per_resource_process]`, but the module already references that resource implicitly through `logging_log_group = aws_cloudwatch_log_group.cur_per_resource_process.name`. The explicit depends_on duplicates an edge Terraform already infers and can be removed.",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_service has `depends_on = [aws_cloudwatch_log_group.cur_per_service]`, but the module already references that resource implicitly through `logging_log_group = aws_cloudwatch_log_group.cur_per_service.name`. The explicit depends_on duplicates an existing implicit dependency and can be removed.",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_resource delivers its export to the billing bucket, and the BCM Data Exports service validates the destination bucket's resource policy when the export is created (s3:PutObject and s3:GetBucketPolicy for bcm-data-exports.amazonaws.com \u2014 the statement declared as EnableAWSDataExportsToWriteToS3AndCheckPolicy). The export only depends on aws_s3_bucket.aws_billing_report, so on a fresh apply it can be created before aws_s3_bucket_policy.cur_bucket_policy exists and the API call fails. Add an explicit depends_on (no attribute of aws_s3_bucket_policy can be substituted for s3_bucket).",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_service delivers its export to the billing bucket, and the BCM Data Exports service validates the destination bucket's resource policy when the export is created (s3:PutObject and s3:GetBucketPolicy for bcm-data-exports.amazonaws.com). The export only depends on aws_s3_bucket.aws_billing_report, so it can be created before aws_s3_bucket_policy.cur_bucket_policy and fail on a fresh apply. Add an explicit depends_on (aws_s3_bucket_policy exposes no attribute usable for the s3_bucket argument).",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

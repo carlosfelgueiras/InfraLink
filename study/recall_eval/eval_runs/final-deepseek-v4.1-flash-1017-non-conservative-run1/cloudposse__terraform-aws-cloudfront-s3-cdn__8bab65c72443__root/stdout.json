@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default has `depends_on = [aws_s3_bucket.origin]`, but the distribution already depends on the origin bucket implicitly: its `origin` block sets `domain_name = local.bucket_domain_name`, which resolves through locals (`local.origin_bucket` \u2192 `local.origin_bucket_options.new = aws_s3_bucket.origin[0]`) to `aws_s3_bucket.origin.bucket_regional_domain_name`. Terraform therefore already orders the distribution after the bucket, so the explicit depends_on duplicates an existing dependency. It is not visible in the mechanical graph only because it is routed through locals.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default serves content via the CloudFront origin access identity, whose GetObject/ListBucket permissions are granted by aws_s3_bucket_policy.default (the combined policy document). Nothing in the distribution references the bucket policy and there is no depends_on, so CloudFront can be created/deployed and begin serving before the OAI grant is in place, yielding 403 responses. Add an explicit `depends_on = [aws_s3_bucket_policy.default]` (a bare depends_on is required here since the policy exposes no attribute the distribution's origin block could reference).",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

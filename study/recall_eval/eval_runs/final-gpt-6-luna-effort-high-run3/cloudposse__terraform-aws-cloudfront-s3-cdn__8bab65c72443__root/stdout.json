@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency is redundant: the distribution's origin domain_name references local.bucket_domain_name, which derives from aws_s3_bucket.origin when this module creates the origin bucket, so Terraform can infer the ordering from that data reference.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

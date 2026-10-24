@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The data source :data.aws_ecs_task_definition.this already references :resource.aws_ecs_task_definition.this in its task_definition argument, establishing an implicit dependency; its explicit depends_on duplicates that ordering.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service can launch tasks using the execution role before its managed execution policy is attached. The task definition references the role, but not this separate attachment, so add an explicit ordering dependency to ensure tasks can pull images, read configured secrets, and write logs at startup.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service can launch tasks using the execution role before its managed execution policy is attached. The task definition references the role, but not this separate attachment, so add an explicit ordering dependency to ensure tasks can pull images, read configured secrets, and write logs at startup.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

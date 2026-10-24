@@ -1,0 +1,32 @@
+{
+  "repo": "cisco-open__forge",
+  "parent_sha": "de02d6975c07eff30210dd95fcfac1153d7e2347^",
+  "resolved_sha": "9b790bd6843665e8140fdfaf8132729d1d5a0cb4",
+  "module_dir": "modules/infra/eks",
+  "profile": "openrouter-deepseek-v4.1-flash-1017",
+  "effort": "high",
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "cisco-open__forge",
+      "pr_number": 181,
+      "pr_url": "https://github.com/cisco-open/forge/pull/181",
+      "commit_url": "https://github.com/cisco-open/forge/commit/de02d6975c07eff30210dd95fcfac1153d7e2347",
+      "commit_sha": "de02d6975c07eff30210dd95fcfac1153d7e2347",
+      "parent_sha": "de02d6975c07eff30210dd95fcfac1153d7e2347^",
+      "commit_subject": "fix: fix bug eks node lose policy in scale up and down (#181)",
+      "commit_date": "2025-10-27T13:23:53+02:00",
+      "file": "modules/infra/eks/calico.tf",
+      "module_dir": "modules/infra/eks",
+      "holder_address": "null_resource.patch_calico_installation",
+      "added_targets": [
+        "null_resource.wait_for_cluster"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "null_resource.wait_for_cluster": false
+      },
+      "verify_error": null
+    }
+  ]
+}

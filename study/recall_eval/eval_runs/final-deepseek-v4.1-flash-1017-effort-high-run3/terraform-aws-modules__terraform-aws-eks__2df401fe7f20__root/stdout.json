@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster lists :resource.aws_eks_cluster.this in its explicit depends_on, but that ordering is already established implicitly by the data source's own `url = format(\"%s/healthz\", aws_eks_cluster.this[0].endpoint)` and `ca_certificate = ...aws_eks_cluster.this[*].certificate_authority[0].data...` references. The aws_eks_cluster.this entry in depends_on can be dropped (the aws_security_group_rule.cluster_private_access entry is still needed).",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.fargate:resource.aws_eks_fargate_profile.this takes its pod_execution_role_arn from local.pod_execution_role_arn (just the role ARN), so nothing orders profile creation after module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod. The Fargate pod execution role must already have AmazonEKSFargatePodExecutionRolePolicy attached when the profile is created, otherwise profile provisioning/pod scheduling races with IAM propagation. Add an explicit depends_on on the policy attachment (no clean attribute reference exists because the ARN comes from a conditional local).",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.workers can launch instances as soon as its launch configuration exists (which only waits on security group rules and IAM policy attachments), but the self-managed worker role only authenticates to the cluster once :resource.kubernetes_config_map.aws_auth exists. The module enforces this ordering for managed node groups via ng_depends_on but not for the launch-configuration worker ASG, so nodes can boot before aws-auth is applied and fail to join. Add aws_auth to the ASG's dependency chain.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.workers_launch_template can launch instances as soon as its launch template exists, but the self-managed worker role only authenticates to the cluster once :resource.kubernetes_config_map.aws_auth exists. Unlike managed node groups (which get aws_auth via ng_depends_on), the launch-template worker ASG has no such ordering, so nodes may be started before their role is mapped in aws-auth and fail to join. Add aws_auth to the ASG's dependency chain.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

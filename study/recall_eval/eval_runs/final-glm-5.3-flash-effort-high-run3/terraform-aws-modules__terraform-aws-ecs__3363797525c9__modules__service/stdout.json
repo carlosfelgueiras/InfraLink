@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `vpc_lattice_configurations` is set, the ECS service passes `role_arn` = the ECS infrastructure IAM role, and AWS uses that role to register/manage VPC Lattice target groups on the service's behalf. The module explicitly adds `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy` to both services' `depends_on` for exactly this reason (the analogous EBS infrastructure policy), but the parallel `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy` is not in either service's `depends_on` and is referenced by no other resource. If the service is created before that attachment exists, the infrastructure role has no `VPCLatticeServiceNetworkAccess` permissions yet, and ECS operations on the Lattice target groups can fail with AccessDenied. Since there is no attribute on the service that references the attachment (the role reference goes through the IAM role itself, not the attachment), a bare `depends_on` entry is the idiomatic fix.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same issue as `aws_ecs_service.this`: `aws_ecs_service.ignore_task_definition` supports the `vpc_lattice_configurations` block, and when it is configured the service relies on the ECS infrastructure IAM role having the VPC Lattice policy attached. The resource's `depends_on` includes `aws_iam_role_policy_attachment.service` and `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy`, but omits `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy`, which exists solely to attach that permission to the infrastructure role and which nothing else in the graph depends on. Creation ordering is therefore unconstrained relative to that attachment, risking AccessDenied failures on Lattice-related ECS operations. A bare `depends_on` entry (matching the pattern already used for the EBS policy attachment) closes the gap; no data-reference alternative exists because the service only references the role ARN, not the attachment.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

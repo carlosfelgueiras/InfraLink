@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nkubectl_manifest.cluster_pca_issuer applies a manifest of kind AWSPCAClusterIssuer, a CRD installed by the aws-privateca-issuer add-on that is deployed via module.eks_blueprints_kubernetes_addons (enable_aws_privateca_issuer = true). The resource currently only depends on the eks_cluster_id output and the CA resource, so Terraform may apply it before the CRD/controller exists, causing an apply failure (\"no matches for kind AWSPCAClusterIssuer\"). It should depend on module.eks_blueprints_kubernetes_addons (as example_pca_certificate already does). No clean data-reference fix exists because that module exports no attribute referencing the CRD.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nkubectl_manifest.cluster_pca_issuer applies an `AWSPCAClusterIssuer` custom resource, but that CRD is only installed by the cert-manager / aws-privateca-issuer Helm add-ons created in module.eks_blueprints_kubernetes_addons. The manifest currently depends only on the EKS cluster (module.eks_blueprints) and the CA, so it can be applied before the CRD exists and fail. It should depend on module.eks_blueprints_kubernetes_addons (as example_pca_certificate already correctly does). No data reference is possible since that module exposes no outputs.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nkubectl_manifest.cluster_pca_issuer creates an AWSPCAClusterIssuer custom resource, but it only depends on aws_acmpca_certificate_authority.example and the cluster id. The `awspca.cert-manager.io` CRD is installed by the aws-privateca-issuer add-on deployed by module.eks_blueprints_kubernetes_addons (enable_aws_privateca_issuer = true). Without an ordering dependency on that module, Terraform may try to apply the CR before the CRD exists, causing the apply to fail. The sibling kubectl_manifest.example_pca_certificate already depends on this module.",
+      "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

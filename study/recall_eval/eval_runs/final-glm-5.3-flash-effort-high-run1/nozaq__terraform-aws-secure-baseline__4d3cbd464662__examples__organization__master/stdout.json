@@ -1,0 +1,184 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The data source `module.secure_baseline:data.aws_organizations_organization.org` describes the organization that the root module creates via `:resource.aws_organizations_organization.org` (same account, used for `data.aws_organizations_organization.org[0].id` in the CloudTrail bucket policy). On a fresh apply the account may have no organization yet; without any dependency on the resource, the read can execute before the organization is created and fail (or read a different organization than the one just provisioned).",
+      "node": "module.secure_baseline:data.aws_organizations_organization.org",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global` is an organization trail (`is_organization_trail = true`, set from `local.is_master_account`), which requires the organization to exist and CloudTrail trusted service access (`cloudtrail.amazonaws.com`) to be enabled \u2014 both side effects of `:resource.aws_organizations_organization.org`. No attribute reference or depends_on connects the trail to that resource, so on a fresh apply the trail creation can race ahead of organization/service-access provisioning and fail.",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline:resource.aws_config_configuration_aggregator.organization` uses an `organization_aggregation_source`, which requires the AWS organization to exist and the `config.amazonaws.com` trusted service access enabled by `:resource.aws_organizations_organization.org`. It only depends on the aggregator's IAM role (`aws_iam_role.config_organization`), not on the organization resource itself, so organization-level Config aggregation can be attempted before the organization/service access is in place.",
+      "node": "module.secure_baseline:resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ap-northeast-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-northeast-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ap-northeast-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-northeast-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ap-northeast-3:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-northeast-3:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ap-south-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-south-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ap-southeast-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-southeast-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ap-southeast-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-southeast-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_ca-central-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_ca-central-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_eu-central-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-central-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_eu-north-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-north-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_eu-west-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-west-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_eu-west-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-west-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_eu-west-3:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-west-3:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_sa-east-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_sa-east-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_us-east-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-east-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_us-east-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-east-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_us-west-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-west-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.secure_baseline.module.analyzer_baseline_us-west-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-west-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

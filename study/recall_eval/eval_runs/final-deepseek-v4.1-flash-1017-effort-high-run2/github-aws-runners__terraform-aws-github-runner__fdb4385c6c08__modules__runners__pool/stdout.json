@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.pool is provisioned with a vpc_config (when var.config.lambda.subnet_ids/security_group_ids are set), so Lambda attaches the function to the VPC using the execution role. It only references aws_iam_role.pool.arn; the AWSLambdaVPCAccessExecutionRole policy is attached separately by aws_iam_role_policy_attachment.pool_vpc_execution_role, which the function does not depend on. Because IAM policy attachment is eventually consistent, function creation races the attachment and can fail with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". The Lambda should be ordered after the VPC execution role attachment (e.g. depends_on = [aws_iam_role_policy_attachment.pool_vpc_execution_role]). No clean attribute-level data reference exists for the attachment, so a bare depends_on is appropriate.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool triggers aws_lambda_function.pool using aws_iam_role.scheduler, but it only references the role's ARN. The permission that actually lets that role invoke the Lambda (lambda:InvokeFunction) lives in aws_iam_role_policy.scheduler, a sibling resource attached in parallel. Because IAM inline policies are eventually consistent, Terraform can create the schedule before the role is authorized, so the schedule's first invocation can fail with an authorization error. The schedule should depend on aws_iam_role_policy.scheduler (e.g. depends_on = [aws_iam_role_policy.scheduler]); there is no attribute on the schedule that can carry this reference.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.pool is provisioned with a vpc_config (when var.config.lambda.subnet_ids/security_group_ids are set), so Lambda attaches the function to the VPC using the execution role. It only references aws_iam_role.pool.arn; the AWSLambdaVPCAccessExecutionRole policy is attached separately by aws_iam_role_policy_attachment.pool_vpc_execution_role, which the function does not depend on. Because IAM policy attachment is eventually consistent, function creation races the attachment and can fail with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". The Lambda should be ordered after the VPC execution role attachment (e.g. depends_on = [aws_iam_role_policy_attachment.pool_vpc_execution_role]). No clean attribute-level data reference exists for the attachment, so a bare depends_on is appropriate.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

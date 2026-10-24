@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.scale_up can be invoked by its SQS event source mapping before :resource.aws_cloudwatch_log_group.scale_up is created (the log group is currently ordered after the function because its name references the function name). On first invocation Lambda auto-creates /aws/lambda/<function_name> without the configured retention_in_days/kms_key_id/log_group_class, and the managed log group create then fails with \"already exists\". The function should be created after its log group.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_cloudwatch_log_group.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.scale_down is triggered by aws_cloudwatch_event_rule.scale_down and could run before :resource.aws_cloudwatch_log_group.scale_down is created (the log group is currently ordered after the function because its name references the function name). Lambda would auto-create the log group without the configured retention/kms/log_class settings, and the managed log group create would then fail. The function should depend on its log group.",
+      "node": ":resource.aws_lambda_function.scale_down",
+      "target": ":resource.aws_cloudwatch_log_group.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.ssm_housekeeper is triggered by aws_cloudwatch_event_rule.ssm_housekeeper and could run before :resource.aws_cloudwatch_log_group.ssm_housekeeper is created (the log group is currently ordered after the function because its name references the function name). Lambda would auto-create the log group without the configured retention/kms/log_class settings, and the managed log group create would then fail. The function should depend on its log group.",
+      "node": ":resource.aws_lambda_function.ssm_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_lambda_function.pool is triggered by the aws_scheduler_schedule.pool schedules and could run before module.pool:resource.aws_cloudwatch_log_group.pool is created (the log group is currently ordered after the function because its name references the function name). Lambda would auto-create the log group without the configured retention/kms/log_class settings, and the managed log group create would then fail. The function should depend on its log group.",
+      "node": "module.pool:resource.aws_lambda_function.pool",
+      "target": "module.pool:resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.job_retry.module.job_retry:resource.aws_lambda_function.main is triggered by the job-retry SQS event source mapping and could run before module.job_retry.module.job_retry:resource.aws_cloudwatch_log_group.main is created (the log group is currently ordered after the function because its name references the function name). Lambda would auto-create the log group without the configured retention/kms/log_class settings, and the managed log group create would then fail. The function should depend on its log group.",
+      "node": "module.job_retry.module.job_retry:resource.aws_lambda_function.main",
+      "target": "module.job_retry.module.job_retry:resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nThe `aws_ssm_parameter.runner_registration_token` is created by Terraform with value \"null\" and `ignore_changes` on `value`; the runner instance's user-data script is responsible for writing the actual registration token into it (per the source comment \"Parameter value is managed by the user-data script\"). The user-data script overwrites an existing parameter (`aws ssm put-parameter ... --overwrite`), which fails if the parameter does not yet exist. Since the autoscaling group boots the instance as soon as it is created and neither an attribute reference nor a depends_on ties it to the SSM parameter, the instance can start and fail its user-data registration before the parameter is created.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe runner agent instances boot from user data that registers the runner with GitLab and writes the resulting token into the SSM parameter `aws_ssm_parameter.runner_registration_token` (the code comment states \"Parameter value is managed by the user-data script of the gitlab runner instance\"). The autoscaling group has no dependency on the SSM parameter, so instances can boot before Terraform creates the parameter. The user-data script (`put-parameter`) would then create the parameter itself, and Terraform's subsequent create of `aws_ssm_parameter.runner_registration_token` would fail with a ParameterAlreadyExists error (the resource's `overwrite` defaults to false on create, per provider docs). The ASG should be ordered after the SSM parameter.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

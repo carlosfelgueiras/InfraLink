@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_kubeconfig explicitly depends_on module.eks, but its provisioner already references module.eks.cluster_name (and its triggers/command interpolate module.eks attributes), so the dependency is established implicitly and the depends_on is redundant.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_ec2_node_class explicitly depends_on module.eks, but it already references module.eks.cluster_primary_security_group_id and module.eks.cluster_security_group_id in its triggers and templated manifest, making the explicit depends_on redundant.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_ec2_node_class explicitly depends_on module.karpenter (the depends_on entry 'module.karpenter.node_iam_role_arn'), but it already references module.karpenter.node_iam_role_arn in its triggers and local.ec2_node_class_manifest, so the ordering is inferred implicitly.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter explicitly depends_on module.karpenter, but it already references module.karpenter.service_account and module.karpenter.queue_name in its values template, so the dependency is established implicitly.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter explicitly depends_on data.aws_eks_cluster_auth.cluster, but this is already covered transitively: the release uses the helm provider, whose configuration reads data.aws_eks_cluster_auth.cluster (itself gated on module.eks and time_sleep.wait_300_seconds), and the implicit dependency on data.aws_ecrpublic_authorization_token.token also depends on that data source.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_daemonset explicitly depends_on module.eks, but module.eks is already reached transitively via its explicit dependency on null_resource.update_kubeconfig (which both implicitly references and explicitly depends on module.eks), making this entry redundant.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool explicitly depends_on module.eks, but module.eks is already reached transitively via its explicit dependency on helm_release.karpenter (which implicitly references module.eks), making this entry redundant.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.apply_tigera_operator runs 'kubectl create' against the cluster via the kubectl CLI, but its only dependency is null_resource.update_kubeconfig, which fires as soon as module.eks completes. The project deliberately added time_sleep.wait_300_seconds after the cluster (and gated all EKS data sources on it) because the control plane is not immediately ready; the kubectl CLI path bypasses that gate since the null provider has no Kubernetes provider dependency, so the operator manifest can be applied before the API server is serving. It should also wait for time_sleep.wait_300_seconds.",
+      "node": ":resource.null_resource.apply_tigera_operator",
+      "target": ":resource.time_sleep.wait_300_seconds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_daemonset runs 'kubectl delete daemonset aws-node' via the kubectl CLI immediately after null_resource.update_kubeconfig, without waiting for the control plane readiness delay that this project otherwise enforces with time_sleep.wait_300_seconds (all EKS data sources depend on it). Since the null provider carries no Kubernetes provider dependency, the delete can execute against a not-yet-ready API server.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.time_sleep.wait_300_seconds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

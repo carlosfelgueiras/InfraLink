@@ -1,0 +1,463 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ap-northeast-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ap-northeast-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ap-northeast-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ap-northeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ap-northeast-2 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ap-northeast-2 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ap-northeast-2 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ap-northeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ap-northeast-3 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ap-northeast-3 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ap-northeast-3 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ap-northeast-3",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ap-south-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ap-south-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ap-south-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ap-south-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ap-southeast-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ap-southeast-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ap-southeast-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ap-southeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ap-southeast-2 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ap-southeast-2 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ap-southeast-2 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ap-southeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in ca-central-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in ca-central-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in ca-central-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_ca-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in eu-central-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in eu-central-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in eu-central-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_eu-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in eu-north-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in eu-north-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in eu-north-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_eu-north-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in eu-west-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in eu-west-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in eu-west-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_eu-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in eu-west-2 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in eu-west-2 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in eu-west-2 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_eu-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in eu-west-3 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in eu-west-3 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in eu-west-3 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_eu-west-3",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in sa-east-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in sa-east-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in sa-east-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_sa-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in us-east-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in us-east-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in us-east-2 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in us-west-1 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in us-west-2 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in us-east-2 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_us-east-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in us-west-2 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Config delivery channel in us-east-2 delivers configuration snapshots to the audit log S3 bucket, but it has no dependency on aws_s3_bucket_policy.audit_log. The bucket policy that grants config.amazonaws.com s3:PutObject is only connected through the bucket resource itself (via the local.audit_log_bucket_id local), so Terraform creates the delivery channel in parallel with \u2014 and often after \u2014 the policy is applied, causing InsufficientDeliveryPolicyException / failed snapshot delivery. CloudTrail is protected from this exact race via cloudtrail_depends_on = [aws_s3_bucket_policy.audit_log]; add the same ordering (e.g. depends_on = [aws_s3_bucket_policy.audit_log]) here.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The configuration recorder in us-west-1 is started (is_enabled = true) without any ordering against aws_iam_role_policy.recorder_publish_policy, which grants the recorder role s3:PutObject on the audit log bucket and sns:Publish on the config SNS topics. The role policy is created in parallel with the config-baseline modules, so recording can start before the role has permission to deliver. The aws_iam_role_policy_attachment.recorder_read_policy (AWS_ConfigRole) has the same gap. Add depends_on for the recorder role policy/attachment.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in us-east-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_us-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in us-west-2 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_us-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When vpc_flow_logs_destination_type is \"s3\", the default-VPC flow logs in us-west-1 deliver to the audit log bucket, but this module has no ordering against aws_s3_bucket_policy.audit_log \u2014 the resource that grants delivery.logs.amazonaws.com s3:PutObject on that bucket. The module only references the bucket itself (through the flow_logs_s3_arn local), so flow logs can be created before the policy is applied and log delivery will fail until it lands. Add depends_on = [aws_s3_bucket_policy.audit_log].",
+      "node": ":module.vpc_baseline_us-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

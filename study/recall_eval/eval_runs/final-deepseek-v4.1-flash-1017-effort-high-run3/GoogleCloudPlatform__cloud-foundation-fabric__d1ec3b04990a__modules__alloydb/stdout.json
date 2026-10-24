@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_alloydb_user.users only depends on google_alloydb_cluster.primary (its `cluster` argument), so Terraform can create the database users before the cluster has any primary instance. The AlloyDB users API requires the cluster's primary instance to exist/be ready first \u2014 the google_alloydb_user provider documentation adds `depends_on = [google_alloydb_instance.default]` to both the ALLOYDB_BUILT_IN and ALLOYDB_IAM_USER examples for exactly this reason. Without an ordering edge to google_alloydb_instance.primary, `terraform apply` on a fresh project can fail (or force a re-apply) when creating users. Add `depends_on = [google_alloydb_instance.primary]` to google_alloydb_user.users.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

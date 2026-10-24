@@ -1,0 +1,65 @@
+{
+  "repo": "aztfmod__terraform-azurerm-caf",
+  "parent_sha": "57e8f4e9a19ec639422a68feea8db128031e50be^",
+  "resolved_sha": "2c855397c670f93638029e589cfd89f293562e6f",
+  "module_dir": "modules/networking/application_gateway_application",
+  "profile": "openrouter-gpt-6.1-sol-flex",
+  "effort": "high",
+  "temperature": null,
+  "system_prompt": "default",
+  "cases": [
+    {
+      "repo": "aztfmod__terraform-azurerm-caf",
+      "pr_number": 1390,
+      "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/1390",
+      "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/57e8f4e9a19ec639422a68feea8db128031e50be",
+      "commit_sha": "57e8f4e9a19ec639422a68feea8db128031e50be",
+      "parent_sha": "57e8f4e9a19ec639422a68feea8db128031e50be^",
+      "commit_subject": "AGW Application dependencies issues during destroy (#1390)",
+      "commit_date": "2022-10-14T09:49:46+08:00",
+      "file": "modules/networking/application_gateway_application/http_listener.tf",
+      "module_dir": "modules/networking/application_gateway_application",
+      "holder_address": "null_resource.delete_http_listener",
+      "added_targets": [
+        "null_resource.delete_frontend_port"
+      ],
+      "pre_existing_targets": [
+        "null_resource.delete_backend_pool",
+        "null_resource.delete_http_settings",
+        "null_resource.delete_root_cert",
+        "null_resource.delete_ssl_cert",
+        "null_resource.set_frontend_port"
+      ],
+      "already_implicit": {
+        "null_resource.delete_frontend_port": false
+      },
+      "verify_error": null
+    },
+    {
+      "repo": "aztfmod__terraform-azurerm-caf",
+      "pr_number": 1390,
+      "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/1390",
+      "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/57e8f4e9a19ec639422a68feea8db128031e50be",
+      "commit_sha": "57e8f4e9a19ec639422a68feea8db128031e50be",
+      "parent_sha": "57e8f4e9a19ec639422a68feea8db128031e50be^",
+      "commit_subject": "AGW Application dependencies issues during destroy (#1390)",
+      "commit_date": "2022-10-14T09:49:46+08:00",
+      "file": "modules/networking/application_gateway_application/http_settings.tf",
+      "module_dir": "modules/networking/application_gateway_application",
+      "holder_address": "null_resource.delete_http_settings",
+      "added_targets": [
+        "null_resource.delete_probe"
+      ],
+      "pre_existing_targets": [
+        "null_resource.delete_backend_pool",
+        "null_resource.delete_root_cert",
+        "null_resource.delete_ssl_cert",
+        "null_resource.set_probe"
+      ],
+      "already_implicit": {
+        "null_resource.delete_probe": false
+      },
+      "verify_error": null
+    }
+  ]
+}

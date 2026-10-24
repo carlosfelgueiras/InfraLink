@@ -1,0 +1,7 @@
+In `modules/platform/forge_runners/secrets.tf`, the root module creates the GitHub App secrets in AWS Secrets Manager using `aws_secretsmanager_secret.cicd_secrets` with names prefixed by `local.cicd_secrets_prefix` (`/cicd/common/${var.tenant.name}/${var.deployment_config.secret_suffix}/`).
+
+In `modules/platform/forge_runners/github_app_runner_group.tf`, `module.github_app_runner_group` is passed `secrets_prefix = local.cicd_secrets_prefix`—a string constructed solely from input variables—without any reference or `depends_on` linking it to `aws_secretsmanager_secret.cicd_secrets`. Inside `modules/platform/forge_runners/github_app_runner_group/secrets.tf`, `data.aws_secretsmanager_secret.secrets` looks up those same secrets by name (`${var.secrets_prefix}github_actions_runners_app_key`, `github_actions_runners_app_id`, and `github_actions_runners_app_installation_id`).
+
+Because all arguments to `module.github_app_runner_group:data.aws_secretsmanager_secret.secrets` are known prior to resource creation and there is no implicit or explicit dependency on `aws_secretsmanager_secret.cicd_secrets`, Terraform will attempt to read the data source before the secrets are created on an initial deployment, causing the lookup to fail.
+
+Correct

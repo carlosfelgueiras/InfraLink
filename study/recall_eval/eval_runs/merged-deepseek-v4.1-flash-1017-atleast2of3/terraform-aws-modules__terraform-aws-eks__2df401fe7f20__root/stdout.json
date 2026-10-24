@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`module.fargate:resource.aws_eks_fargate_profile.this` is created with a freshly created pod execution role (`pod_execution_role_arn = local.pod_execution_role_arn` -> `aws_iam_role.eks_fargate_pod`), so ordering against the role itself is inferred, but nothing orders it after `module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod`. EKS validates/uses the pod execution role when the profile is created, and a role that was just created and has no policy attachment yet can hit IAM propagation problems (and pods scheduled through the profile get no ECR/CloudWatch permissions). The existing `eks_depends_on` hack only carries the cluster and the aws-auth ConfigMap; the role policy attachment should be added to that list (or a direct `depends_on` added on the profile).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_eks_fargate_profile.this is ordered only against `var.eks_depends_on` (cluster + aws-auth ConfigMap). Its `pod_execution_role_arn` resolves through local.pod_execution_role_arn to the aws_iam_role.eks_fargate_pod *role* only, so nothing orders the Fargate profiles after aws_iam_role_policy_attachment.eks_fargate_pod, which attaches the required AmazonEKSFargatePodExecutionRolePolicy. Profiles/pods created before that attachment exists fail to pull images and start. The root module closes the equivalent gap for workers by listing the worker policy attachments in the `depends_on` of aws_launch_configuration.workers / aws_launch_template.workers_launch_template.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nmodule.fargate:resource.aws_eks_fargate_profile.this takes its pod_execution_role_arn from local.pod_execution_role_arn (just the role ARN), so nothing orders profile creation after module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod. The Fargate pod execution role must already have AmazonEKSFargatePodExecutionRolePolicy attached when the profile is created, otherwise profile provisioning/pod scheduling races with IAM propagation. Add an explicit depends_on on the policy attachment (no clean attribute reference exists because the ARN comes from a conditional local).",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_autoscaling_group.workers launches self-managed workers that can only register with the cluster once their IAM role is present in the aws-auth ConfigMap, yet the ASG has no ordering relationship to kubernetes_config_map.aws_auth (it depends only on the launch configuration and variables). The module already encodes this prerequisite for the other node-provisioning paths \u2014 `ng_depends_on` includes kubernetes_config_map.aws_auth, and `eks_depends_on` (Fargate) includes it too \u2014 so self-managed worker groups can come up before they are authorized to join the cluster.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n:resource.aws_autoscaling_group.workers can launch instances as soon as its launch configuration exists (which only waits on security group rules and IAM policy attachments), but the self-managed worker role only authenticates to the cluster once :resource.kubernetes_config_map.aws_auth exists. The module enforces this ordering for managed node groups via ng_depends_on but not for the launch-configuration worker ASG, so nodes can boot before aws-auth is applied and fail to join. Add aws_auth to the ASG's dependency chain.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_autoscaling_group.workers_launch_template launches self-managed workers that can only register with the cluster once their IAM role is present in the aws-auth ConfigMap, yet it has no ordering relationship to kubernetes_config_map.aws_auth (it depends only on aws_launch_template.workers_launch_template and variables). The module already encodes this prerequisite for managed node groups (`ng_depends_on`) and Fargate (`eks_depends_on`), both of which include the aws-auth ConfigMap.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n:resource.aws_autoscaling_group.workers_launch_template can launch instances as soon as its launch template exists, but the self-managed worker role only authenticates to the cluster once :resource.kubernetes_config_map.aws_auth exists. Unlike managed node groups (which get aws_auth via ng_depends_on), the launch-template worker ASG has no such ordering, so nodes may be started before their role is mapped in aws-auth and fail to join. Add aws_auth to the ASG's dependency chain.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

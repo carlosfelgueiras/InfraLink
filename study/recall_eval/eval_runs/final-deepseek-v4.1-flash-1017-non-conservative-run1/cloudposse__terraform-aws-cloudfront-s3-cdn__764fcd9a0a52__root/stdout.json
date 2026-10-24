@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_bucket_policy.default and aws_s3_bucket_public_access_block.origin both modify the same S3 bucket, but no dependency orders the public access block before the bucket policy. When public access blocking is enabled, the block should be established first so the policy attachment does not race the bucket-level block configuration.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on aws_s3_bucket.origin is redundant: aws_cloudfront_distribution.default already depends on the bucket through local.bucket_domain_name -> local.bucket -> aws_s3_bucket.origin.*.id, so Terraform already orders the distribution after the bucket.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

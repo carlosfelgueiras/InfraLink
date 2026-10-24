@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ADOT collector add-on (module.adot_collector_java) installs an `otel-config` Helm chart that creates `OpenTelemetryCollector` custom resources. These CRs can only be applied after the CRDs registered by the ADOT operator exist, and are only reconciled into running collectors by that operator. The graph shows no attribute reference and no `depends_on` from module.adot_collector_java to :module.opentelemetry_operator, so on a fresh apply the collector's `helm_release` can race the operator's install and fail with \"no matches for kind OpenTelemetryCollector\", and with only the collector enabled its CRs are never processed. A documented prerequisite of the ADOT collector add-ons is that the ADOT operator add-on be installed first.",
+      "node": ":module.adot_collector_java",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Same issue as the other ADOT collectors: module.adot_collector_haproxy deploys `OpenTelemetryCollector` custom resources via its local `otel-config` chart, which require the ADOT operator's CRDs and reconciliation loop from :module.opentelemetry_operator. No dependency is expressed (no attribute reference, no `depends_on`), so the collector's `helm_release` may be applied before the operator exists and fail or leave unprovisioned collectors.",
+      "node": ":module.adot_collector_haproxy",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Same issue as the other ADOT collectors: module.adot_collector_memcached deploys `OpenTelemetryCollector` custom resources via its local `otel-config` chart, which require the ADOT operator's CRDs and reconciliation loop from :module.opentelemetry_operator. No dependency is expressed (no attribute reference, no `depends_on`), so the collector's `helm_release` may be applied before the operator exists and fail or leave unprovisioned collectors.",
+      "node": ":module.adot_collector_memcached",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Same issue as the other ADOT collectors: module.adot_collector_nginx deploys `OpenTelemetryCollector` custom resources via its local `otel-config` chart, which require the ADOT operator's CRDs and reconciliation loop from :module.opentelemetry_operator. No dependency is expressed (no attribute reference, no `depends_on`), so the collector's `helm_release` may be applied before the operator exists and fail or leave unprovisioned collectors.",
+      "node": ":module.adot_collector_nginx",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ADOT operator Helm chart (opentelemetry-operator, installed by :module.opentelemetry_operator) uses cert-manager by default to issue the TLS certificates for its admission webhooks. Without cert-manager, the operator's webhook pods never get certificates and the operator/webhook is non-functional (CRs for the ADOT collectors are rejected). The graph shows module.opentelemetry_operator has no dependency on :module.cert_manager, so nothing guarantees cert-manager is installed before the operator.",
+      "node": ":module.opentelemetry_operator",
+      "target": ":module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

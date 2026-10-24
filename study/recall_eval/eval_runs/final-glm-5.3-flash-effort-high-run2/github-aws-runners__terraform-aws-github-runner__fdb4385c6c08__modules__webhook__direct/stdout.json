@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_log_group.webhook is forced to be created AFTER aws_lambda_function.webhook because its name references aws_lambda_function.webhook.function_name. AWS Lambda auto-creates the /aws/lambda/<function_name> log group when the function is provisioned/first invoked, so the explicit log group (with its retention/kms/class settings) can collide with the auto-created one (ResourceAlreadyExistsException) \u2014 especially since both resources are subject to replacement via replace_triggered_by on null_resource.github_app_parameters. The function should be created after the log group (per the official aws_lambda_function docs: \"Ensure log group exists before function\"). Fixing this requires computing the log group name from var.config.prefix instead of the function attribute, and ordering the function after the log group; no single attribute reference on the function can express it cleanly (adding logging_config.log_group = aws_cloudwatch_log_group.webhook.name would be an option but also requires renaming the log group, so a bare depends_on on the function is the pragmatic fix).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook configures vpc_config (when var.config.lambda_subnet_ids/lambda_security_group_ids are set) but does not depend on aws_iam_role_policy_attachment.webhook_vpc_execution_role. Lambda function creation with VPC config requires the execution role to already carry the EC2 CreateNetworkInterface/DescribeNetworkInterfaces permissions granted by AWSLambdaVPCAccessExecutionRole; if the function is created before the attachment, CreateFunction can fail. Both resources are gated on the same var.config conditions, so the attachment always exists when vpc_config is set \u2014 the missing ordering just needs a bare depends_on (the attachment is counted and offers no attribute to reference).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

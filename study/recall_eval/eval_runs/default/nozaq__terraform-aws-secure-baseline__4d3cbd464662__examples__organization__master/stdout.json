@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Security Hub baseline is enabled in the organization master account, but its account activation resources have no dependency on aws_organizations_organization.org. Security Hub organization setup depends on AWS Organizations being created/available first; otherwise account enrollment can fail during initial provisioning.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_accessanalyzer_analyzer.default is configured with type ORGANIZATION for the master account, but has no dependency on the organization resource. Ensure the organization exists before creating an organization analyzer.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Config organization aggregator in the master account relies on AWS Organizations being initialized, but aws_config_configuration_aggregator.organization has no dependency on the organization resource. Add an ordering dependency so aggregator creation does not race organization setup.",
+      "node": "module.secure_baseline:resource.aws_config_configuration_aggregator.organization",
+      "target": "module.secure_baseline:data.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

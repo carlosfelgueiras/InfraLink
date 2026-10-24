@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`kubectl_manifest.karpenter_provisioner` references the AWSNodeTemplate `default` via `spec.providerRef.name = \"default\"`, but has no dependency on `kubectl_manifest.karpenter_node_template`. If the Provisioner is applied before the NodeTemplate exists, Karpenter cannot resolve the providerRef and node provisioning fails until the template appears; the ordering is only enforced operationally, not by any attribute reference or depends_on.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nkubectl_manifest.karpenter_provisioner references the AWSNodeTemplate named \"default\" via spec.providerRef.name, but that object is created by kubectl_manifest.karpenter_node_template. The two resources share no attribute reference or ordering (both only depend_on module.eks_blueprints_kubernetes_addons), so Terraform may apply the Provisioner before its referenced node template exists, and Karpenter will fail to resolve providerRef when provisioning nodes.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

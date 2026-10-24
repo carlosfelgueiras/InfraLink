@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, but does not wait for google_project_iam_member.shared_vpc_host_robots. The service agents/robots must be granted their roles on the host project before the attachment is created, otherwise those services cannot operate over the shared VPC (the attachment succeeds but API access from the service project is broken until the grants are applied). Add an explicit depends_on on the robots IAM members.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

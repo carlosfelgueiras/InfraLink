@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudfront_distribution.default enables legacy access logging by pointing logging_config.bucket at local.cf_log_bucket_domain (module.logs.bucket_domain_name when cloudfront_access_log_create_bucket = true). Per the provider docs, V1 logging requires the target S3 bucket to already exist and to carry FULL_CONTROL for the awslogsdelivery canonical user before CreateDistribution succeeds. The graph shows no edge from the distribution to module.logs (the reference only flows through a local and a dynamic block), so the distribution can be created before the log bucket/ACL exists and fail with an InvalidArgument/NoSuchBucket error. Add an ordering dependency on the log bucket module.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":module.logs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudfront_distribution.default's s3_origin_config.origin_access_identity is set to local.cf_access.path, i.e. aws_cloudfront_origin_access_identity.default[0].cloudfront_access_identity_path. CloudFront validates that the referenced origin access identity exists, so the OAI must be created first. Because the reference is indirect (via local.cf_access) the graph has no edge between the two, and the distribution may be created in parallel with its own OAI.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_cloudfront_origin_access_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_public_access_block.origin applies PutPublicAccessBlock to the origin bucket, but its bucket argument is fed from local.bucket rather than from aws_s3_bucket.origin, so the graph contains no dependency on the bucket. When this module creates the bucket (origin_bucket == null), the public access block can be applied before the bucket exists and fails with NoSuchBucket; it must be ordered after aws_s3_bucket.origin.",
+      "node": ":resource.aws_s3_bucket_public_access_block.origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_policy.default calls PutBucketPolicy against local.bucket, which resolves to aws_s3_bucket.origin[0] when this module creates the origin bucket. The policy document contents already make the graph depend on data.aws_iam_policy_document.combined, but nothing ties the policy resource to the bucket itself, so a fresh apply can attempt PutBucketPolicy against a bucket that does not exist yet (NoSuchBucket).",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "time_sleep.wait_for_aws_s3_bucket_settings already depends on aws_s3_bucket_policy.default, and aws_s3_bucket_policy.default itself explicitly depends_on aws_s3_bucket_public_access_block.origin (\"Don't modify this bucket in two ways at the same time\"). The public access block is therefore already ordered ahead of the sleep transitively, so listing it again in the sleep's depends_on duplicates an existing dependency and can be dropped.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

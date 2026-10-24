@@ -1,0 +1,148 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from the EKS cluster data source to the EKS module is already implied transitively through time_sleep.wait_300_seconds, which itself depends on module.eks.",
+      "node": ":data.aws_eks_cluster.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from the EKS cluster auth data source to the EKS module is already implied transitively through time_sleep.wait_300_seconds, which itself depends on module.eks.",
+      "node": ":data.aws_eks_cluster_auth.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from the ECR public authorization-token data source to the EKS module is already implied transitively through time_sleep.wait_300_seconds, which itself depends on module.eks.",
+      "node": ":data.aws_ecrpublic_authorization_token.token",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The Karpenter module already depends on the self-managed node group through both EKS add-ons, and it explicitly depends on those add-ons; the direct dependency adds no ordering.",
+      "node": ":module.karpenter",
+      "target": ":module.self_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The Helm release has an implicit dependency on the Karpenter module through its interpolated values, so its explicit depends_on entry duplicates that dependency.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The Helm release already depends on the Karpenter module, which itself depends on the EKS cluster auth data source; its direct explicit dependency on that data source is therefore transitively redundant.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The EC2 node-class resource already has implicit references to module.eks, so the explicit depends_on entry duplicates that dependency.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The EC2 node-class resource already has implicit references to module.karpenter, so the explicit depends_on entry duplicates that dependency.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The kubeconfig updater already interpolates values from module.eks, so its explicit depends_on entry duplicates that dependency.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The node-pool resource explicitly depends on the Helm release, which already depends on module.eks; its separate direct dependency on module.eks is transitively redundant.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The daemonset deletion explicitly depends on the kubeconfig updater, which itself depends on module.eks; the additional direct dependency on module.eks is transitively redundant.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The daemonset deletion can run before the Calico installation is created. Since this removes the existing EKS aws-node networking daemonset, order it after the Calico installation resource so replacement networking is established first.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

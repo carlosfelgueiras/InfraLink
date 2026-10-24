@@ -1,0 +1,58 @@
+{
+  "repo": "BigDataBoutique__elasticsearch-cloud-deploy",
+  "parent_sha": "94f7761796e92e59701f20f060adb61c2e374677^",
+  "resolved_sha": "2e2c83a7bedaa4066e9e722919c34ef7fe65ac50",
+  "module_dir": "terraform-aws",
+  "profile": "openrouter-deepseek-v4.1-flash-1017",
+  "effort": "high",
+  "temperature": null,
+  "system_prompt": "non-conservative",
+  "cases": [
+    {
+      "repo": "BigDataBoutique__elasticsearch-cloud-deploy",
+      "pr_number": 84,
+      "pr_url": "https://github.com/BigDataBoutique/elasticsearch-cloud-deploy/pull/84",
+      "commit_url": "https://github.com/BigDataBoutique/elasticsearch-cloud-deploy/commit/94f7761796e92e59701f20f060adb61c2e374677",
+      "commit_sha": "94f7761796e92e59701f20f060adb61c2e374677",
+      "parent_sha": "94f7761796e92e59701f20f060adb61c2e374677^",
+      "commit_subject": "AWS deployment update (#84)",
+      "commit_date": "2020-04-20T12:30:54+03:00",
+      "file": "terraform-aws/datas.tf",
+      "module_dir": "terraform-aws",
+      "holder_address": "aws_autoscaling_group.data_nodes",
+      "added_targets": [
+        "aws_autoscaling_group.master_nodes"
+      ],
+      "pre_existing_targets": [
+        "\"aws_autoscaling_group.master_nodes\""
+      ],
+      "already_implicit": {
+        "aws_autoscaling_group.master_nodes": false
+      },
+      "verify_error": null
+    },
+    {
+      "repo": "BigDataBoutique__elasticsearch-cloud-deploy",
+      "pr_number": 84,
+      "pr_url": "https://github.com/BigDataBoutique/elasticsearch-cloud-deploy/pull/84",
+      "commit_url": "https://github.com/BigDataBoutique/elasticsearch-cloud-deploy/commit/94f7761796e92e59701f20f060adb61c2e374677",
+      "commit_sha": "94f7761796e92e59701f20f060adb61c2e374677",
+      "parent_sha": "94f7761796e92e59701f20f060adb61c2e374677^",
+      "commit_subject": "AWS deployment update (#84)",
+      "commit_date": "2020-04-20T12:30:54+03:00",
+      "file": "terraform-aws/masters.tf",
+      "module_dir": "terraform-aws",
+      "holder_address": "null_resource.cluster_bootstrap_state",
+      "added_targets": [
+        "aws_instance.bootstrap_node"
+      ],
+      "pre_existing_targets": [
+        "\"aws_instance.bootstrap_node\""
+      ],
+      "already_implicit": {
+        "aws_instance.bootstrap_node": false
+      },
+      "verify_error": null
+    }
+  ]
+}

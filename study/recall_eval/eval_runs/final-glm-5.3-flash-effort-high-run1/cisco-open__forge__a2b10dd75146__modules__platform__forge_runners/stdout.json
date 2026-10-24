@@ -1,0 +1,292 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda: explicit depends_on of module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:module.register_github_app_runner_group_lambda: explicit depends_on of module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda: explicit depends_on of module.github_app_runner_group:module.register_github_app_runner_group_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:module.clean_global_lock_lambda: explicit depends_on of module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_global_lock:module.clean_global_lock_lambda",
+      "target": "module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda: explicit depends_on of module.github_global_lock:module.clean_global_lock_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda",
+      "target": "module.github_global_lock:module.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:module.update_ec2_tags: explicit depends_on of module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:module.update_ec2_tags",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:data.aws_ssm_parameter.ami_id: explicit depends_on of module.ec2_runners:module.runners is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:data.aws_ssm_parameter.ami_id",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:data.aws_ami.runner_ami: explicit depends_on of module.ec2_runners:module.runners is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:data.aws_ami.runner_ami",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:module.update_runner_ami_lambda: explicit depends_on of module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:module.update_runner_ami_lambda",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda: explicit depends_on of module.ec2_runners:module.update_runner_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda",
+      "target": "module.ec2_runners:module.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:module.job_log_archiver: explicit depends_on of module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver is redundant \u2014 already implied by attribute references",
+      "node": "module.github_actions_job_logs:module.job_log_archiver",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:module.job_log_dispatcher: explicit depends_on of module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher is redundant \u2014 already implied by attribute references",
+      "node": "module.github_actions_job_logs:module.job_log_dispatcher",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_github_app_webhook: explicit depends_on of :data.aws_secretsmanager_secret_version.data_cicd_secrets is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_github_app_webhook",
+      "target": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_secretsmanager_secret_version.data_cicd_secrets: explicit depends_on of :data.aws_secretsmanager_secret.data_cicd_secrets is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "target": ":data.aws_secretsmanager_secret.data_cicd_secrets",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_app_runner_group reads the tenant's CI/CD secrets (app key, app id, installation id) by name via data \"aws_secretsmanager_secret\"/\"aws_secretsmanager_secret_version\" inside the submodule, but nothing orders those reads after aws_secretsmanager_secret_version.cicd_secrets, which creates the seed (AWSCURRENT) versions in this same configuration. On a first apply the submodule's data sources will be read before the secrets/versions exist and fail.",
+      "node": ":module.github_app_runner_group",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_global_lock reads the tenant's CI/CD secrets (app key, app id, installation id) by name via data \"aws_secretsmanager_secret\"/\"aws_secretsmanager_secret_version\" inside the submodule, but nothing orders those reads after aws_secretsmanager_secret_version.cicd_secrets, which creates the seed (AWSCURRENT) versions in this same configuration. On a first apply the submodule's data sources will be read before the secrets/versions exist and fail.",
+      "node": ":module.github_global_lock",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on data.aws_secretsmanager_secret_version.data_cicd_secrets is redundant: the resource already references that data source in its triggers (secret_version id) and in the local-exec environment block, so the dependency is established implicitly.",
+      "node": ":resource.null_resource.update_github_app_webhook",
+      "target": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on data.aws_secretsmanager_secret.data_cicd_secrets is redundant: secret_id already references data.aws_secretsmanager_secret.data_cicd_secrets, so the dependency is established implicitly.",
+      "node": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "target": ":data.aws_secretsmanager_secret.data_cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.register_github_app_runner_group_lambda is redundant: the event target's arn already references module.register_github_app_runner_group_lambda.lambda_function_arn, so the dependency is established implicitly.",
+      "node": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.clean_global_lock_lambda is redundant: logging_log_group already references aws_cloudwatch_log_group.clean_global_lock_lambda.name, so the dependency is established implicitly.",
+      "node": "module.github_global_lock:module.clean_global_lock_lambda",
+      "target": "module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.update_ec2_tags is redundant: logging_log_group already references aws_cloudwatch_log_group.update_ec2_tags.name, so the dependency is established implicitly.",
+      "node": "module.ec2_runners:module.update_ec2_tags",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.runners is redundant: the for_each/keys of this data source already iterate module.runners.runners_map, so the dependency is established implicitly.",
+      "node": "module.ec2_runners:data.aws_ssm_parameter.ami_id",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on data.external.update_kubeconfig is transitively redundant: null_resource.apply_ec2_node_class already depends on data.external.karpenter_ec2nodeclass (referenced in triggers), which itself depends on data.external.update_kubeconfig.",
+      "node": "module.arc_runners.module.arc:resource.null_resource.apply_ec2_node_class",
+      "target": "module.arc_runners.module.arc:data.external.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.job_log_archiver is redundant: logging_log_group already references aws_cloudwatch_log_group.job_log_archiver.name, so the dependency is established implicitly.",
+      "node": "module.github_actions_job_logs:module.job_log_archiver",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.register_github_app_runner_group_lambda is redundant: logging_log_group already references aws_cloudwatch_log_group.register_github_app_runner_group_lambda.name, so the dependency is established implicitly.",
+      "node": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.runners is redundant: the data source already depends on module.runners both via its for_each over module.runners.runners_map and via the ami_id data source's implicit dependency on module.runners, so the ordering is already established.",
+      "node": "module.ec2_runners:data.aws_ami.runner_ami",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on data.external.update_kubeconfig is transitively redundant: null_resource.apply_node_pool already depends on null_resource.apply_ec2_node_class, which (transitively via data.external.karpenter_ec2nodeclass) depends on data.external.update_kubeconfig.",
+      "node": "module.arc_runners.module.arc:resource.null_resource.apply_node_pool",
+      "target": "module.arc_runners.module.arc:data.external.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.update_runner_ami_lambda is redundant: logging_log_group already references aws_cloudwatch_log_group.update_runner_ami_lambda.name, so the dependency is established implicitly.",
+      "node": "module.ec2_runners:module.update_runner_ami_lambda",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.validate_signature_lambda is redundant: logging_log_group already references aws_cloudwatch_log_group.validate_signature_lambda.name, so the dependency is established implicitly.",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.clean_global_lock_lambda is redundant: the event target's arn already references module.clean_global_lock_lambda.lambda_function_arn, so the dependency is established implicitly.",
+      "node": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda",
+      "target": "module.github_global_lock:module.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.job_log_dispatcher is redundant: logging_log_group already references aws_cloudwatch_log_group.job_log_dispatcher.name, so the dependency is established implicitly.",
+      "node": "module.github_actions_job_logs:module.job_log_dispatcher",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on module.update_runner_ami_lambda is redundant: the event target's arn already references module.update_runner_ami_lambda.lambda_function_arn, so the dependency is established implicitly.",
+      "node": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda",
+      "target": "module.ec2_runners:module.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

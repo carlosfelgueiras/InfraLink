@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_function.webhook` depends on `aws_iam_role.webhook_lambda` but not on `aws_iam_role_policy.webhook_logging`, the inline policy that grants the role its CloudWatch Logs permissions (logs:CreateLogStream/PutLogEvents on `aws_cloudwatch_log_group.webhook`). Because these two are created in parallel, the webhook function can exist and be invoked (e.g. by the API Gateway integration set up outside this module) before its execution role can write logs, producing failed/untraceable invocations. The first invocation of a Lambda also implicitly needs to create its log stream, which requires these permissions. Add `depends_on = [aws_iam_role_policy.webhook_logging]` to the function; no attribute on `aws_lambda_function.webhook` can reference this policy to create the edge implicitly.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.webhook` only references `aws_iam_role.webhook_lambda.arn`, so Terraform creates the function and `aws_iam_role_policy_attachment.webhook_vpc_execution_role` concurrently (both only depend on the role). When `var.config.lambda_subnet_ids` is set the function gets a `vpc_config`, and Lambda creates the ENIs at function-creation time using the execution role; if the `AWSLambdaVPCAccessExecutionRole` policy has not been attached yet (and propagated), the apply fails with \"The provided execution role does not have permissions to call CreateNetworkInterface\". The provider documentation's own Lambda example wires this ordering explicitly (`depends_on = [aws_iam_role_policy_attachment.lambda_logs, ...]`). `aws_lambda_function.webhook` needs an explicit `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]`; there is no attribute on the function that can carry this ordering implicitly.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

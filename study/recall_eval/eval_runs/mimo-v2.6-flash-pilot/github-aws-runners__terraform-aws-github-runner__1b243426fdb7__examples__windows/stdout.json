@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app registers the webhook URL with the GitHub app via a local-exec provisioner, but it only waits for module.runners:output.webhook, which depends on the API Gateway API, webhook Lambda, role and log group \u2014 not on the API wiring. Nothing orders update_app after module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook (and likewise not after the $default stage or aws_lambda_permission.webhook), so the GitHub app can be pointed at the endpoint before POST /webhook is routed and authorized to invoke the Lambda, causing the initial webhook registration/ping against a non-functional endpoint.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger exists solely to fire the s3:ObjectCreated notification that invokes the syncer Lambda for the initial post-deploy binary sync. The object depends on the Lambda, bucket and notification (which correctly waits on the Lambda permission), but nothing orders it after module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer (and aws_iam_role_policy.lambda_logging), so the first invocation can run before the Lambda's inline role policies are attached \u2014 plus IAM's eventual-consistency delay \u2014 and fail with AccessDenied, defeating the one-shot trigger until the next hourly EventBridge run.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_fargate_profile.fargate: explicit depends_on of :resource.aws_iam_role.fargate is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on aws_iam_role.ng in aws_autoscaling_group.ng is redundant: the dependency is already established transitively through aws_launch_template.ng (which references aws_iam_instance_profile.ng.0.arn), which in turn depends on aws_iam_role.ng.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on aws_launch_template.ng in aws_autoscaling_group.ng is redundant: aws_autoscaling_group.ng already references aws_launch_template.ng[each.key].id and .latest_version in its mixed_instances_policy launch_template_specification, which establishes the dependency implicitly.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on aws_iam_role.ng in aws_eks_node_group.ng is redundant: the node group already references aws_iam_role.ng.0.arn via its node_role_arn attribute, which establishes the dependency implicitly.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on on aws_iam_role.fargate in aws_eks_fargate_profile.fargate is redundant: the profile already references aws_iam_role.fargate.0.arn via its pod_execution_role_arn attribute, which establishes the dependency implicitly.",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

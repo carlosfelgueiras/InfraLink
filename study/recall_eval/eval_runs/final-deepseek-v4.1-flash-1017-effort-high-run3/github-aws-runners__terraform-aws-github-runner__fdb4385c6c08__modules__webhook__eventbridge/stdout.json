@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.dispatcher routes `workflow_job` events to the dispatcher Lambda, but it has no ordering dependency on aws_lambda_permission.allow_cloudwatch_to_call_lambda, which grants `events.amazonaws.com` permission to invoke the function. Until that resource-based policy exists on the function, EventBridge invocations are denied. Both resources only reference the function/rule independently, so Terraform may create the target before the permission. Order the target after the permission (e.g. via depends_on).",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook depends on aws_iam_role.webhook_lambda but not on aws_iam_role_policy.webhook_logging, which grants the execution role permission to write to CloudWatch Logs. Because both merely reference the role, the function can be created and invoked before the logging policy is attached, causing log writes at cold start to be rejected. This is the \"ensure the IAM role is ready before the function\" ordering the AWS provider documents; order the function after the logging policy (e.g. depends_on).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher depends on aws_iam_role.dispatcher_lambda but not on aws_iam_role_policy.dispatcher_logging, which grants the execution role permission to write to CloudWatch Logs. Since the function and the inline policy only share the role reference, the function can be invoked before the logging policy is attached, causing its log writes to be rejected. Order the function after the logging policy (e.g. depends_on).",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

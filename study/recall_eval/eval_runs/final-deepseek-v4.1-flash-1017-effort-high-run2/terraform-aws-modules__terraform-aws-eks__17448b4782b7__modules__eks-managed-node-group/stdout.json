@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_eks_node_group.this` provisions EC2 instances/ENIs that assume the node IAM role, and AWS requires that role's worker-node/CNI/ECR policies be attached before the node group is created and detached only after the node group (and its instances/ENIs) is destroyed. `aws_eks_node_group.this` only references the role itself via `node_role_arn = aws_iam_role.this[0].arn`; nothing in the graph orders it after `aws_iam_role_policy_attachment.this`. Add an explicit dependency (as the provider docs recommend) so node permissions exist before creation and survive until deletion.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_eks_node_group.this` launches nodes whose role also receives the user-supplied `aws_iam_role_policy_attachment.additional` policies. Since those policy attachments depend only on `aws_iam_role.this`, they can be created after the node group starts (and destroyed before it) whenever policies are required by workloads/EKS operations on the node role. The node group should explicitly depend on `aws_iam_role_policy_attachment.additional` as well.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_launch_template.this` already has `depends_on = [aws_iam_role_policy_attachment.this]` specifically to prevent pods from accessing node-role policies before they are attached, but it omits `aws_iam_role_policy_attachment.additional` for the same node role. The additional policy attachments can therefore still be created concurrently with the launch template/node group, so pods relying on those permissions can start before they are attached. Include `aws_iam_role_policy_attachment.additional` in the launch template's ordering.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

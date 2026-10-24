@@ -1,0 +1,181 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe instance profile is configured with a computed role name rather than a reference to the managed IAM role. It can therefore be created before the role exists, although AWS requires the role to exist before it can be added to the profile.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_instance_profile.instance` sets its `role` through a local string, so Terraform does not order profile creation after `:resource.aws_iam_role.instance`; AWS requires the role to exist before adding it to the profile.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe instance profile is configured with a literal/local role name rather than a reference to the managed role. When create_runner_iam_role is enabled, the profile can be created before the role exists; reference the role so Terraform orders role creation first.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThis inline role policy uses the computed role name, so Terraform can attempt to create it before the managed runner IAM role exists. Reference the role directly to establish the required creation order.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy.instance` names the role through a local string rather than referencing `:resource.aws_iam_role.instance`, so policy creation can race role creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis inline policy uses the computed role name instead of referencing the managed role. Since both resources are created when create_runner_iam_role is true, the policy may otherwise be applied before the role exists.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe attachment's role argument is a local name, not a reference to the managed runner IAM role. The attachment can therefore be attempted before the role exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy` uses the locally computed role name and can be created before `:resource.aws_iam_role.instance` exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe managed agent role policy attachment sets role to a local name, so Terraform does not wait for the managed role to exist. The attachment is created under the same create_runner_iam_role condition as the role.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[count.index].name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe attachment uses a local role name, so it has no Terraform ordering dependency on the managed runner IAM role and may be attempted before that role exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.instance_session_manager_policy` uses a local role-name string, leaving its required ordering after `:resource.aws_iam_role.instance` unstated when this module creates that role.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis optional policy attachment refers to the agent role only by its local name. If the module creates that role, Terraform should order the attachment after it; a conditional reference preserves support for externally managed roles.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe managed-policy attachment uses a local role name rather than a reference to the managed runner IAM role. When the role is managed, Terraform may attempt the attachment before role creation completes.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed` uses a local role-name string, leaving its required ordering after `:resource.aws_iam_role.instance` unstated when this module creates that role.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis optional AWS-managed policy attachment refers to the agent role only by its local name. If the module creates that role, Terraform should order the attachment after it; a conditional reference preserves support for externally managed roles.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThis user-defined policy attachment targets the runner role by local name only, so it can be attempted before the managed role exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.user_defined_policies` uses a locally computed role name and does not wait for `:resource.aws_iam_role.instance` when the module manages the runner role.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe user-defined policy attachment specifies the role through a local string, not the managed role resource. Add a conditional resource reference so attachment creation waits for the role when this module creates it.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe cache policy attachment targets the runner role through a local name and does not wait for the managed role to be created.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance` attaches the cache policy to a locally named runner role; it can race creation of `:resource.aws_iam_role.instance`.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis cache policy attachment uses the local agent role name, so it can be attempted before the managed role exists. Reference the managed role conditionally while retaining the external-role path.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe service-linked-role policy attachment uses only the computed runner role name, so Terraform may attempt it before the managed role exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.service_linked_role` uses the locally computed runner-role name and may be applied before `:resource.aws_iam_role.instance` exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe service-linked-role policy attachment names the agent role via a local string rather than a role resource reference. It should wait for the role when create_runner_iam_role is enabled.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe SSM policy attachment uses a local role name and does not establish ordering after the managed runner IAM role exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.ssm` uses the locally computed runner-role name and may be applied before `:resource.aws_iam_role.instance` exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis SSM policy attachment names the agent role via a local string. If the role is managed here, the attachment can race its creation; a conditional resource reference gives Terraform the required ordering.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EIP policy attachment uses the computed role name rather than referencing the managed runner IAM role, so the attachment may be attempted before role creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_iam_role_policy_attachment.eip` uses the locally computed runner-role name and may be applied before `:resource.aws_iam_role.instance` exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis EIP policy attachment names the agent role via a local string rather than referencing the managed role. When the module creates the role, Terraform should create it before this attachment.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe launch template names the runner instance profile using a local value, so Terraform can create it and the Auto Scaling group can launch instances before the managed instance profile exists. Reference the profile resource directly when it is managed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe launch template supplies the instance profile by a locally computed name, so Terraform does not wait for the profile resource. The profile must exist before instances launched from this template can use it.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": {
+        "field": "iam_instance_profile.name",
+        "expression": "var.create_runner_iam_role ? aws_iam_instance_profile.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch its runner instance before `:resource.aws_iam_role_policy.instance` is installed, so instance startup can run without its configured CloudWatch permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ASG may start the runner before the inline CloudWatch logging policy is attached to its instance role. The launch template references only the instance profile/role, not this policy; wait for the policy before launching instances so bootstrap logging has its required permissions.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch before `:resource.aws_iam_role_policy_attachment.ssm` is attached, so runner-token management permissions may not be ready when the instance starts.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen token management is enabled, runner user data manages the SSM parameter value, but the ASG can launch before the instance-role SSM policy attachment completes. Add ordering so the runner has the required SSM permissions during bootstrap.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\n`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch before `:resource.aws_iam_role_policy_attachment.eip` is attached, so the agent may lack its configured EIP-assignment permission at startup.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen EIP support is enabled, runner user data assigns the EIP, but the ASG can launch before the EIP policy attachment is available on its instance role. Order ASG creation after this attachment so the bootstrap association does not race policy setup.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.eip",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\n`:module.terminate_instances_lifecycle_function:resource.aws_cloudwatch_event_target.terminate_instances` can make the rule's Lambda target active before `:module.terminate_instances_lifecycle_function:resource.aws_lambda_permission.unqualified_alias_triggers` grants EventBridge permission to invoke the unqualified function ARN.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target invokes the unqualified Lambda ARN, but Terraform does not order target creation after the unqualified invoke permission. Ensure the permission is installed before the target can receive matching termination events.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_cloudwatch_event_target.terminate_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_lambda_permission.unqualified_alias_triggers",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\n`:module.terminate_instances_lifecycle_function:resource.aws_lambda_function.terminate_runner_instances` depends on its execution role but not on `:module.terminate_instances_lifecycle_function:resource.aws_iam_role_policy_attachment.lambda`; an early invocation may occur before the execution permissions (including log access) are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Lambda function uses a role whose logging policy is attached separately, and its expected CloudWatch log group is also provisioned separately. The AWS provider documentation recommends ordering function creation after these prerequisites to avoid invocation/logging races.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_lambda_function.terminate_runner_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_iam_role_policy_attachment.lambda",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

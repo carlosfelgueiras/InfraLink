@@ -1,0 +1,328 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe organization configuration aggregator uses the role ARN, but that reference only orders it after the IAM role itself. AWS Config requires the organization's role policy to be attached before creating the aggregator; add an explicit dependency on the attachment to avoid a race.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe organization aggregator references the IAM role ARN but can be created before the role's AWSConfigRoleForOrganizations policy attachment is complete. The AWS provider's organization-aggregator example explicitly waits for this attachment; add an ordering dependency so the aggregator does not start before its required permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe organization configuration aggregator uses this role to retrieve organization details, so its AWSConfigRoleForOrganizations permissions should be attached before creating the aggregator; the role ARN reference alone does not order the attachment.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the Config service role's AWS_ConfigRole managed policy attachment is not guaranteed to exist first. Add an ordering dependency on the attachment.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nAWS Config starts recording through this status resource, but the role's S3/SNS publishing permissions from this inline policy are not guaranteed to exist first. Add an ordering dependency on the policy.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nWhen CloudTrail is configured for CloudWatch Logs, it references the delivery role but may create the trail before the role's logging permissions are attached. Ensure the CloudTrail resource waits for its CloudWatch delivery inline policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe CloudTrail resource references the CloudWatch delivery role, but its required logs:CreateLogStream and logs:PutLogEvents permissions are granted by this separate role policy. Ensure that policy is attached before configuring the trail for CloudWatch Logs delivery.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

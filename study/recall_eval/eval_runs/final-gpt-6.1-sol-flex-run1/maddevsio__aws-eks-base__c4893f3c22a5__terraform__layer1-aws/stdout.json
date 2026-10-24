@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudtrail.main must wait for aws_s3_bucket_policy.cloudtrail: CloudTrail validates bucket permissions when creating the trail, but the bucket reference alone does not ensure that the policy granting GetBucketAcl and PutObject has been installed. Add depends_on = [aws_s3_bucket_policy.cloudtrail].",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

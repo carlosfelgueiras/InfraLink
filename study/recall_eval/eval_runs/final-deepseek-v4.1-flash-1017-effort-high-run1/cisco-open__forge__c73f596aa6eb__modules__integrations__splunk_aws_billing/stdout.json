@@ -1,0 +1,82 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_service: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_service is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource_process: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource_process is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_resource has `depends_on = [aws_cloudwatch_log_group.cur_per_resource]`, but the same block already sets `logging_log_group = aws_cloudwatch_log_group.cur_per_resource.name`, which makes the module depend on the log group implicitly. The explicit depends_on duplicates that ordering and can be removed.",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_resource_process has `depends_on = [aws_cloudwatch_log_group.cur_per_resource_process]`, but the same block already sets `logging_log_group = aws_cloudwatch_log_group.cur_per_resource_process.name`, so the dependency is already captured implicitly. The explicit depends_on is redundant.",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.cur_per_service has `depends_on = [aws_cloudwatch_log_group.cur_per_service]`, but the same block already sets `logging_log_group = aws_cloudwatch_log_group.cur_per_service.name`, which already orders the module after the log group. The explicit depends_on is redundant.",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_resource only depends on the bucket itself, so it can be created before aws_s3_bucket_policy.cur_bucket_policy. The BCM Data Exports service validates the destination bucket policy at export creation time (the policy's EnableAWSDataExportsToWriteToS3AndCheckPolicy statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy), so the export must be ordered after the bucket policy or creation fails with a bucket-policy validation error.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": {
+        "field": "s3_bucket",
+        "expression": "aws_s3_bucket_policy.cur_bucket_policy.bucket"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_service only depends on the bucket itself, so it can be created before aws_s3_bucket_policy.cur_bucket_policy. AWS validates the destination bucket policy when the data export is created (the policy's EnableAWSDataExportsToWriteToS3AndCheckPolicy statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy), so this export must be ordered after the bucket policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": {
+        "field": "s3_bucket",
+        "expression": "aws_s3_bucket_policy.cur_bucket_policy.bucket"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

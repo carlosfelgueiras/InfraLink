@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "resource.aws_lambda_function.main can be created with vpc_config (when subnet_ids/security_group_ids are provided), which requires the execution role to already have the AWSLambdaVPCAccessExecutionRole permissions at CreateFunction time (ENI creation permission is validated by Lambda). aws_iam_role_policy_attachment.vpc_execution_role currently only shares aws_iam_role.main as a common dependency, so Terraform may create the function before the policy is attached, causing VPC-enabled function creation to fail intermittently. Add an explicit depends_on from the function to the attachment.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

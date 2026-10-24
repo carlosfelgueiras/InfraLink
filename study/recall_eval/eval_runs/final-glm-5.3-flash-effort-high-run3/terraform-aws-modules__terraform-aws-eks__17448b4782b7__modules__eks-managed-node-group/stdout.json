@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.this depends_on aws_iam_role_policy_attachment.this to prevent nodes from booting before the standard role policies are attached, but it does not wait for aws_iam_role_policy_attachment.additional (user-supplied `iam_role_additional_policies`). IAM policy attachment propagation is eventually consistent, so nodes launched from this template can join the cluster before the additional policies take effect, causing pods that rely on those permissions to fail. Add aws_iam_role_policy_attachment.additional to the existing depends_on list on aws_launch_template.this.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

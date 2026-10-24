@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_public_access_block.origin sets `bucket = local.bucket`, which resolves to `aws_s3_bucket.origin.*.id` when the module creates the origin bucket. The graph records no dependency between the public access block and the bucket, so Terraform could attempt PutPublicAccessBlock against a bucket that doesn't exist yet, failing the apply. The public access block must be created after the origin bucket exists.",
+      "node": ":resource.aws_s3_bucket_public_access_block.origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "join(\"\", compact(concat([var.origin_bucket], aws_s3_bucket.origin.*.id)))"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_s3_bucket.selected looks up the origin bucket by name (`local.bucket`, which is `aws_s3_bucket.origin.*.id` when the module creates the bucket). On a fresh create, the bucket name is known at plan time but the bucket itself doesn't exist yet, so this data source can race with (or read before) aws_s3_bucket.origin's creation and fail the plan/apply \u2014 exactly the failure mode the `static_s3_bucket` workaround comment describes for destroy. The data source read should be ordered after the origin bucket's creation.",
+      "node": ":data.aws_s3_bucket.selected",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "length(var.origin_bucket) > 0 ? var.origin_bucket : try(aws_s3_bucket.origin[0].id, var.static_s3_bucket)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default computes its origin `domain_name` from `local.bucket_domain_name`, which depends on `data.aws_s3_bucket.selected.region`. The graph records no dependency between the distribution and that data source, so the distribution's origin endpoint could be evaluated before the data source read completes. The distribution should be ordered after data.aws_s3_bucket.selected.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":data.aws_s3_bucket.selected",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_policy.default sets `bucket = local.bucket`, which resolves to `aws_s3_bucket.origin.*.id` when the module creates the origin bucket. The graph records no dependency between the policy and the bucket, so Terraform could try to attach the policy (PutBucketPolicy) to a bucket that hasn't been created yet, failing the apply. The policy must be applied after the origin bucket exists.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "join(\"\", compact(concat([var.origin_bucket], aws_s3_bucket.origin.*.id)))"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

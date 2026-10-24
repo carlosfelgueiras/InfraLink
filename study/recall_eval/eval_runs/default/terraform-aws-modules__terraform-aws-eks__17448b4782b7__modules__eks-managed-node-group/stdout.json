@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_launch_template.this to :resource.aws_iam_role_policy_attachment.this duplicates the existing dependency through the launch template's user-data wiring? Actually there is no attribute path from the attachment to the launch template; leave explicit ordering in place to ensure policies are attached before instances use the template.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS node group can begin provisioning before its IAM role policies are attached. It references the role ARN, but that does not order creation after either policy attachment; node bootstrap and cluster operations may fail until the required permissions are available.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

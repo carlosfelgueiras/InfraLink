@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_binding.authoritative applies an authoritative IAM binding with folder = local.folder.name, but the graph shows no dependency on the folder resource. The binding cannot be created before google_folder.folder exists; the ordering is only mediated through the local.folder local (try(google_folder.folder.0, ...)), which the mechanical analysis cannot trace.",
+      "node": ":resource.google_folder_iam_binding.authoritative",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_binding.bindings applies an IAM binding with folder = local.folder.name, but the graph shows no dependency on the folder resource. The binding requires the folder to exist first; the reference is only mediated through local.folder, invisible to the mechanical analysis.",
+      "node": ":resource.google_folder_iam_binding.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_member.bindings applies additive IAM members with folder = local.folder.name, but the graph shows no dependency on the folder resource. The member binding cannot be created before the folder exists; the dependency is only expressed via the local.folder local.",
+      "node": ":resource.google_folder_iam_member.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_audit_config.default configures data-access audit logs with folder = local.folder.name, but the graph shows no dependency on the folder resource. The audit config must be created after the folder exists; the ordering is only mediated through local.folder.",
+      "node": ":resource.google_folder_iam_audit_config.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_org_policy_policy.default builds name = \"${local.folder.name}/policies/${k}\" and parent = local.folder.name, but the graph shows no dependency on the folder resource. Organization policies can only be attached to an existing folder; the dependency is only mediated through local.folder (via local.org_policies), which the mechanical analysis cannot trace.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_logging_folder_sink.sink sets folder = local.folder.name, but the graph shows no dependency on the folder resource \u2014 its only explicit depends_on is on the IAM binding, not the folder itself. The sink must be created after the folder exists; the folder reference is only mediated through local.folder.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_logging_folder_exclusion.logging-exclusion sets folder = local.folder.name, but the graph shows no dependency on the folder resource. Folder-level log exclusions require the folder to exist first; the reference is only mediated through local.folder.",
+      "node": ":resource.google_logging_folder_exclusion.logging-exclusion",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_essential_contacts_contact.contact sets parent = local.folder.name, but the graph shows no dependency on the folder resource. Essential contacts can only be registered on an existing folder; the dependency is only mediated through the local.folder local.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_firewall_policy_association.default sets attachment_target = local.folder.id, but the graph shows no dependency on the folder resource. The hierarchical firewall policy can only be associated with an existing folder; the dependency is only mediated through local.folder.",
+      "node": ":resource.google_compute_firewall_policy_association.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_tags_tag_binding.binding sets parent = \"//cloudresourcemanager.googleapis.com/${local.folder.id}\", but the graph shows no dependency on the folder resource. A tag binding can only be created on an existing folder; the dependency is only mediated through local.folder (and transitively would only be reachable via other resources).",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

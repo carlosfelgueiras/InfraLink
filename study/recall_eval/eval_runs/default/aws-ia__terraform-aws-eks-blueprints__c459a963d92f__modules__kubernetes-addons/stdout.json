@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `aws_eks_addon` resource can report completion before its managed add-on components are ready; the CoreDNS managed add-on should be ordered after the EKS cluster has finished provisioning. The cluster ID is passed as a plain input, so it does not express this lifecycle dependency.",
+      "node": "module.aws_coredns:resource.aws_eks_addon.coredns",
+      "target": ":data.aws_eks_cluster.eks_cluster",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "data.aws_eks_cluster.eks_cluster.name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `aws_eks_addon` resource can complete before the add-on is fully available; creation of the EBS CSI managed add-on should wait until the EKS cluster is established. Its cluster name is currently supplied through configuration without a dependency on the cluster lookup.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":data.aws_eks_cluster.eks_cluster",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "data.aws_eks_cluster.eks_cluster.name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS-managed kube-proxy add-on must be installed against an established EKS cluster; `cluster_name` is currently derived from plain context configuration and does not establish ordering after the cluster lookup.",
+      "node": "module.aws_kube_proxy:resource.aws_eks_addon.kube_proxy",
+      "target": ":data.aws_eks_cluster.eks_cluster",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "data.aws_eks_cluster.eks_cluster.name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

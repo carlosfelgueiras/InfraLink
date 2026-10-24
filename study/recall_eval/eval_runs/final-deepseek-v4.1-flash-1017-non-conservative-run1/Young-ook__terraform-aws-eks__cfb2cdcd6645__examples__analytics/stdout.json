@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EMR on EKS virtual cluster (aws_emrcontainers_virtual_cluster.emr) is registered against the EKS cluster, but it only receives the cluster *name* via var.container_providers (built from module.eks.cluster.name). This does not guarantee the EKS cluster and its access configuration are ready before the virtual cluster is created: the project's own comment documents that the EKS aws-auth ConfigMap must first be updated with the AWSServiceRoleForAmazonEMRContainers role mapping (done manually via the eksctl command exposed by the enable_emr_access output). The virtual cluster should be ordered after :module.eks (cluster + access setup) is complete; add an explicit depends_on = [module.eks] on the emr module/resource to close this operational gap.",
+      "node": "module.emr:resource.aws_emrcontainers_virtual_cluster.emr",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.google_org_policy_policy.default` explicitly depends on `:resource.google_tags_tag_key.default`, but its dependency on `:resource.google_tags_tag_value.default` already orders the tag key first through the tag value's parent reference.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_org_policy_custom_constraint.constraint`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the custom constraint.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_organization_iam_binding.authoritative`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the authoritative IAM binding.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_organization_iam_binding.bindings`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on that IAM binding.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_organization_iam_custom_role.roles`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the custom roles.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_organization_iam_member.bindings`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on that IAM member resource.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_tags_tag_key.default`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the tag key.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends on `:resource.google_tags_tag_value.default`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the tag value.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_org_policy_custom_constraint.constraint`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the custom constraint.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_organization_iam_binding.authoritative`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the authoritative IAM binding.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_organization_iam_binding.bindings`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on that IAM binding.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_organization_iam_custom_role.roles`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the custom roles.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_organization_iam_member.bindings`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on that IAM member resource.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_tags_tag_key.default`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the tag key.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends on `:resource.google_tags_tag_value.default`, but it already depends on `:resource.google_org_policy_policy.default`, which itself depends on the tag value.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

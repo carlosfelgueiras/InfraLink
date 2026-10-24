@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "data.google_dns_keys.dns_keys reads the DNSKEY/DS records of the zone via local.managed_zone.id, which resolves to google_dns_managed_zone.dns_managed_zone[0].id when var.zone_config is set (exactly the case where the data source's count is 1, i.e. DNSSEC state != \"off\"). No dependency on the managed zone resource is expressed (the reference is hidden behind local.managed_zone), so on first apply the data source can be read before the zone exists, failing with a 404 since the DNSKEY collection does not exist yet. It must be ordered after the zone resource.",
+      "node": ":data.google_dns_keys.dns_keys",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

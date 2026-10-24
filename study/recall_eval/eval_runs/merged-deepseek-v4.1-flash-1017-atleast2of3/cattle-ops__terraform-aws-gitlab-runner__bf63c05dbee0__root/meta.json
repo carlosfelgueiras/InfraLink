@@ -1,0 +1,33 @@
+{
+  "repo": "cattle-ops__terraform-aws-gitlab-runner",
+  "parent_sha": "c58aaaa52f6387536794da8626f9033517a71e88^",
+  "resolved_sha": "bf63c05dbee0cd8eb7c9f8007365c58a50712429",
+  "module_dir": ".",
+  "profile": "merged(min_runs=2): final-deepseek-v4.1-flash-1017-effort-high-run1,final-deepseek-v4.1-flash-1017-effort-high-run2,final-deepseek-v4.1-flash-1017-effort-high-run3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "cattle-ops__terraform-aws-gitlab-runner",
+      "pr_number": 633,
+      "pr_url": "https://github.com/cattle-ops/terraform-aws-gitlab-runner/pull/633",
+      "commit_url": "https://github.com/cattle-ops/terraform-aws-gitlab-runner/commit/c58aaaa52f6387536794da8626f9033517a71e88",
+      "commit_sha": "c58aaaa52f6387536794da8626f9033517a71e88",
+      "parent_sha": "c58aaaa52f6387536794da8626f9033517a71e88^",
+      "commit_subject": "fix: create the log group before creating the runner agent (#633)",
+      "commit_date": "2023-01-07T10:37:02+01:00",
+      "file": "main.tf",
+      "module_dir": ".",
+      "holder_address": "aws_launch_template.gitlab_runner_instance",
+      "added_targets": [
+        "aws_cloudwatch_log_group.environment"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_cloudwatch_log_group.environment": false
+      },
+      "verify_error": null
+    }
+  ]
+}

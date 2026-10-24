@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App is configured with the webhook URL before the API Gateway default stage exists. The stage provides the invokable endpoint, so the external webhook configuration should wait until stage creation.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook can be enabled before its API Gateway route is installed, so early GitHub deliveries may fail. Ensure the route exists before updating the external app configuration.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook can be enabled before the API Gateway Lambda integration is installed, leaving the configured endpoint unable to forward requests. Ensure the integration is ready before updating the app.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_integration.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook can be configured before API Gateway has permission to invoke the Lambda, causing deliveries to fail until permission is established. Make the app update wait for the Lambda permission.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge can begin delivering scheduled events as soon as this target is registered; ensure the Lambda resource-based invoke permission exists first to avoid failed initial invocations.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge can invoke the scale-down target as soon as it is registered. The target should wait for its Lambda invoke permission so initial scheduled invocations are authorized.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool schedule target can receive events immediately after registration; ensure the Lambda invoke permission is installed first to avoid failed initial invocations.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping may start polling as soon as it is enabled, but the scale-up execution role's inline policy (including queue access) is a separate resource. Make the mapping wait for that policy so queue processing does not start before permissions are available.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

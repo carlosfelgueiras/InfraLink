@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_fargate_profile.fargate: explicit depends_on of :resource.aws_iam_role.fargate is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_node_group.ng` lists `:resource.aws_iam_role.ng` in `depends_on`, but `node_role_arn = aws_iam_role.ng.0.arn` already creates that ordering implicitly, so the explicit depends_on is redundant.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_fargate_profile.fargate` lists `:resource.aws_iam_role.fargate` in `depends_on`, but `pod_execution_role_arn = aws_iam_role.fargate.0.arn` already establishes the dependency implicitly, so the explicit depends_on is redundant.",
+      "node": ":resource.aws_eks_fargate_profile.fargate",
+      "target": ":resource.aws_iam_role.fargate",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.ng` lists `:resource.aws_launch_template.ng` in `depends_on`, but `mixed_instances_policy.launch_template.launch_template_specification` already references `aws_launch_template.ng[each.key].id` and `.latest_version`, so the explicit depends_on is redundant.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.ng` launches self-managed nodes whose user-data installs and starts the SSM agent when `var.enable_ssm` is true, but it only depends on `eks-ng`, `eks-cni` and `ecr-read` policy attachments. Nothing orders it after `:resource.aws_iam_role_policy_attachment.ssm-managed`, so instances can boot (and go live without SSM access) before the AmazonSSMManagedInstanceCore policy is attached to the node role. Add this attachment to the existing depends_on list (no attribute reference exists to create it implicitly).",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_node_group.ng` reuses the node role and its launch template (`aws_launch_template.mng`) enables the SSM agent when `var.enable_ssm` is true, yet its depends_on only covers `eks-ng`, `eks-cni` and `ecr-read`. It should also wait for `:resource.aws_iam_role_policy_attachment.ssm-managed` so managed node instances never launch without SSM permissions attached to the role. No attribute reference can express this, so extend the existing depends_on list.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nThe Karpenter controller installed by `helm_release.karpenter` relies on EKS Pod Identity to obtain IAM credentials \u2014 `module.karpenter` is configured with `create_pod_identity_association = true`. Pod Identity credentials are only delivered by the EKS Pod Identity Agent daemon, which is installed by `aws_eks_addon.eks_pod_identity_agent`. Nothing orders the controller after that addon (they only share transitive prerequisites), so Karpenter pods may start before the agent is running and fail to authenticate. `helm_release.karpenter` should depend on `aws_eks_addon.eks_pod_identity_agent`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe Karpenter controller runs as an EKS Pod Identity consumer: `module.karpenter` sets `create_pod_identity_association = true`, so the controller's service account gets its AWS credentials via EKS Pod Identity. EKS Pod Identity only works once the `eks-pod-identity-agent` add-on (`aws_eks_addon.eks_pod_identity_agent`) is actually running on the nodes. `helm_release.karpenter` has no dependency (direct or transitive) on that add-on \u2014 it only depends on the cluster/`module.karpenter`, both of which are ordered *before* the node group and the agent addon. As a result the Karpenter controller can be deployed before the pod identity agent is ready and fail to obtain credentials. (In the canonical terraform-aws-modules example the agent lives inside `module.eks`, which gives this ordering implicitly; here it was split into a standalone resource and the ordering was lost.) Adding `depends_on = [aws_eks_addon.eks_pod_identity_agent]` (or ordering `module.karpenter` after it) closes the gap; there is no clean attribute reference on the add-on to wire it idiomatically.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

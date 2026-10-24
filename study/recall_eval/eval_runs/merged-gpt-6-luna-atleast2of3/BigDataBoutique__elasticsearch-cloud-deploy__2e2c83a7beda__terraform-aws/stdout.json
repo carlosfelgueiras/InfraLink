@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe bootstrap EC2 instance can start before the Elasticsearch role's inline discovery policy is attached. Order instance creation after the policy so its bootstrap code has the required EC2 describe permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe bootstrap EC2 instance uses the Elasticsearch discovery role and can start its bootstrap process before the discovery policy is attached. Add an explicit dependency so the instance is created after the policy is provisioned.",
+      "node": ":resource.aws_instance.bootstrap_node",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe master Auto Scaling Group can launch instances before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its members.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Elasticsearch discovery inline policy grants permissions needed by the launched Elasticsearch instances, but this ASG can launch instances before that policy is attached. Add an explicit dependency so master nodes start only after the policy is provisioned.",
+      "node": ":resource.aws_autoscaling_group.master_nodes",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe data Auto Scaling Group can launch instances before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its members.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Elasticsearch discovery inline policy grants permissions needed by data-node instances, but this ASG can launch instances before that policy is attached. Add an explicit dependency so data nodes start only after the policy is provisioned.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe single-node Auto Scaling Group can launch its instance before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its member.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Elasticsearch discovery inline policy grants permissions needed by the single-node Elasticsearch instance, but this ASG can launch it before the policy is attached. Add an explicit dependency so the node starts only after the policy is provisioned.",
+      "node": ":resource.aws_autoscaling_group.single_node",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe bootstrap instance receives the master Auto Scaling Group name and needs the conditional ASG-discovery permissions available before bootstrapping. Order the instance after this policy attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe bootstrap user data is given the master Auto Scaling Group name, and the conditional ASG-discovery policy is intended to authorize that discovery; the bootstrap instance can nevertheless start before the policy is attached. Add an explicit dependency so bootstrap starts after the policy is provisioned.",
+      "node": ":resource.aws_instance.bootstrap_node",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

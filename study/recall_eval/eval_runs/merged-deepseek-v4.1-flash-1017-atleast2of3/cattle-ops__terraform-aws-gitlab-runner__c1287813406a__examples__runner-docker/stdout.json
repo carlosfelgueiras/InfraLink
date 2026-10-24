@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_launch_configuration.gitlab_runner_instance carries the runner's user_data, which registers the runner and then stores the token into the SSM SecureString parameter named by local.secure_parameter_store_runner_token_key. The SSM parameter (aws_ssm_parameter.runner_registration_token) is only referenced by name string, so nothing guarantees it exists before the instance boots. If the instance's user-data writes the token first and the Terraform-managed parameter (value = \"null\") is created afterward, it overwrites the token and breaks the runner. The launch configuration should depend on the SSM parameter.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_ssm_parameter.runner_registration_token is created with value=\"null\" and its real value is written by the runner instance's user-data script. If the parameter does not exist yet when Terraform later applies it, it can clobber the token written during registration. The launch configuration (which defines the instance's user-data) is not ordered after aws_ssm_parameter.runner_registration_token. Add depends_on so the parameter exists before the runner instance is created.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThe runner's user_data accesses SSM (get/put the runner token) when enable_manage_gitlab_token is true, which requires the SSM access policy to be attached to the instance role. aws_iam_role_policy_attachment.ssm attaches to aws_iam_role.instance in parallel with the instance profile, and the launch configuration waits only on the profile, so an instance can boot before the SSM policy is attached. The launch configuration should depend on the ssm policy attachment.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe runner agent reads/writes the GitLab registration token in SSM, requiring the permissions from aws_iam_policy.ssm. The attachment is not ordered before the instance, so registration can fail if the policy is not yet attached. Order the launch configuration after aws_iam_role_policy_attachment.ssm.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThe runner's user_data includes the CloudWatch logging config (data.template_file.logging) that targets the log group named var.environment, which is created by aws_cloudwatch_log_group.environment. That resource is referenced only by the environment name string, so nothing orders the launch configuration (and thus the instance launch) after the log group. The launch configuration should depend on the CloudWatch log group so it exists before the instance begins writing logs.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe runner instance configures Docker/CloudWatch logging to the log group aws_cloudwatch_log_group.environment (name = var.environment), but the launch configuration does not wait for that log group to exist. If the group is absent when the agent starts logging, the awslogs driver fails. Add depends_on so the log group is created first.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

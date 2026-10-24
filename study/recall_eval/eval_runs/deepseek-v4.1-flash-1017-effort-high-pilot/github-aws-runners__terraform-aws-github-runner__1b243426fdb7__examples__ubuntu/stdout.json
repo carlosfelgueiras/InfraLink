@@ -1,0 +1,34 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-unsecure-transport policy to the dead-letter queue, but its `queue_url` points at `aws_sqs_queue.queued_builds.id` (the build queue) instead of the DLQ, so there is no dependency on `module.runners:resource.aws_sqs_queue.queued_builds_dlq` at all. The DLQ is created/configured without its own policy, and two queue policies end up targeting the same queue. The DLQ policy must be created against the DLQ (the graph can't see this because the reference resolves to the wrong resource).",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook` has `auto_deploy = true` and ignores changes to `deployment_id`, but only depends on the API resource. With no dependency on `module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook` (or the integration it targets), Terraform may create the stage/deployment before the route exists, so the live `$default` deployment contains no `POST /webhook` route and the webhook endpoint returns errors. Because `deployment_id` is ignored, the missing route is never redeployed by later stage changes \u2014 an explicit ordering (or `depends_on`) is required.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` calls the GitHub API (local-exec `update-app.sh`) to point the GitHub App's webhook at the module's API Gateway endpoint. It only reaches `module.runners:output.webhook`, which is derived from the bare `aws_apigatewayv2_api` resource (its `api_endpoint` attribute), so it can run in parallel with \u2014 and before \u2014 `module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook` is deployed and serving the route. GitHub then starts delivering events to an endpoint that isn't live yet and deliveries fail; the resource should also order after the deployed stage.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up does not wait for module.runners.module.runners:resource.aws_iam_role_policy.scale_up, which grants its execution role access to the build queue. Referencing the Lambda function only orders creation of the role, not attachment of this policy. Creating the SQS mapping before those permissions are installed can fail Lambda's execution-role permission validation. Add an explicit dependency on the policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up enables queue consumption without waiting for module.runners.module.runners:resource.aws_iam_role_policy.scale_up_logging. With queued messages, the first invocation can run before logging permissions and the managed log group are ready. Make the mapping depend on this policy; its existing log-group reference also orders log-group creation.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger immediately invokes the syncer through the bucket notification, but does not wait for module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer. The current notification dependency ensures permission to invoke the Lambda, not the execution role's permission to write the runner distribution. Order this initial trigger after the S3 access policy to avoid a first-run authorization race.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger can invoke the syncer before module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging exists. The initial invocation can therefore lose its logs. Make the trigger depend on this policy, which already depends on the managed syncer log group, to ensure both logging permissions and the log group exist before the deployment-triggered execution.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a customer-managed encryption key is configured, module.runners.module.runner_binaries:resource.aws_s3_object.trigger can invoke the syncer before module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms grants its execution role access to that key. Neither the Lambda reference nor the notification dependency orders this policy. Make the deployment trigger depend on the optional policy collection so the initial encrypted distribution upload does not race KMS permissions.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runner_binaries:resource.aws_lambda_function.syncer must wait for module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role. The role ARN reference does not wait for its separate AWSLambdaVPCAccessExecutionRole attachment. Lambda can otherwise reject creation because its execution role cannot create network interfaces. Add depends_on on the attachment collection; this also keeps the VPC permissions attached until function destruction completes.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runners:resource.aws_lambda_function.scale_up must wait for module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role. Referencing the execution role ARN does not order this separate policy attachment, so Lambda creation can race the EC2 network-interface permissions required for VPC access. Add depends_on on the attachment collection, also preserving it during VPC Lambda teardown.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runners:resource.aws_lambda_function.scale_down must wait for module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role. Its role ARN reference only waits for the IAM role, not attachment of the network-interface permissions Lambda validates for VPC provisioning. Add depends_on on the attachment collection, also preserving the permissions through function teardown.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When the pool is enabled with VPC subnets, module.runners.module.runners.module.pool:resource.aws_lambda_function.pool must wait for module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role. The shared IAM role reference does not order attachment of AWSLambdaVPCAccessExecutionRole; Lambda provisioning can therefore fail its network-interface permission checks. Add depends_on on this optional attachment collection, retaining it until the VPC Lambda has been destroyed.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.webhook:resource.aws_lambda_function.webhook must wait for module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role. Its role ARN reference does not include the separately attached VPC execution policy, allowing Lambda creation to run before the required network-interface permissions exist. Add depends_on on the attachment collection, also ensuring that the permissions remain during function teardown.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy is intended to install the dead-letter queue policy, but queue_url references queued_builds instead of module.runners:resource.aws_sqs_queue.queued_builds_dlq. When redrive is enabled this manages the main queue's policy twice and leaves the DLQ without its intended transport restriction. Reference the DLQ URL directly to attach the policy to the correct queue and infer the required dependency.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

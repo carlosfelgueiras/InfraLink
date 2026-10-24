@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_binding.binding binds a TagValue to the organization, but its tag_value is resolved from an opaque string (var.tag_bindings / local.ctx.tag_values) and therefore establishes no dependency edge. The module itself creates tag values via google_tags_tag_value.default, and a tag binding cannot be created until the referenced TagValue exists. Add depends_on = [google_tags_tag_value.default] so bindings are created only after the module-managed tag values.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

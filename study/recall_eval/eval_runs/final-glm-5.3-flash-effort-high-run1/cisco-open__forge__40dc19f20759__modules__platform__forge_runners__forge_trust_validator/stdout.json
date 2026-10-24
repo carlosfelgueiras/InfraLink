@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant: the module already depends on the log group implicitly through the `logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name` attribute reference.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on module.forge_trust_validator_lambda is redundant: the event target already depends on the module implicitly via `arn = module.forge_trust_validator_lambda.lambda_function_arn`.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.update_forge_role_trust embeds the ARN of the IAM role created by module.forge_trust_validator_lambda (\"arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.prefix}-forge-trust-validator\") into the forge roles' assume-role policy via a local-exec provisioner. Since the ARN is interpolated from var.prefix rather than referencing the module, Terraform orders them independently; if the provisioner runs before the validator role exists, `aws iam update-assume-role-policy` fails with an invalid-principal error. Add a dependency so the lambda module (and its IAM role) is created first.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

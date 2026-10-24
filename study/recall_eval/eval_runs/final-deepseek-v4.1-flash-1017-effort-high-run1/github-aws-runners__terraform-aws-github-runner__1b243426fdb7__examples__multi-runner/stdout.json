@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge target `module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` can be created before `module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer`. EventBridge needs that Lambda resource-based permission to invoke the function, but the target has no attribute reference or explicit depends_on tying it to the permission, so the scheduled invocation can race and fail.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge target `module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down` can be created before `module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down`. EventBridge requires the Lambda resource-based permission before invoking the function, and no attribute reference or explicit depends_on establishes that ordering, so scheduled scale-down invocations can race and fail.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge target `module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` can be created before `module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool`. EventBridge needs the Lambda resource-based permission to invoke the pool function, but the target does not reference or explicitly depend on the permission, so scheduled invocations can race and fail.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

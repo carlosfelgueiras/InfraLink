@@ -1,0 +1,55 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.local_file.public_ssh_key has an explicit depends_on on tls_private_key.ssh, but this dependency is already established implicitly because its `content` attribute references tls_private_key.ssh.public_key_openssh. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.local_file.private_ssh_key has an explicit depends_on on tls_private_key.ssh, but this dependency is already established implicitly because its `content` attribute references tls_private_key.ssh.private_key_pem. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The user-data script embedded in the runner agent's launch configuration writes the GitLab runner token into the SSM parameter aws_ssm_parameter.runner_registration_token (the parameter's value is explicitly managed by the user-data script, using put-parameter with overwrite, which fails if the parameter does not yet exist). No attribute reference or depends_on orders the launch configuration (and therefore the autoscaling group's instances) after the SSM parameter, so on a fresh apply the runner instance may boot and run its registration script before the parameter exists.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_iam_role_policy_attachment.docker_machine_cache_instance attaches the cache-bucket policy via local.bucket_policy, which resolves to module.cache.policy_arn (the S3 bucket policy created by module.cache), but the graph shows no dependency on module.runner:module.cache. The cache bucket and its policy must exist before the policy can be attached to the runner instance role. Inlining the local's expression as a direct reference to module.cache establishes the ordering as a data dependency.",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "\"${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}\""
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.template_file.runners renders the runner config.toml with the S3 cache bucket name taken from local.bucket_name, which resolves to module.cache.bucket, but the graph shows no dependency on module.runner:module.cache. The cache bucket must exist (and its name be known) before the runner configuration referencing it is rendered and baked into the runner agent's user data. Inlining the local's expression as a direct reference to module.cache establishes the ordering as a data dependency.",
+      "node": "module.runner:data.template_file.runners",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "bucket_name",
+        "expression": "\"${var.cache_bucket[\"create\"] ? module.cache.bucket : var.cache_bucket[\"bucket\"]}\""
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

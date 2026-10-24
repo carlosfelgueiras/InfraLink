@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EventBridge target can be created before the Lambda invoke permission, so the rule may be active without permission for the Lambda target. Make the target depend on the permission to ensure invocation is authorized before the target is attached.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

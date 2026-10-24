@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Karpenter Provisioner manifest sets providerRef.name to \"default\", matching the AWSNodeTemplate created by node_template, but there is no dependency edge between them. Terraform may apply the Provisioner before its referenced template exists; order the template manifest first.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Karpenter Provisioner names the AWSNodeTemplate `default` in `providerRef`, but its `yaml_body` has no reference to the node-template resource. Terraform can therefore create the Provisioner before the referenced template exists; make the Provisioner depend on the node-template resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Provisioner manifest references the AWSNodeTemplate named `default` through `providerRef`, but Terraform has no dependency ordering it after the node-template manifest. Create the template before applying the Provisioner so the referenced provider object is available.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

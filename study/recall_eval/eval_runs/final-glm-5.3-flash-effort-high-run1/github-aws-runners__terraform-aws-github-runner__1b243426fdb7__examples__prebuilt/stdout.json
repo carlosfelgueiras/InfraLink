@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `null_resource.update_app` local-exec provisioner reconfigures the GitHub App webhook to point at `var.webhook_endpoint` and sends a ping to it. The endpoint value it depends on (`module.runners.webhook.endpoint`) is derived from the API Gateway API resource (`aws_apigatewayv2_api.webhook.api_endpoint`) alone, so the dependency chain reaches the API but not the `$default` stage that actually serves traffic (nor the route/integration behind it). Because `aws_apigatewayv2_stage.webhook` has no attribute reference back into the null_resource's chain, the provisioner can run before the stage exists/is deployed and the GitHub App is pointed at an endpoint that does not yet accept events. The ordering needs an explicit `depends_on` (the module does not export the stage, so no data reference is available).",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

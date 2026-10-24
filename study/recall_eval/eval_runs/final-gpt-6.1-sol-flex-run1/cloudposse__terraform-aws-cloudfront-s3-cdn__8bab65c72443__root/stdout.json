@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.wait_for_aws_s3_bucket_settings explicitly depends on aws_s3_bucket_policy.default, but already depends on it transitively through aws_s3_bucket_public_access_block.origin, whose depends_on includes that policy. The direct policy dependency duplicates this ordering.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

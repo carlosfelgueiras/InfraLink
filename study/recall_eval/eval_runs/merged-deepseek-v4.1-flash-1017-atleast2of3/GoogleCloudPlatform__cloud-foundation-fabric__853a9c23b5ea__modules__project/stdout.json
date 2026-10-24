@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` attaches the project as a Shared VPC service project to the host project, which is done through the Compute Engine API on the service project. It has no dependency on `:resource.google_project_service.project_services`, so the Compute API may not be enabled yet when the attachment is attempted (its sibling `google_compute_shared_vpc_host_project.shared_vpc_host` correctly depends on the service enablement). Because `service_project` comes from a local string there is no clean data-reference fix; add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project to a Shared VPC host as a service project, which requires the Compute Engine API (compute.googleapis.com) to be enabled on the service project first. Unlike its sibling `google_compute_shared_vpc_host_project.shared_vpc_host` (which has `depends_on = [google_project_service.project_services]`), this resource has no `depends_on` and references only the project id via `local.project.project_id`, never `google_project_service.project_services`. It can therefore run before the API is enabled and fail. Add an explicit `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, which requires the Compute Engine API to be enabled in the service project first. Unlike the host-side resources (shared_vpc_host -> service_projects) which chain to google_project_service.project_services, shared_vpc_service has no attribute reference or depends_on to project_services, so nothing guarantees the Compute Engine API is enabled before the attachment. Add depends_on = [google_project_service.project_services].",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

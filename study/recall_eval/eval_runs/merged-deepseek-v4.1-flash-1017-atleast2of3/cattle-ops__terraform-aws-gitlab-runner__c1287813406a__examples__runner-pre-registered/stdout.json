@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nThe runner instance's user-data script writes the registration token into the SSM parameter `aws_ssm_parameter.runner_registration_token`, whose value is otherwise left unmanaged (`ignore_changes = [\"value\"]`). `aws_ssm_parameter` creates with `overwrite = false`, so the parameter must exist before the instance launches; otherwise the user-data `put-parameter` creates it first and Terraform's create fails with \"already exists\". `aws_autoscaling_group.gitlab_runner_instance` only receives the parameter's name as a plain string (via `local.secure_parameter_store_runner_token_key`), so no dependency is inferred and the group may launch instances first. It should depend on `aws_ssm_parameter.runner_registration_token`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_autoscaling_group.gitlab_runner_instance` launches the runner EC2 instance whose user-data script writes the registration token into `aws_ssm_parameter.runner_registration_token` (Terraform creates it with value \"null\" and ignores later value changes). Nothing orders the ASG after the SSM parameter \u2014 the parameter name is only referenced as a string in the template \u2014 so the instance may boot and write/create the parameter before Terraform creates it, causing the `aws_ssm_parameter` create to fail (overwrite defaults to false on create). Add `depends_on = [aws_ssm_parameter.runner_registration_token]` to the autoscaling group.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

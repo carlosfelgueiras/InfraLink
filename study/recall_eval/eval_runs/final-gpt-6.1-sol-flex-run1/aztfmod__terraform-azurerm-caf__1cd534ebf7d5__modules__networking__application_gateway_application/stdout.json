@@ -1,0 +1,382 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_listener must depend on delete_frontend_port so reverse destroy ordering deletes listeners before their referenced frontend ports. Its dependency on set_frontend_port does not order the port's destroy-time deletion provisioner.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_settings must depend on delete_probe so reverse destroy ordering removes HTTP settings before deleting probes they reference. Depending on set_probe does not order delete_probe's destroy provisioner.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_http_settings already depends on set_backend_pools through set_probe and set_root_cert.",
+      "node": ":resource.null_resource.set_http_settings",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_http_listener already depends on set_backend_pools through set_http_settings.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_http_listener already depends on set_root_cert through set_http_settings.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_http_listener already depends on set_frontend_port through set_ssl_cert.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_map already depends on set_backend_pools through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_map already depends on set_http_settings through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_map already depends on set_root_cert through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_map already depends on set_ssl_cert through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_rule already depends on set_backend_pools through set_url_path_map.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_rule already depends on set_http_settings through set_url_path_map.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_rule already depends on set_http_listener through set_url_path_map.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_rule already depends on set_root_cert through set_url_path_map.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_url_path_rule already depends on set_ssl_cert through set_url_path_map.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_request_routing_rule already depends on set_backend_pools through set_url_path_rule.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_request_routing_rule already depends on set_http_settings through set_url_path_rule.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_request_routing_rule already depends on set_http_listener through set_url_path_rule.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_request_routing_rule already depends on set_root_cert through set_url_path_rule.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_request_routing_rule already depends on set_ssl_cert through set_url_path_rule.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "set_request_routing_rule already depends on set_url_path_map through set_url_path_rule.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_root_cert already depends on delete_backend_pool through delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_root_cert",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_http_settings already depends on delete_backend_pool through delete_root_cert.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_http_settings already depends on delete_ssl_cert through delete_root_cert.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_http_listener already depends on delete_backend_pool through delete_http_settings.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_http_listener already depends on delete_root_cert through delete_http_settings.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_http_listener already depends on delete_ssl_cert through delete_http_settings.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_map already depends on delete_backend_pool through delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_map already depends on delete_http_settings through delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_map already depends on delete_root_cert through delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_map already depends on delete_ssl_cert through delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_rule already depends on delete_backend_pool through delete_url_path_map.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_rule already depends on delete_http_settings through delete_url_path_map.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_rule already depends on delete_http_listener through delete_url_path_map.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_rule already depends on delete_root_cert through delete_url_path_map.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_url_path_rule already depends on delete_ssl_cert through delete_url_path_map.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_request_routing_rule already depends on delete_backend_pool through delete_url_path_rule.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_request_routing_rule already depends on delete_http_settings through delete_url_path_rule.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_request_routing_rule already depends on delete_http_listener through delete_url_path_rule.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_request_routing_rule already depends on delete_root_cert through delete_url_path_rule.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_request_routing_rule already depends on delete_ssl_cert through delete_url_path_rule.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "delete_request_routing_rule already depends on delete_url_path_map through delete_url_path_rule.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

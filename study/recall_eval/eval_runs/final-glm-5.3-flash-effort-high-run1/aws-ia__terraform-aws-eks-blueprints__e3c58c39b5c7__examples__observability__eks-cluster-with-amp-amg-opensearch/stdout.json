@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.aws-eks-accelerator-for-terraform.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks: explicit depends_on of module.aws-eks-accelerator-for-terraform:module.aws_eks is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform:module.emr_on_eks",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams: explicit depends_on of module.aws-eks-accelerator-for-terraform:module.aws_eks is redundant \u2014 already implied by attribute references",
+      "node": "module.aws-eks-accelerator-for-terraform:module.aws_eks_teams",
+      "target": "module.aws-eks-accelerator-for-terraform:module.aws_eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The OpenSearch domain `:resource.aws_elasticsearch_domain.opensearch` is provisioned into a VPC (`vpc_options`, via `:module.aws_vpc`), and the AWS service-linked role (`:resource.aws_iam_service_linked_role.opensearch`, gated on `var.create_iam_service_linked_role`) is created in the same configuration. The `aws_elasticsearch_domain` documentation explicitly states that VPC-based domains require the `AWSServiceRoleForAmazonElasticsearchService` service-linked role to exist before domain creation, and that `depends_on` must be used when the role is created alongside the domain. Without this ordering, first-time `apply` can fail with the domain returning an access-denied/error because the service-linked role does not yet exist. No attribute of the domain references the role, and no `depends_on` expresses this ordering, so the dependency is missing.",
+      "node": ":resource.aws_elasticsearch_domain.opensearch",
+      "target": ":resource.aws_iam_service_linked_role.opensearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on` from `aws_eks_node_group.managed_ng` to `aws_iam_role.managed_ng` duplicates a dependency that is already established implicitly: the node group already references the role via an attribute (e.g. its `role_arn`), which appears in the node's `implicit_deps`. The other explicit entries (instance profile and role policy attachment) are fine, but this direct role entry is redundant.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on` from `aws_launch_template.managed_node_groups` to `aws_iam_role.managed_ng` duplicates dependencies already established through other edges: the launch template implicitly depends on `aws_security_group.managed_ng`, which itself has an explicit `depends_on` on the role, and the launch template's explicit `depends_on` on `aws_iam_role_policy_attachment.managed_ng` already transitively forces the role first (the attachment implicitly depends on the role). The role ordering is therefore already guaranteed without this entry.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_launch_template.managed_node_groups",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on` from `aws_autoscaling_group.self_managed_ng` to `aws_iam_role.self_managed_ng` duplicates dependencies already established through other edges: the ASG's explicit `depends_on` on `aws_iam_instance_profile.self_managed_ng` and on `aws_iam_role_policy_attachment.self_managed_ng` both transitively force the role first (each of those implicitly depends on the role), so the role ordering is already guaranteed without this entry.",
+      "node": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws-eks-accelerator-for-terraform.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda execution role policies and VPC execution-role attachment should be ready before the function is created; otherwise Lambda can begin initialization/invocations before its execution permissions are effective. The function currently depends only on the role itself.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function should wait for the VPC execution policy attachment before creation when VPC networking is configured, so the function's service role has the required permissions. This operational ordering is not expressed by an attribute reference.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function should wait for the X-Ray execution policy to be attached before creation when tracing is enabled, so its role has the required tracing permissions.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

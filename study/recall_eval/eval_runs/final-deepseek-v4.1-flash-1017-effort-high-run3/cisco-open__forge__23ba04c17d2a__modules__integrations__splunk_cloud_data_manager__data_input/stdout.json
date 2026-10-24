@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_s3_object.cloudformation_template: explicit depends_on of :resource.random_uuid.splunk_input_uuid is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`aws_s3_object.cloudformation_template` lists `random_uuid.splunk_input_uuid` in its explicit `depends_on`, but the resource already references that resource's attribute directly in both `key` and `source` (`${random_uuid.splunk_input_uuid.result}/template.json` and `/tmp/${random_uuid.splunk_input_uuid.result}_template.json`), so the ordering is already implied. The `depends_on` entry for `random_uuid.splunk_input_uuid` is redundant and can be removed (the `null_resource.create_integration` entry should stay, since no attribute reference expresses that ordering).",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

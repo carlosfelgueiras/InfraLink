@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.local_file.public_ssh_key has an explicit depends_on on tls_private_key.ssh, but its content attribute (tls_private_key.ssh.public_key_openssh) already establishes that dependency implicitly. The depends_on is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.local_file.private_ssh_key has an explicit depends_on on tls_private_key.ssh, but its content attribute (tls_private_key.ssh.private_key_pem) already establishes that dependency implicitly. The depends_on is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner instances whose user-data writes the GitLab registration token into aws_ssm_parameter.runner_registration_token (value = \"null\", lifecycle.ignore_changes on value). Nothing orders the parameter's creation before the instances launch, so the user-data's SSM put-parameter can race Terraform's parameter creation (ParameterAlreadyExists) or clobber it. The autoscaling group should depend on the SSM parameter.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner instances whose user-data writes the GitLab registration token into aws_ssm_parameter.runner_registration_token (value = \"null\", lifecycle.ignore_changes on value). Nothing orders the parameter's creation before the instances launch, so the user-data's SSM put-parameter can race Terraform's parameter creation (ParameterAlreadyExists) or clobber it. The autoscaling group should depend on the SSM parameter.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

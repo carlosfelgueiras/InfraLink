@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The zombie-runner-cleanup service account (and the Role/RoleBinding/CronJob that reference it) is created in var.controller_config.namespace, but nothing orders it after that namespace is actually created. In module.controller the namespace is provisioned by kubernetes_namespace.controller_namespace (and, for the controller chart, via create_namespace = true on the helm release). The zombie-runner-cleanup resources have no attribute reference to any of these, so on a fresh apply the service account can race the namespace creation and fail with a \"namespace not found\" API error. An explicit depends_on on the controller's namespace resource closes this gap; the Role, RoleBinding, and CronJob are transitively ordered behind the service account, so the dependency only needs to be added once.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner scale set helm_release only references aws_iam_role.runner_role.arn (through its values), but the runner pods it deploys rely on aws_eks_pod_identity_association.eks_pod_identity for their AWS credentials: per the AWS docs, pods using the associated service account get Pod Identity credentials injected, which the runners need for AWS API access (e.g. ECR pulls). The helm release has no dependency on the association, so the runners can be installed before the association exists and come up without IAM credentials. The chart's async install means there is no attribute reference that would order this naturally, so an explicit depends_on is the appropriate fix.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

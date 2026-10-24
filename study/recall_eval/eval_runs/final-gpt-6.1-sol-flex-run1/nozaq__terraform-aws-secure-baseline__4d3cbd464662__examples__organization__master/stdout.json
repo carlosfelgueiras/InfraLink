@@ -1,0 +1,244 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.secure_baseline must wait for :resource.aws_organizations_organization.org: it reads the organization and creates organization-scoped analyzers, a trail and a Config aggregator that require the organization and its trusted service access. Add depends_on to the module call.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "CloudTrail global references the delivery role but does not wait for cloudwatch_delivery_policy to grant CreateLogStream and PutLogEvents. Trail creation/configuration can fail validation before that policy is installed; explicitly order global after the role policy.",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "CloudTrail global must wait for local-account-cloudtrail to authorize CloudTrail SNS publishing. Referencing the SNS topic alone does not wait for its separately managed policy, risking InsufficientSnsTopicPolicyException.",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The organization Config aggregator references config_organization's role ARN but can be created before config_organization's policy attachment grants AWSConfigRoleForOrganizations permissions. Order the aggregator after the attachment so organization access is authorized.",
+      "node": "module.secure_baseline:resource.aws_config_configuration_aggregator.organization",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Config delivery channel can be configured before the SNS policy authorizes config.amazonaws.com to publish. Use the policy's topic ARN to wait for authorization.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-northeast-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-3:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-northeast-3:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-south-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-southeast-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-southeast-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ca-central-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-central-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-west-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-west-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-west-3:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_sa-east-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-east-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-east-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the SNS policy granting Config publish permission.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-west-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

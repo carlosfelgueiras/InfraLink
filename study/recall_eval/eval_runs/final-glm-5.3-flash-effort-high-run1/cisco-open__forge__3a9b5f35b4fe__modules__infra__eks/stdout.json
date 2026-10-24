@@ -1,0 +1,109 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_eks_addon.aws_ebs_csi_driver` operates on the EKS cluster created by `module.eks`, but its `cluster_name = var.cluster_name` references only a variable, so no dependency on `module.eks` is inferred. Ordering currently works only indirectly via `depends_on = [module.self_managed_node_group]`; if that node group dependency is removed or reordered, the addon could be created before (or refreshed against) a cluster that doesn't exist yet.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_eks_addon.eks_pod_identity_agent` operates on the EKS cluster created by `module.eks`, but its `cluster_name = var.cluster_name` references only a variable, so no dependency on `module.eks` is inferred. Ordering currently works only indirectly via `depends_on = [module.self_managed_node_group]`; the addon could be planned/applied against a cluster that doesn't exist yet if that indirect chain changes.",
+      "node": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`null_resource.delete_daemonset` removes the `aws-node` daemonset (disabling the AWS VPC CNI), while `null_resource.create_calico_installation` applies the Calico Installation that takes over pod networking. Both resources depend only on `null_resource.update_kubeconfig`, so Terraform may delete `aws-node` before Calico's Installation exists, leaving pods without pod networking. Calico's standard EKS install order requires deleting `aws-node` only after the Installation is applied. Since both are local-exec kubectl resources, no attribute reference can express this ordering.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_kubeconfig` has an explicit `depends_on = [module.eks]`, but its local-exec command already references `module.eks.cluster_name`, which establishes the dependency on `module.eks` implicitly.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`helm_release.karpenter` has an explicit `depends_on` on `module.karpenter`, but its `values` already reference `module.karpenter.service_account` and `module.karpenter.queue_name`, which establishes the dependency on `module.karpenter` implicitly.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.apply_ec2_node_class` has an explicit `depends_on` on `module.eks`, but its `triggers` already reference `module.eks.cluster_primary_security_group_id` and `module.eks.cluster_security_group_id`, which establish the dependency on `module.eks` implicitly.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.apply_ec2_node_class` has an explicit `depends_on` entry on `module.karpenter.node_iam_role_arn`, but its `triggers` already reference `module.karpenter.node_iam_role_arn`, which establishes the dependency on `module.karpenter` implicitly.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

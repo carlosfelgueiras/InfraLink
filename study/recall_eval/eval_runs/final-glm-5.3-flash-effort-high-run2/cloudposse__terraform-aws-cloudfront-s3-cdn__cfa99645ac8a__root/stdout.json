@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`aws_cloudfront_distribution.default` has an explicit `depends_on = [\"aws_s3_bucket.origin\"]`, but this ordering is already established implicitly: the distribution's `origin.domain_name` is set to `local.bucket_domain_name`, which is derived from `local.bucket`, and `local.bucket` references `aws_s3_bucket.origin.*.id` directly. Terraform therefore already forces the origin bucket to be created (and its name known) before the distribution is planned/applied \u2014 including when `var.origin_bucket` is set, since a splat reference to a resource with `count = 0` still creates the dependency edge. The explicit `depends_on` adds nothing and can be removed.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

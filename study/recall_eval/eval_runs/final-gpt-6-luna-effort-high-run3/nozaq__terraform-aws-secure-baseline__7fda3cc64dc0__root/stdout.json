@@ -1,0 +1,481 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudTrail resource should wait for the audit bucket policy to be installed. The AWS provider documentation's CloudTrail example explicitly orders trail creation after the S3 bucket policy; without this dependency, AWS may reject trail creation or validation before the policy permits CloudTrail delivery.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudTrail trail should wait for the audit bucket policy to be installed. The policy grants CloudTrail permission to write to the bucket, and the AWS provider's CloudTrail documentation explicitly recommends depending on the S3 bucket policy to avoid trail creation before that access is in place.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudTrail trail should wait for its CloudWatch delivery role's inline policy. The trail is configured to deliver to CloudWatch Logs through this role, and the policy grants the Logs permissions needed for delivery; ordering only on the role itself can let the trail start before those permissions are attached.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudTrail trail uses this SNS topic for delivery notifications, so the topic policy granting cloudtrail.amazonaws.com sns:Publish should be installed before the trail is created; otherwise notification delivery can fail during setup.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This flow log uses the shared publisher role, but depends only on the role ARN, not its inline policy granting CloudWatch Logs delivery permissions. It can be created before those permissions are installed, leaving delivery unable to publish logs.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This regional flow log relies on the shared publisher role's inline CloudWatch Logs permissions, but only the role ARN is referenced. Ensure the role policy is attached before creating the flow log to avoid initially unauthorized delivery.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC flow log references the publisher IAM role, but not the inline policy that grants it CloudWatch Logs permissions. Add ordering so the policy is ready before the flow log is created.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC flow log can be created after the publisher role but before its inline logging permissions are attached. It should depend on the shared publisher policy as well.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This regional flow log requires the shared role's CloudWatch Logs policy; the role ARN reference alone does not ensure that policy attachment completes first.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC flow log depends on the shared publisher role, but should also wait for the role's inline policy granting CloudWatch Logs delivery permissions.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This regional flow log may be created before the shared publisher IAM policy is installed. The policy is required for CloudWatch Logs delivery, so ordering should include it.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The flow log references the publisher role ARN, but its logging permissions come from a separately managed inline policy. Ensure that policy is attached before the flow log is created.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The flow log needs the shared publisher role's CloudWatch Logs permissions, but there is no dependency on the inline policy resource. Add an ordering dependency so policy attachment precedes flow-log creation.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This regional flow log should wait for the shared role's inline CloudWatch Logs policy to be attached; referencing the IAM role ARN alone does not order the policy attachment.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The flow log can be created before its referenced publisher role has the inline permissions needed to publish to CloudWatch Logs. Depend on the shared policy resource as well.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Although this flow log references the shared role ARN, that reference does not wait for the separate policy granting CloudWatch Logs permissions. The flow log should also depend on that policy.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC flow log uses the shared publisher role whose inline logging policy is a separate resource. Add ordering on that policy so delivery permissions are attached before flow-log creation.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This flow log's role ARN dependency does not include the shared role's CloudWatch Logs inline policy attachment. It should wait for that policy before provisioning.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The regional flow log depends on the publisher role ARN but not the separate inline policy granting Logs write permissions. Add a dependency on that policy to ensure delivery is authorized at creation.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC flow log may be created before the shared publisher role's inline CloudWatch Logs permissions are attached. It should depend on the policy resource in addition to the role.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the required AWS Config managed permissions attached. The role ARN reference only orders the role itself, so ensure this status resource waits for the managed policy attachment.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Starting this AWS Config recorder can occur before its shared recorder role has the custom S3/SNS publish permissions attached. Ensure the status resource waits for the inline policy that grants those permissions.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The AWS Config recorder status resource requires the channel to exist before starting, and the provider specifically recommends this dependency to avoid a race. Its configuration already depends on the recorder and delivery channel; the missing operational prerequisite is that the recorder role's managed AWS Config policy attachment be complete before enabling recording.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The AWS Config recorder can be enabled before its shared role has the managed AWS Config permissions attached. The role ARN reference orders only the role, not this separate managed-policy attachment; the recorder status should wait for it.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The AWS Config recorder can be enabled before its shared role's inline S3/SNS publishing policy is attached. Add ordering so the custom role permissions are ready before recording starts.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

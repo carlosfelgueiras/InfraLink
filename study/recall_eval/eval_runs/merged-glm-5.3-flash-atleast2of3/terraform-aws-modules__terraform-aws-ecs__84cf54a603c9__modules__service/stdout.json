@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_ecs_service.this launches the tasks defined by :resource.aws_ecs_task_definition.this, whose containers rely on the task execution role for pulling ECR images, writing CloudWatch logs, and reading secrets/SSM parameters. The service only waits for the *service* role policy attachment (aws_iam_role_policy_attachment.service) and has no dependency on :resource.aws_iam_role_policy_attachment.task_exec, so on a first apply tasks can launch before the execution-role policy is attached/propagated, causing transient ImagePull/log/secret initialization failures. The service should depend on :resource.aws_iam_role_policy_attachment.task_exec.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_ecs_service.this should depend on aws_iam_role_policy_attachment.task_exec. The service launches tasks whose containers are pulled and logged using the task execution role; the only implicit path (service -> task definition -> execution_role_arn -> aws_iam_role.task_exec) ensures the role exists but not that its policy is attached. Without waiting for the attachment, first-deployment task launches can fail with AccessDenied on ECR/CloudWatch Logs while the attachment is still propagating \u2014 the same race the module already guards against for the service role via `depends_on = [aws_iam_role_policy_attachment.service]`.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_ecs_service.ignore_task_definition launches the tasks defined by the task definition, whose containers rely on the task execution role for pulling ECR images, writing CloudWatch logs, and reading secrets/SSM parameters. Nothing orders this service after :resource.aws_iam_role_policy_attachment.task_exec, so tasks can launch before the execution-role policy is attached/propagated, causing transient task startup failures on first apply. The service should depend on :resource.aws_iam_role_policy_attachment.task_exec.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_ecs_service.ignore_task_definition should depend on aws_iam_role_policy_attachment.task_exec for the same reason as aws_ecs_service.this: tasks launched by this service use the task execution role to pull images and emit logs, and the implicit dependency chain only covers the role itself, not the attachment of its policy. A bare `depends_on` mirrors the existing `depends_on = [aws_iam_role_policy_attachment.service]` already present on this resource.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

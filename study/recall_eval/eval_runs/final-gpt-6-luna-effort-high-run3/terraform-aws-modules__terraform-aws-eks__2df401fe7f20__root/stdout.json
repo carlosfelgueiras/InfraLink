@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :data.http.wait_for_cluster to :resource.aws_eks_cluster.this is redundant: the data source's url and ca_certificate expressions already reference the EKS cluster and establish this dependency implicitly.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :data.http.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the implicit dependency: the data source's url and ca_certificate reference the EKS cluster.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed node groups should wait for :resource.aws_iam_role_policy_attachment.workers_additional_policies before creating nodes. The legacy launch-configuration resources explicitly wait for this same attachment, and the additional worker role policies may be required by node workloads at startup.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_additional_policies",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile should wait for module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod so its execution role has the required AmazonEKSFargatePodExecutionRolePolicy before the profile can start serving workloads.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

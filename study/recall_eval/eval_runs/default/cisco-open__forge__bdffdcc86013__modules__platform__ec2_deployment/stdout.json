@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda: explicit depends_on of module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.runners: explicit depends_on of :data.external.download_lambdas is redundant \u2014 already implied by attribute references",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda permission for the tags updater names the function with a literal and only references the event rule, so it can be created before the Lambda function. Make it depend on the updater Lambda module to ensure the invoke permission is applied only after the function exists.",
+      "node": "module.ec2_update_runner_tags:resource.aws_lambda_permission.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.ec2_update_runner_tags_lambda.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

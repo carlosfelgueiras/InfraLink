@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudFront distribution can begin serving requests before the origin bucket policy is applied, causing initial origin requests to be denied. Make the distribution wait for the policy when the policy resource is created.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The distribution's origin domain is derived through local.bucket_domain_name and local.origin_bucket, which references aws_s3_bucket.origin when the module creates the origin bucket. That attribute reference already orders the distribution after the bucket, so the explicit depends_on duplicates the inferred dependency.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

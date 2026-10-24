@@ -1,0 +1,433 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.eks_blueprints_kubernetes_addons: explicit depends_on of :resource.aws_s3_object.this is redundant \u2014 already implied by attribute references",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": ":resource.aws_s3_object.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":module.eks_blueprints_kubernetes_addons already references aws_s3_object.this.key in spark_history_server_helm_config. Its explicit depends_on on :resource.aws_s3_object.this duplicates that implicit dependency, including when using -target.",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": ":resource.aws_s3_object.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.managed_ng already depends on aws_iam_role.managed_ng through node_role_arn; its explicit role dependency adds no ordering.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.managed_ng references aws_launch_template.managed_node_groups, which explicitly depends on aws_iam_role_policy_attachment.managed_ng. The node group's additional explicit dependency on that attachment duplicates this transitive ordering; retain the attachment dependency on the launch template.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role_policy_attachment.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_launch_template.managed_node_groups explicitly waits for aws_iam_role_policy_attachment.managed_ng, which already references aws_iam_role.managed_ng. Its separate explicit dependency on the role is transitively redundant.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_launch_template.managed_node_groups",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_autoscaling_group.self_managed_ng already depends on aws_iam_instance_profile.self_managed_ng through the launch-template outputs and their launch_template_config input. The explicit instance-profile dependency duplicates that transitive path.",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_autoscaling_group.self_managed_ng already reaches aws_iam_role.self_managed_ng through its launch-template/instance-profile dependencies and through the retained policy-attachment dependency. Its explicit role dependency adds no ordering.",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy references aws_iam_role.emr_on_eks_execution.id in its local-exec command. Its explicit depends_on on that role duplicates the command's implicit dependency.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy references kubernetes_namespace.spark.id in its local-exec command. Its explicit namespace dependency duplicates that implicit dependency.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_config_map.aws_auth already explicitly waits for data.http.eks_cluster_readiness, which depends on data.aws_eks_cluster.cluster and then module.aws_eks. The separate explicit dependency on module.aws_eks duplicates that transitive path.",
+      "node": "module.eks_blueprints:resource.kubernetes_config_map.aws_auth",
+      "target": "module.eks_blueprints:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_config_map.amazon_vpc_cni already explicitly waits for data.http.eks_cluster_readiness, which reaches module.aws_eks through data.aws_eks_cluster.cluster. The additional explicit dependency on module.aws_eks is redundant.",
+      "node": "module.eks_blueprints:resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": "module.eks_blueprints:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.aws_provider_config explicitly waits for time_sleep.wait_30_seconds, which itself explicitly waits for kubectl_manifest.aws_provider. Its additional direct depends_on on aws_provider duplicates that ordering; retain the sleep dependency.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.this relies on bucket default encryption but can be uploaded before aws_s3_bucket_server_side_encryption_configuration.this is applied. Waiting only at the add-ons module does not order these sibling resources. Reference the encryption configuration's bucket so the object is written after the configured encryption is in place.",
+      "node": ":resource.aws_s3_object.this",
+      "target": ":resource.aws_s3_bucket_server_side_encryption_configuration.this",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket_server_side_encryption_configuration.this.bucket"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":module.eks_blueprints_kubernetes_addons consumes control-plane outputs from :module.eks_blueprints, but those outputs do not wait for its managed worker node groups. The enabled Helm releases wait for running workloads and can start their readiness timeouts before worker provisioning completes. Add an explicit dependency on the complete EKS blueprint module to ensure compute is available before installing these add-ons.",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": ":module.eks_blueprints",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.vpc_cni receives an IAM role ARN but has no dependency on aws_iam_role_policy_attachment.irsa. The role output waits for the role and policy inputs, not attachment completion. The VPC CNI role must have its required permissions attached before the add-on starts using it; retain those permissions until add-on teardown completes.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.aws_ebs_csi_driver references the IRSA role ARN, but that output does not wait for aws_iam_role_policy_attachment.irsa. Creating the role and policy does not grant the driver permissions until the attachment is complete. Make add-on creation and teardown depend on the attachment, for example by adding the attachment to the IRSA role output's depends_on.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.adot waits for the custom Kubernetes roles, but not kubernetes_role_binding_v1.adot. The namespaced permissions are not usable by eks:addon-manager until this binding exists, so add-on installation can race ahead and fail authorization. Wait for the binding as well as the role.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.adot references the custom cluster role's resource version but does not wait for kubernetes_cluster_role_binding_v1.adot. Creating the role alone does not grant eks:addon-manager the cluster-wide permissions needed to install the operator and its CRDs. Add a dependency on this binding.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_cluster_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Prometheus module.helm_addon sets serviceAccounts.server.create=false when AMP is enabled, but only consumes the role ARN from module.irsa_amp_ingest. That output does not wait for the amp-ingest Kubernetes service account or its policy attachments. Depend on the complete ingest IRSA module before installing the chart that uses its service account.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.irsa_amp_ingest",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Prometheus module.helm_addon passes a plain namespace string and does not wait for kubernetes_namespace_v1.prometheus. Helm namespace creation is false by default, so installation can fail with namespace not found. Use the created namespace's name in helm_config, preserving the existing-namespace branch.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:resource.kubernetes_namespace_v1.prometheus",
+      "fix": {
+        "field": "helm_config",
+        "expression": "merge({ name = local.name, chart = local.name, version = \"15.10.1\", repository = \"https://prometheus-community.github.io/helm-charts\", description = \"Prometheus helm Chart deployment configuration\", values = [templatefile(\"${path.module}/values.yaml\", { operating_system = try(var.helm_config.operating_system, \"linux\") })] }, var.helm_config, { namespace = local.create_namespace ? kubernetes_namespace_v1.prometheus[0].metadata[0].name : local.namespace_name })"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the ADOT HAProxy IRSA module, kubernetes_service_account_v1.irsa uses a namespace string rather than kubernetes_namespace_v1.irsa. Both can be created concurrently, causing a namespace-not-found failure. Reference the namespace resource when this module creates it.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.adot_collector_haproxy.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.adot_collector_haproxy.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the ADOT Java IRSA module, kubernetes_service_account_v1.irsa has no dependency on kubernetes_namespace_v1.irsa despite being created inside that namespace. The shared namespace input does not order creation. Reference the created namespace's name.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.adot_collector_java.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.adot_collector_java.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the ADOT Memcached IRSA module, kubernetes_service_account_v1.irsa can run before kubernetes_namespace_v1.irsa because metadata.namespace is only an input string. Wait for the namespace this module creates to avoid namespace-not-found errors.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.adot_collector_memcached.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.adot_collector_memcached.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the ADOT NGINX IRSA module, kubernetes_service_account_v1.irsa does not wait for kubernetes_namespace_v1.irsa. Using the same namespace input on both resources does not establish ordering, so first-apply service-account creation can fail.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.adot_collector_nginx.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.adot_collector_nginx.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The CloudWatch metrics IRSA kubernetes_service_account_v1.irsa uses a plain namespace string, so it can be created before kubernetes_namespace_v1.irsa (amazon-cloudwatch by default). Reference the created namespace to order these resources.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Fluent Bit IRSA kubernetes_service_account_v1.irsa does not depend on kubernetes_namespace_v1.irsa, although its service account is created inside that namespace. Waiting for the entire IRSA module at Helm installation does not order these two internal resources.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The cert-manager IRSA kubernetes_service_account_v1.irsa and kubernetes_namespace_v1.irsa share an input name but have no dependency between them. The service account can be created before its namespace exists; consuming the namespace resource fixes that race.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The OpenTelemetry operator's nested cert-manager IRSA kubernetes_service_account_v1.irsa does not wait for kubernetes_namespace_v1.irsa. This service account requires that namespace to exist before creation; a shared namespace variable does not establish ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator.module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator.module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ExternalDNS IRSA kubernetes_service_account_v1.irsa uses the namespace input directly rather than referencing kubernetes_namespace_v1.irsa. First-apply service-account creation can therefore fail because its namespace has not been created yet.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Grafana IRSA kubernetes_service_account_v1.irsa can be created concurrently with kubernetes_namespace_v1.irsa, because metadata.namespace is just a variable. Reference the namespace resource so the Grafana service account is not submitted before its namespace exists.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.grafana.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.grafana.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Karpenter IRSA kubernetes_service_account_v1.irsa lacks ordering after kubernetes_namespace_v1.irsa. Both resources use the namespace input independently, allowing a namespace-not-found error when creating the service account.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The KEDA IRSA kubernetes_service_account_v1.irsa does not depend on kubernetes_namespace_v1.irsa even though it is created inside that namespace. Depend on the created namespace's name to avoid a first-apply race.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.keda.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.keda.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Spark History Server IRSA kubernetes_service_account_v1.irsa has no dependency on kubernetes_namespace_v1.irsa. Its namespace string can be known before the namespace exists, so service-account creation can race namespace creation.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.spark_history_server.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.spark_history_server.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Velero IRSA kubernetes_service_account_v1.irsa is not ordered after kubernetes_namespace_v1.irsa, although the module creates both by default. Reference the created namespace instead of only the input string to prevent namespace-not-found failures.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.velero.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.velero.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The AWS Private CA issuer IRSA kubernetes_service_account_v1.irsa uses a namespace variable and does not wait for kubernetes_namespace_v1.irsa. These resources may run concurrently, causing service-account creation to fail before its namespace exists.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "var.create_kubernetes_namespace && var.kubernetes_namespace != \"kube-system\" ? kubernetes_namespace_v1.irsa[0].metadata[0].name : var.kubernetes_namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.aws_node_termination_handler_rule_target activates delivery to the SQS queue but does not wait for aws_sqs_queue_policy.aws_node_termination_handler_queue_policy to grant events.amazonaws.com sqs:SendMessage. The queue ARN only orders queue creation, not delivery permissions. Depend on the queue policy so events are not sent before authorization is installed and the policy remains during target teardown.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.aws_eks_teams creates Kubernetes namespaces, service accounts, and RBAC objects but does not wait for data.http.eks_cluster_readiness. This bypasses the explicit API-health gate already used for the blueprint's Kubernetes config maps. Order the teams module after the same readiness check so its Kubernetes operations do not race initial API availability.",
+      "node": "module.eks_blueprints:module.aws_eks_teams",
+      "target": "module.eks_blueprints:data.http.eks_cluster_readiness",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

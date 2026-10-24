@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale_up event source mapping must wait for aws_iam_role_policy.scale_up, which grants the execution role SQS polling permissions. Depending on the function alone does not order that policy; mapping creation can fail permission validation.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, Lambda syncer creation requires ENI permissions from syncer_vpc_execution_role. The role reference does not wait for this attachment; add an explicit dependency.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, Lambda webhook creation requires ENI permissions from webhook_vpc_execution_role. The role reference does not wait for this attachment.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, Lambda scale_up creation requires ENI permissions from scale_up_vpc_execution_role. The role reference does not wait for this attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, Lambda scale_down creation requires ENI permissions from scale_down_vpc_execution_role. The role reference does not wait for this attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When the pool and VPC subnets are configured, Lambda pool creation requires ENI permissions from pool_vpc_execution_role. The role reference does not wait for this attachment.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Uploading trigger immediately invokes syncer through S3. It must wait for the syncer S3 execution policy, otherwise the initial binary synchronization can run before its S3 permissions exist. The notification dependency does not order this policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Uploading trigger immediately invokes syncer. Wait for lambda_logging so the deployment-time invocation has its logging permissions and the managed log group is ready.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a customer KMS key is configured, uploading trigger must wait for lambda_kms: the initial syncer invocation needs these permissions to write encrypted runner binaries. Neither the function nor notification orders this policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

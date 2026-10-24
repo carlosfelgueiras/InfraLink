@@ -1,0 +1,391 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The probe must be removed only after HTTP settings that may reference it are removed; otherwise deleting the probe can leave the Application Gateway configuration referencing a missing probe. Make the probe deletion depend on the HTTP settings deletion.",
+      "node": ":resource.null_resource.delete_probe",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Frontend ports used by HTTP listeners must not be removed until those listeners have been deleted. The frontend-port deletion currently has no ordering dependency on listener deletion.",
+      "node": ":resource.null_resource.delete_frontend_port",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "HTTP settings can reference probes, so their deletion must complete before the probe is deleted. Add the dependency in this direction; a dependency from probe deletion to HTTP-settings deletion would reverse the required destroy order.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "HTTP listeners use frontend ports, so listener deletion must complete before the frontend port is deleted. The current dependency on set_frontend_port does not order deletion against delete_frontend_port.",
+      "node": ":resource.null_resource.delete_frontend_port",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_backend_pools is already implied transitively through set_probe, which itself depends on set_backend_pools.",
+      "node": ":resource.null_resource.set_http_settings",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_backend_pools is already implied through set_http_settings (and also through set_ssl_cert), both of which depend on set_backend_pools.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_root_cert is already implied transitively through set_http_settings, which depends on set_root_cert.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_frontend_port is already implied transitively through set_ssl_cert, which depends on set_frontend_port.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_backend_pools is already implied transitively through set_http_listener, which depends on set_backend_pools.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_http_settings is already implied transitively through set_http_listener, which depends on set_http_settings.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_ssl_cert is already implied transitively through set_http_listener, which depends on set_ssl_cert.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_root_cert is already implied transitively through set_http_listener, which depends on set_root_cert.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_http_settings is already implied through set_url_path_map, which depends on set_http_settings.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_backend_pools is already implied through set_url_path_map, which depends on set_backend_pools.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_http_listener is already implied through set_url_path_map, which depends on set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_ssl_cert is already implied through set_url_path_map, which depends on set_ssl_cert.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_root_cert is already implied through set_url_path_map, which depends on set_root_cert.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_http_settings is already implied transitively through set_url_path_rule, which depends on set_url_path_map and hence on set_http_settings.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_backend_pools is already implied transitively through set_url_path_rule, which depends on set_url_path_map and hence on set_backend_pools.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_http_listener is already implied transitively through set_url_path_rule, which depends on set_url_path_map and hence on set_http_listener.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_ssl_cert is already implied transitively through set_url_path_rule, which depends on set_url_path_map and hence on set_ssl_cert.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_root_cert is already implied transitively through set_url_path_rule, which depends on set_url_path_map and hence on set_root_cert.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on set_url_path_map is already implied transitively through set_url_path_rule, which depends on set_url_path_map.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_backend_pool is already implied transitively through delete_ssl_cert, which depends on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_root_cert",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_backend_pool is already implied through delete_root_cert, which depends on delete_ssl_cert and then delete_backend_pool.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_ssl_cert is already implied transitively through delete_root_cert, which depends on delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependencies on delete_backend_pool, delete_ssl_cert, and delete_root_cert are already implied through delete_http_settings, which depends on delete_root_cert and transitively on the other two.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_ssl_cert is already implied transitively through delete_http_settings and delete_root_cert.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_root_cert is already implied transitively through delete_http_settings, which depends on delete_root_cert.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_backend_pool is already implied through delete_http_settings, which depends on delete_root_cert and transitively on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_ssl_cert is already implied through delete_http_settings, which depends on delete_root_cert and delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_root_cert is already implied through delete_http_settings, which depends on delete_root_cert.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_http_settings is already implied through delete_url_path_map, which depends on delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_backend_pool is already implied through delete_url_path_map, which depends on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_http_listener is already implied through delete_url_path_map, which depends on delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_ssl_cert is already implied through delete_url_path_map, which depends on delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_root_cert is already implied through delete_url_path_map, which depends on delete_root_cert.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_http_settings is already implied through delete_url_path_rule, which depends on delete_url_path_map and hence on delete_http_settings.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_backend_pool is already implied through delete_url_path_rule, which depends on delete_url_path_map and hence on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_http_listener is already implied through delete_url_path_rule, which depends on delete_url_path_map and hence on delete_http_listener.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_ssl_cert is already implied through delete_url_path_rule, which depends on delete_url_path_map and hence on delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_root_cert is already implied through delete_url_path_rule, which depends on delete_url_path_map and hence on delete_root_cert.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The dependency on delete_url_path_map is already implied through delete_url_path_rule, which depends on delete_url_path_map.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

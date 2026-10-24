@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS add-on can be created as soon as the IRSA role ARN is available, while the role policy attachment may still be in progress. Make the add-on wait for the policy attachment so its service account role has the required permissions when the add-on starts.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC CNI EKS add-on currently waits for the IRSA role output but not for the policy attachment that grants the role its CNI permissions. Add an ordering dependency on the attachment before creating the add-on.",
+      "node": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge can install the SQS target before the queue policy granting EventBridge permission to send messages is in place. Order target creation after the queue policy to avoid a window where delivered events are rejected.",
+      "node": "module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This manifest already depends on the provider manifest through time_sleep.wait_30_seconds, which itself depends on kubectl_manifest.aws_provider; the direct explicit edge duplicates that ordering.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

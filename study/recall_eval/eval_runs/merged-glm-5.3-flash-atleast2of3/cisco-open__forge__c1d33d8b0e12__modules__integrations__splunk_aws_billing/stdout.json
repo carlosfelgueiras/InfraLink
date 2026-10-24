@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_s3_bucket_notification.cur_notification configures an S3 trigger for the cur_per_resource_process lambda, but its depends_on only lists aws_lambda_permission.cur_per_service and aws_lambda_permission.cur_per_resource \u2014 aws_lambda_permission.cur_per_resource_process is omitted. AWS validates that S3 is allowed to invoke each target function when the notification configuration is applied, so creating the notification before that permission exists fails.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_s3_bucket_notification.cur_notification configures a lambda_function trigger for the per-resource-process function (module.cur_per_resource_process) but its depends_on only lists aws_lambda_permission.cur_per_service and aws_lambda_permission.cur_per_resource \u2014 it omits aws_lambda_permission.cur_per_resource_process. S3 validates the invoke permission when PutBucketNotificationConfiguration is applied; if the notification is created before that permission exists, apply fails with \"Unable to validate the following destination configurations\". An explicit depends_on on the missing permission is required.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_s3_bucket_notification.cur_notification configures a lambda_function destination for module.cur_per_resource_process but its depends_on omits aws_lambda_permission.cur_per_resource_process (it only lists the permissions for cur_per_service and cur_per_resource). S3 validates the invoke permission for every Lambda destination when applying the notification configuration, so this permission must exist first or apply fails.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\naws_bcmdataexports_export.cur_per_resource writes to aws_s3_bucket.aws_billing_report, but the export's creation is validated by AWS against the destination bucket's policy (the policy document's \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\" statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy for exactly this). The export only implicitly references the bucket, not aws_s3_bucket_policy.cur_bucket_policy; if the export is created before the bucket policy is applied, the destination-access validation can fail. It should depend on the bucket policy.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_bcmdataexports_export.cur_per_resource delivers to aws_s3_bucket.aws_billing_report but has no dependency on aws_s3_bucket_policy.cur_bucket_policy, which grants bcm-data-exports.amazonaws.com permission to write to the bucket and pass AWS's destination policy check. The export must be created after the bucket policy is in place.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\naws_bcmdataexports_export.cur_per_service writes to aws_s3_bucket.aws_billing_report, but the export's creation is validated by AWS against the destination bucket's policy (the policy document's \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\" statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy for exactly this). The export only implicitly references the bucket, not aws_s3_bucket_policy.cur_bucket_policy; if the export is created before the bucket policy is applied, the destination-access validation can fail. It should depend on the bucket policy.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_bcmdataexports_export.cur_per_service delivers to aws_s3_bucket.aws_billing_report but has no dependency on aws_s3_bucket_policy.cur_bucket_policy, which grants bcm-data-exports.amazonaws.com permission to write to the bucket and pass AWS's destination policy check. The export must be created after the bucket policy is in place.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

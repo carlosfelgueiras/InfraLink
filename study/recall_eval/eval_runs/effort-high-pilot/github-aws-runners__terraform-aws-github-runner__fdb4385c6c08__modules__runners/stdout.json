@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the scale-down Lambda is configured with VPC networking, it should wait for the VPC execution-role policy attachment so Lambda has the required ENI permissions during function setup; the function currently depends on the role but not this attachment.",
+      "node": ":resource.aws_lambda_function.scale_down",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If scale-up Lambda is configured for VPC access, it should wait for the VPC execution-role policy attachment to be applied before creation; otherwise Lambda may lack the ENI permissions required for VPC setup. This function currently depends on its role but not the attachment.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If the SSM housekeeper Lambda is configured for VPC access, it should wait for the VPC execution-role policy attachment to be applied before creation; otherwise Lambda may lack the ENI permissions required for VPC setup. This function currently depends on its role but not the attachment.",
+      "node": ":resource.aws_lambda_function.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If the pool Lambda is configured for VPC access, it should wait for the VPC execution-role policy attachment to be applied before creation; otherwise Lambda may lack the ENI permissions required for VPC setup. This function currently depends on its role but not the attachment.",
+      "node": "module.pool:resource.aws_lambda_function.pool",
+      "target": "module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If the job-retry Lambda is configured for VPC access, it should wait for the VPC execution-role policy attachment to be applied before creation; otherwise Lambda may lack the ENI permissions required for VPC setup. This function currently depends on its role but not the attachment.",
+      "node": "module.job_retry.module.job_retry:resource.aws_lambda_function.main",
+      "target": "module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be registered before the Lambda resource-based permission exists, leaving scheduled invocations unauthorized until the permission is applied. Make the target wait for the corresponding Lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be registered before the Lambda resource-based permission exists, leaving scheduled invocations unauthorized until the permission is applied. Make the target wait for the corresponding Lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping may become active before the scale-up Lambda execution role has the queue permissions supplied by this inline policy. It should wait for the policy before polling begins.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping may become active before the job-retry Lambda execution role has the required queue permissions supplied by this inline policy. It should wait for the policy before polling begins.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule can start invoking the Lambda before its scheduler execution role has the invoke permission granted by this policy. Make schedule creation wait for the role policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

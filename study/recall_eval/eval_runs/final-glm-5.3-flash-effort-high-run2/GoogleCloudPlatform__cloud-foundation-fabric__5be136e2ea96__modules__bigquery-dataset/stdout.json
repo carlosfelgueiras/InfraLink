@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_dataset_access.authorized_routines grants dataset access to routines (from var.authorized_routines) but has no dependency on google_bigquery_routine.default, which creates routines in this same dataset from var.routines. BigQuery requires the referenced routine to exist when the access entry is written; without ordering, Terraform can apply the access entry before the routine is created, producing a 'routine not found' error or a broken authorized routine. An explicit depends_on on google_bigquery_routine.default is required (the routine block's fields come from variables, so no data-reference fix is possible).",
+      "node": ":resource.google_bigquery_dataset_access.authorized_routines",
+      "target": ":resource.google_bigquery_routine.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_dataset_access.authorized_views grants dataset access to views (from var.authorized_views / var.access_identities) but has no dependency on google_bigquery_table.views, which creates those views in the same module from var.views. BigQuery requires the referenced view to exist when the access entry is written; without ordering, the access entry can be applied before the view table exists, causing 'view not found' errors or a dangling authorization. An explicit depends_on on google_bigquery_table.views is required (the view block's fields come from variables, so no data-reference fix is possible).",
+      "node": ":resource.google_bigquery_dataset_access.authorized_views",
+      "target": ":resource.google_bigquery_table.views",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

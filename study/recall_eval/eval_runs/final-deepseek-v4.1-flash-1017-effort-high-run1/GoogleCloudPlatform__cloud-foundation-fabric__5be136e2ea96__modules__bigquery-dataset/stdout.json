@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but \u2014 unlike its sibling outputs `dataset_id`, `id` and `self_link`, which all carry `depends_on` on every dataset access/IAM resource \u2014 it has no dependency on `google_bigquery_dataset_access.authorized_datasets`. A consumer that reads e.g. `module.dataset.dataset` and then acts on the dataset can therefore run before this ACL entry is applied, i.e. while the dataset's access configuration is still being mutated (BigQuery cannot modify the dataset and its dataset_access entries in the same apply and ACL changes are not immediately visible).",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.authorized_datasets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_access.authorized_routines` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the authorized-routine ACL entry has been applied.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.authorized_routines",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_access.authorized_views` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the authorized-view ACL entry has been applied.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.authorized_views",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_access.domain` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the domain ACL entry has been applied.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.domain",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_access.group_by_email` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the group ACL entry has been applied.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.group_by_email",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_access.special_group` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the special-group ACL entry has been applied.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.special_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_access.user_by_email` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the user ACL entry has been applied.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.user_by_email",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`output.dataset` returns the whole dataset resource but lacks the `depends_on` on `google_bigquery_dataset_iam_binding.bindings` that outputs `dataset_id`, `id` and `self_link` all declare. Consumers reading this output can observe/use the dataset before the dataset IAM bindings are applied (BigQuery IAM/ACL changes are eventually consistent).",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_bigquery_routine.default` builds routine bodies from opaque strings in `var.routines`, so nothing orders it after `google_bigquery_table.default`. SQL routines (scalar and table-valued functions) are validated against the objects their `definition_body` references, so a routine querying a table created by this same module can fail at create time. The module already encodes exactly this constraint for `google_bigquery_table.views` and `google_bigquery_table.materialized_view` via `depends_on = [google_bigquery_table.default]`; routines need the same ordering (bare `depends_on`, since the body is a user-supplied string).",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

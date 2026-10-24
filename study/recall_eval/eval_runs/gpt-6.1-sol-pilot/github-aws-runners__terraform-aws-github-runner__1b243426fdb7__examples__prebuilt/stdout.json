@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_event_source_mapping.scale_up must wait for aws_iam_role_policy.scale_up, which supplies the execution role's SQS receive/delete permissions. Referencing the Lambda function only orders role creation, not installation of this policy; creating the mapping first can fail Lambda's SQS permission validation. Add depends_on for this policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer registers the syncer Lambda as an EventBridge target, but has no ordering against resource.aws_lambda_permission.syncer, which grants events.amazonaws.com invoke rights scoped to this rule. Until the permission exists, invocations of the scheduled target fail with AccessDenied; nothing in the graph (rule/lambda references only) guarantees the permission is applied first. Add a depends_on on the lambda permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.pool invokes the pool Lambda on the configured pool schedule, but has no dependency on resource.aws_lambda_permission.pool, which grants events.amazonaws.com permission to invoke the function for this rule. Neither attribute references nor depends_on establish this order, so the target can be created before the permission and scheduled invocations will be denied. Add a depends_on on the lambda permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down invokes the scale-down Lambda via the scale-down schedule rule, but has no dependency on resource.aws_lambda_permission.scale_down, which grants events.amazonaws.com invoke rights for that rule. The dependency is not expressed anywhere in the graph (implicit deps cover only the rule and the function), so the target may be applied before the permission and scheduled invocations will fail with AccessDenied. Add a depends_on on the lambda permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

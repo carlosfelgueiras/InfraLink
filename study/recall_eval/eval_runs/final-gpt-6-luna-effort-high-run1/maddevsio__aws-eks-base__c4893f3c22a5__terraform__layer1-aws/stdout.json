@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "CloudTrail may be created before its S3 bucket policy is installed, so it can fail when AWS validates the bucket permissions required for log delivery. Add an explicit dependency on the bucket policy.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

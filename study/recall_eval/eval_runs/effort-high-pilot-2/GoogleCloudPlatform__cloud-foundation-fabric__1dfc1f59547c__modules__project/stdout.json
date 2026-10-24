@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_project_iam_member.additive` accepts arbitrary role names from `var.iam_additive_roles`, which may include a custom role created by `:resource.google_project_iam_custom_role.roles`. Without ordering, Terraform may attempt to grant the role before it exists; add an explicit dependency when additive bindings can use these custom roles.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_project_iam_member.additive` can grant roles supplied through `var.iam_additive_roles`, including project custom roles created by `:resource.google_project_iam_custom_role.roles`. Unlike the authoritative IAM binding, it has no ordering dependency on those role creations, so Terraform may attempt the grant before a custom role exists.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

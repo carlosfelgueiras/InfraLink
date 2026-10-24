@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_cloudfront_distribution.default has an explicit depends_on entry for aws_s3_bucket.origin, but this ordering is already established implicitly via attribute references: the distribution's origin.domain_name comes from local.bucket_domain_name, which resolves through local.origin_bucket (origin_bucket_options.new = aws_s3_bucket.origin[0] when the module creates the origin bucket). Terraform infers the dependency from this data flow, so the explicit depends_on entry is redundant.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

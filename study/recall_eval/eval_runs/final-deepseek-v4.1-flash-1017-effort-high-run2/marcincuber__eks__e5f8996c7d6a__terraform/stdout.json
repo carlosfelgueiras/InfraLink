@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.cluster references aws_iam_role.cluster.arn but has no ordering dependency on aws_iam_role_policy_attachments_exclusive.cluster. The EKS control plane requires its IAM role to already carry AmazonEKSClusterPolicy (and the other EKS policies) when it is created; otherwise cluster creation can fail and EKS cannot manage/clean up its EC2 infrastructure (e.g. security groups) on deletion. The provider documentation explicitly recommends depends_on for the role-policy attachment.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.eks_node_group_al2023 sets node_role_arn = aws_iam_role.eks_node_group.arn but has no ordering dependency on aws_iam_role_policy_attachments_exclusive.eks_node_group. The EKS managed node group validates that the node IAM role already has the required policies (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, ECR read-only, etc.); without the attachment in place, node group creation can fail or nodes fail to join the cluster.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver binds service_account_role_arn = aws_iam_role.ebs_csi_controller_sa.arn but has no ordering dependency on aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa. The addon's service account role must already be assigned the AmazonEBSCSIDriverPolicy for the driver to function; ordering the addon after the policy attachment avoids a non-functional driver.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot binds service_account_role_arn = aws_iam_role.adot_collector.arn but has no ordering dependency on aws_iam_role_policy_attachments_exclusive.adot_collector. The ADOT collector role needs its policies (Prometheus remote write, X-Ray, CloudWatch agent) attached before the addon's pods can function, so the addon should be ordered after the policy attachment.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

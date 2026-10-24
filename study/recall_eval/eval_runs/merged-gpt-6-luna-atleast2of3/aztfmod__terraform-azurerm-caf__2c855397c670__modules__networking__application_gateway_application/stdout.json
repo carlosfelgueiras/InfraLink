@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe HTTP settings deletion can leave its referenced probe in place only after the settings are removed; order the destroy-time operations so HTTP settings are deleted before the probe.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`delete_http_settings` removes settings that may reference probes, so its destroy action should run before `delete_probe` removes those probes.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe HTTP settings deletion must run before probe deletion because settings can reference a probe; add an explicit ordering dependency from the HTTP-settings deletion resource to the probe deletion resource.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nAn HTTP listener uses the frontend port, so the listener should be deleted before the frontend port is removed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`delete_http_listener` should be destroyed before `delete_frontend_port`, because listeners reference frontend ports.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe HTTP listener must be deleted before its frontend port, but the listener deletion resource is not ordered against the frontend-port deletion resource. Add a dependency so Terraform destroys the listener deletion resource before the frontend-port deletion resource.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

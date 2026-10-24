@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.helm_release.karpenter to :module.eks is redundant because the release's values already reference module.eks.cluster_name and module.eks.cluster_endpoint, creating an implicit dependency.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The add-ons are explicitly ordered after the self-managed node group, but the EKS cluster itself should be established before creating add-ons. These resources only use the cluster name variable, so no dependency on :module.eks is expressed.",
+      "node": ":resource.aws_eks_addon.coredns",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The add-ons are explicitly ordered after the self-managed node group, but the EKS cluster itself should be established before creating add-ons. These resources only use the cluster name variable, so no dependency on :module.eks is expressed.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS add-on should not be created until the EKS cluster exists. The resource's cluster_name is only a variable reference, so Terraform has no dependency on :module.eks.",
+      "node": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

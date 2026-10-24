@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_host_project.shared_vpc_host enables the Shared VPC feature, which is a Compute Engine capability and requires compute.googleapis.com to be enabled on the project first. project_services enables the requested APIs but nothing orders shared_vpc_host after it, so the host-enablement can run before the Compute API is active and fail.",
+      "node": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, relying on compute.googleapis.com being enabled on the project. It references the project only through local.project.project_id (string) and does not depend on google_project_service.project_services, so the attachment can be attempted before the Compute API is enabled.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.shared_vpc_host_robots grants host-project roles to this project's robot service accounts (e.g. service-<num>@compute-system.iam.gserviceaccount.com), which only exist once the corresponding APIs are enabled by google_project_service.project_services. The members are computed strings via local.service_accounts_robots, so no attribute reference orders the binding after service enablement; without it, granting to not-yet-created service accounts can fail.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

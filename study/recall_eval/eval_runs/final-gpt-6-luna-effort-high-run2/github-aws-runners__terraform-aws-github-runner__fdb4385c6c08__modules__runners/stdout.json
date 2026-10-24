@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function has VPC configuration when subnets are supplied, but it does not wait for the execution role's VPC access policy attachment. Ensure the policy is attached before creating the VPC-enabled function so Lambda can provision its network interfaces.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function has VPC configuration when subnets are supplied, but it does not wait for the execution role's VPC access policy attachment. Ensure the policy is attached before creating the VPC-enabled function so Lambda can provision its network interfaces.",
+      "node": ":resource.aws_lambda_function.scale_down",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function has VPC configuration when subnets are supplied, but it does not wait for the execution role's VPC access policy attachment. Ensure the policy is attached before creating the VPC-enabled function so Lambda can provision its network interfaces.",
+      "node": ":resource.aws_lambda_function.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool Lambda function has VPC configuration when subnets are supplied, but it does not wait for the execution role's VPC access policy attachment. Ensure the policy is attached before creating the VPC-enabled function so Lambda can provision its network interfaces.",
+      "node": "module.pool:resource.aws_lambda_function.pool",
+      "target": "module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin invoking the scale-down Lambda as soon as it is installed, but it does not wait for the matching Lambda permission. Order target creation after the permission to avoid invocation failures during setup.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin invoking the SSM housekeeper Lambda as soon as it is installed, but it does not wait for the matching Lambda permission. Order target creation after the permission to avoid invocation failures during setup.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping can begin polling and invoking the scale-up Lambda before its execution-role policy grants the required queue permissions. Create the mapping only after the policy is attached.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping can begin polling and invoking the job-retry Lambda before its execution-role policy grants queue permissions. Create the mapping only after the policy is attached.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled pool Lambda can be invoked before its scheduler role has the policy granting lambda:InvokeFunction. Ensure the role policy is attached before creating the schedule.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

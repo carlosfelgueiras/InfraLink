@@ -1,0 +1,41 @@
+{
+  "repo": "terraform-aws-modules__terraform-aws-eks",
+  "parent_sha": "616d30ec674ff1d125710755f5073b1665bbd1af^",
+  "resolved_sha": "1e4a908a951bd1b819b2761736dabb8875d6d765",
+  "module_dir": ".",
+  "profile": "openrouter-deepseek-v4.1-flash-1017",
+  "effort": "high",
+  "temperature": null,
+  "system_prompt": "non-conservative",
+  "cases": [
+    {
+      "repo": "terraform-aws-modules__terraform-aws-eks",
+      "pr_number": 867,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/867",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/616d30ec674ff1d125710755f5073b1665bbd1af",
+      "commit_sha": "616d30ec674ff1d125710755f5073b1665bbd1af",
+      "parent_sha": "616d30ec674ff1d125710755f5073b1665bbd1af^",
+      "commit_subject": "feat: Add a homemade `depends_on` for MNG submodule to ensure ordering of resource creation (#867)",
+      "commit_date": "2020-06-28T02:31:23+02:00",
+      "file": "node_groups.tf",
+      "module_dir": ".",
+      "holder_address": "module.node_groups",
+      "added_targets": [
+        "aws_eks_cluster.this",
+        "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+        "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+        "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+        "kubernetes_config_map.aws_auth"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_eks_cluster.this": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy": false,
+        "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy": false,
+        "kubernetes_config_map.aws_auth": false
+      },
+      "verify_error": null
+    }
+  ]
+}

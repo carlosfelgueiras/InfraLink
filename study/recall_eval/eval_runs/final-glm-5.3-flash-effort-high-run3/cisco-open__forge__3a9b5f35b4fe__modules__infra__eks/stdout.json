@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "resource.helm_release.karpenter lists module.karpenter in depends_on, but it already depends on module.karpenter implicitly through attribute references (module.karpenter.service_account and module.karpenter.queue_name in its values block). The explicit depends_on is a duplicate.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.helm_release.karpenter lists data.aws_eks_cluster_auth.cluster in depends_on, but this is already established transitively: helm_release.karpenter depends on module.karpenter, whose own depends_on includes data.aws_eks_cluster_auth.cluster.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_ec2_node_class lists module.eks in depends_on, but it already depends on module.eks implicitly via its triggers (module.eks.cluster_primary_security_group_id and module.eks.cluster_security_group_id). The explicit depends_on is a duplicate.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool lists module.eks in depends_on, but it already depends on module.eks transitively via null_resource.apply_ec2_node_class (which depends on module.eks both implicitly and explicitly) and via helm_release.karpenter (implicit dep on module.eks).",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool lists null_resource.update_kubeconfig in depends_on, but this is already established transitively via null_resource.apply_ec2_node_class (depends_on null_resource.update_kubeconfig) and helm_release.karpenter (depends_on null_resource.update_kubeconfig), both of which apply_node_pool already depends on.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

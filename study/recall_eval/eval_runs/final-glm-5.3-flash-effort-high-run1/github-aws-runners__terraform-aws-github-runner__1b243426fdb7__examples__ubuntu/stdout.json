@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app configures the GitHub App's webhook URL via local-exec, but it only references the API Gateway's endpoint string. The endpoint only serves requests once the `$default` stage (which auto-deploys the route and Lambda integration) has been created; on a first apply the provisioner can run before the stage/route/integration exist, registering a webhook URL that isn't live yet. It should be ordered after the API Gateway stage.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

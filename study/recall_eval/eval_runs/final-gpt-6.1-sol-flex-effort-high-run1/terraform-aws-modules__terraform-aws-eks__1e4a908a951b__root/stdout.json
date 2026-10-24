@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.wait_for_cluster explicitly depends on aws_eks_cluster.this, but its local-exec environment already references aws_eks_cluster.this[0].endpoint. That reference establishes the same ordering; remove only the cluster entry, retaining the dependency on cluster_private_access.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch nodes before aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy completes. Referencing the instance profile does not order the separate policy attachment. Depend on this attachment so worker API permissions are installed before bootstrap and retained until the group is destroyed.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch nodes before aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy completes. When this optional attachment is managed, order the group after it so the aws-node CNI has its networking permissions during node initialization; referencing the role or instance profile does not establish that ordering.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers has no ordering dependency on aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly. Nodes can start pulling EKS system images before their ECR permissions are attached. Order group creation after the attachment and its destruction before policy removal.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch nodes before aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy completes. The launch-template instance-profile reference does not order the separate policy attachment. Depend on this attachment so worker API permissions exist before bootstrap and remain through group destruction.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch nodes before aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy completes. When this optional attachment is managed, order the group after it so the aws-node CNI has its networking permissions during node initialization; a launch-template reference does not order this attachment.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template has no ordering dependency on aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly. Nodes can start pulling EKS system images before their ECR permissions are attached. Order group creation after the attachment and its destruction before policy removal.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

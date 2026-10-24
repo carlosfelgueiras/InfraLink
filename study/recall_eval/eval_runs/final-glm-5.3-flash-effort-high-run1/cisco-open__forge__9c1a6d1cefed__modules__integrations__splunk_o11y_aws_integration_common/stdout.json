@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "signalfx_aws_integration.integration sets use_metric_streams_sync = true, which per the signalfx provider docs requires the cloudwatch:GetMetricStream/PutMetricStream/DeleteMetricStream/etc. and iam:PassRole permissions that only exist in aws_iam_role_policy.splunk_managed_policy. Yet there is no dependency (implicit or via the time_sleep gate, which only depends on the role itself) ensuring that policy is attached before the integration is enabled. The managed metric-streams integration can be activated against a role that lacks the required permissions.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "signalfx_aws_integration.integration activates a cross-account CloudWatch/metric-streams integration that makes Splunk assume aws_iam_role.splunk_integration immediately, but it does not depend on aws_iam_role_policy.splunk_integration. On creation the integration can be enabled before the SplunkObservabilityPolicy permissions are attached to the role, causing failed assume-role/API calls and a bad integration state. The signalfx provider docs explicitly require adding role-related resources (including policies) as dependencies of signalfx_aws_integration; the current gate (time_sleep.wait_30_seconds) only waits on the bare role.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

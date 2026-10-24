@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.syncer must wait for aws_iam_role_policy_attachment.syncer_vpc_execution_role when VPC subnets are configured: referencing the role alone does not ensure the EC2 network-interface permissions are attached before Lambda creates its VPC networking. Add depends_on for the attachment; this also preserves the permissions during function deletion.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger immediately invokes the syncer through the bucket notification, but does not wait for aws_iam_role_policy.syncer. The initial synchronization can run before its S3 access policy is installed. Make the trigger depend on this policy.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger can invoke the Lambda before aws_iam_role_policy.lambda_kms is installed. When a customer-managed KMS key is configured, the initial synchronization needs these KMS permissions to write encrypted runner binaries; order the trigger after this policy.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger can invoke the Lambda before aws_iam_role_policy.lambda_logging is installed (and before its indirectly referenced managed log group exists). Wait for the logging policy so the initial execution can emit logs and cannot race creation of the managed log group.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

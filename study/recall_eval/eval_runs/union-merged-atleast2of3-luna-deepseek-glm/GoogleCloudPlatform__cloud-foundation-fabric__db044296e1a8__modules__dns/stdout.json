@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\ndata.google_dns_keys.dns_keys reads managed_zone = local.managed_zone.id, which resolves to google_dns_managed_zone.dns_managed_zone[0] when var.zone_config is set, but no dependency on that resource is recorded. On a fresh apply the data source can be read before the zone is created / DNSSEC keys exist (404 from the DNS API). It must depend on the managed-zone resource.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ndata.google_dns_keys.dns_keys reads the DNSKEY/DS records of the zone via local.managed_zone.id, which resolves to google_dns_managed_zone.dns_managed_zone[0].id when var.zone_config is set (exactly the case where the data source's count is 1, i.e. DNSSEC state != \"off\"). No dependency on the managed zone resource is expressed (the reference is hidden behind local.managed_zone), so on first apply the data source can be read before the zone exists, failing with a 404 since the DNSKEY collection does not exist yet. It must be ordered after the zone resource.",
+      "node": ":data.google_dns_keys.dns_keys",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": {
+        "field": "managed_zone",
+        "expression": "google_dns_managed_zone.dns_managed_zone[0].id"
+      },
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+This confirms the report: `aws_launch_template.this` has an explicit `depends_on = [aws_iam_role_policy_attachment.this]` (added with the comment "Prevent premature access of policies by pods that require permissions on create/destroy that depend on nodes"), but it does not include `aws_iam_role_policy_attachment.additional`. There's no attribute reference from the launch template to either policy attachment resource (the launch template uses `aws_iam_instance_profile.this[0].name`, not the policy attachments directly), so the ordering for `additional` policies is not otherwise implied.
+
+When `var.iam_role_additional_policies` is non-empty, nodes (and thus pods scheduled on them) could launch before those additional policies are attached to the IAM role, which is exactly the race condition the existing `depends_on` was designed to prevent for the built-in policies. This is a real gap in the configuration.
+
+Correct

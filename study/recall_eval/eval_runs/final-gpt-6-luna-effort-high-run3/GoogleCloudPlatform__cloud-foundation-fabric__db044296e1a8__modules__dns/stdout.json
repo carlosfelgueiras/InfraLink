@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency is redundant: `google_dns_record_set.dns_record_set` derives `name` through `local.recordsets`, which uses `local.managed_zone.dns_name`; when the zone is created by this module, that reference already orders the record set after `google_dns_managed_zone.dns_managed_zone`.",
+      "node": ":resource.google_dns_record_set.dns_record_set",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

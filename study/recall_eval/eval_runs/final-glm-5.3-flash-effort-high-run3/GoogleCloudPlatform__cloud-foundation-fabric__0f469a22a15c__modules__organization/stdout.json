@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_organization_security_policy_association.attachment attaches hierarchical firewall policies whose IDs are supplied via var.firewall_policy_attachments, but the module itself creates those policies as google_compute_organization_security_policy.policy. Because the association references only the variable, Terraform may create the association before (or concurrently with) the policy, and the GCP addAssociation API will fail with 'policy not found' on a fresh apply. An explicit depends_on on the policy resource is needed to enforce the real-world creation order.",
+      "node": ":resource.google_compute_organization_security_policy_association.attachment",
+      "target": ":resource.google_compute_organization_security_policy.policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

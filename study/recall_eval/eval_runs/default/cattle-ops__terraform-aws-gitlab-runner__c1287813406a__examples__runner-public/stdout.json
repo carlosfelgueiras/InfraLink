@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the instance-role policy attachments are in place. Those instances may start user data or runner workloads without the required permissions; make the group wait for these attachments.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the SSM policy attachment is in place, so user data that manages the runner token may run without SSM permissions. Ensure the group is ordered after this attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the CloudWatch logging policy is attached to the instance role. Ensure the group is ordered after this attachment so initialization has the required logging permissions.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the instance docker-machine policy attachment is in place, leaving the runner agent without permissions to create docker-machine instances. Ensure the group is ordered after the attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the service-linked-role policy attachment is in place, so operations requiring service-linked role creation may fail during initialization. Ensure the group is ordered after this attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch instances before the CloudWatch log group exists; user-data logging initialization may fail or create an unintended log group. Ensure the group is ordered after the log group.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the runner registration-token SSM parameter exists, although user data may need that parameter during registration. Ensure the parameter is created before the group launches instances.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the instance-role policy attachments are in place. Those instances may start user data or runner workloads without the required permissions; make the group wait for these attachments.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the SSM policy attachment is in place, so user data that manages the runner token may run without SSM permissions. Ensure the group is ordered after this attachment.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the CloudWatch logging policy is attached to the instance role. Ensure the group is ordered after this attachment so initialization has the required logging permissions.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the instance docker-machine policy attachment is in place, leaving the runner agent without permissions to create docker-machine instances. Ensure the group is ordered after the attachment.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the service-linked-role policy attachment is in place, so operations requiring service-linked role creation may fail during initialization. Ensure the group is ordered after this attachment.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch instances before the CloudWatch log group exists; user-data logging initialization may fail or create an unintended log group. Ensure the group is ordered after the log group.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch runner instances before the runner registration-token SSM parameter exists, although user data may need that parameter during registration. Ensure the parameter is created before the group launches instances.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

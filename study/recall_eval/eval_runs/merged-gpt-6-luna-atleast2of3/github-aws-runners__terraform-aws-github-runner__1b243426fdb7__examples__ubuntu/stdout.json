@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` targets the syncer Lambda but does not wait for its EventBridge invoke permission. The target can be active before EventBridge is authorized to invoke the function.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` can become active before EventBridge has permission to invoke the syncer Lambda; an event arriving in that interval can fail. Wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the syncer Lambda, but this target has no ordering dependency on the Lambda permission that grants EventBridge invocation access. Ensure the permission exists before registering the target to avoid an invocation failure.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` targets the scale-down Lambda but does not wait for its EventBridge invoke permission. Add an ordering dependency so a scheduled event cannot be delivered before invocation is authorized.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` can become active before EventBridge has permission to invoke the scale-down Lambda; an event arriving in that interval can fail. Wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the scale-down Lambda, but this target has no ordering dependency on the permission granting EventBridge access. Ensure the permission exists before registering the target.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` targets the pool Lambda but does not wait for its EventBridge invoke permission. The target should be installed only after EventBridge is authorized to invoke the function.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` can become active before EventBridge has permission to invoke the pool Lambda; a scheduled event in that interval can fail. Wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the pool Lambda, but this target has no ordering dependency on the Lambda permission granting EventBridge access. Ensure the permission exists before registering the target.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`module.webhook-github-app:resource.null_resource.update_app` can register the webhook before the API Gateway `$default` stage exists. The module output feeding `webhook_endpoint` references the API endpoint, but not this stage; wait for stage readiness before configuring the external GitHub app.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.webhook-github-app:resource.null_resource.update_app` registers the webhook endpoint with GitHub, but its endpoint value only depends on the API object and path, not the API Gateway stage that makes the endpoint available. Waiting for the stage avoids registering a webhook URL before the endpoint is ready.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`module.webhook-github-app:resource.null_resource.update_app` can configure the external GitHub webhook before API Gateway has permission to invoke the webhook Lambda. It should wait for the Lambda permission so any immediate delivery after registration is authorized.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.webhook-github-app:resource.null_resource.update_app` can register the endpoint before API Gateway has permission to invoke the webhook Lambda. Wait for the Lambda permission so requests sent to the newly registered endpoint can invoke the function.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

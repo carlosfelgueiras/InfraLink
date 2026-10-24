@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_organization_iam_binding.authoritative grants roles supplied via var.iam / var.group_iam, which may name a custom role created by google_organization_iam_custom_role.roles in this same module instance. The role_id comes from a variable string, so Terraform sees no edge and can create the binding before the role exists (and before the new custom role propagates), failing with \"Role not found\". Serialize the bindings after the custom roles.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_organization_iam_binding.bindings takes each.value.role as a plain string taken from var.iam_bindings; when that string is an organization custom role created by google_organization_iam_custom_role.roles in the same module, the binding can be applied before the role exists / is visible, causing an apply-time \"role not found\" error. No attribute reference or depends_on expresses this ordering.",
+      "node": ":resource.google_organization_iam_binding.bindings",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_organization_iam_member.bindings likewise receives its role as a plain string from var.iam_bindings_additive, so additive grants that reference a custom role created by google_organization_iam_custom_role.roles in this module have no ordering guarantee and can fail before the role is usable.",
+      "node": ":resource.google_organization_iam_member.bindings",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_policy.default is deliberately created only after all IAM grants (it depends_on google_organization_iam_binding.*/member.bindings) so that member-domain-restricting policies are not enforced before grants exist. google_tags_tag_key_iam_binding.default also grants IAM to arbitrary members on an organization-scoped tag key, yet is not ordered before the policies; an enforced org policy can therefore make the tag key IAM binding fail. Note that output.id/organization_id do list this binding while the policy does not.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key_iam_binding.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same ordering gap for tag values: google_tags_tag_value_iam_binding.default grants roles to members listed in var.tags/var.network_tags but is not ordered before google_org_policy_policy.default, which may enforce e.g. iam.allowedPolicyMemberDomains. The grant can be rejected if the policy lands first.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_value_iam_binding.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_binding.binding binds tag values to the organization using caller-supplied strings in var.tag_bindings (ids or namespaced names like organizations/N/key/value). When a value is created by google_tags_tag_value.default in this same module, nothing in the graph orders the binding after the value, so the binding can be created against a value that does not exist yet and fail with \"tag value not found\".",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

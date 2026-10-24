@@ -1,0 +1,34 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "data.google_dns_keys.dns_keys reads managed_zone = local.managed_zone.id, which resolves to google_dns_managed_zone.dns_managed_zone[0] when var.zone_config is set, but no dependency on that resource is recorded. On a fresh apply the data source can be read before the zone is created / DNSSEC keys exist (404 from the DNS API). It must depend on the managed-zone resource.",
+      "node": ":data.google_dns_keys.dns_keys",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": {
+        "field": "managed_zone",
+        "expression": "google_dns_managed_zone.dns_managed_zone[0].id"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "resource.google_dns_managed_zone_iam_binding.iam_bindings sets managed_zone = local.managed_zone.id, which resolves to google_dns_managed_zone.dns_managed_zone[0] when var.zone_config is set, but no dependency on that resource is recorded. IAM bindings could be applied against a zone that does not exist yet in the same run (404). It must depend on the managed-zone resource (bare depends_on; the local-based reference cannot be inlined cleanly without duplicating the resource/data branching).",
+      "node": ":resource.google_dns_managed_zone_iam_binding.iam_bindings",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on of resource.google_dns_record_set.dns_record_set on resource.google_dns_managed_zone.dns_managed_zone is redundant: each record set's name attribute (each.value.resource_name from local.recordsets) already interpolates local.managed_zone.dns_name, which references google_dns_managed_zone.dns_managed_zone[0], so Terraform already orders record sets after zone creation via an attribute reference.",
+      "node": ":resource.google_dns_record_set.dns_record_set",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

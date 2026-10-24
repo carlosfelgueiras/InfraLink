@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_bcmdataexports_export.cur_per_resource only depends on the bucket itself, so it can be created before aws_s3_bucket_policy.cur_bucket_policy. The BCM Data Exports service validates the destination bucket policy at export creation time (the policy's EnableAWSDataExportsToWriteToS3AndCheckPolicy statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy), so the export must be ordered after the bucket policy or creation fails with a bucket-policy validation error.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_bcmdataexports_export.cur_per_resource` writes CUR/BCM parquet files into the billing-report bucket, but AWS validates the destination bucket policy when the export is created (the export creation performs a bucket-policy permission check for the `bcm-data-exports.amazonaws.com` service principal). The resource currently only depends on `aws_s3_bucket.aws_billing_report`, so on a fresh apply the export can be created before `aws_s3_bucket_policy.cur_bucket_policy` exists (the statement granting `s3:PutObject`/`s3:GetBucketPolicy` to `billingreports.amazonaws.com` and `bcm-data-exports.amazonaws.com`), which makes export creation fail. It needs an explicit ordering dependency on the bucket policy.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_bcmdataexports_export.cur_per_resource delivers its export to the billing bucket, and the BCM Data Exports service validates the destination bucket's resource policy when the export is created (s3:PutObject and s3:GetBucketPolicy for bcm-data-exports.amazonaws.com \u2014 the statement declared as EnableAWSDataExportsToWriteToS3AndCheckPolicy). The export only depends on aws_s3_bucket.aws_billing_report, so on a fresh apply it can be created before aws_s3_bucket_policy.cur_bucket_policy exists and the API call fails. Add an explicit depends_on (no attribute of aws_s3_bucket_policy can be substituted for s3_bucket).",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": {
+        "field": "s3_bucket",
+        "expression": "aws_s3_bucket_policy.cur_bucket_policy.bucket"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_bcmdataexports_export.cur_per_service only depends on the bucket itself, so it can be created before aws_s3_bucket_policy.cur_bucket_policy. AWS validates the destination bucket policy when the data export is created (the policy's EnableAWSDataExportsToWriteToS3AndCheckPolicy statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy), so this export must be ordered after the bucket policy.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_bcmdataexports_export.cur_per_service` writes CUR/BCM parquet files into the billing-report bucket, but AWS validates the destination bucket policy at export creation time (the `EnableAWSDataExportsToWriteToS3AndCheckPolicy` statement granting `s3:PutObject`/`s3:GetBucketPolicy` to `bcm-data-exports.amazonaws.com`). The resource only depends on `aws_s3_bucket.aws_billing_report`, so the export can be created before `aws_s3_bucket_policy.cur_bucket_policy` exists and the create call fails. It needs an explicit ordering dependency on the bucket policy.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_bcmdataexports_export.cur_per_service delivers its export to the billing bucket, and the BCM Data Exports service validates the destination bucket's resource policy when the export is created (s3:PutObject and s3:GetBucketPolicy for bcm-data-exports.amazonaws.com). The export only depends on aws_s3_bucket.aws_billing_report, so it can be created before aws_s3_bucket_policy.cur_bucket_policy and fail on a fresh apply. Add an explicit depends_on (aws_s3_bucket_policy exposes no attribute usable for the s3_bucket argument).",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": {
+        "field": "s3_bucket",
+        "expression": "aws_s3_bucket_policy.cur_bucket_policy.bucket"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

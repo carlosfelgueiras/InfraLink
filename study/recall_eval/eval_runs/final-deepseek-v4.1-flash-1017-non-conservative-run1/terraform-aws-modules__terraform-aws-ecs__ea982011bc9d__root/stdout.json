@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_ecs_cluster_capacity_providers.this` associates EC2 capacity providers with the cluster, but its `capacity_providers` list is built only from the names supplied in `var.autoscaling_capacity_providers` \u2014 it never references `:resource.aws_ecs_capacity_provider.this` (the value that is actually created from those inputs). The dependency only flows through the `local.cluster_capacity_providers` local used in the `default_capacity_provider_strategy` block, which the graph does not record, so Terraform may attempt to associate a capacity provider before `:resource.aws_ecs_capacity_provider.this` exists, and AWS rejects the association (\"capacity provider not found\"). Add an explicit dependency (or reference the created capacity providers' names directly).",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.fargate_capacity_providers : try(v.name, k)], [for k, v in aws_ecs_capacity_provider.this : v.name]))"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

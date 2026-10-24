@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_cloudfront_distribution.default to :resource.aws_s3_bucket.origin duplicates the dependency inferred through local.bucket_domain_name, which is built from local.bucket and aws_s3_bucket.origin.*.id.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudFront distribution should wait for :resource.aws_s3_bucket_policy.default so the OAI access policy is attached before the distribution begins serving requests; otherwise initial requests to the private S3 origin can receive access-denied responses. No clean attribute reference to the policy is available here, so use an explicit depends_on.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

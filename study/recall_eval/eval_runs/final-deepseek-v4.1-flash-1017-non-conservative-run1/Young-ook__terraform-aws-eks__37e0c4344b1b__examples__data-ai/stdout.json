@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.csi: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.csi already depends implicitly on module.eks because its addons reference module.eks.cluster.name and module.eks.oidc. The explicit `depends_on = [module.eks]` on module.csi duplicates that existing implicit dependency and can be removed without changing apply order.",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

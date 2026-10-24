@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` runs a local-exec (`bin/update-app.sh`) that points the GitHub App's webhook at `module.runners.webhook.endpoint`. That endpoint is computed only from `aws_apigatewayv2_api.webhook` (api_endpoint) concatenated with a hardcoded \\\"webhook\\\" relative path, so its dependency chain includes the API/Lambda/role but NOT the POST /webhook route. The API Gateway route that actually serves the /webhook path (and the stage/permission that make it reachable and invokable) is not an ancestor of the null_resource. As a result GitHub can be configured with a webhook URL whose route does not exist yet, so the very first (ping) delivery 404s. `null_resource.update_app` should depend on `aws_apigatewayv2_route.webhook`.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

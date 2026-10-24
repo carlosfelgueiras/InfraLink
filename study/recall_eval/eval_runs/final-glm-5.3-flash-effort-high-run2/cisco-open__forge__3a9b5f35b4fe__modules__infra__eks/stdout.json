@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter has an explicit depends_on on module.karpenter, but this is already established implicitly via attribute references (module.karpenter.service_account and module.karpenter.queue_name in the values template), as captured in implicit_deps.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.update_kubeconfig has an explicit depends_on on module.eks, but it already depends on module.eks implicitly via the module.eks.cluster_name reference in its local-exec command (captured in implicit_deps).",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_ec2_node_class has an explicit depends_on on module.eks, but it already depends on module.eks implicitly via the module.eks.cluster_primary_security_group_id and module.eks.cluster_security_group_id references in its triggers block (captured in implicit_deps).",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_ec2_node_class has an explicit depends_on on module.karpenter, but it already depends on module.karpenter implicitly via the module.karpenter.node_iam_role_arn reference in its triggers block (captured in implicit_deps).",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool has an explicit depends_on on helm_release.karpenter, but the same ordering is already guaranteed transitively through apply_node_pool -> null_resource.apply_ec2_node_class -> helm_release.karpenter.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.helm_release.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool has an explicit depends_on on module.eks, but the same ordering is already guaranteed transitively via null_resource.update_kubeconfig -> module.eks (and null_resource.apply_ec2_node_class -> module.eks), both of which apply_node_pool already depends on.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_daemonset has an explicit depends_on on module.eks, but the same ordering is already guaranteed transitively via its dependency on null_resource.update_kubeconfig, which itself depends on module.eks.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter has an explicit depends_on on data.aws_eks_cluster_auth.cluster, but this is already established via the helm provider configuration, which references data.aws_eks_cluster.cluster and data.aws_eks_cluster_auth.cluster; every resource of the helm provider implicitly waits for that provider configuration.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_daemonset runs 'kubectl delete daemonset -n kube-system aws-node' as part of the Calico CNI migration, but it has no dependency on null_resource.create_calico_installation. Nothing in the graph orders the aws-node daemonset deletion after the Calico Installation resource is created; in a single apply these two null_resources can run concurrently, and removing aws-node before Calico is installed can break pod networking. It should depend on null_resource.create_calico_installation (bare depends_on; no data-reference fix is possible for these null_resources).",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

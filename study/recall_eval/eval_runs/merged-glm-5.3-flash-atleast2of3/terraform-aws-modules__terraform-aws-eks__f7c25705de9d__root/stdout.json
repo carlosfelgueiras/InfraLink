@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nThe EKS managed node group is created without any ordering relative to its node IAM role policy attachments. EKS validates node role permissions when provisioning the node group, and IAM policy changes propagate asynchronously: without the AmazonEKSWorkerNodePolicy/AmazonEKS_CNI_Policy/AmazonEC2ContainerRegistryReadOnly policies attached and propagated before node group creation, launched nodes cannot join the cluster, and node group deletion may fail to clean up EC2 instances and ENIs. The launch template has a bare `depends_on` on the base attachment, but the node group resource itself has no dependency on either attachment.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_node_group.this provision instances asynchronously and can launch/join the cluster before aws_iam_role_policy_attachment.this is applied. The node role (aws_iam_role.this) must have its policies attached first (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly), otherwise nodes join without permissions and EKS cannot properly manage EC2 instances and ENIs.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nThe EKS managed node group should also wait for the additional policies (`aws_iam_role_policy_attachment.additional`, e.g. user-supplied policies like AmazonEKSVPCResourceController) to be attached to the node role. Policy changes propagate asynchronously, so creating the node group before the additional attachments can leave nodes running without required permissions. There is no implicit or explicit dependency path from the node group to this attachment.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_node_group.this should also wait for aws_iam_role_policy_attachment.additional so that any user-specified policies on the node role are attached before instances launch and join the cluster.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nThe Fargate profile is created without any ordering relative to the pod execution role's policy attachments. The pod execution role must have AmazonEKSFargatePodExecutionRolePolicy (and any CNI policy) attached \u2014 and propagated, given IAM's eventual consistency \u2014 before the profile is created, otherwise pods scheduled onto the profile cannot assume the role or pull images. There is no implicit or explicit dependency path from the profile resource to the policy attachment.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_fargate_profile.this uses pod_execution_role_arn (aws_iam_role.this) whose policies (aws_iam_role_policy_attachment.this) must be attached before pods execute; the fargate profile should wait for the policy attachment to be applied.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nThe Fargate profile should also wait for the additional policy attachment (`aws_iam_role_policy_attachment.additional`) on the pod execution role, for the same IAM-propagation reasons as the base attachment. No dependency path currently connects the two resources.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_fargate_profile.this should also depend on aws_iam_role_policy_attachment.additional so additional policies on the pod execution role are attached before the profile becomes ACTIVE and pods are scheduled.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

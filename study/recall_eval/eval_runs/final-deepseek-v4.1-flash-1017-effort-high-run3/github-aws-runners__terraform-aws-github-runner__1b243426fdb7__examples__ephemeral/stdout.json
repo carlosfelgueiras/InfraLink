@@ -1,0 +1,61 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook Lambda is created with a dynamic `vpc_config` (subnets/security groups), but nothing orders `aws_lambda_function.webhook` after `aws_iam_role_policy_attachment.webhook_vpc_execution_role`. Lambda validates that the execution role can call `ec2:CreateNetworkInterface` at function creation, so when `lambda_subnet_ids` is set the function can fail with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". Add `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]` to the function (no attribute reference can express this).",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_function.scale_up` gets a `vpc_config` while `aws_iam_role_policy_attachment.scale_up_vpc_execution_role` (AWSLambdaVPCAccessExecutionRole) is applied in parallel \u2014 the function only references the role itself, not the attachment. When `lambda_subnet_ids` is non-empty, function creation can fail because the role cannot create ENIs yet. Add an explicit `depends_on` on the attachment; there is no attribute to reference.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_function.scale_down` is created with a `vpc_config` but does not depend on `aws_iam_role_policy_attachment.scale_down_vpc_execution_role`; the only link is through `aws_iam_role.scale_down.arn`. With `lambda_subnet_ids` configured the VPC execution role must be attached before the function is created, otherwise the apply fails on ENI permissions. Use an explicit `depends_on`.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The syncer Lambda has a `vpc_config` but no dependency on `aws_iam_role_policy_attachment.syncer_vpc_execution_role` (it only references `aws_iam_role.syncer_lambda.arn`). The AWSLambdaVPCAccessExecutionRole attachment must exist before the function to satisfy Lambda's ENI permission check when VPC subnets are supplied. Add `depends_on` on the attachment; no data reference can express this.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_function.pool` is created with a `vpc_config` in parallel with `aws_iam_role_policy_attachment.pool_vpc_execution_role`, and Terraform sees no edge between them. The VPC execution role attachment must be applied first (Lambda validates ENI permissions at CreateFunction), so add an explicit `depends_on`; there is no attribute reference to wire in.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-insecure-transport policy to the dead-letter queue, but it sets `queue_url = aws_sqs_queue.queued_builds.id`, so it never references `aws_sqs_queue.queued_builds_dlq`. As a result it has no ordering dependency on the DLQ (the policy can be applied before/after the DLQ arbitrarily) and it silently manages the same queue policy as `build_queue_policy`, which the other resource overwrites. Point `queue_url` at the DLQ instead.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

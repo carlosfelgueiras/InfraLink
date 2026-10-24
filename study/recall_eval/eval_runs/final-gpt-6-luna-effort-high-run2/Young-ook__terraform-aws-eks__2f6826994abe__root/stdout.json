@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_autoscaling_group.ng to :resource.aws_launch_template.ng duplicates the launch-template attribute reference already recorded as an implicit dependency.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_autoscaling_group.ng to :resource.aws_iam_role.ng is already established transitively through its launch-template dependency and that template's IAM instance profile reference.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_eks_node_group.ng to :resource.aws_iam_role.ng duplicates the implicit dependency from node_role_arn.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.kubernetes_config_map.aws-auth to :resource.aws_eks_cluster.cp is redundant because the config map already depends on :resource.aws_autoscaling_group.ng, which itself depends on the cluster.",
+      "node": ":resource.kubernetes_config_map.aws-auth",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.time_sleep.wait to :resource.aws_eks_cluster.cp is already established transitively through its dependencies on the node group and autoscaling group.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When App Mesh tracing is enabled, worker nodes use the node role for X-Ray permissions. Make :resource.aws_autoscaling_group.ng wait for :resource.aws_iam_role_policy_attachment.xray-write so instances do not start before that role permission is attached.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When App Mesh tracing is enabled, managed worker nodes use the node role for X-Ray permissions. Make :resource.aws_eks_node_group.ng wait for :resource.aws_iam_role_policy_attachment.xray-write so the node group is not provisioned before that role permission is attached.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ALB ingress controller is installed with the IRSA role, but its IAM policy attachment is not an implicit dependency of the Helm release. Make module.alb-ingress:resource.helm_release.albingress wait for module.alb-ingress.module.irsa:resource.aws_iam_role_policy_attachment.irsa so the controller is not installed before its permissions are attached.",
+      "node": "module.alb-ingress:resource.helm_release.albingress",
+      "target": "module.alb-ingress.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The App Mesh controller is installed with the IRSA role, but its IAM policy attachment is not an implicit dependency of the Helm release. Make module.app-mesh:resource.helm_release.appmesh wait for module.app-mesh.module.irsa:resource.aws_iam_role_policy_attachment.irsa so it is not installed before its permissions are attached.",
+      "node": "module.app-mesh:resource.helm_release.appmesh",
+      "target": "module.app-mesh.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster autoscaler is installed with the IRSA role, but its IAM policy attachment is not an implicit dependency of the Helm release. Make module.cluster-autoscaler:resource.helm_release.autoscaler wait for module.cluster-autoscaler.module.irsa:resource.aws_iam_role_policy_attachment.irsa so it is not installed before its permissions are attached.",
+      "node": "module.cluster-autoscaler:resource.helm_release.autoscaler",
+      "target": "module.cluster-autoscaler.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Container Insights is installed with the IRSA role, but its IAM policy attachment is not an implicit dependency of the Helm release. Make module.container-insights:resource.helm_release.containerinsights wait for module.container-insights.module.irsa:resource.aws_iam_role_policy_attachment.irsa so it is not installed before its permissions are attached.",
+      "node": "module.container-insights:resource.helm_release.containerinsights",
+      "target": "module.container-insights.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

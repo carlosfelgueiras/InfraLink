@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nmodule.runner:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner agent instance whose user-data script writes the runner token into the SSM parameter module.runner:resource.aws_ssm_parameter.runner_registration_token (referenced only by name via local.secure_parameter_store_runner_token_key, no attribute reference). The parameter must exist before the instance boots, otherwise the user-data script cannot store the runner token and Terraform's ownership of the parameter is broken.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n`module.runner:resource.aws_autoscaling_group.gitlab_runner_instance` boots the runner agent instance whose user-data script manages the value of `module.runner:resource.aws_ssm_parameter.runner_registration_token` (writing the registered runner token into it at boot). The ASG has no dependency on the SSM parameter (the user_data template only embeds the parameter *name* as a string), so the instance can launch and its user-data script can run before the parameter exists.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nmodule.runner2:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner agent instance whose user-data script writes the runner token into the SSM parameter module.runner2:resource.aws_ssm_parameter.runner_registration_token (referenced only by name via local.secure_parameter_store_runner_token_key, no attribute reference). The parameter must exist before the instance boots, otherwise the user-data script cannot store the runner token and Terraform's ownership of the parameter is broken.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n`module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance` boots the runner agent instance whose user-data script manages the value of `module.runner2:resource.aws_ssm_parameter.runner_registration_token` (writing the registered runner token into it at boot). The ASG has no dependency on the SSM parameter (the user_data template only embeds the parameter *name* as a string), so the instance can launch and its user-data script can run before the parameter exists.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

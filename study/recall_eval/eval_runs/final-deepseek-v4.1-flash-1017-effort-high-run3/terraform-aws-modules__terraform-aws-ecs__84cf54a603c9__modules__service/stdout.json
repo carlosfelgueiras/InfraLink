@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_task_definition.this` uses the task execution role via `execution_role_arn = try(aws_iam_role.task_exec[0].arn, ...)`, which only orders it after the role itself, not after `aws_iam_role_policy_attachment.task_exec`. The execution role has no permissions (ECR pull, CloudWatch Logs) until that attachment exists, so a service/task set that launches tasks with this revision can fail with image-pull or logging errors. A bare `depends_on = [aws_iam_role_policy_attachment.task_exec]` (mirroring the `aws_iam_role_policy_attachment.service` depends_on already used on the service) closes the gap; there is no attribute on the task definition that can reference the attachment.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`data.aws_ecs_task_definition.this` declares `depends_on = [aws_ecs_task_definition.this]`, but its `task_definition = aws_ecs_task_definition.this[0].family` argument already references that resource directly, so Terraform already orders the data source after the task definition. The explicit `depends_on` (and its \"Needs to exist first on first deployment\" comment) is redundant and can be removed.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

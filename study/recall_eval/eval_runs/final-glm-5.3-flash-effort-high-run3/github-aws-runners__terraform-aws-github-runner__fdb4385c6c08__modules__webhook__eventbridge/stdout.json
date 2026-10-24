@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher is created before aws_cloudwatch_log_group.dispatcher (the log group's name references the function, inverting the required order). If the function is invoked (e.g. by the EventBridge target) before the log group resource is created, Lambda auto-creates a default log group and the aws_cloudwatch_log_group creation then fails with ResourceAlreadyExistsException. The log group must exist before the function can be invoked; note that a bare depends_on would cycle with the current name reference, so the log group name should be derived from var.config.prefix (e.g. \"/aws/lambda/${var.config.prefix}-dispatch-to-runner\") and the lambda given an explicit depends_on on the log group.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_cloudwatch_log_group.dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is created before aws_cloudwatch_log_group.webhook (the log group's name references the function, inverting the required order). If the function is invoked before the log group resource is created, Lambda auto-creates a default log group and the aws_cloudwatch_log_group creation then fails with ResourceAlreadyExistsException. The log group must exist before the function can be invoked; note that a bare depends_on would cycle with the current name reference, so the log group name should be derived from var.config.prefix (e.g. \"/aws/lambda/${var.config.prefix}-webhook\") and the lambda given an explicit depends_on on the log group.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa uses a namespace name supplied as a string, but does not wait for module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa. Both are created by this configuration, so service-account creation can fail with 'namespace not found'. Reference the managed namespace in metadata.namespace, retaining the input name when namespace creation is disabled.",
+      "node": "module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa can be created before module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa. The common input namespace string does not order these resources, and the Helm release's dependency on the IRSA module does not order resources inside that module.",
+      "node": "module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa must wait for module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa when the namespace is managed here, as it is by default. Using var.kubernetes_namespace alone permits a namespace-not-found race.",
+      "node": "module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a custom non-kube-system namespace is configured and namespace creation is enabled, module.aws_load_balancer_controller.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa must wait for module.aws_load_balancer_controller.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa. The current input-string reference does not establish that order. The default kube-system configuration does not create a namespace and is unaffected.",
+      "node": "module.aws_load_balancer_controller.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_load_balancer_controller.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa has no ordering dependency on module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa, although its service account belongs to that managed namespace. Namespace and service-account creation can run concurrently and fail.",
+      "node": "module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa should depend on module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa. Both are created by default, but sharing var.kubernetes_namespace does not prevent the service account from being submitted before its namespace exists.",
+      "node": "module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.keda.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa can race module.keda.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa because metadata.namespace references only an input string. The managed namespace must exist before the service account is created.",
+      "node": "module.keda.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.keda.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa needs an ordering dependency on module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa. This configuration creates both resources, but currently allows service-account creation before namespace creation finishes.",
+      "node": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa must wait for module.velero.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa. The namespace string shared by these resources does not express their operational ordering, leaving a namespace-not-found race.",
+      "node": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": {
+        "field": "metadata.namespace",
+        "expression": "try(kubernetes_namespace_v1.irsa[0].metadata[0].name, var.kubernetes_namespace)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver references the IRSA role ARN, but that output does not depend on module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa. The add-on requires a role with its EBS permissions already attached; otherwise add-on provisioning and policy attachment can race. Make the add-on wait for the complete IRSA module, or make its role-ARN output depend on the attachments.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni can start before module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa finishes. The referenced role-ARN output waits for role creation, not policy attachment, while EKS requires the supplied service-account role to have the CNI permissions. Add an ordering dependency on the full IRSA module or include attachment completion in the role-ARN output's dependencies.",
+      "node": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "With Amazon Prometheus enabled, module.prometheus.module.helm_addon:resource.helm_release.addon sets serviceAccounts.server.create=false and uses the amp-ingest service account created by module.prometheus:module.irsa_amp_ingest, but does not wait for that module to complete. Passing its role ARN does not order service-account creation or policy attachment. Wait for the complete ingest IRSA module before installing the chart to avoid pods starting without their required service account and permissions.",
+      "node": "module.prometheus.module.helm_addon:resource.helm_release.addon",
+      "target": "module.prometheus:module.irsa_amp_ingest",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.crossplane:resource.kubectl_manifest.aws_provider_config explicitly depends on module.crossplane:resource.kubectl_manifest.aws_provider, but already waits for time_sleep.wait_30_seconds, which explicitly depends on that same provider manifest. Remove only the direct aws_provider entry; retain the sleep dependency and its CRD-readiness delay.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.adot_collector_java installs the otel-config collector chart, which uses the OpenTelemetryCollector custom resource supplied by :module.opentelemetry_operator. When installing both into a fresh cluster, the collector must wait for the operator's CRDs and admission webhook to be installed and ready. There is currently no ordering between these modules; add depends_on = [module.opentelemetry_operator] to the collector module. If the operator is managed externally, its readiness must instead be ensured externally.",
+      "node": ":module.adot_collector_java",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.adot_collector_haproxy installs the otel-config collector chart and needs the OpenTelemetryCollector CRD and admission webhook installed by :module.opentelemetry_operator. These modules currently run independently, so a fresh-cluster apply can submit the custom resource before its API exists. Order the collector module after the operator module when Terraform manages both.",
+      "node": ":module.adot_collector_haproxy",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.adot_collector_memcached needs the OpenTelemetryCollector CRD and admission webhook supplied by :module.opentelemetry_operator before its otel-config chart can be installed. No dependency orders these modules, permitting a missing-CRD or unavailable-webhook failure when both are enabled on a fresh cluster. Make the collector depend on the operator module.",
+      "node": ":module.adot_collector_memcached",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":module.adot_collector_nginx installs the otel-config collector chart but does not wait for :module.opentelemetry_operator, which supplies its OpenTelemetryCollector API and admission webhook. Order the collector module after the operator module when deploying both, so its custom resources are not submitted before the operator installation is ready.",
+      "node": ":module.adot_collector_nginx",
+      "target": ":module.opentelemetry_operator",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "With the default opentelemetry-operator chart certificate configuration, :module.opentelemetry_operator requires cert-manager's Certificate/Issuer APIs and webhook, supplied by :module.cert_manager. If Terraform installs both into a fresh cluster, the operator module must wait for the cert-manager module. No dependency currently enforces this. This ordering is unnecessary only when cert-manager is already installed externally or chart overrides disable its use.",
+      "node": ":module.opentelemetry_operator",
+      "target": ":module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target activates delivery to the SQS queue without waiting for module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy, which authorizes events.amazonaws.com to send messages. Order target registration after policy installation so newly matched termination events are not delivered before the queue grants access; the queue-ARN reference alone does not express this permission dependency.",
+      "node": "module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

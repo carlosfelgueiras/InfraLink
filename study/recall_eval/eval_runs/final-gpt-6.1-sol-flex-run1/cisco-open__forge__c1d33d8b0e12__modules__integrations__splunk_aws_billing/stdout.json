@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_service uses a local function name and can be created before module.cur_per_service creates the Lambda function. Reference the module's function name output to enforce ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_resource uses a local function name and can be created before module.cur_per_resource creates the Lambda function. Reference the module's function name output to enforce ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_resource_process uses a local function name and can be created before module.cur_per_resource_process creates the Lambda function. Reference the module's function name output to enforce ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_notification.cur_notification configures the processing Lambda destination but does not wait for aws_lambda_permission.cur_per_resource_process. S3 validates invocation permissions when installing notifications, so this permission must exist first.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_resource must wait for aws_s3_bucket_policy.cur_bucket_policy so the Data Exports service has permission to validate and write to its destination bucket. Referencing the bucket alone does not order policy installation.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_service must wait for aws_s3_bucket_policy.cur_bucket_policy so the Data Exports service has permission to validate and write to its destination bucket. Referencing the bucket alone does not order policy installation.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

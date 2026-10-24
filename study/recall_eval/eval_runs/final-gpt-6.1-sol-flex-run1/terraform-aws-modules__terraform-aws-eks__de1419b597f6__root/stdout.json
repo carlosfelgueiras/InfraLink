@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.wait_for_cluster already references aws_eks_cluster.this[0].endpoint in its provisioner environment, so its explicit dependency on aws_eks_cluster.this duplicates implicit ordering.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.wait_for_cluster can run its endpoint health check before aws_security_group_rule.cluster_private_access permits access. For a private-only endpoint this can cause the readiness provisioner to time out; order the check after this ingress rule.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers launches nodes without waiting for workers_AmazonEKSWorkerNodePolicy. The role reference does not ensure its required EKS permissions have been attached before bootstrap.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers launches nodes without waiting for workers_AmazonEKS_CNI_Policy. When this attachment is enabled, networking permissions should be installed before node bootstrap.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers launches nodes without waiting for workers_AmazonEC2ContainerRegistryReadOnly, allowing bootstrap image pulls to race installation of registry permissions.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template launches nodes without waiting for workers_AmazonEKSWorkerNodePolicy. Referencing the instance profile does not ensure EKS permissions are attached before bootstrap.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template launches nodes without waiting for workers_AmazonEKS_CNI_Policy. When enabled, this attachment supplies networking permissions needed at bootstrap.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch nodes before workers_AmazonEC2ContainerRegistryReadOnly is attached, causing bootstrap image pulls to race registry authorization.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

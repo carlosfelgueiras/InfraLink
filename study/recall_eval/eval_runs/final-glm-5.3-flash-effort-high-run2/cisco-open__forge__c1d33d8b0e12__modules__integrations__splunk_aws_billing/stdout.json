@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_notification.cur_notification configures a lambda_function trigger for the per-resource-process function (module.cur_per_resource_process) but its depends_on only lists aws_lambda_permission.cur_per_service and aws_lambda_permission.cur_per_resource \u2014 it omits aws_lambda_permission.cur_per_resource_process. S3 validates the invoke permission when PutBucketNotificationConfiguration is applied; if the notification is created before that permission exists, apply fails with \"Unable to validate the following destination configurations\". An explicit depends_on on the missing permission is required.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_bcmdataexports_export.cur_per_resource writes to aws_s3_bucket.aws_billing_report, but the export's creation is validated by AWS against the destination bucket's policy (the policy document's \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\" statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy for exactly this). The export only implicitly references the bucket, not aws_s3_bucket_policy.cur_bucket_policy; if the export is created before the bucket policy is applied, the destination-access validation can fail. It should depend on the bucket policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_bcmdataexports_export.cur_per_service writes to aws_s3_bucket.aws_billing_report, but the export's creation is validated by AWS against the destination bucket's policy (the policy document's \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\" statement grants bcm-data-exports.amazonaws.com s3:PutObject/s3:GetBucketPolicy for exactly this). The export only implicitly references the bucket, not aws_s3_bucket_policy.cur_bucket_policy; if the export is created before the bucket policy is applied, the destination-access validation can fail. It should depend on the bucket policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

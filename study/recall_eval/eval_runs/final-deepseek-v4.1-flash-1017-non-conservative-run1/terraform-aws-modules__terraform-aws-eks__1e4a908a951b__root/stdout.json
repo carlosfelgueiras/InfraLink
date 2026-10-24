@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.wait_for_cluster` declares `depends_on = [aws_eks_cluster.this[0], ...]`, but its `local-exec` provisioner already sets `environment = { ENDPOINT = aws_eks_cluster.this[0].endpoint }`, which creates the identical implicit dependency (it is listed in the node's `implicit_deps`). The `aws_eks_cluster.this` entry in `depends_on` can be removed; only `aws_security_group_rule.cluster_private_access` is a genuinely explicit dependency.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The additive IAM member accepts arbitrary role names, including project custom roles created by this module, but it has no dependency on those role resources. If an additive grant uses one of these custom roles, Terraform may attempt to create the grant before the role exists. The authoritative binding already handles this ordering explicitly; the additive member should as well.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "try(google_project_iam_custom_role.roles[basename(each.value.role)].name, each.value.role)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This IAM custom-role resource uses the IAM API, but it does not wait for the configured project services. The module already orders the authoritative IAM binding after project service enablement; the custom role should likewise wait so creation and destruction do not race API enablement/disablement.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This additive IAM member can call the IAM API before the configured project services are enabled, or after they are disabled during destroy. The authoritative IAM binding already waits for project services; this IAM member should have the same ordering.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login administrator IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login compute-viewer IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login service-account-user IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This OS Login user IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.gha_runner_scale_set installs the runner scale set whose pods run as the service account \"runner_sa\" (referenced by name via var.service_account in the chart values). If the release is applied before the Kubernetes service account exists, the listener deployment/runner pods will fail to schedule with a \"serviceaccount not found\" error, even though the Helm release itself reports success. The release must be ordered after the service account, but no attribute reference or depends_on expresses this.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner scale set Helm chart consumes the hook ConfigMaps (\"hook-extension-<scale_set_name>\" and \"hook-pre-post-job-<scale_set_name>\") created by kubernetes_config_map.hook_extension and kubernetes_config_map.hook_pre_post_job. The helm_release only references var.scale_set_name/var.service_account strings in its values template, so Terraform may install the release before these ConfigMaps exist, leaving the runners without their hook configuration. An ordering dependency on both ConfigMaps is missing.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_config_map.hook_extension",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same as hook_extension: the \"job_started.sh\"/\"job_completed.sh\" hook scripts in kubernetes_config_map.hook_pre_post_job must exist before the gha_runner_scale_set Helm release is installed, otherwise the runner pods reference hook ConfigMaps that don't exist yet. No attribute reference or depends_on establishes this ordering.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_config_map.hook_pre_post_job",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For the \"k8s\" scale set type, the runner pods run under service account var.service_account whose permissions come from kubernetes_role_binding.k8s (bound to kubernetes_role.k8s). The helm_release.gha_runner_scale_set must be installed only after this RBAC binding exists, or the runner pods will fail authorization. The release already references aws_iam_role.runner_role.arn but has no dependency on the in-cluster RBAC objects. (The count=0 case for \"dind\" makes the depends_on harmless.)",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_role_binding.k8s",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_pod_identity_association.eks_pod_identity injects IAM credentials into pods using service account var.service_account in namespace var.namespace \u2014 the exact pods created by the gha_runner_scale_set Helm release. Per the AWS documentation, pods only receive credentials if the association exists. The helm_release references the IAM role ARN but not the association, so on a fresh apply the runner/listener pods can start before credentials are available and never pick them up until restarted. The release must depend on the association.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubernetes_service_account_v1.zombie_runner_cleanup (and the role/role-binding/cron-job that reference it) are created in namespace var.controller_config.namespace, which is provisioned by module.controller's kubernetes_namespace.controller_namespace (and otherwise only by the controller helm_release's create_namespace=true). Nothing ties the root-module zombie resources to that namespace resource, so on a fresh apply Terraform may attempt to create the service account before the namespace exists and fail with \"namespaces \\\"arc\\\" not found\". An ordering dependency on the controller namespace is missing.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

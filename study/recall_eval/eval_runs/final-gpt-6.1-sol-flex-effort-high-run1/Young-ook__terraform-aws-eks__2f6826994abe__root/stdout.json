@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_autoscaling_group.ng already depends on :resource.aws_launch_template.ng through launch_template_id and latest_version references. Its explicit depends_on entry for the launch template is redundant.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_autoscaling_group.ng already depends transitively on :resource.aws_iam_role.ng through its launch template and instance profile, as well as through the required policy attachments. The explicit role dependency adds no ordering.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_eks_node_group.ng references :resource.aws_iam_role.ng in node_role_arn, so the explicit depends_on entry for that role duplicates an implicit dependency. Retain the policy-attachment dependencies.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.kubernetes_config_map.aws-auth already waits for :resource.aws_eks_cluster.cp through its explicit dependency on aws_autoscaling_group.ng, which references the cluster. Its Kubernetes provider also references the cluster. The direct cluster depends_on entry is redundant.",
+      "node": ":resource.kubernetes_config_map.aws-auth",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.time_sleep.wait already depends transitively on :resource.aws_eks_cluster.cp through its node-group, Auto Scaling group, and aws-auth dependencies. The direct cluster depends_on entry duplicates that ordering.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.time_sleep.wait depends on kubernetes_config_map.aws-auth, which explicitly depends on :resource.aws_autoscaling_group.ng. The sleep's direct depends_on entry for the Auto Scaling group is therefore transitively redundant.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_autoscaling_group.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.alb-ingress:resource.helm_release.albingress starts an AWS controller using the IRSA role, but does not wait for module.alb-ingress.module.irsa:resource.aws_iam_role_policy_attachment.irsa to attach its required permissions. The referenced module.irsa ARN output depends only on role creation, so installation and policy attachment can race. Add depends_on = [module.irsa] to the release, or gate the IRSA ARN output on completion of its policy attachments.",
+      "node": "module.alb-ingress:resource.helm_release.albingress",
+      "target": "module.alb-ingress.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.app-mesh:resource.helm_release.appmesh deploys the controller using the IRSA role before module.app-mesh.module.irsa:resource.aws_iam_role_policy_attachment.irsa is guaranteed to attach its App Mesh and Cloud Map permissions. Referencing the role ARN does not order the release after these attachments. Add depends_on = [module.irsa] to the release, or gate the IRSA ARN output on completion of its policy attachments.",
+      "node": "module.app-mesh:resource.helm_release.appmesh",
+      "target": "module.app-mesh.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.cluster-autoscaler:resource.helm_release.autoscaler can start the autoscaler before module.cluster-autoscaler.module.irsa:resource.aws_iam_role_policy_attachment.irsa grants the AWS permissions it needs. The role ARN output waits only for the role, not the policy attachment, permitting startup authorization failures. Add depends_on = [module.irsa] to the release, or gate the IRSA ARN output on completion of its policy attachments.",
+      "node": "module.cluster-autoscaler:resource.helm_release.autoscaler",
+      "target": "module.cluster-autoscaler.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.container-insights:resource.helm_release.containerinsights starts agents using the IRSA role without waiting for module.container-insights.module.irsa:resource.aws_iam_role_policy_attachment.irsa to grant logging and EC2 discovery permissions. The role ARN reference does not include attachment completion, so startup can race permission setup. Add depends_on = [module.irsa] to the release, or gate the IRSA ARN output on completion of its policy attachments.",
+      "node": "module.container-insights:resource.helm_release.containerinsights",
+      "target": "module.container-insights.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

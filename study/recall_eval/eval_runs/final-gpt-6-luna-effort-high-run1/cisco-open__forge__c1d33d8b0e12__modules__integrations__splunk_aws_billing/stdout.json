@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda permission :resource.aws_lambda_permission.cur_per_service uses a literal function name, so Terraform does not ensure module :module.cur_per_service has created the function before the permission is added. Reference the module's function ARN/name to establish this dependency.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda permission :resource.aws_lambda_permission.cur_per_resource uses a literal function name, so Terraform does not ensure module :module.cur_per_resource has created the function before the permission is added. Reference the module's function ARN/name to establish this dependency.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda permission :resource.aws_lambda_permission.cur_per_resource_process uses a literal function name, so Terraform does not ensure module :module.cur_per_resource_process has created the function before the permission is added. Reference the module's function ARN/name to establish this dependency.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The S3 notification :resource.aws_s3_bucket_notification.cur_notification configures the :module.cur_per_resource_process Lambda target but does not wait for its S3 invoke permission :resource.aws_lambda_permission.cur_per_resource_process. S3 notification setup must follow creation of the corresponding Lambda permission.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The export :resource.aws_bcmdataexports_export.cur_per_resource writes to the billing bucket, but it can be created before :resource.aws_s3_bucket_policy.cur_bucket_policy grants the BCM Data Exports service access required for delivery. Add an explicit dependency on the bucket policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The export :resource.aws_bcmdataexports_export.cur_per_service writes to the billing bucket, but it can be created before :resource.aws_s3_bucket_policy.cur_bucket_policy grants the BCM Data Exports service access required for delivery. Add an explicit dependency on the bucket policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :data.http.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the dependency already inferred from the endpoint and certificate-authority attribute references.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile can become active before the managed execution policy is attached to its pod execution role. Make the profile wait for the policy attachment so pods selected by the profile do not start with an incompletely provisioned role.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The IAM role policy attachments are configured through local.cluster_iam_role_name rather than an attribute reference to the managed cluster role, so the EKS cluster can be created before its ELB service-linked-role-creation permission is attached. Ensure the cluster waits for :resource.aws_iam_role_policy_attachment.cluster_elb_sl_role_creation so EKS has that permission when provisioning load balancers.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_elb_sl_role_creation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker Auto Scaling group can launch instances before the aws-auth ConfigMap maps their IAM role, so nodes may attempt to join the cluster before they can authenticate. Make the Auto Scaling group wait for the ConfigMap.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template worker Auto Scaling group can launch instances before the aws-auth ConfigMap maps their IAM role, so nodes may attempt to join the cluster before they can authenticate. Make the Auto Scaling group wait for the ConfigMap.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

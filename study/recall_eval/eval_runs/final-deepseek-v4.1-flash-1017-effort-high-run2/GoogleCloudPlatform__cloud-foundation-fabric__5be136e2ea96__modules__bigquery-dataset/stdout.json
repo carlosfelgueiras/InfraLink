@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_routine.default is created in parallel with google_bigquery_table.default with no ordering between them. A routine whose definition_body references a table created by this module (e.g. a stored procedure doing INSERT/SELECT against a table from var.tables, or a UDF/TVF used by a table) can fail to create because the referenced base table may not exist yet. google_bigquery_table.views and google_bigquery_table.materialized_view already depends_on google_bigquery_table.default for exactly this reason; google_bigquery_routine.default should similarly depend on google_bigquery_table.default.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

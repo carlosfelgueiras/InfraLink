@@ -1,0 +1,29 @@
+{
+  "id": "141",
+  "config": "gemini-4-argon-medium",
+  "model": "openrouter/google/gemini-4-argon#medium",
+  "agent": null,
+  "repo": "cattle-ops__terraform-aws-gitlab-runner",
+  "commit": "c1287813406a930e2c6d5a5a2caf938cb198496c",
+  "module_dir": "examples/runner-docker",
+  "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+  "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+  "verdict": "Incorrect",
+  "ambiguous": false,
+  "matches": [
+    "Incorrect"
+  ],
+  "session_id": "ses_e96045193ffe3r8Qj3vSg2Ybps",
+  "exit_code": 0,
+  "duration_seconds": 24.584385750000365,
+  "cost": 0.0504624,
+  "tokens": {
+    "input": 23480,
+    "output": 161,
+    "reasoning": 0,
+    "cache_read": 18924,
+    "cache_write": 0
+  },
+  "tool_calls": 7,
+  "errors": []
+}

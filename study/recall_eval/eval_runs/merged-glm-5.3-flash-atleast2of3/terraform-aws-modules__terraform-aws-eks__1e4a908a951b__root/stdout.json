@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\naws_autoscaling_group.workers launches EC2 instances that use aws_iam_role.workers, but there is no attribute reference or depends_on ordering it after aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy (nor the CNI/ECR attachments). If the ASG is created and starts launching instances before the worker role's policies are attached, the nodes boot with a role lacking the required EKS policies and fail to join/operate until IAM propagation catches up. The module already protects the managed node_groups path against exactly this race via the data.null_data_source.node_groups ordering hack (its inputs include the three policy attachment IDs), but the launch-configuration worker group has no equivalent guard. A bare depends_on covering the three worker policy attachments closes the gap; there is no clean data reference on the ASG that would express it.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nEKS will not admit worker nodes whose IAM role lacks AmazonEKSWorkerNodePolicy. The ASG and aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy are parallel branches off aws_iam_role.workers with no ordering between them, so nodes could be provisioned before the policy is attached and fail to join the cluster. The null_data_source.node_groups hack covers module.node_groups but not this self-managed ASG; an explicit depends_on is needed since no ASG attribute can reference the attachment.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\naws_autoscaling_group.workers_launch_template launches EC2 instances that use aws_iam_role.workers (via aws_iam_instance_profile.workers_launch_template), but there is no attribute reference or depends_on ordering it after aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy (nor the CNI/ECR attachments). If the ASG is created and starts launching instances before the worker role's policies are attached, the nodes boot with a role lacking the required EKS policies and fail to join/operate until IAM propagation catches up. The managed node_groups path guards against this race via the data.null_data_source.node_groups ordering hack, but the launch-template worker group has no equivalent guard. A bare depends_on covering the three worker policy attachments closes the gap; there is no clean data reference on the ASG that would express it.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nSame as for the launch-configuration ASG: aws_autoscaling_group.workers_launch_template has no ordering against aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy (they are parallel branches off aws_iam_role.workers), so its nodes may be provisioned before EKS's required node policy is attached and fail to join. Needs a bare depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

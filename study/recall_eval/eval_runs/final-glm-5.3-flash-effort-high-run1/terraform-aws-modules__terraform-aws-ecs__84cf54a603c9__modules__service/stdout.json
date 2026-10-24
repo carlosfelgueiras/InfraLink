@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this already depends on :resource.aws_ecs_task_definition.this implicitly through its `task_definition = aws_ecs_task_definition.this[0].family` attribute reference, which already forces the task definition to be created before the data source is read. The explicit `depends_on = [aws_ecs_task_definition.this]` duplicates that dependency and is redundant.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.this sets `enable_execute_command = var.enable_execute_command` and launches tasks that assume the tasks IAM role (:resource.aws_iam_role.tasks). When ECS Exec is enabled, those tasks need the `ssmmessages:*` permissions granted by the inline policy :resource.aws_iam_role_policy.tasks at launch time, but no attribute reference or depends_on orders the service after that policy \u2014 on a first apply the tasks can start before the policy exists/propagates and `ecs exec` will fail until a redeployment. The service should depend on :resource.aws_iam_role_policy.tasks.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.ignore_task_definition sets `enable_execute_command = var.enable_execute_command` and launches tasks that assume the tasks IAM role. When ECS Exec is enabled, the tasks require the `ssmmessages:*` permissions from the inline policy :resource.aws_iam_role_policy.tasks at launch time, but nothing orders this service after that policy \u2014 tasks may start before the policy is in place and ECS Exec will fail until the tasks are redeployed. The service should depend on :resource.aws_iam_role_policy.tasks.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.this launches the tasks defined by :resource.aws_ecs_task_definition.this, whose containers rely on the task execution role for pulling ECR images, writing CloudWatch logs, and reading secrets/SSM parameters. The service only waits for the *service* role policy attachment (aws_iam_role_policy_attachment.service) and has no dependency on :resource.aws_iam_role_policy_attachment.task_exec, so on a first apply tasks can launch before the execution-role policy is attached/propagated, causing transient ImagePull/log/secret initialization failures. The service should depend on :resource.aws_iam_role_policy_attachment.task_exec.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.ignore_task_definition launches the tasks defined by the task definition, whose containers rely on the task execution role for pulling ECR images, writing CloudWatch logs, and reading secrets/SSM parameters. Nothing orders this service after :resource.aws_iam_role_policy_attachment.task_exec, so tasks can launch before the execution-role policy is attached/propagated, causing transient task startup failures on first apply. The service should depend on :resource.aws_iam_role_policy_attachment.task_exec.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

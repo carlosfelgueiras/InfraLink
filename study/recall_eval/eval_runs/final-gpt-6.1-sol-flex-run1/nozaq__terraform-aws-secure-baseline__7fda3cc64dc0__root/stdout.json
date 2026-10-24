@@ -1,0 +1,328 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global must wait for :resource.aws_s3_bucket_policy.audit_log: CloudTrail validates S3 delivery permissions when creating the trail; bucket existence alone does not ensure that policy is installed.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global references the delivery role but does not wait for module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy. Install its CloudWatch Logs permissions before configuring the trail to use that role.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global must wait for module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail so CloudTrail has sns:Publish permission when the trail's notification destination is configured. Referencing the topic alone does not order its policy.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_config_configuration_aggregator.organization must wait for :resource.aws_iam_role_policy_attachment.config_organization to grant AWSConfigRoleForOrganizations permissions before using the organization aggregation role; the role ARN reference only waits for role creation.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs should wait for :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy so log publishing permissions exist before flow logging starts.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Flow logging must wait for the publisher policy to grant CloudWatch Logs write permissions; the role ARN does not order policy creation.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Config delivery channel must wait for the audit bucket policy granting Config S3 delivery access.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

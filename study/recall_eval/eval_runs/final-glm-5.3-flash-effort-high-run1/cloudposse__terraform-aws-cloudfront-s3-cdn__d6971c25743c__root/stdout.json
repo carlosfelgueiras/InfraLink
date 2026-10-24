@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`aws_cloudfront_distribution.default` has an explicit `depends_on` on `aws_s3_bucket.origin`, but this duplicates a dependency Terraform already infers via attribute references: the distribution's `origin.domain_name = local.bucket_domain_name`, which resolves through `local.origin_bucket` to `aws_s3_bucket.origin[0].bucket_regional_domain_name` (or `.website_endpoint` when `website_enabled`). The bucket-creation ordering is therefore already guaranteed by that reference chain whenever the module creates the bucket; the explicit `depends_on` entry can be removed.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`aws_cloudfront_distribution.default` has an explicit `depends_on` on `time_sleep.wait_for_aws_s3_bucket_settings`, but this ordering is already established transitively: the same `depends_on` block includes `aws_s3_bucket_ownership_controls.origin`, which itself carries `depends_on = [time_sleep.wait_for_aws_s3_bucket_settings]`. Removing the direct entry preserves the exact same ordering (distribution waits for the sleep, which waits for the bucket policy and public access block).",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

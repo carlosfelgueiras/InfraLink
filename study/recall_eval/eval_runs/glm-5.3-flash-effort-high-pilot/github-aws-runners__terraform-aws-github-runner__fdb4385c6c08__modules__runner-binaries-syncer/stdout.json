@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer configures VPC networking (dynamic vpc_config driven by var.lambda_subnet_ids), which requires the Lambda execution role to already have AWSLambdaVPCAccessExecutionRole (ENI/networking permissions) attached at the moment the function is created. The attachment resource aws_iam_role_policy_attachment.syncer_vpc_execution_role is not referenced by the function in any way, so Terraform may create the Lambda before the policy attachment lands, causing creation to fail with a \"role does not have permissions\" / network-interface error. No attribute of the Lambda can reference the attachment, so an explicit depends_on is the appropriate fix.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

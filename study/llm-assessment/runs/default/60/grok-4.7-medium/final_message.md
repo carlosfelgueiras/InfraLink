@@ -1,0 +1,5 @@
+The listener deletion is not ordered before the frontend-port deletion. `null_resource.delete_http_listener` only `depends_on` `null_resource.set_frontend_port`, which has a create provisioner and no destroy provisioner, so destroying it does not remove the port. `null_resource.delete_frontend_port` is what runs `az network application-gateway frontend-port delete`, and nothing in the module depends on it.
+
+An HTTP listener’s `frontendPort` must point at a frontend port that still exists on the gateway. Deleting the port while a listener still references it makes the gateway update fail with `InvalidResourceReference`. Terraform destroys a dependent before its dependency, so `delete_http_listener` must `depends_on` `delete_frontend_port` for the listener to be removed first. That edge is missing, and the file semaphore in the delete script only serializes calls; it does not enforce this order.
+
+Correct

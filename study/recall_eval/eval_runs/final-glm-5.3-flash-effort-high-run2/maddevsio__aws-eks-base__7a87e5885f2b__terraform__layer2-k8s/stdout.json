@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk deploys Elasticsearch configured with secretKeyRefs to secret \"elastic-credentials\" (extraEnvs ELASTIC_PASSWORD/ELASTIC_USERNAME), but has no dependency on kubernetes_secret.elasticsearch_credentials, so pods can be scheduled before the secret exists.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk mounts secret \"elastic-certificates\" into Elasticsearch, Kibana, Filebeat and APM pods (secretMounts / TLS config), but has no dependency on kubernetes_secret.elasticsearch_certificates.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk configures the Elasticsearch keystore from secret \"elasticsearch-s3-user-creds\" (S3 snapshot repository credentials), but has no dependency on kubernetes_secret.elasticsearch_s3_user_creds.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.elk deploys Kibana which reads KIBANA_ENCRYPTION_KEY from secret \"kibana-encryption-key\", but the release has no dependency on kubernetes_secret.kibana_enc_key.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "Output access_secret_key already references aws_iam_access_key.this_user in its value, so the explicit depends_on duplicates an implicit dependency.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "Output access_key_id already references aws_iam_access_key.this_user in its value, so the explicit depends_on duplicates an implicit dependency.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_compute_project_default_network_tier.default_network_tier sets the project-level default network tier via compute.projects.setDefaultNetworkTier, which requires the Compute Engine API to be enabled in the project. Nothing in the graph orders it after :resource.google_project_service.project_services (its only attribute inputs are var.default_network_tier and local.project.project_id, which is just project creation). Its sibling in main.tf, google_compute_project_metadata_item.default, carries exactly this guard (\\\"Only usable if compute API has been enabled\\\"), so this resource can fail with an API-not-enabled error on a first apply that enables compute.googleapis.com in the same run. Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service attaches this project to a Shared VPC host, which requires compute.googleapis.com to be enabled in the service project first. Its depends_on only covers the VPC-SC perimeter resources; there is no path to :resource.google_project_service.project_services (the other shared-VPC resources in the same file \u2014 google_compute_shared_vpc_host_project.shared_vpc_host explicitly, and service_projects transitively via its host_project dependency \u2014 are both ordered after the API enablement). First-apply runs that enable compute in the same plan can fail here. Add google_project_service.project_services to the depends_on list.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_essential_contacts_contact.contact creates Essential Contacts via the essentialcontacts.googleapis.com API, which is not enabled by default on a new project and must be enabled through :resource.google_project_service.project_services (var.services) before contact creation succeeds. The graph only records its depends_on on the IAM binding/member resources, and the contact's `parent` is a plain string, so no ordering with the API enablement is inferred; creating the contact in the same apply that enables essentialcontacts.googleapis.com can fail with a 403 \"API has not been used/enabled\" error. Add google_project_service.project_services to depends_on.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

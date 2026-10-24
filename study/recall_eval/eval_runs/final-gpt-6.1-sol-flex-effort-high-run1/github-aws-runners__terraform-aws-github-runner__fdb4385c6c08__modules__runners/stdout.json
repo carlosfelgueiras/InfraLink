@@ -1,0 +1,337 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.scale_up must wait for :resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role when VPC subnets are configured. Referencing the execution role does not wait for its separately attached ENI permissions; Lambda creation can otherwise fail, and destruction can remove those permissions before Lambda finishes releasing its network interfaces. Add an explicit dependency on the attachment resource.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.scale_down must depend on :resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role when deployed in a VPC. The role ARN reference does not order this separate attachment, so Lambda can attempt to provision network interfaces before the execution role has the required EC2 permissions. The dependency also preserves those permissions during function deletion.",
+      "node": ":resource.aws_lambda_function.scale_down",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.ssm_housekeeper must wait for :resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role when VPC subnets are configured. Both currently depend only on the role, allowing function creation to race attachment of the EC2 network-interface permissions required by Lambda. Add an explicit dependency, which also keeps the permissions attached through function deletion.",
+      "node": ":resource.aws_lambda_function.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.pool:resource.aws_lambda_function.pool needs module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role to complete before VPC-enabled function creation. Its role reference does not wait for that attachment, allowing Lambda to create network interfaces without the required EC2 permissions. Add an explicit dependency to order creation and preserve permissions during deletion.",
+      "node": "module.pool:resource.aws_lambda_function.pool",
+      "target": "module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.job_retry.module.job_retry:resource.aws_lambda_function.main must depend on module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role for VPC deployments. The execution-role reference alone does not wait for attachment of the ENI permissions needed during creation and deletion of a VPC-enabled Lambda.",
+      "node": "module.job_retry.module.job_retry:resource.aws_lambda_function.main",
+      "target": "module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up must wait for :resource.aws_iam_role_policy.scale_up, which configures the execution role's access to the build SQS queue. AWS validates the role's queue-polling permissions when creating an SQS mapping; the function reference does not wait for this separately managed policy. The SQS aws_lambda_permission resource does not substitute for execution-role polling permissions.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry must wait for module.job_retry:resource.aws_iam_role_policy.job_retry to grant the execution role access to the retry queue. The queue and Lambda output references do not order this policy, so mapping creation can fail validation of SQS ReceiveMessage/DeleteMessage/GetQueueAttributes permissions. Add an explicit dependency on the role policy, not on the Lambda resource-based invocation permission.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.scale_down can enable scheduled invocations before :resource.aws_lambda_permission.scale_down authorizes EventBridge to invoke the function. Their common rule/function references do not order them. Make the target depend on the permission to avoid failed deliveries during deployment and to remove the target before revoking permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ssm_housekeeper can become active before :resource.aws_lambda_permission.ssm_housekeeper grants EventBridge invocation access. Add an explicit dependency from the target to the permission so scheduled cleanup deliveries are not attempted before authorization exists.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool references the scheduler role but does not wait for module.pool:resource.aws_iam_role_policy.scheduler to grant lambda:InvokeFunction. Schedules are enabled by default, so an invocation can race policy creation. Add an explicit dependency on the scheduler role policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.scale_down can start invoking the scale-down handler before :resource.aws_iam_role_policy.scale_down grants its runtime AWS permissions. The function depends on the role, not this policy. Gate target activation on the policy so initial scheduled executions do not fail with AccessDenied.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ssm_housekeeper can activate before :resource.aws_iam_role_policy.ssm_housekeeper grants the cleanup function access to SSM. Add a dependency on the policy at the event target, so cleanup is not scheduled before its runtime permissions are installed.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can invoke the pool handler before module.pool:resource.aws_iam_role_policy.pool grants its runtime EC2/SSM permissions. A reference to the Lambda function does not wait for its separate execution-role policy. Gate schedule creation on the policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up is enabled by default but does not wait for :resource.aws_iam_role_policy.scale_up_logging. Queue processing can therefore start before logging permissions are installed. Depend on the logging policy at the mapping; this also orders the log group's creation without introducing the cycle that a function-to-logging-policy dependency would cause.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.scale_down does not wait for :resource.aws_iam_role_policy.scale_down_logging, allowing scheduled invocations before the log group and logging permissions are ready. Add the dependency at the target, not at the Lambda function, because the logging policy already depends transitively on the function.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_iam_role_policy.scale_down_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ssm_housekeeper can trigger cleanup before :resource.aws_iam_role_policy.ssm_housekeeper_logging and its log group exist. Gate the target on this logging policy to avoid unlogged initial executions; adding the reverse dependency at the function would create a cycle with the current log-group naming reference.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ssm_housekeeper_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can invoke the pool Lambda before module.pool:resource.aws_iam_role_policy.pool_logging installs logging permissions and completes the managed log group. Make the enabled schedule wait for the logging policy. This belongs on the schedule because the policy already depends transitively on the function.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry references a Lambda output containing the log group, but that output does not wait for module.job_retry.module.job_retry:resource.aws_iam_role_policy.lambda_logging. Queue processing can start without logging authorization. Gate the mapping on the child module's logging-policy readiness, for example by adding that policy to the child lambda output's depends_on.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry.module.job_retry:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When an external AMI-ID SSM parameter is configured, :resource.aws_lambda_event_source_mapping.scale_up can start processing jobs before :resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read grants the scale-up function ssm:GetParameter access. The execution-role and launch-template references do not wait for this attachment. Gate the mapping on the attachment to prevent initial AMI lookup failures.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When an external AMI-ID SSM parameter is configured, module.pool:resource.aws_scheduler_schedule.pool can invoke the pool function before module.pool:resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read grants access to that parameter. Passing the policy ARN through config orders policy creation, but not its attachment to the pool execution role. Make the schedule wait for the attachment.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When job retry is enabled, :resource.aws_lambda_event_source_mapping.scale_up can deliver jobs before :resource.aws_iam_role_policy.job_retry_sqs_publish grants permission to publish retry-check messages. JOB_RETRY_CONFIG wires the queue into the function but does not order this separate permission policy. Add an explicit dependency on the policy at the mapping so the retry workflow is authorized before processing starts.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.job_retry_sqs_publish",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up can begin launching runners before :resource.aws_iam_role_policy.ssm_parameters grants the managed runner role access to bootstrap configuration and tokens. The launch template waits for the instance profile and role, but neither waits for this separate policy. When the module manages the runner role/profile, make scale-up activation wait for the policy so newly launched runners can read SSM immediately.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.ssm_parameters",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can launch runners before :resource.aws_iam_role_policy.ssm_parameters grants their managed instance role access to bootstrap configuration and tokens. Passing the runner role and launch template into the pool module does not wait for the runner's separately installed policy. Gate pool activation on runner-policy readiness, for example through a dependency on that policy on the parent pool module.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.ssm_parameters",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "With the binaries syncer enabled and the module managing the runner role, :resource.aws_lambda_event_source_mapping.scale_up can launch runners before :resource.aws_iam_role_policy.dist_bucket authorizes reading the S3 runner distribution used by the default installation user data. The instance-profile reference does not wait for the policy. Order scale-up activation after the policy to avoid runner installation failures.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.dist_bucket",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "With the binaries syncer enabled and a module-managed runner role, module.pool:resource.aws_scheduler_schedule.pool can launch instances before :resource.aws_iam_role_policy.dist_bucket permits downloading the S3 runner distribution. The launch-template/role references do not wait for this separate policy. Gate pool scheduling on the policy, for example using a parent module dependency.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.dist_bucket",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up can start launching runners before :resource.aws_ssm_parameter.runner_config_run_as creates the run_as bootstrap setting. The configuration path is assembled from var.ssm_paths rather than resource references. Make scale-up activation wait for this parameter so a queued job cannot boot a runner against incomplete SSM configuration.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_ssm_parameter.runner_config_run_as",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up does not wait for :resource.aws_ssm_parameter.runner_agent_mode to establish the persistent/ephemeral bootstrap setting. A shared literal SSM path is not an ordering dependency. Gate the enabled mapping on the parameter so newly launched runners do not read configuration before it exists.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_ssm_parameter.runner_agent_mode",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up can launch runners before :resource.aws_ssm_parameter.disable_default_labels creates the runner label configuration under the SSM config path. There is no reference or dependency between them. Order mapping activation after this bootstrap parameter to avoid incomplete initial runner configuration.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_ssm_parameter.disable_default_labels",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up can process jobs before :resource.aws_ssm_parameter.jit_config_enabled creates the enable_jit_config bootstrap parameter. The Lambda/instance config paths are composed from variables, so Terraform cannot infer that runner startup needs this setting. Add an explicit dependency at the mapping.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_ssm_parameter.jit_config_enabled",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up can launch runners before :resource.aws_ssm_parameter.runner_enable_cloudwatch establishes the CloudWatch-agent bootstrap flag. The shared SSM path provides no graph ordering. Gate mapping activation on this parameter so runners do not start with a partially populated configuration path.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_ssm_parameter.runner_enable_cloudwatch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_event_source_mapping.scale_up can launch runners before :resource.aws_ssm_parameter.token_path creates the bootstrap setting identifying the tokens/JIT-config path. The independently constructed path strings do not order parameter creation before queue processing. Make the enabled mapping wait for the token_path configuration parameter.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_ssm_parameter.token_path",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can launch runners before :resource.aws_ssm_parameter.runner_config_run_as creates their run_as bootstrap setting. Passing a config path string into the pool module does not wait for this parameter. Order pool activation after parameter creation, for example with a dependency on the parameter on the parent pool module.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_ssm_parameter.runner_config_run_as",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can invoke runner provisioning before :resource.aws_ssm_parameter.runner_agent_mode creates the persistent/ephemeral startup setting. No resource reference connects the configured SSM path to this parameter. Gate pool activation on parameter readiness, for example using a parent pool-module dependency.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_ssm_parameter.runner_agent_mode",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can launch instances before :resource.aws_ssm_parameter.disable_default_labels creates their label bootstrap setting. The module receives a path string rather than a reference to the parameter. Ensure pool scheduling waits for this parameter, for example with a dependency on the parent pool module.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_ssm_parameter.disable_default_labels",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can provision runners before :resource.aws_ssm_parameter.jit_config_enabled establishes their JIT-mode bootstrap setting. The shared config path is not a dependency. Gate pool scheduling on creation of the parameter, for example through depends_on on the parent pool module.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_ssm_parameter.jit_config_enabled",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can launch runners before :resource.aws_ssm_parameter.runner_enable_cloudwatch creates the agent-enable configuration setting. No ordering is inferred from the independently composed SSM path. Make pool activation wait for the parameter, for example through a dependency on the parent pool module.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_ssm_parameter.runner_enable_cloudwatch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool can launch runners before :resource.aws_ssm_parameter.token_path creates the bootstrap setting that points to their token/JIT-config storage path. Passing SSM path strings to the pool module does not order this parameter. Gate pool scheduling on parameter readiness, for example with a parent pool-module dependency.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_ssm_parameter.token_path",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

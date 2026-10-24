@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function should wait for its execution-role inline policy before it can be invoked; otherwise the function (and its schedule) can become available while the permissions needed by the handler are not yet attached.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function should wait for its logging policy attachment so its execution role has CloudWatch Logs permissions before the function is created or invoked; the role ARN reference alone does not order this attachment ahead of Lambda creation.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule can be created and enabled before the scheduler role's inline invoke policy is attached. It should wait for :resource.aws_iam_role_policy.scheduler so that EventBridge Scheduler has permission to invoke the Lambda when the schedule first fires.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When X-Ray tracing is enabled, the Lambda can be invoked before its X-Ray inline policy is attached, so trace submission can fail until IAM permissions propagate. Make the function wait for :resource.aws_iam_role_policy.pool_xray when tracing is active.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be deployed before its execution role's inline application policy is attached. If the function is invoked during that window, calls to the services and resources granted by this policy can fail; make the Lambda wait for :resource.aws_iam_role_policy.pool.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When an AMI ID SSM parameter is configured, the Lambda may need the permissions granted by this managed-policy attachment to perform its runtime work. The Lambda should not be considered ready before :resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read is attached.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

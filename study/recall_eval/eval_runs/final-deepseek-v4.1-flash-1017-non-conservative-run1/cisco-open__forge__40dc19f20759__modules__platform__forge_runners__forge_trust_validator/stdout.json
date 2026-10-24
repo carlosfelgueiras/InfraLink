@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.forge_trust_validator_lambda` already depends on `aws_cloudwatch_log_group.forge_trust_validator_lambda` implicitly because it passes `logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name`. The explicit `depends_on = [aws_cloudwatch_log_group.forge_trust_validator_lambda]` duplicates that already-established dependency and can be removed.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`aws_cloudwatch_event_target.forge_trust_validator_lambda` already depends on `module.forge_trust_validator_lambda` implicitly via `arn = module.forge_trust_validator_lambda.lambda_function_arn`. The explicit `depends_on = [module.forge_trust_validator_lambda]` duplicates that dependency and can be removed.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.forge_trust_validator_lambda` wires the EventBridge rule to the Lambda function, but nothing orders it after `aws_lambda_permission.forge_trust_validator_lambda`. Per the AWS provider docs, an EventBridge rule can only invoke the Lambda once the `aws_lambda_permission` resource-based policy exists; without it the rule's scheduled invocations fail with AccessDenied. The target currently depends only on the rule and the module, so add an explicit dependency on the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

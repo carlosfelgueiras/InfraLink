@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool invokes its target using aws_iam_role.scheduler, but the role only gains lambda:InvokeFunction permission via the inline policy aws_iam_role_policy.scheduler. The schedule's graph dependencies stop at the role itself, so on a fresh apply the schedule can be created before (or concurrently with) the role policy, causing the first scheduled invocations to fail with AccessDenied until the policy is applied. Add an explicit depends_on (there is no attribute of the schedule that can naturally reference the policy document).",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

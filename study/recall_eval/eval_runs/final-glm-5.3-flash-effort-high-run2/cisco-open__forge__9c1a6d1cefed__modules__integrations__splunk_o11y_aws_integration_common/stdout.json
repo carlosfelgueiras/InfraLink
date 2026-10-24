@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "signalfx_aws_integration.integration enables the integration (enabled = true, import_cloud_watch = true) and depends on aws_iam_role.splunk_integration.arn, but nothing orders it after aws_iam_role_policy.splunk_integration is attached to that role. Splunk Observability validates the role's effective permissions when enabling the AWS integration, so the inline inventory/metric-read policy must exist first. Add aws_iam_role_policy.splunk_integration to signalfx_aws_integration.integration's depends_on (or to time_sleep.wait_30_seconds, which signalfx_aws_integration.integration already waits on \u2014 this matches the provider docs' guidance to list role-related resources as dependencies of signalfx_aws_integration).",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "signalfx_aws_integration.integration sets use_metric_streams_sync = true, which the provider docs state requires the \"cloudwatch:*MetricStream\" and \"iam:PassRole\" permissions \u2014 those are granted only by aws_iam_role_policy.splunk_managed_policy (\"SplunkManagedMetricStreams\"), which has no dependency path to the integration resource. If the integration is applied before this policy is attached, metric-streams mode can fail validation or leave the integration in a broken state. Add aws_iam_role_policy.splunk_managed_policy to signalfx_aws_integration.integration's depends_on (or to time_sleep.wait_30_seconds, which it already waits on \u2014 this matches the provider docs' guidance to list role-related resources as dependencies of signalfx_aws_integration).",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

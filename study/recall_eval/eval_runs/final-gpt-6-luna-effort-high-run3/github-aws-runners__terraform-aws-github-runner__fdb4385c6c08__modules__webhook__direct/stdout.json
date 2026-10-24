@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be configured with VPC networking, but its execution role's VPC access policy attachment is not ordered before function creation. When VPC subnets are configured, ensure the attachment is in place before the function is created so Lambda has the required network-interface permissions.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function should wait for its CloudWatch log group to exist. The AWS provider documentation recommends this ordering so Lambda does not create the log group automatically before the configured retention and encryption settings are applied; the current reference flows the opposite way because the log-group name reads the function's computed name.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

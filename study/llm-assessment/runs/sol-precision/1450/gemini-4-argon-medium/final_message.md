@@ -1,0 +1,5 @@
+In `terraform/layer1-aws/aws-cloudtrail.tf`, `aws_cloudtrail.main` references `aws_s3_bucket.cloudtrail.id` for `s3_bucket_name`, while `aws_s3_bucket_policy.cloudtrail` independently attaches the bucket policy granting `cloudtrail.amazonaws.com` the `s3:GetBucketAcl` and `s3:PutObject` permissions to `aws_s3_bucket.cloudtrail.id`.
+
+Because AWS CloudTrail validates that the target S3 bucket has the required bucket policy in place when `CreateTrail` is called, creating `aws_cloudtrail.main` before `aws_s3_bucket_policy.cloudtrail` is applied causes trail creation to fail with `InsufficientS3BucketPolicyException`. Since there is neither an implicit attribute reference nor an explicit `depends_on` from `aws_cloudtrail.main` to `aws_s3_bucket_policy.cloudtrail`, the reported missing dependency is accurate.
+
+Correct

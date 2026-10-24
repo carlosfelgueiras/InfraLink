@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_settings has no dependency on delete_probe. HTTP settings are created after probes (set_http_settings depends on set_probe) and can reference a probe, so during destroy the http settings must be removed before the probe. Its depends_on lists set_probe (a create-time resource), which establishes no destroy-time ordering with the probe's delete script; deleting the probe first would fail because it is still referenced.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_listener has no dependency on delete_frontend_port. Listeners are created after frontend ports and reference them (PORT), so the frontend port must be deleted after all listeners. Its depends_on references set_frontend_port (the create-time resource), not the delete-time resource, so the port's az delete can run before the listener delete and fail because the port is still in use.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "delete_ssl_cert has no dependency on delete_frontend_port. SSL certificates are created after frontend ports (set_ssl_cert depends on set_frontend_port), so during destroy the ssl cert must be removed before the frontend port; otherwise the port's delete can race with (or precede) the cert delete on the same Application Gateway. delete_ssl_cert already depends on delete_backend_pool but not on delete_frontend_port.",
+      "node": ":resource.null_resource.delete_ssl_cert",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "delete_probe has no depends_on at all. Probes are created after backend pools (set_probe depends on set_backend_pools), and all of these scripts update the same live Application Gateway, so the probe delete must complete before the backend pool delete to preserve the reverse of the create ordering and avoid concurrent-update conflicts.",
+      "node": ":resource.null_resource.delete_probe",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

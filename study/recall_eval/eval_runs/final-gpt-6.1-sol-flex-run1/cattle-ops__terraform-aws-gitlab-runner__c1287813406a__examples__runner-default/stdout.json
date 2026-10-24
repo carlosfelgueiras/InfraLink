@@ -1,0 +1,79 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.file_permission has no ordering edge to :resource.local_file.private_ssh_key in the supplied graph, so chmod can run before the file exists. The source already declares depends_on; reconcile the graph with that declaration, or reference the file's filename in the command.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": {
+        "field": "provisioner.local-exec.command",
+        "expression": "format(\"chmod 600 %s\", local_file.private_ssh_key.filename)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner before module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy necessarily grants its EC2/docker-machine permissions; depending on the role/profile alone does not order the attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance starts user-data that manages the runner token, but is not ordered after module.runner:resource.aws_ssm_parameter.runner_registration_token. Terraform can create the placeholder parameter after bootstrap writes its token, or bootstrap can encounter a missing parameter.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_iam_role_policy_attachment.ssm so initial token-management user-data has SSM permissions when enabled.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_iam_role_policy.instance so the logging agent has its CloudWatch permissions at bootstrap when logging is enabled.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance starts the logging agent without ordering creation of module.runner:resource.aws_cloudwatch_log_group.environment; the configured log group should exist before bootstrap starts logging.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can start serving jobs before module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance grants cache access. The instance profile's role reference does not order this policy attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can start docker-machine spot provisioning before module.runner:resource.aws_iam_role_policy_attachment.service_linked_role grants permission to create required service-linked roles when that option is enabled.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The `aws_apigatewayv2_stage.webhook` stage has `auto_deploy = true`, but Terraform only orders it after the `aws_apigatewayv2_api.webhook` (via `api_id`). Nothing forces the stage to be created after `aws_apigatewayv2_route.webhook` (and its integration), so on a fresh apply the stage may deploy before the `POST /webhook` route exists \u2014 the resulting auto-deployment will not contain the route, leaving the webhook endpoint returning 404 until another deployment is triggered. The stage needs an ordering guarantee on the route; since the stage exposes no attribute that can reference the route, an explicit `depends_on = [aws_apigatewayv2_route.webhook]` is the appropriate fix.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

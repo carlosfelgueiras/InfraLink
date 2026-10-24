@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.webhook must wait for :resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role when VPC subnets are configured. The role ARN reference only waits for role creation, not attachment of the EC2 network-interface permissions required for Lambda VPC provisioning. Add depends_on on the attachment; this also preserves permissions until function deletion completes.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.dispatcher must wait for :resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role when VPC subnets are configured. Referencing the execution role does not wait for the attachment that supplies EC2 network-interface permissions needed for VPC provisioning. Add depends_on on the attachment to order creation and retain these permissions through function deletion.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.dispatcher can enable event delivery before :resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda grants EventBridge permission to invoke the function. Add depends_on on the permission so the target is not activated before invocation is authorized.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.ami_housekeeper defines a vpc_config (subnet_ids/security_group_ids) but has no dependency on aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role. When Lambda creates a function in a VPC it assumes the execution role to create network interfaces; if the AWSLambdaVPCAccessExecutionRole policy is not yet attached to aws_iam_role.ami_housekeeper, function creation fails with 'The provided execution role does not have permissions to call CreateNetworkInterface on EC2'. Both resources only reference var.lambda_subnet_ids, so nothing orders the policy attachment before the function. Add an explicit dependency (or otherwise ensure the attachment is applied first).",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

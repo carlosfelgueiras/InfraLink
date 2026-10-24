@@ -1,0 +1,79 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on tls_private_key.ssh is redundant: the content attribute already references tls_private_key.ssh.public_key_openssh directly, so Terraform infers this ordering implicitly.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on tls_private_key.ssh is redundant: the content attribute already references tls_private_key.ssh.private_key_pem directly, so Terraform infers this ordering implicitly.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The policy_arn of this attachment comes from local.bucket_policy, which resolves to module.cache.policy_arn when the cache bucket is created by this module. The graph shows no dependency on the cache module, so the attachment (needing the bucket policy ARN) could be planned/applied before the cache bucket and its policy exist.",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The bucket_name var rendered into the runners config comes from local.bucket_name, which resolves to module.cache.bucket when the cache bucket is created by this module. The graph shows no dependency on the cache module, so the runner config (and the user-data built from it) could be rendered before the cache bucket exists.",
+      "node": "module.runner:data.template_file.runners",
+      "target": "module.runner:module.cache",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner agent's user-data script stores the GitLab runner token in SSM Parameter Store using the instance role. The SSM put permission is granted by aws_iam_role_policy_attachment.ssm, but no dependency orders that attachment before the autoscaling group boots the instance, so the first instances can start without the SSM policy attached and fail to persist the token.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner agent creates docker-machine spot instances via its instance role, which requires the docker-machine policy (aws_iam_role_policy_attachment.instance_docker_machine_policy) to be attached. No dependency orders that attachment before the autoscaling group boots the agent instance, so the agent can start without permission to create docker machines.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The agent instance writes the build cache to S3 using the cache policy from aws_iam_role_policy_attachment.docker_machine_cache_instance. No dependency orders that attachment before the autoscaling group boots the instance, so the agent can start without S3 cache permissions (independent of the module.cache ordering issue).",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "With enable_cloudwatch_logging enabled, the runner instance ships logs to the CloudWatch log group aws_cloudwatch_log_group.environment. The instance role's logging policy only permits writing to an existing log group, but no dependency orders log group creation before the autoscaling group boots the instance, so the agent can start before the log group exists and log delivery fails.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

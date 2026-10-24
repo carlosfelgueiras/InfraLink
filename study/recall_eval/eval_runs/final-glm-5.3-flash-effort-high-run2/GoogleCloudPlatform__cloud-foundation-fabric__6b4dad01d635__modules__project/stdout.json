@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, but has no dependency on google_project_service.project_services. The service project's APIs (notably compute.googleapis.com) must be enabled before the XPN attachment is made; without this ordering the attachment can race with (or precede) API enablement and fail or leave the association unusable. The host-side siblings (shared_vpc_host, service_projects) both declare explicit depends_on on the API enablement; the service-side attachment is the only one without it.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.shared_vpc_host_iam grants roles/compute.networkUser on the host project to members of this service project, but its depends_on block is empty. The grant should only be applied after the project has been attached to the host via google_compute_shared_vpc_service_project.shared_vpc_service; otherwise the networkUser binding can land before the association exists, leaving a window where the service project's members cannot use the host network. The sibling robot-IAM grants in the same file (shared_vpc_host_robots, project- and subnet-level) are all explicitly ordered after the identities/APIs they rely on, but this resource has no ordering at all.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_iam",
+      "target": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

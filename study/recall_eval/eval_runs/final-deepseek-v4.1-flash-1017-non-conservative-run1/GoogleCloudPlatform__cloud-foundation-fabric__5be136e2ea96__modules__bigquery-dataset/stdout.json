@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_routine.default can define SQL procedures/functions whose definition_body references tables created by google_bigquery_table.default in the same dataset. BigQuery validates the routine body at creation time, so the base tables must already exist. The module orders views and materialized views after google_bigquery_table.default (depends_on) but leaves routines unordered, so a routine that queries a base table can be created before that table exists and fail with a \"not found\" error. The routine body is passed through as user input, so no attribute reference establishes the ordering.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_table.views defines SQL views whose query may call user-defined functions/routines created by google_bigquery_routine.default in the same dataset. BigQuery validates a view's query at creation time, so any referenced routine must already exist. The module orders views after google_bigquery_table.default but not after google_bigquery_routine.default, and the view query is passed through as user input, so no attribute reference establishes the ordering implicitly; a view referencing a not-yet-created UDF will fail.",
+      "node": ":resource.google_bigquery_table.views",
+      "target": ":resource.google_bigquery_routine.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

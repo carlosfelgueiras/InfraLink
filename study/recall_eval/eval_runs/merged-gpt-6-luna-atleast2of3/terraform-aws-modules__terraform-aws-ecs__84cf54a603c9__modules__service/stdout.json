@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe ECS service can start tasks before the task-execution policy is attached; wait for this attachment before creating the service.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service can begin launching tasks as soon as it is created, but it has no dependency on `:resource.aws_iam_role_policy_attachment.task_exec`. Waiting for the task execution policy attachment avoids a race where ECS starts tasks before they have the permissions needed for image pulls, logs, or configured secrets.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ECS service can launch tasks using the execution role before its managed execution policy is attached. The task definition references the role, but not this separate attachment, so add an explicit ordering dependency to ensure tasks can pull images, read configured secrets, and write logs at startup.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe ECS service can start tasks before additional task-execution policies are attached, leaving tasks without required permissions; wait for this attachment before creating the service.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service may launch tasks before additional execution-role policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.task_exec_additional` so startup does not race permissions granted by those policies.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nTasks started by the ECS service may need the inline task-role permissions; make service creation wait until this policy is installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service may launch tasks before the task-role inline policy exists. It should wait for `:resource.aws_iam_role_policy.tasks` so tasks do not start before the permissions in that policy are available.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nTasks started by the ECS service may need the additional managed task-role policies; make service creation wait until this attachment is installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service may launch tasks before task-role managed policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.tasks` so tasks do not start before those permissions are available.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThis alternate ECS service can start tasks before the task-execution policy is attached; wait for this attachment before creating the service.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service can begin launching tasks as soon as it is created, but it has no dependency on `:resource.aws_iam_role_policy_attachment.task_exec`. Waiting for the task execution policy attachment avoids a race where ECS starts tasks before they have the permissions needed for image pulls, logs, or configured secrets.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ECS service can launch tasks using the execution role before its managed execution policy is attached. The task definition references the role, but not this separate attachment, so add an explicit ordering dependency to ensure tasks can pull images, read configured secrets, and write logs at startup.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThis alternate ECS service can start tasks before additional task-execution policies are attached, leaving tasks without required permissions; wait for this attachment before creating the service.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service may launch tasks before additional execution-role policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.task_exec_additional` so startup does not race permissions granted by those policies.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nTasks started by this alternate ECS service may need the inline task-role permissions; make service creation wait until this policy is installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service may launch tasks before the task-role inline policy exists. It should wait for `:resource.aws_iam_role_policy.tasks` so tasks do not start before the permissions in that policy are available.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nTasks started by this alternate ECS service may need the additional managed task-role policies; make service creation wait until this attachment is installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service may launch tasks before task-role managed policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.tasks` so tasks do not start before those permissions are available.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

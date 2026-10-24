@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC service-project association should wait for this project's service APIs to be enabled; unlike the host-project resource, it has no ordering dependency on `google_project_service.project_services`, so it can be attempted before Compute Engine API activation completes.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

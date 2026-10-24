@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.crossplane:resource.kubectl_manifest.aws_provider_config` declares `depends_on = [kubectl_manifest.aws_provider, time_sleep.wait_30_seconds]`, but `time_sleep.wait_30_seconds` already declares `depends_on = [kubectl_manifest.aws_provider]`. Terraform dependency edges are transitive, so ordering after `module.crossplane:resource.kubectl_manifest.aws_provider` is already guaranteed through the sleep resource; listing it directly again is redundant and can be dropped (keep the `time_sleep` edge).",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Amazon EKS managed CoreDNS add-on (`module.aws_coredns:resource.aws_eks_addon.coredns`) is applied with no ordering relative to the managed VPC CNI add-on (`module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni`). CoreDNS pods require functional pod networking, and `aws_eks_addon` blocks until the add-on reports ACTIVE, so if CoreDNS is created first its pods stay Pending and the apply can time out. Nothing in the configuration (no attribute reference, no `depends_on`) establishes this real-world ordering; an explicit `depends_on = [module.aws_vpc_cni]` (guarded by `var.enable_amazon_eks_vpc_cni`) is needed.",
+      "node": "module.aws_coredns:resource.aws_eks_addon.coredns",
+      "target": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

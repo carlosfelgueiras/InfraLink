@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on of :resource.google_dns_record_set.dns_record_set on :resource.google_dns_managed_zone.dns_managed_zone is redundant: the record set's `name` attribute uses `each.value.resource_name`, computed in `local.recordsets` from `local.managed_zone.dns_name`, which already references `google_dns_managed_zone.dns_managed_zone[0]`. Terraform therefore infers the record-set-after-zone ordering implicitly (and when `var.zone_config == null` the same local pulls in `data.google_dns_managed_zone.dns_managed_zone` instead), so the bare `depends_on` adds no ordering Terraform doesn't already derive.",
+      "node": ":resource.google_dns_record_set.dns_record_set",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

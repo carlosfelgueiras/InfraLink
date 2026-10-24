@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The SQS mapping :resource.aws_lambda_event_source_mapping.scale_up must wait for :resource.aws_iam_role_policy.scale_up to grant the execution role SQS polling permissions; referencing the function does not order this separate policy.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry must wait for module.job_retry:resource.aws_iam_role_policy.job_retry, which supplies the execution role's SQS polling permissions, or mapping creation can fail.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.scale_up must wait for :resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role when VPC networking is configured: Lambda requires the execution role's ENI permissions during provisioning and deletion.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.scale_down must wait for :resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role when VPC networking is configured, so ENI permissions are present during provisioning and retained through deletion.",
+      "node": ":resource.aws_lambda_function.scale_down",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.ssm_housekeeper must wait for :resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role when VPC networking is configured; its role reference does not ensure required ENI permissions are attached.",
+      "node": ":resource.aws_lambda_function.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.pool:resource.aws_lambda_function.pool must wait for module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role when VPC networking is configured, to ensure required ENI permissions exist during provisioning and deletion.",
+      "node": "module.pool:resource.aws_lambda_function.pool",
+      "target": "module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.job_retry.module.job_retry:resource.aws_lambda_function.main must wait for module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role when VPC networking is configured, to ensure required ENI permissions exist during provisioning and deletion.",
+      "node": "module.job_retry.module.job_retry:resource.aws_lambda_function.main",
+      "target": "module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.scale_down should wait for :resource.aws_lambda_permission.scale_down before connecting the enabled scheduled rule, otherwise events can arrive before EventBridge is authorized to invoke the function.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ssm_housekeeper should wait for :resource.aws_lambda_permission.ssm_housekeeper before connecting an enabled scheduled rule, otherwise initial events can fail authorization.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool should wait for module.pool:resource.aws_iam_role_policy.scheduler before enabling scheduled invocations; the scheduler role ARN alone does not ensure its lambda:InvokeFunction policy is installed.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

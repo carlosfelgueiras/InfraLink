@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_monitoring_notification_channel.channels creates Monitoring notification channels in this project, but has no dependency on the project's API enablement. If monitoring.googleapis.com is among the enabled services, the channel creation can race with (or precede) API activation and fail. Sibling observability/operational resources in this module (sinks, IAM bindings, quotas, compute metadata) all declare depends_on on google_project_service.project_services; this resource should too.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_monitoring_alert_policy.alerts creates Cloud Monitoring alert policies in this project, which requires the Monitoring API to be enabled first. It references notification channels via an attribute but has no ordering against API activation. All other API-dependent resources in this module gate on google_project_service.project_services via depends_on; this resource should as well.",
+      "node": ":resource.google_monitoring_alert_policy.alerts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_monitoring_monitored_project.primary attaches metric scopes via the Monitoring API, which must be enabled in the project before the resource can be created. There is no attribute reference or depends_on ordering it after google_project_service.project_services, unlike every other API-dependent resource in this module.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_metric.metrics creates logs-based metrics in this project via the Cloud Logging API, which must be enabled before creation. The related google_logging_project_sink.sink in the same file depends on google_project_service.project_services, but the metrics resource does not, leaving an API-enablement race.",
+      "node": ":resource.google_logging_metric.metrics",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_project_exclusion.logging-exclusion creates log exclusions via the Cloud Logging API, which must be enabled in the project first. No attribute reference or depends_on orders it after google_project_service.project_services, while the sibling sink resource does depend on service activation.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_log_scope.log-scopes creates log scopes via the Cloud Logging API in this project; the API must be enabled before creation. Like the other logging resources (sinks, exclusions, metrics), it should be ordered after google_project_service.project_services, but currently has no dependency on it.",
+      "node": ":resource.google_logging_log_scope.log-scopes",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_project_default_network_tier.default_network_tier sets the project default network tier via the Compute Engine API, which must be enabled in the project before this call succeeds. The adjacent google_compute_project_metadata_item.default resource in the same file explicitly depends on google_project_service.project_services for exactly this reason; the network tier resource lacks the same ordering.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+The reported missing dependency is not needed, so I classify it as Incorrect.
+
+- **How the association gets its policy:** `google_compute_organization_security_policy_association.attachment` takes `policy_id = each.value` from `var.firewall_policy_attachments`. That variable is a `map(string)` of policy IDs, and its description says it holds policy IDs to attach to the organization (`modules/organization/variables.tf`).
+- **Why the policy can't be one this module creates:** A policy created by `google_compute_organization_security_policy.policy` gets its ID from the API after creation. Nobody can know that ID when writing the variable value. The only way to pass it in is to feed the module's own `firewall_policy_id` output back into its input, which is a self-referential wiring that the module isn't designed for.
+- **Where the ordering comes from in practice:** The real-world use is attaching a policy that already exists or is created elsewhere. That could be another module instance, or an ID from another stage. The ordering is then carried by the caller's own reference, for example `module.other.firewall_policy_id`. That reference is already an implicit dependency, so Terraform has what it needs.
+- **Why a `depends_on` would be wrong:** Adding `depends_on = [google_compute_organization_security_policy.policy]` would not fix a real gap. It would tie attachments of external policies to unrelated policies in this module. The attachment keys also don't match the policy keys, so no clean data reference exists.
+- **Comparison with the rules:** `google_compute_organization_security_policy_rule.rule` does reference `google_compute_organization_security_policy.policy[...]`. The module already orders its internal resources where it can.
+
+Incorrect

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_event_source_mapping.scale_up is created referencing the scale_up Lambda's ARN, but not the IAM role policy that grants the function's execution role permission to poll the SQS build queue (sqs:ReceiveMessage/DeleteMessage/GetQueueAttributes). AWS validates the execution role's SQS permissions at CreateEventSourceMapping time and fails with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\" if aws_iam_role_policy.scale_up hasn't been created/attached yet. The event source mapping currently only transitively depends on the role (via the lambda), not on the role policy that actually grants the receive permission.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_event_source_mapping.job_retry references the job-retry Lambda and the SQS retry queue, but not aws_iam_role_policy.job_retry, which is what grants the Lambda execution role permission to consume the retry queue (sqs:ReceiveMessage/DeleteMessage/etc.). AWS validates the execution role's SQS permissions when the event source mapping is created, so the create can fail if the role policy isn't in place yet. The mapping depends on the lambda output and queue, but both siblings can be created before the role policy.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down points the scheduled rule at the scale_down Lambda, but it does not depend on aws_lambda_permission.scale_down, the resource-based policy that authorizes events.amazonaws.com to invoke the function. Because the rule is enabled and fires on its schedule, once the rule+target exist an invocation can occur before the Lambda permission is created, causing \"Resource-based policy does not allow this action\" failures. The event target should be created after the Lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.ssm_housekeeper points the scheduled rule at the ssm_housekeeper Lambda, but it does not depend on aws_lambda_permission.ssm_housekeeper, the resource-based policy that authorizes events.amazonaws.com to invoke the function. Once the rule+target exist (and the rule is ENABLED), an invocation can fire before the Lambda permission is created, causing invocation AccessDenied failures. The event target should be created after the Lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool targets the pool Lambda using aws_iam_role.scheduler.arn, but it does not depend on aws_iam_role_policy.scheduler, which is what actually grants the scheduler execution role lambda:InvokeFunction on the pool Lambda. The role's trust policy (assume role) may exist before its permission policy is attached, so the schedule can be created and fire while the role still lacks invoke permission, causing AccessDenied at invocation. The schedule should be created after the scheduler role policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

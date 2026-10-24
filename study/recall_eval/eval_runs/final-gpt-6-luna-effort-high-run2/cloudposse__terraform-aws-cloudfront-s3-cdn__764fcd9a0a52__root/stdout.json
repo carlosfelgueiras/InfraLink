@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.aws_cloudfront_distribution.default to :resource.aws_s3_bucket.origin duplicates the ordering already inferred from the distribution's origin domain_name, which uses local.bucket_domain_name derived from aws_s3_bucket.origin.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudFront distribution uses the S3 bucket as its origin, but it has no dependency on :resource.aws_s3_bucket_policy.default. Ordering policy attachment before distribution creation avoids the distribution becoming active before the origin access policy is in place.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

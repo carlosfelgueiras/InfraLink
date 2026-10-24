@@ -1,0 +1,73 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_bcmdataexports_export.cur_per_service writes to the aws_billing_report bucket and requires the bucket policy granting `bcm-data-exports.amazonaws.com` (statement `EnableAWSDataExportsToWriteToS3AndCheckPolicy`) to already exist. Data Exports validates write access to the destination bucket when the export is created, so without an ordering edge to aws_s3_bucket_policy.cur_bucket_policy the create can fail with Access Denied. The graph only shows a dependency on aws_s3_bucket.aws_billing_report.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_bcmdataexports_export.cur_per_service` points its `s3_destination` at `aws_s3_bucket.aws_billing_report`, so it only waits for the bucket. The `bcm-data-exports.amazonaws.com` principal permissions (s3:PutObject / s3:GetBucketPolicy) are granted by `aws_s3_bucket_policy.cur_bucket_policy`, which Terraform may create after the export, causing export creation/validation to fail. Order the export after the bucket policy.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_bcmdataexports_export.cur_per_service creates a BCM Data Exports export that delivers into aws_s3_bucket.aws_billing_report, which is only writable by bcm-data-exports.amazonaws.com because of aws_s3_bucket_policy.cur_bucket_policy (the \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\" statement). The export depends on the bucket but has no ordering against the bucket policy, and AWS validates the destination bucket's policy when the export is created, so a fresh apply can fail while the policy has not yet been attached. Order the export after aws_s3_bucket_policy.cur_bucket_policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": {
+        "field": "s3_bucket",
+        "expression": "aws_s3_bucket_policy.cur_bucket_policy.bucket"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_bcmdataexports_export.cur_per_resource writes to the aws_billing_report bucket and requires the bucket policy granting `bcm-data-exports.amazonaws.com` (statement `EnableAWSDataExportsToWriteToS3AndCheckPolicy`) to already exist. Data Exports validates write access to the destination bucket when the export is created, so without an ordering edge to aws_s3_bucket_policy.cur_bucket_policy the create can fail with Access Denied. The graph only shows a dependency on aws_s3_bucket.aws_billing_report.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_bcmdataexports_export.cur_per_resource` points its `s3_destination` at `aws_s3_bucket.aws_billing_report`, so it only waits for the bucket. The `bcm-data-exports.amazonaws.com` principal permissions (s3:PutObject / s3:GetBucketPolicy) are granted by `aws_s3_bucket_policy.cur_bucket_policy`, which Terraform may create after the export, causing export creation/validation to fail. Order the export after the bucket policy.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_bcmdataexports_export.cur_per_resource creates a BCM Data Exports export that delivers into aws_s3_bucket.aws_billing_report, which is only writable by bcm-data-exports.amazonaws.com because of aws_s3_bucket_policy.cur_bucket_policy (the \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\" statement). The export depends on the bucket but has no ordering against the bucket policy, and AWS validates the destination bucket's policy when the export is created, so a fresh apply can fail while the policy has not yet been attached. Order the export after aws_s3_bucket_policy.cur_bucket_policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": {
+        "field": "s3_bucket",
+        "expression": "aws_s3_bucket_policy.cur_bucket_policy.bucket"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_s3_bucket_notification.cur_notification declares three `lambda_function` blocks (cur_per_service, cur_per_resource, cur_per_resource_process) but its `depends_on` only covers aws_lambda_permission.cur_per_service and aws_lambda_permission.cur_per_resource. The third lambda_function block references module.cur_per_resource_process, so the aws_lambda_permission.cur_per_resource_process statement may not exist yet when PutBucketNotificationConfiguration validates the destination, causing \"Unable to validate the following destination configurations\".\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_s3_bucket_notification.cur_notification` has three `lambda_function` blocks but its `depends_on` only lists `aws_lambda_permission.cur_per_service` and `aws_lambda_permission.cur_per_resource`. The third destination, `module.cur_per_resource_process` (filter_prefix \"tmp/cur-per-resource/\"), has no such ordering, and a module reference does not imply its `aws_lambda_permission`. S3 validates the invoke permission when applying `PutBucketNotificationConfiguration`, so this can fail with \"Unable to validate the following destination configurations\". Add `aws_lambda_permission.cur_per_resource_process` to `depends_on`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_s3_bucket_notification.cur_notification declares three lambda_function blocks \u2014 module.cur_per_service, module.cur_per_resource and module.cur_per_resource_process \u2014 but its depends_on only lists aws_lambda_permission.cur_per_service and aws_lambda_permission.cur_per_resource. The PutBucketNotificationConfiguration call validates that every destination Lambda grants s3.amazonaws.com invoke permission, so the third block (prefix \"tmp/cur-per-resource/\") must also be applied after aws_lambda_permission.cur_per_resource_process; otherwise the very first apply fails with \"Unable to validate the following destination configurations\". Add it to depends_on (there is no attribute on the notification that can reference the permission, so a bare depends_on is the correct fix).",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_lambda_permission.cur_per_service sets `function_name = local.cur_per_service_lambda_name`, an interpolated string that does not reference the Lambda module. Terraform therefore sees no edge to module.cur_per_service and may call AddPermission before the function exists, which fails with ResourceNotFoundException. The permission must be created after the function.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_lambda_permission.cur_per_service` sets `function_name = local.cur_per_service_lambda_name`, a plain string, so it only depends on `aws_s3_bucket.aws_billing_report` (via `source_arn`) and is not ordered after `module.cur_per_service`. The permission can be created before the function exists, failing with ResourceNotFoundException. Reference the module output to establish the dependency implicitly.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_lambda_permission.cur_per_resource sets `function_name = local.cur_per_resource_lambda_name`, an interpolated string that does not reference the Lambda module. Terraform therefore sees no edge to module.cur_per_resource and may call AddPermission before the function exists, which fails with ResourceNotFoundException. The permission must be created after the function.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_lambda_permission.cur_per_resource` sets `function_name = local.cur_per_resource_lambda_name`, a plain string, so the graph only links it to `aws_s3_bucket.aws_billing_report` (via `source_arn`). It therefore has no ordering relative to `module.cur_per_resource`, which creates the function. `lambda:AddPermission` on a not-yet-created function fails with ResourceNotFoundException. Reference the module's output for `function_name` so Terraform infers the ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_lambda_permission.cur_per_resource_process sets `function_name = local.cur_per_resource_process_lambda_name`, an interpolated string that does not reference the Lambda module. Terraform therefore sees no edge to module.cur_per_resource_process and may call AddPermission before the function exists, which fails with ResourceNotFoundException. The permission must be created after the function.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_lambda_permission.cur_per_resource_process` sets `function_name = local.cur_per_resource_process_lambda_name`, a plain string, so it only depends on `aws_s3_bucket.aws_billing_report` (via `source_arn`) and has no ordering relative to `module.cur_per_resource_process`. Creating the permission before the function exists fails with ResourceNotFoundException. Reference the module output to establish the dependency implicitly.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

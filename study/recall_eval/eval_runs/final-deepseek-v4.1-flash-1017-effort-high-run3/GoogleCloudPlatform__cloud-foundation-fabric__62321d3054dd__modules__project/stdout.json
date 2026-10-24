@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_logging_metric.metrics` creates logs-based metrics against the Logging API, but has no dependency on `google_project_service.project_services`. In a project where `logging.googleapis.com` is enabled by this module, the metric can be attempted before the API is active and fail. The sibling sink resource does model this ordering; the metric should too (no clean attribute reference exists, so a bare depends_on is appropriate).",
+      "node": ":resource.google_logging_metric.metrics",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_logging_project_exclusion.logging-exclusion` manages Logging exclusions against the Logging API but never waits for `google_project_service.project_services`. When `logging.googleapis.com` is enabled via this module, the exclusion can race the API activation. There is no attribute to reference here, so an explicit depends_on is the correct fix.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_logging_log_scope.log-scopes` creates log scopes via the Logging API but has no dependency on `google_project_service.project_services`. With `logging.googleapis.com` enabled by this module, creation can occur before the API is active. No data reference exists, so a bare depends_on on project_services is the appropriate fix.",
+      "node": ":resource.google_logging_log_scope.log-scopes",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_monitoring_notification_channel.channels` creates Cloud Monitoring notification channels but does not wait for `google_project_service.project_services`. When `monitoring.googleapis.com` is enabled via this module, channels can be created before the API is active. No attribute reference expresses this ordering; a bare depends_on is appropriate.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_monitoring_alert_policy.alerts` creates alert policies against the Cloud Monitoring API but has no dependency on `google_project_service.project_services`. When `monitoring.googleapis.com` is enabled by this module, policy creation can race API activation. This is not expressible as a data reference, so an explicit depends_on is the fix.",
+      "node": ":resource.google_monitoring_alert_policy.alerts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_monitoring_monitored_project.primary` registers this project into a Metrics Scope using the Cloud Monitoring API, but never waits for `google_project_service.project_services`. With `monitoring.googleapis.com` enabled by this module, registration can occur before the API is active on the project. No attribute reference captures this ordering, so a bare depends_on is the appropriate fix.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

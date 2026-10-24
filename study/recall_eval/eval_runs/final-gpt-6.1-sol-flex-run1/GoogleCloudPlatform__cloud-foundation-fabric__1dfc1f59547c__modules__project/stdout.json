@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_project_iam_member.additive takes role names from input strings, so it can attempt to bind a project custom role before :resource.google_project_iam_custom_role.roles creates it. Add ordering on the custom roles, as already done for authoritative bindings, to support additive bindings to roles created by this module.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

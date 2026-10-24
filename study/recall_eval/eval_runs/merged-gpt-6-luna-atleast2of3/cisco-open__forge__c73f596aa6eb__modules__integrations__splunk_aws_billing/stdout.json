@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe BCM Data Exports service must be authorized by the destination bucket policy before this export is created. This export references the bucket but does not depend on the policy that grants the service access, so creation can fail if it runs first.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe BCM data export must wait for the S3 bucket policy granting bcm-data-exports.amazonaws.com permission to write to the destination bucket; the bucket reference alone does not order policy creation before export creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe BCM Data Export writes to this bucket through the AWS billing export service, and the configured bucket policy grants that service its required access. Ensure the policy is attached before creating the export; currently the export references only the bucket, not its policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe BCM Data Exports service must be authorized by the destination bucket policy before this export is created. This export references the bucket but does not depend on the policy that grants the service access, so creation can fail if it runs first.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe BCM data export must wait for the S3 bucket policy granting bcm-data-exports.amazonaws.com permission to write to the destination bucket; the bucket reference alone does not order policy creation before export creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe BCM Data Export writes to this bucket through the AWS billing export service, and the configured bucket policy grants that service its required access. Ensure the policy is attached before creating the export; currently the export references only the bucket, not its policy.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

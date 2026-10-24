@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.public_ssh_key` has an explicit `depends_on = [\"tls_private_key.ssh\"]`, but its `content = \"${tls_private_key.ssh.public_key_openssh}\"` already establishes that dependency implicitly, so the explicit depends_on is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.private_ssh_key` has an explicit `depends_on = [\"tls_private_key.ssh\"]`, but its `content = \"${tls_private_key.ssh.private_key_pem}\"` already establishes that dependency implicitly, so the explicit depends_on is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ssm_parameter.runner_registration_token` is documented in-source as having its value written by the gitlab runner instance's user-data (with `ignore_changes` on `value`). The parameter must exist before the instance boots, otherwise the instance's write is later clobbered by this resource's `value = \"null\"`. `aws_launch_configuration.gitlab_runner_instance` builds that user-data but reaches the parameter only via locals (no attribute reference, no depends_on), so no ordering is enforced. It should depend on the SSM parameter.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

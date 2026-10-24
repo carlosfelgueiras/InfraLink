@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.main` creates a VPC-enabled function (`dynamic \\\"vpc_config\\\"` when `var.lambda.subnet_ids`/`security_group_ids` are set), but the graph shows no dependency on `aws_iam_role_policy_attachment.vpc_execution_role`, which attaches `AWSLambdaVPCAccessExecutionRole` to the same execution role (gated by the identical `length(var.lambda.subnet_ids) > 0` condition). AWS validates the execution role's VPC permissions at function creation time, so when Terraform creates both in parallel the apply can fail with \\\"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\\\". Add `depends_on = [aws_iam_role_policy_attachment.vpc_execution_role]` to the function (the module's own docs example for Lambda shows the analogous `depends_on` on the role policy attachment).",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

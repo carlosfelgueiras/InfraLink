@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nsignalfx_aws_integration.integration is created without waiting for aws_iam_role_policy.splunk_integration (the SplunkObservabilityPolicy inline policy) to be attached to the role. The graph only gives it an implicit dep on aws_iam_role.splunk_integration (via role_arn) and an explicit dep on time_sleep.wait_30_seconds, and that sleep depends only on the role \u2014 so the policy can still be attaching after the integration is created. The Splunk Observability provider docs for signalfx_aws_external_integration explicitly say role-related resources created by Terraform must be added as dependencies of signalfx_aws_integration for correct ordering/cleanup, and that the role needs the permissions (e.g. cloudwatch:* for use_metric_streams_sync, iam:PassRole) when the integration is created and validated. Add aws_iam_role_policy.splunk_integration to signalfx_aws_integration.integration's depends_on.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nsignalfx_aws_integration.integration only depends on aws_iam_role.splunk_integration (via role_arn) and the time_sleep delay, but not on aws_iam_role_policy.splunk_integration, which attaches the actual read permissions (EC2/CloudWatch/etc.) the integration needs to assume the role and pull data. If the integration is created before this policy is attached, its initial sync can fail. It should depend on aws_iam_role_policy.splunk_integration.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nsignalfx_aws_integration.integration does not depend on aws_iam_role_policy.splunk_managed_policy (SplunkManagedMetricStreams), which grants the cloudwatch:*MetricStream* and iam:PassRole permissions the integration needs because it sets use_metric_streams_sync = true and enable_check_large_volume = true. Nothing in the graph orders that policy attachment before the integration is created (time_sleep only waits on the role), so Splunk Observability Cloud may attempt to validate/start metric streams against a role that doesn't yet have those permissions. Per the provider docs, role-related resources must be listed in signalfx_aws_integration's depends_on; add aws_iam_role_policy.splunk_managed_policy there.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nsignalfx_aws_integration.integration sets use_metric_streams_sync = true, which per the provider docs requires the IAM role to have the CloudWatch metric-stream actions and iam:PassRole \u2014 exactly the permissions granted by aws_iam_role_policy.splunk_managed_policy. The integration does not depend on this policy, so it could be created before the metric-stream permissions are attached. It should depend on aws_iam_role_policy.splunk_managed_policy.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

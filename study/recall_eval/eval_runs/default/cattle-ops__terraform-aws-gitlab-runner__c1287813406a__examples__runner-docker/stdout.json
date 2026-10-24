@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.local_file.public_ssh_key to :resource.tls_private_key.ssh duplicates the dependency already established by the content reference.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.local_file.private_ssh_key to :resource.tls_private_key.ssh duplicates the dependency already established by the content reference.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The module runner already receives ssh_public_key.content from :resource.local_file.public_ssh_key, so the module dependency covers this target without an explicit depends_on.",
+      "node": ":module.runner",
+      "target": ":resource.local_file.public_ssh_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The chmod provisioner should run after :resource.local_file.private_ssh_key creates the private key file. The command uses only the filename variable, so Terraform cannot infer this ordering from an attribute reference.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

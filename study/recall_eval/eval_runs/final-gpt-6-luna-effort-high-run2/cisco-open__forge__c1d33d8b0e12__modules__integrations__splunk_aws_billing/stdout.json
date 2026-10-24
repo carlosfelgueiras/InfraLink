@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Lambda permission `:resource.aws_lambda_permission.cur_per_resource` uses a literal function name and can be created before the Lambda in `:module.cur_per_resource`; Lambda must exist before AWS can attach its invoke permission.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Lambda permission `:resource.aws_lambda_permission.cur_per_resource_process` uses a literal function name and can be created before the Lambda in `:module.cur_per_resource_process`; Lambda must exist before AWS can attach its invoke permission.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Lambda permission `:resource.aws_lambda_permission.cur_per_service` uses a literal function name and can be created before the Lambda in `:module.cur_per_service`; Lambda must exist before AWS can attach its invoke permission.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The S3 notification `:resource.aws_s3_bucket_notification.cur_notification` configures the process Lambda but does not wait for its invoke permission `:resource.aws_lambda_permission.cur_per_resource_process`. S3 notification configuration can fail unless that permission is already in place.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The export `:resource.aws_bcmdataexports_export.cur_per_resource` targets the billing bucket but has no ordering dependency on its policy `:resource.aws_s3_bucket_policy.cur_bucket_policy`, which grants BCM Data Exports the required bucket access. Ensure the policy is attached before configuring the export.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The export `:resource.aws_bcmdataexports_export.cur_per_service` targets the billing bucket but has no ordering dependency on its policy `:resource.aws_s3_bucket_policy.cur_bucket_policy`, which grants BCM Data Exports the required bucket access. Ensure the policy is attached before configuring the export.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

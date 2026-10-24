@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_alloydb_user.users only references google_alloydb_cluster.primary (cluster = google_alloydb_cluster.primary.id), and google_alloydb_instance.primary depends on that same cluster, so users and the primary instance are unordered siblings. A google_alloydb_user can only be created once the cluster has a running primary instance (the provider's own examples for this resource always set depends_on = [google_alloydb_instance.<primary>]), so creating the users can race instance provisioning and fail with the cluster not yet able to accept users. Add depends_on = [google_alloydb_instance.primary] to the users resource.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

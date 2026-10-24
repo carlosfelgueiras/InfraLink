@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe self-managed worker Auto Scaling group can begin launching nodes before the `aws-auth` ConfigMap is installed. The module explicitly gates managed node groups on this ConfigMap to avoid node registration races; this ASG needs the same ordering.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group can launch worker instances before :resource.kubernetes_config_map.aws_auth maps their IAM role, creating a race in which the nodes cannot authenticate to the cluster.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWorker instances can launch before the aws-auth ConfigMap maps their IAM roles, so `:resource.aws_autoscaling_group.workers` should wait for `:resource.kubernetes_config_map.aws_auth` to avoid nodes attempting to join before authentication is configured.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe self-managed worker Auto Scaling group can launch instances before the worker-node IAM policy is attached, so instances may start without the permissions needed to join and operate in the cluster. Gate the ASG on this attachment, as the module does for managed node groups.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy; instances can start before their IAM role has the worker-node permissions required to join the cluster.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group may launch workers before the required EKS worker-node policy is attached; `:resource.aws_autoscaling_group.workers` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy` so instances have the permissions needed to register and operate.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe self-managed worker Auto Scaling group can launch instances before the EKS CNI policy is attached, creating a race where nodes start without the required CNI permissions. Gate the ASG on this attachment, as the module does for managed node groups.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy; instances can start before the worker role's CNI permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group may launch workers before the CNI policy is attached; `:resource.aws_autoscaling_group.workers` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy` so the worker role has its configured networking permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe self-managed worker Auto Scaling group can launch instances before the ECR read-only policy is attached, creating a race where nodes lack permissions needed to pull container images. Gate the ASG on this attachment, as the module does for managed node groups.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly; instances can start before the worker role's ECR read permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group may launch workers before the ECR read-only policy is attached; `:resource.aws_autoscaling_group.workers` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly` so the worker role has its configured image-pull permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe launch-template worker Auto Scaling group can begin launching nodes before the `aws-auth` ConfigMap is installed. The module explicitly gates managed node groups on this ConfigMap to avoid node registration races; this ASG needs the same ordering.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe launch-template Auto Scaling group can launch worker instances before :resource.kubernetes_config_map.aws_auth maps their IAM role, creating a race in which the nodes cannot authenticate to the cluster.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWorker instances can launch before the aws-auth ConfigMap maps their IAM roles, so `:resource.aws_autoscaling_group.workers_launch_template` should wait for `:resource.kubernetes_config_map.aws_auth` to avoid nodes attempting to join before authentication is configured.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe launch-template worker Auto Scaling group can launch instances before the worker-node IAM policy is attached, so instances may start without the permissions needed to join and operate in the cluster. Gate the ASG on this attachment, as the module does for managed node groups.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe launch-template Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy; instances can start before their IAM role has the worker-node permissions required to join the cluster.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group may launch workers before the required EKS worker-node policy is attached; `:resource.aws_autoscaling_group.workers_launch_template` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy` so instances have the permissions needed to register and operate.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe launch-template worker Auto Scaling group can launch instances before the EKS CNI policy is attached, creating a race where nodes start without the required CNI permissions. Gate the ASG on this attachment, as the module does for managed node groups.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe launch-template Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy; instances can start before the worker role's CNI permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group may launch workers before the CNI policy is attached; `:resource.aws_autoscaling_group.workers_launch_template` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy` so the worker role has its configured networking permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe launch-template worker Auto Scaling group can launch instances before the ECR read-only policy is attached, creating a race where nodes lack permissions needed to pull container images. Gate the ASG on this attachment, as the module does for managed node groups.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe launch-template Auto Scaling group launches worker instances but does not wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly; instances can start before the worker role's ECR read permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group may launch workers before the ECR read-only policy is attached; `:resource.aws_autoscaling_group.workers_launch_template` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly` so the worker role has its configured image-pull permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

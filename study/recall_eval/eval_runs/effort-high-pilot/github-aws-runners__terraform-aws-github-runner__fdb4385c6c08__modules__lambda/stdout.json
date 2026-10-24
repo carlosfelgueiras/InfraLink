@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be configured with VPC subnets, but it does not wait for the VPC execution policy attachment. Ensure the AWSLambdaVPCAccessExecutionRole policy is attached before the function is created so the Lambda service has the permissions needed to establish VPC networking.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function may create its default CloudWatch log group during creation; because the configured log group name is derived from the function name, its explicit resource should exist first to avoid a name conflict and to ensure the configured retention, encryption, and class settings are applied.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": {
+        "field": "logging_config.log_group",
+        "expression": ":resource.aws_cloudwatch_log_group.main.name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

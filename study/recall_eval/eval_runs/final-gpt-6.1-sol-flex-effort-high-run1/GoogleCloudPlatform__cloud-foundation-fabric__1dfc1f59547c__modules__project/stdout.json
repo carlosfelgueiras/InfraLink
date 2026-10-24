@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_custom_role.roles calls the IAM API, but it can run concurrently with google_project_service.project_services. When var.services includes iam.googleapis.com, role creation can race API enablement, and destroy can disable the API before deleting the roles. Order custom-role management after the managed API services.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.additive takes role names from variables and does not reference google_project_iam_custom_role.roles. If an additive grant uses a custom role created here, it can run before that role exists, or the role can be deleted before its grant is removed. Resolve locally managed role names through the custom-role resources while retaining other role names unchanged.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "lookup({ for role in google_project_iam_custom_role.roles : role.name => role.name }, each.value.role, each.value.role)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

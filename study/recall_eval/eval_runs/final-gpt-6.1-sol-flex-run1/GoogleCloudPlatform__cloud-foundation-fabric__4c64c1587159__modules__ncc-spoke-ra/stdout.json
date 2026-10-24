@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_router_peer.peer_0 configures router-appliance BGP sessions, which require the appliance instances to be registered in the NCC spoke first. Its references to the VM and interface do not order it after google_network_connectivity_spoke.spoke-ra. Add depends_on on the spoke to prevent creation races and ensure peers are removed before spoke deregistration.",
+      "node": ":resource.google_compute_router_peer.peer_0",
+      "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_router_peer.peer_1 configures router-appliance BGP sessions, which require the appliance instances to be registered in the NCC spoke first. Its references to the VM and interface do not order it after google_network_connectivity_spoke.spoke-ra. Add depends_on on the spoke to prevent creation races and ensure peers are removed before spoke deregistration.",
+      "node": ":resource.google_compute_router_peer.peer_1",
+      "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

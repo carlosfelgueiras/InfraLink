@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`local_file.halconfig` interpolates `local.aws.id` and `local.aws.region` into its `content` template. Those locals are defined in defaults.tf as `module.aws.caller.account_id` and `module.aws.region.name`, so the rendered halconfig script genuinely needs the `aws-partitions` module to resolve first. However, because the reference is routed through a `locals` value, the graph shows `local_file.halconfig` depending only on `module.devops` and `var.features`, with no edge to `module.aws` \u2014 the ordering is not captured. Reference `module.aws` directly in the resource so Terraform infers the dependency.",
+      "node": ":resource.local_file.halconfig",
+      "target": ":module.aws",
+      "fix": {
+        "field": "content",
+        "expression": "templatefile(\"${path.module}/scripts/templates/halconfig.tpl\", {\n  aws_id            = module.aws.caller.account_id\n  aws_region        = module.aws.region.name\n  spin_managed_role = module.devops.addons.irsa[\"spinnaker\"].arn\n  spin_irsa_cli     = module.devops.addons.irsa[\"spinnaker\"].kubecli\n})"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

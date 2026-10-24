@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_s3_object.cloudformation_template: explicit depends_on of :resource.random_uuid.splunk_input_uuid is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on random_uuid.splunk_input_uuid in resource.aws_s3_object.cloudformation_template duplicates an implicit dependency: the resource's `key` (\"${var.cloudformation_s3_config.key}${random_uuid.splunk_input_uuid.result}/template.json\") and `source` (\"/tmp/${random_uuid.splunk_input_uuid.result}_template.json\") attributes already reference random_uuid.splunk_input_uuid.result, so Terraform already orders this resource after the UUID. The explicit depends_on entry should be removed.",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

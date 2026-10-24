@@ -1,0 +1,5 @@
+In `examples/runner-docker`, `enable_cloudwatch_logging` defaults to `true`, so the runner module creates `aws_iam_role_policy.instance` (in `logging.tf`) to attach the inline CloudWatch Logs policy (`policies/instance-logging-policy.json`) to `aws_iam_role.instance` and renders `template/logging.tpl` into the runner instance user data to install and start the `awslogs` service on boot.
+
+However, `aws_autoscaling_group.gitlab_runner_instance` only depends on `aws_iam_role.instance` indirectly through `aws_launch_configuration.gitlab_runner_instance` and `aws_iam_instance_profile.instance`. Neither `aws_autoscaling_group.gitlab_runner_instance` nor any of its upstream dependencies reference or declare `depends_on` for `aws_iam_role_policy.instance`. As a result, Terraform can create the Auto Scaling group and launch the runner instance before the inline CloudWatch logging policy is attached to the instance's IAM role.
+
+Correct

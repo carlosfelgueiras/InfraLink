@@ -1,0 +1,17 @@
+## Assessment
+
+**Module structure.** `modules/networking/application_gateway_application` manages Application Gateway sub-resources with paired `null_resource`s: a `set_*` resource whose `local-exec` provisioner creates the sub-resource (`scripts/set_resource.sh`), and a `delete_*` resource whose provisioner runs `scripts/delete_resource.sh` with `when = destroy`. At create time the graph is well-ordered (e.g. `set_http_listener` at `http_listener.tf:11` depends on `set_frontend_port`, and the listener is created with `--frontend-port ${PORT}`); at destroy time the ordering depends entirely on `depends_on` edges, since Terraform destroys in reverse dependency order and runs the `when = destroy` provisioners accordingly.
+
+**Is the claimed ordering requirement real?** Yes. An Application Gateway HTTP listener references a frontend port; Azure enforces referential integrity among sub-resources (Microsoft's own troubleshooting guidance calls these "orphaned references"/`InvalidResourceReference`, which block updates/deletes, and the portal/API refuse to delete in-use sub-resources). So on teardown, a listener that references a port must be deleted before that port — otherwise the port deletion (`az network application-gateway ... delete` → GET/modify/PUT) is rejected, the script retries 5× with backoff, and `on_failure = fail` (`frontend_ports.tf:39`) fails the destroy.
+
+**Is the dependency missing from the configuration?** Yes:
+- `null_resource.delete_frontend_port` (`frontend_ports.tf:24`) declares **no `depends_on`**, and a repo grep shows nothing references it — it is completely unordered in the graph.
+- `null_resource.delete_http_listener` (`http_listener.tf:41`) lists `[delete_http_settings, delete_backend_pool, delete_ssl_cert, delete_root_cert, set_frontend_port]` — it references `set_frontend_port`, not `delete_frontend_port`. `set_frontend_port` is a create-only resource with no destroy provisioner, so that edge imposes no ordering on the destroy provisioners. The script's `$HOME/$GATEWAY.tmp` semaphore only serializes concurrent `az` calls; it does not order listener-before-port, so `delete_frontend_port`'s provisioner can run before/concurrently with `delete_http_listener`'s, exactly as the report describes.
+
+**Is the recommended direction right?** Yes. Because Terraform destroys in reverse order, `delete_http_listener depends_on delete_frontend_port` means at destroy the listener is deleted first and then the port — the required order. (The create-time effect is nil since both null_resources are no-ops at create.)
+
+**Caveat (does not change the verdict).** `scripts/delete_resource.sh:81-83` has a copy-paste bug — the `FRONTENDPORT` case actually calls `address-pool delete` rather than a frontend-port delete — but the resource's semantic intent ("delete the frontend port on destroy") and the Terraform-level dependency gap are as reported; the module's own create-time edge (`set_http_listener → set_frontend_port`) acknowledges the same reference relationship.
+
+The reported missing dependency between `null_resource.delete_http_listener` and `null_resource.delete_frontend_port` exists as described, is not expressed anywhere in the configuration, and points in the direction that would correctly enforce the destroy ordering.
+
+Correct

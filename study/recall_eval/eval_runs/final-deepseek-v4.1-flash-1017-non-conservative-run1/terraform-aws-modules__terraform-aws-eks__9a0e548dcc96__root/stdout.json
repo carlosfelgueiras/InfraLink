@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.wait_for_cluster` lists `:resource.aws_eks_cluster.this` in its explicit `depends_on`, but the local-exec provisioner already reads `aws_eks_cluster.this[0].endpoint` through `environment = { ENDPOINT = ... }`, so the implicit attribute reference already establishes exactly this ordering. The `depends_on` entry can be dropped; the `aws_security_group_rule.cluster_private_access` entry must stay (nothing else orders the health probe after that ingress rule).",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.workers` can launch instances as soon as the cluster and launch configuration exist, but nothing orders it after `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy`. Instances bootstrapped without that policy on the worker role cannot authenticate to the EKS API (eks:DescribeCluster for the authenticator) and fail to join the cluster until the attachment lands. The module already encodes exactly this ordering for node groups via `ng_depends_on` (it includes the worker policy attachments); the ASG-based worker groups need the same `depends_on`.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.workers_launch_template` has the same race: it is only ordered after the cluster and the launch template, so nodes may be launched before `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy` is attached to the worker role (the launch template references the *instance profile*, not the policy attachments). Until the attachment exists, kubelet/aws-iam-authenticator cannot authenticate and the nodes never join, even though `terraform apply` succeeds. Add the same ordering the node-group submodule gets from `ng_depends_on`.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_router_peer.peer_0 configures BGP sessions for router appliances registered by google_network_connectivity_spoke.spoke-ra. Those appliances must be registered with the NCC spoke before their router-appliance BGP peers are configured. Both resources currently read the VM information independently from input variables, so no dependency enforces this ordering. Add depends_on = [google_network_connectivity_spoke.spoke-ra] to peer_0.",
+      "node": ":resource.google_compute_router_peer.peer_0",
+      "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_router_peer.peer_1 configures BGP sessions for router appliances registered by google_network_connectivity_spoke.spoke-ra. Those appliances must be registered with the NCC spoke before their router-appliance BGP peers are configured. The existing dependencies on the Cloud Router and its interfaces do not enforce spoke registration. Add depends_on = [google_network_connectivity_spoke.spoke-ra] to peer_1.",
+      "node": ":resource.google_compute_router_peer.peer_1",
+      "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

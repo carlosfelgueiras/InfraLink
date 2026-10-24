@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_cloudfront_distribution.default to :resource.time_sleep.wait_for_aws_s3_bucket_settings is redundant: the distribution already depends on :resource.aws_s3_bucket_ownership_controls.origin, which itself explicitly depends on :resource.time_sleep.wait_for_aws_s3_bucket_settings.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

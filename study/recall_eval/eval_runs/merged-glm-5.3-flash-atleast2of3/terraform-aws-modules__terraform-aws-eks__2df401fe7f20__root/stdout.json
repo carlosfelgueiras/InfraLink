@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ndata.http.wait_for_cluster polls the cluster's /healthz endpoint but its depends_on only lists aws_security_group_rule.cluster_private_access. When the custom SG rule is disabled (`cluster_create_endpoint_private_access_sg_rule = false`) and `cluster_endpoint_private_access_sg` is set, private endpoint access is granted by this sg_source rule variant, which is applied in parallel with the readiness probe since the two share no dependency edge. The probe can then race ahead of the rule that actually permits it to reach the endpoint, causing the apply to fail after the retry timeout.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`data.http.wait_for_cluster` polls the cluster's /healthz endpoint to gate `kubernetes_config_map.aws_auth`, and it explicitly `depends_on` the private-access ingress rule `cluster_private_access`. However, when `cluster_endpoint_private_access_sg` is configured, private API access is granted by the alternative rule `cluster_private_access_sg_source` instead, which is not in the depends_on list \u2014 the healthz check can race against (or fail because of) that rule not yet being applied.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access_sg_source",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_eks_fargate_profile.this references the pod execution role via `pod_execution_role_arn` but has no dependency on aws_iam_role_policy_attachment.eks_fargate_pod, which attaches AmazonEKSFargatePodExecutionRolePolicy to that role. EKS validates the pod execution role's permissions when the Fargate profile is created, and the profile resource is otherwise applied in parallel with the policy attachment (both only depend on the role itself). Profile creation can therefore intermittently fail with an InvalidParameterException about the role lacking required permissions, or race with IAM propagation so that pods selected by the profile cannot pull images/write logs. A bare `depends_on` on the attachment (or adding it to the `eks_depends_on` emulation variable) is the appropriate fix.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe EKS Fargate profile starts launching pods on Fargate as soon as it is created, and those pods assume the pod execution role. The role's policy attachment (AmazonEKSFargatePodExecutionRolePolicy) is not waited for: `module.fargate:resource.aws_eks_fargate_profile.this` references `pod_execution_role_arn` (the role), but nothing orders it after `module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod`. Without this ordering, Fargate pods may start before the role policy is attached/propagated. Note that the root module's worker launch configurations and launch templates explicitly `depends_on` their role policy attachments for exactly this reason, but the fargate module does not.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

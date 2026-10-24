@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher is created before aws_cloudwatch_log_group.dispatcher (the log group's name is derived from the function's function_name, forcing the function to be created first). In the real world the log group must exist before the function: the dispatcher lambda is wired to aws_cloudwatch_event_rule.workflow_job via aws_cloudwatch_event_target.dispatcher, so once events flow the function can be invoked before Terraform creates the log group \u2014 Lambda then auto-creates \"/aws/lambda/${var.config.prefix}-dispatch-to-runner\" with default settings (never-expiring retention), and the subsequent aws_cloudwatch_log_group.dispatcher create fails with ResourceAlreadyExistsException. Add `depends_on = [aws_cloudwatch_log_group.dispatcher]` to the function. Note this requires breaking the name cycle: express the log group name from the config directly (e.g. name = \"/aws/lambda/${var.config.prefix}-dispatch-to-runner\") instead of referencing aws_lambda_function.dispatcher.function_name, otherwise the added depends_on would create a dependency cycle.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_cloudwatch_log_group.dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is created before aws_cloudwatch_log_group.webhook (the log group's name is derived from the function's function_name, forcing the function to be created first). In the real world the log group must exist before the function: if the function is invoked (e.g. via the API Gateway permission attached to it) before Terraform creates the log group, Lambda auto-creates \"/aws/lambda/${var.config.prefix}-webhook\" with default settings (never-expiring retention, default class/KMS settings), and the subsequent aws_cloudwatch_log_group.webhook create then fails with ResourceAlreadyExistsException. Add `depends_on = [aws_cloudwatch_log_group.webhook]` to the function. Note this requires breaking the name cycle: express the log group name from the config directly (e.g. name = \"/aws/lambda/${var.config.prefix}-webhook\") instead of referencing aws_lambda_function.webhook.function_name, otherwise the added depends_on would create a dependency cycle.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

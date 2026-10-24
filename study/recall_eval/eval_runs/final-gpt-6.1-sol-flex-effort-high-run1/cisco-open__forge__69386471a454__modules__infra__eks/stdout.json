@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter explicitly depends on module.eks, but its values already reference module.eks.cluster_name and module.eks.cluster_endpoint. The supplied graph therefore already establishes this dependency implicitly; remove the duplicate depends_on entry.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.karpenter deploys a controller whose credentials come from EKS Pod Identity (module.karpenter enables create_pod_identity_association), but it has no dependency on aws_eks_addon.eks_pod_identity_agent. Creating the association does not install the credential-serving agent. The controller can therefore start before the agent is available and fail AWS authentication. Order the release after the Pod Identity agent add-on; that also orders it after the bootstrap node group, on which the add-on already depends.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

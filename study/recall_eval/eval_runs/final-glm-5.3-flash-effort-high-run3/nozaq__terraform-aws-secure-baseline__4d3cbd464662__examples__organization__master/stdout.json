@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The secure_baseline module instantiates fifteen analyzer_baseline_* sub-modules whose aws_accessanalyzer_analyzer resources run in ORGANIZATION mode (is_organization is set to true), but the module call has no dependency on :resource.aws_organizations_organization.org in the root module. AWS requires the organization \u2014 and its access-analyzer.amazonaws.com service integration \u2014 to exist before a type = \"ORGANIZATION\" analyzer can be created; Terraform would otherwise provision the analyzers in parallel with the organization resource, causing creation failures on a fresh account. The official aws_accessanalyzer_analyzer documentation's Organization Analyzer example requires an explicit depends_on on the organization resource. Since is_organization is passed as a literal into the nested module, a bare depends_on on the module block is the only way to express this ordering; no attribute-reference fix exists.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

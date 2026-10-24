@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The bucket policy must be applied after the origin bucket exists. Its policy uses the selected bucket name, but no reference to the bucket resource establishes ordering; when this module creates the bucket, the policy can otherwise run before it.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket.origin[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_network_connectivity_spoke.spoke-ra registers router appliance VMs with the NCC hub, but does not wait for google_compute_router_peer.peer_0 (the BGP session established with those same appliances over interface intf_0). Google's workflow for router-appliance spokes requires Cloud Router interfaces and BGP peers to exist before the spoke is registered; otherwise the hub can be linked to instances with no active BGP session and route propagation is delayed/failed until later reconciliation. Terraform has no attribute reference forcing this ordering (the spoke is built entirely from var.router_appliances), so an explicit depends_on on the BGP peers is needed.",
+      "node": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "target": ":resource.google_compute_router_peer.peer_0",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same ordering gap as peer_0: google_network_connectivity_spoke.spoke-ra should also wait for google_compute_router_peer.peer_1, which establishes the redundant BGP session over interface intf_1 with the router appliance VMs linked by the spoke. Without this dependency Terraform may create the spoke before the BGP sessions exist, breaking the documented create-BGP-then-register flow for NCC router appliance spokes. No spoke attribute can reference the peers, so a bare depends_on is the appropriate fix.",
+      "node": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "target": ":resource.google_compute_router_peer.peer_1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

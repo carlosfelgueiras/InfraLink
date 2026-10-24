@@ -1,0 +1,3 @@
+No `depends_on` and no attribute reference from `helm_release.elk` to `kubernetes_secret.elasticsearch_credentials`. The chart values reference the secret only by literal name (`elastic-credentials`), with no Terraform-level link. Since the ELK pods (Elasticsearch, Kibana, Filebeat, APM, Metricbeat) mount this secret via `secretKeyRef`, if the secret doesn't exist yet when the Helm release applies, pods will fail to start (CreateContainerConfigError) until Kubernetes eventually retries — Terraform has no way to guarantee ordering here since the secret name is just a string in YAML values, not an interpolated reference. This is a genuine missing dependency.
+
+Correct

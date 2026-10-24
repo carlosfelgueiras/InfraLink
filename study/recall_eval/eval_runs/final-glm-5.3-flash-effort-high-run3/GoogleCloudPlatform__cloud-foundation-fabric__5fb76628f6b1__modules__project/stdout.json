@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project to a Shared VPC host via the Compute Engine API, which requires compute.googleapis.com to be enabled in this (service) project. The module enables it via google_project_service.project_services, but this resource only depends on the VPC-SC perimeter resources \u2014 on a fresh project the attachment can race or fail before the compute API finishes activating. Add google_project_service.project_services to its depends_on.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_project_default_network_tier.default_network_tier calls the Compute Engine project setDefaultNetworkTier API, which requires compute.googleapis.com to be enabled. It is only gated on var.default_network_tier being set \u2014 unlike google_compute_project_metadata_item.default (which both guards on compute being in available_services and depends on the service resource), it has no ordering with respect to API activation and can fail on a fresh project. Add a depends_on for google_project_service.project_services.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

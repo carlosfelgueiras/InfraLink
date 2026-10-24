@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nazurerm_kubernetes_cluster.aks enables AAD-V2 managed RBAC (role_based_access_control.azure_active_directory.managed = true) and depends on the AAD-V2 preview feature being registered, but it has no dependency on null_resource.register_aks_msi_preview_feature, which registers that feature and blocks until it reports Registered. Terraform can create the cluster before/while the feature registration is in progress, causing apply failures. Add depends_on (or otherwise sequence the cluster after the feature registration).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nazurerm_kubernetes_cluster.aks is configured with role_based_access_control { azure_active_directory { managed = true } } (AAD-V2 / managed AAD integration), which requires the AAD-V2 preview feature to be registered first. null_resource.register_aks_msi_preview_feature runs the `az feature register -n AAD-V2` loop and waits for it to complete (~30 min), but the cluster has no dependency on it, so Terraform may create the cluster before the feature is registered and the apply fails. Add depends_on = [null_resource.register_aks_msi_preview_feature] to the cluster.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe AKS cluster should be created only after the AKS MSI preview feature registration null_resource has run, but there is no dependency from the cluster to that null_resource. The local-exec registration must complete before AKS is provisioned.",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nmodule.synapse_workspaces creates azurerm_key_vault_secret resources (sql_admin_password, sql_admin, synapse_name, synapse_rg_name) in the key vault from var.keyvault_id, but it does not depend on module.keyvault_access_policies. Every other module that writes key-vault secrets (mssql_servers, azuread_applications, azuread_users, virtual_machines) explicitly depends_on module.keyvault_access_policies so the deploying principal's access policy exists first. Without it the secret writes can fail with 403. Add depends_on = [module.keyvault_access_policies].\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.synapse_workspaces creates several azurerm_key_vault_secret resources (sql_admin_password, sql_admin, synapse_name, synapse_rg_name) that write into module.keyvaults, but unlike mssql_servers / virtual_machines / azuread_users / azuread_applications it has no depends_on = [module.keyvault_access_policies]. Without that ordering the deploying identity's keyvault access policy may not be in place yet and the secret writes can fail with 403. Only the directly referenced keyvault is ordered, not the access policies.",
+      "node": ":module.synapse_workspaces",
+      "target": ":module.keyvault_access_policies",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

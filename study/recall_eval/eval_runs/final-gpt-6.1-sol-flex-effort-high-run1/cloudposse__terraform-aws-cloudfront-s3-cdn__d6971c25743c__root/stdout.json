@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudfront_distribution.default explicitly depends on :resource.time_sleep.wait_for_aws_s3_bucket_settings, but that ordering is already enforced transitively through :resource.aws_s3_bucket_ownership_controls.origin, which depends on the same sleep resource. Remove the direct sleep dependency while retaining the ownership-controls dependency.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.wait_for_aws_s3_bucket_settings explicitly depends on :resource.aws_s3_bucket_public_access_block.origin, but its dependency on :resource.aws_s3_bucket_policy.default already enforces that ordering because the policy depends on the public-access block. Remove the direct public-access-block dependency while retaining the policy dependency.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

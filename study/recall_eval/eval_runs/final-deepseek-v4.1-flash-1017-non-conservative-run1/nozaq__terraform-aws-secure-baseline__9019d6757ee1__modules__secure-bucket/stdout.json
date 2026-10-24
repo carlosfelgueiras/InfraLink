@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_s3_bucket_policy.access_log_policy` and `aws_s3_bucket_public_access_block.access_log` both only reference `aws_s3_bucket.access_log`, so Terraform applies the PutBucketPolicy and PutPublicAccessBlock calls in parallel with no ordering guarantee. The public access block sets `block_public_policy`/`restrict_public_buckets`, and per the AWS provider docs S3 rejects PUT Bucket policy calls once that block is in force if the policy allows public access, making the result of a same-run apply nondeterministic \u2014 and any future drift/re-apply of the policy can fail while the block is in place. `aws_s3_bucket_policy.access_log_policy` should be ordered after `aws_s3_bucket_public_access_block.access_log` so the block is established first and the policy is validated against it.",
+      "node": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "target": ":resource.aws_s3_bucket_public_access_block.access_log",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket_public_access_block.access_log[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

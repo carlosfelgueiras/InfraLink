@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project to a Shared VPC host, which requires the Compute Engine API to already be enabled in the service project. Nothing establishes that ordering: `host_project` comes from `var.shared_vpc_service_config` and `service_project` from `local.project.project_id`, and there is no `depends_on`, so this resource can be applied before `:resource.google_project_service.project_services` finishes activating compute.googleapis.com and fail with an API-disabled error. Its counterpart `:resource.google_compute_shared_vpc_host_project.shared_vpc_host` already declares exactly this ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project via the Compute API, but unlike its host-side counterpart (:resource.google_compute_shared_vpc_host_project.shared_vpc_host) it has no dependency on :resource.google_project_service.project_services, so the attachment can be attempted before compute.googleapis.com is enabled in the service project.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_monitoring_notification_channel.channels creates channels through the Cloud Monitoring API but has no dependency on :resource.google_project_service.project_services. When monitoring.googleapis.com is being enabled by this same module, the channel create call can race API enablement (which is eventually consistent) and fail. Its downstream sibling google_monitoring_alert_policy depends on these channels, so the failure propagates. Add depends_on = [google_project_service.project_services].\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_monitoring_notification_channel.channels` creates Cloud Monitoring notification channels but does not wait for `google_project_service.project_services`. When `monitoring.googleapis.com` is enabled via this module, channels can be created before the API is active. No attribute reference expresses this ordering; a bare depends_on is appropriate.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_monitoring_alert_policy.alerts is created via the Cloud Monitoring API but only references notification channels implicitly; it never waits for :resource.google_project_service.project_services, so alert policies can fail when monitoring.googleapis.com is enabled in the same apply.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_monitoring_alert_policy.alerts` creates alert policies against the Cloud Monitoring API but has no dependency on `google_project_service.project_services`. When `monitoring.googleapis.com` is enabled by this module, policy creation can race API activation. This is not expressible as a data reference, so an explicit depends_on is the fix.",
+      "node": ":resource.google_monitoring_alert_policy.alerts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_monitoring_monitored_project.primary registers the project in a metrics scope through the Monitoring API but has no dependency on :resource.google_project_service.project_services, so it can be attempted before monitoring.googleapis.com is enabled.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_monitoring_monitored_project.primary` registers this project into a Metrics Scope using the Cloud Monitoring API, but never waits for `google_project_service.project_services`. With `monitoring.googleapis.com` enabled by this module, registration can occur before the API is active on the project. No attribute reference captures this ordering, so a bare depends_on is the appropriate fix.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_logging_metric.metrics writes log-based metrics through the Cloud Logging API but never depends on :resource.google_project_service.project_services. The sibling google_logging_project_sink.sink in the same module does declare that dependency, so this resource can still race logging.googleapis.com enablement and fail with a 403/SERVICE_DISABLED error.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_logging_metric.metrics` creates logs-based metrics against the Logging API, but has no dependency on `google_project_service.project_services`. In a project where `logging.googleapis.com` is enabled by this module, the metric can be attempted before the API is active and fail. The sibling sink resource does model this ordering; the metric should too (no clean attribute reference exists, so a bare depends_on is appropriate).",
+      "node": ":resource.google_logging_metric.metrics",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_logging_project_exclusion.logging-exclusion creates a project-level log exclusion via the Cloud Logging API but has no dependency on :resource.google_project_service.project_services, unlike google_logging_project_sink.sink, so it can be applied before logging.googleapis.com is enabled.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_logging_project_exclusion.logging-exclusion` manages Logging exclusions against the Logging API but never waits for `google_project_service.project_services`. When `logging.googleapis.com` is enabled via this module, the exclusion can race the API activation. There is no attribute to reference here, so an explicit depends_on is the correct fix.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.google_logging_log_scope.log-scopes creates log scopes via the Cloud Logging API but has no dependency on :resource.google_project_service.project_services, so it can race logging.googleapis.com enablement in the same apply.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_logging_log_scope.log-scopes` creates log scopes via the Logging API but has no dependency on `google_project_service.project_services`. With `logging.googleapis.com` enabled by this module, creation can occur before the API is active. No data reference exists, so a bare depends_on on project_services is the appropriate fix.",
+      "node": ":resource.google_logging_log_scope.log-scopes",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_settings depends on set_probe (a create-time resource) rather than delete_probe. HTTP settings reference probes (PROBE = var.settings.probes[...].name), so on destroy the settings must be removed from the gateway before the probe. Without a dependency on delete_probe, the destroy ordering of delete_http_settings relative to delete_probe is undefined and the settings deletion can run before/while the probe still exists. The existing depends_on entry null_resource.set_probe should be null_resource.delete_probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_listener depends on set_frontend_port (create-time) instead of delete_frontend_port. The listener's PORT references var.settings.frontend_ports[...] (or the gateway's frontend port of the same name), so the listener must be deleted from the Application Gateway before the frontend port. delete_frontend_port has no depends_on at all, so its destroy-time provisioner may run in any order relative to the listener deletion; since the listener delete uses on_failure = fail, deleting the port first can fail the destroy. Add depends_on = [null_resource.delete_frontend_port, ...] to delete_http_listener.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.fargate_profile:resource.aws_eks_fargate_profile.this must wait for module.fargate_profile:resource.aws_iam_role_policy_attachment.this so the pod execution role has its required execution policy before profile creation, and retains it until profile deletion. Referencing the role ARN does not order policy attachment.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.eks_managed_node_group:resource.aws_eks_node_group.this needs ordering on module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this to ensure worker, registry, and applicable CNI permissions exist before nodes launch and remain until deletion. The launch-template dependency is not sufficient when using an external template or disabling custom launch templates.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When creating the IPv6 CNI policy locally, :module.eks_managed_node_group must wait for :resource.aws_iam_policy.cni_ipv6_policy. Its IAM attachments reconstruct the policy ARN by name rather than referencing the policy, allowing attachment before the policy exists.",
+      "node": ":module.eks_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When creating the IPv6 CNI policy locally, :module.self_managed_node_group must wait for :resource.aws_iam_policy.cni_ipv6_policy. The child IAM attachments construct the policy ARN from its fixed name, with no dependency ensuring policy creation precedes attachment.",
+      "node": ":module.self_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When creating the IPv6 CNI policy locally, :module.fargate_profile must wait for :resource.aws_iam_policy.cni_ipv6_policy. The child constructs its CNI policy ARN by name, so attachments can otherwise run before the policy exists.",
+      "node": ":module.fargate_profile",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

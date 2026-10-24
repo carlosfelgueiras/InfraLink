@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.scale_up` sets the `JOB_RETRY_CONFIG` environment variable from `local.job_retry_config`, which embeds `module.job_retry[0].job_retry_check_queue.url`, but the function has no dependency on `module.job_retry:output.job_retry_check_queue` (only the sibling `aws_iam_role_policy.job_retry_sqs_publish` depends on it). The scale-up function can therefore be created before the job-retry check queue exists, pointing at a queue URL that is not yet provisioned.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": "module.job_retry:output.job_retry_check_queue",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_launch_template.runner` embeds the CloudWatch agent configuration parameter name (`aws_ssm_parameter.cloudwatch_agent_config_runner[0].name` via `local.user_data` \u2192 `local.encoded_user_data` \u2192 `user_data`) into its user data, but has no dependency on `:resource.aws_ssm_parameter.cloudwatch_agent_config_runner`. The parameter must exist before the launch template (and any runners bootstrapped from its user data) reference it, otherwise the runner bootstrap script cannot resolve the agent configuration.",
+      "node": ":resource.aws_launch_template.runner",
+      "target": ":resource.aws_ssm_parameter.cloudwatch_agent_config_runner",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_lambda_event_source_mapping.scale_up` subscribes the scale-up function to `var.sqs_build_queue`, but Lambda validates that the function can be invoked by the SQS service principal when the mapping is created. The invoke permission `:resource.aws_lambda_permission.scale_runners_lambda` has no ordering relationship with the mapping (both depend only on the function), so the mapping can be created before the resource-based policy exists and fail with an access/validation error. Add `depends_on = [aws_lambda_permission.scale_runners_lambda]` to the event source mapping.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_lambda_permission.scale_runners_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.job_retry:resource.aws_lambda_event_source_mapping.job_retry` subscribes the job-retry check lambda to `aws_sqs_queue.job_retry_check_queue`, but the `sqs.amazonaws.com` invoke permission (`module.job_retry:resource.aws_lambda_permission.job_retry`) has no ordering relationship with the mapping \u2014 both depend only on the function/queue. If the mapping is created before the permission, Lambda rejects the mapping creation because the function is not yet invokable from SQS. Add `depends_on = [aws_lambda_permission.job_retry]` to the event source mapping.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_lambda_permission.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

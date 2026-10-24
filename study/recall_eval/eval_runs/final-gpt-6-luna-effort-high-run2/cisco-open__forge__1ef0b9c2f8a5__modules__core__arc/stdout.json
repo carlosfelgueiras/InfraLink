@@ -1,0 +1,43 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Helm release can deploy runner workloads using this service account before its Kubernetes service account exists. Make the release depend on the service-account resource.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "namespace",
+        "expression": "kubernetes_service_account_v1.runner_sa[0].metadata[0].namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Runner pods deployed by this Helm release use EKS Pod Identity, but the identity association can otherwise be created concurrently with the release. Ensure the association exists before the chart can start workloads.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cleanup CronJob runs with the zombie-runner service account and needs the permissions granted by this RoleBinding. Without ordering, a scheduled job could start before those permissions are in place.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner Helm release may start workloads that assume this role before its managed policies have been attached, leaving the runners without their intended AWS permissions during startup. Ensure the policy attachment completes before deploying the release.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

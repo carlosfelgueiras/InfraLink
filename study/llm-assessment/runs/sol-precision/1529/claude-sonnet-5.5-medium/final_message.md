@@ -1,0 +1,7 @@
+The report is correct.
+
+- **Ordering requirement:** `aws_config_configuration_recorder_status.recorder` (in `modules/config-baseline/main.tf`) sets `is_enabled = true`, which starts the recorder. The recorder then assumes the role passed in as `iam_role_arn` to deliver to S3 and SNS. The permissions for that come from `aws_iam_role_policy.recorder_publish_policy` in the root `config_baselines.tf`. If recording starts before that policy exists, the first deliveries can fail with access errors.
+- **What Terraform currently knows:** The role policy's `role` attribute comes from `aws_iam_role.recorder`, and the module's `iam_role_arn` input is that role's ARN. That only orders the status after the role, not after the policy attached to it. The status resource's only explicit dependency is `aws_config_delivery_channel.bucket`. Each `config_baseline_*` module call depends only on `aws_s3_bucket_policy.audit_log`. Nothing references the role policy, so the ordering is not expressed.
+- **Why the module-level dependency can't be used:** The role policy's SNS statement reads `config_sns_topic` outputs from every regional module. Making a whole module depend on the policy would create a cycle. The fix described in the report avoids this by making only the status resource depend on the policy, for example through a `depends_on` on a module input variable. That does not create a cycle, because the SNS topic outputs don't depend on the status resource.
+
+Correct

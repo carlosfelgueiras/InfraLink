@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.cluster can only be created if its IAM role already carries AmazonEKSClusterPolicy. That policy is attached out-of-band by aws_iam_role_policy_attachments_exclusive.cluster. The cluster references the role ARN (aws_iam_role.cluster) but has no ordering relative to the exclusive attachment, so on a fresh apply the cluster can be created before the policies exist and EKS CreateCluster fails. Add a dependency on the attachment.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "EKS CreateNodegroup validates that the node IAM role already has the required managed policies (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly, ...). Those are attached by aws_iam_role_policy_attachments_exclusive.eks_node_group. The node group module references aws_iam_role.eks_node_group.arn but has no ordering relative to the attachment, so the managed node group can be created before the role has its policies and fail (or nodes fail to join). Add a dependency on the attachment.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The aws-ebs-csi-driver addon uses service_account_role_arn = aws_iam_role.ebs_csi_controller_sa.arn, but that role's AmazonEBSCSIDriverPolicy is attached separately by aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa, which the addon does not reference. If the addon (and its controller pods) comes up before the policy is attached, the controller crashloops on AccessDenied until the attachment completes. Add an ordering dependency on the attachment.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The adot addon assumes aws_iam_role.adot_collector via service_account_role_arn, but that role's policies (AmazonPrometheusRemoteWriteAccess, AWSXrayWriteOnlyAccess, CloudWatchAgentServerPolicy) are attached by aws_iam_role_policy_attachments_exclusive.adot_collector, which the addon does not reference. Without ordering, the collector pods start before permissions are granted and crashloop until the attachment lands. Add an ordering dependency on the attachment.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The amazon-cloudwatch-observability addon already declares depends_on for aws_cloudwatch_log_group.cluster_performance so the Container Insights agent writes into a pre-created log group (with the intended retention) instead of auto-creating one. The same agent/Fluent Bit also writes to /aws/containerinsights/<prefix>/application, and that log group (aws_cloudwatch_log_group.cluster_application) is not ordered before the addon \u2014 so it can be auto-created by CloudWatch Logs and collide with the Terraform-managed resource. Add the same dependency for the application log group.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_application",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The amazon-cloudwatch-observability addon depends_on aws_cloudwatch_log_group.cluster_performance, but its agent also writes to /aws/containerinsights/<prefix>/dataplane. aws_cloudwatch_log_group.cluster_dataplane is not ordered before the addon, so CloudWatch Logs can auto-create that group and collide with the Terraform-managed resource. Add the same dependency for the dataplane log group.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_dataplane",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The amazon-cloudwatch-observability addon depends_on aws_cloudwatch_log_group.cluster_performance, but its agent also writes to /aws/containerinsights/<prefix>/host. aws_cloudwatch_log_group.cluster_host is not ordered before the addon, so it can be auto-created by CloudWatch Logs and collide with the Terraform-managed resource. Add the same dependency for the host log group.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_log_group.cluster is created with the exact name EKS uses for control-plane logging (/aws/eks/<prefix>/cluster) and with a custom retention/KMS key, while aws_eks_cluster.cluster enables logging via enabled_cluster_log_types. Nothing orders the log group before the cluster, so on a fresh apply EKS can auto-create this log group first and the subsequent aws_cloudwatch_log_group.cluster creation collides (or the intended retention/KMS settings are lost). The cluster should depend on this log group.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

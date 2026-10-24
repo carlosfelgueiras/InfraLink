@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule can become active and invoke its target as soon as it is created, but its execution role's inline policy granting lambda:InvokeFunction is created independently. Make the schedule wait for this policy so it cannot fire before the invocation permission is in place.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When this Lambda is configured with VPC networking, its execution role must have the VPC access policy permissions for network-interface operations. The function currently waits for the role itself but can be created before the independently managed VPC execution policy attachment is applied; ensure the attachment is in place before creating/configuring the function.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

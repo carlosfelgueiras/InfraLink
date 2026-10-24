@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudtrail.main should wait for the CloudTrail bucket policy to be attached before creating the trail; referencing the bucket alone does not establish that permission ordering.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eventbridge should wait for aws_sns_topic_policy.security_alerts so the EventBridge rules and SNS targets are not activated before the topic grants EventBridge permission to publish.",
+      "node": ":module.eventbridge",
+      "target": ":resource.aws_sns_topic_policy.security_alerts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks should wait for aws_ebs_encryption_by_default.default before provisioning node-group instances, so their EBS volumes are created after the account's default-encryption setting is enabled.",
+      "node": ":module.eks",
+      "target": ":resource.aws_ebs_encryption_by_default.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pritunl should wait for aws_ebs_encryption_by_default.default before its Auto Scaling Group launches instances, so their EBS volumes are created after the account's default-encryption setting is enabled.",
+      "node": ":module.pritunl",
+      "target": ":resource.aws_ebs_encryption_by_default.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

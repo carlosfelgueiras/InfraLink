@@ -1,0 +1,35 @@
+{
+  "repo": "cisco-open__forge",
+  "parent_sha": "fc093d9886956ee6fc2b080adf83bc78544db118^",
+  "resolved_sha": "c1d33d8b0e12522a69ac95305c78096a12d5894b",
+  "module_dir": "modules/integrations/splunk_aws_billing",
+  "profile": "openrouter-gpt-6-luna",
+  "effort": null,
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "cisco-open__forge",
+      "pr_number": 162,
+      "pr_url": "https://github.com/cisco-open/forge/pull/162",
+      "commit_url": "https://github.com/cisco-open/forge/commit/fc093d9886956ee6fc2b080adf83bc78544db118",
+      "commit_sha": "fc093d9886956ee6fc2b080adf83bc78544db118",
+      "parent_sha": "fc093d9886956ee6fc2b080adf83bc78544db118^",
+      "commit_subject": "fix: fix s3_prefix to upload zip file for lambdas (#162)",
+      "commit_date": "2025-10-15T18:44:14-04:00",
+      "file": "modules/integrations/splunk_aws_billing/s3.tf",
+      "module_dir": "modules/integrations/splunk_aws_billing",
+      "holder_address": "aws_s3_bucket_notification.cur_notification",
+      "added_targets": [
+        "aws_lambda_permission.cur_per_resource_process"
+      ],
+      "pre_existing_targets": [
+        "aws_lambda_permission.cur_per_resource",
+        "aws_lambda_permission.cur_per_service"
+      ],
+      "already_implicit": {
+        "aws_lambda_permission.cur_per_resource_process": false
+      },
+      "verify_error": null
+    }
+  ]
+}

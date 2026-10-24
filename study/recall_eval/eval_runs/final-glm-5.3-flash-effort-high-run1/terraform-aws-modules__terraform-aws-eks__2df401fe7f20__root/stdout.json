@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [aws_eks_cluster.this]` on data.http.wait_for_cluster is redundant: the data source already references aws_eks_cluster.this[0].endpoint in its `url` attribute and aws_eks_cluster.this[*].certificate_authority in its `ca_certificate` attribute, so Terraform already orders the read after the cluster resource is created.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.http.wait_for_cluster polls the cluster's /healthz endpoint and only lists aws_security_group_rule.cluster_private_access in its depends_on. When `cluster_create_endpoint_private_access_sg_rule = false` (the default), that rule has count = 0 and private endpoint access is instead granted by the cidrs_source rule variant, which is applied in parallel with the readiness probe since the two share no dependency edge. The probe can then race ahead of the rule that actually permits it to reach the endpoint, causing the apply to fail after the retry timeout.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access_cidrs_source",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.http.wait_for_cluster polls the cluster's /healthz endpoint but its depends_on only lists aws_security_group_rule.cluster_private_access. When the custom SG rule is disabled (`cluster_create_endpoint_private_access_sg_rule = false`) and `cluster_endpoint_private_access_sg` is set, private endpoint access is granted by this sg_source rule variant, which is applied in parallel with the readiness probe since the two share no dependency edge. The probe can then race ahead of the rule that actually permits it to reach the endpoint, causing the apply to fail after the retry timeout.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access_sg_source",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_fargate_profile.this references the pod execution role via `pod_execution_role_arn` but has no dependency on aws_iam_role_policy_attachment.eks_fargate_pod, which attaches AmazonEKSFargatePodExecutionRolePolicy to that role. EKS validates the pod execution role's permissions when the Fargate profile is created, and the profile resource is otherwise applied in parallel with the policy attachment (both only depend on the role itself). Profile creation can therefore intermittently fail with an InvalidParameterException about the role lacking required permissions, or race with IAM propagation so that pods selected by the profile cannot pull images/write logs. A bare `depends_on` on the attachment (or adding it to the `eks_depends_on` emulation variable) is the appropriate fix.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

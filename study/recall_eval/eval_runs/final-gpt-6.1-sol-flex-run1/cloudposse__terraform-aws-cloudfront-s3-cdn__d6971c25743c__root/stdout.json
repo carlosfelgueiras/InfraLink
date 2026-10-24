@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.time_sleep.wait_for_aws_s3_bucket_settings to :resource.aws_s3_bucket_public_access_block.origin is redundant: the sleep already depends on aws_s3_bucket_policy.default, which explicitly depends on that public access block.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.aws_cloudfront_distribution.default to :resource.time_sleep.wait_for_aws_s3_bucket_settings is redundant: the distribution already depends on aws_s3_bucket_ownership_controls.origin, which explicitly depends on that sleep.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

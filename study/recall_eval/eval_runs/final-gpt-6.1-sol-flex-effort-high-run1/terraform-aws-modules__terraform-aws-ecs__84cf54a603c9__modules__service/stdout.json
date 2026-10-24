@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":data.aws_ecs_task_definition.this explicitly depends on :resource.aws_ecs_task_definition.this, but task_definition = aws_ecs_task_definition.this[0].family already establishes that dependency.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.this can launch tasks before :resource.aws_iam_role_policy_attachment.task_exec attaches the execution policy. Referencing the execution role through the task definition does not wait for its policy attachment; order service creation after this attachment so initial tasks have ECR, logging, and configured secret-access permissions.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.ignore_task_definition can launch tasks before :resource.aws_iam_role_policy_attachment.task_exec attaches the execution policy. Ignoring task_definition changes does not remove the initial deployment's need for ECR, logging, and configured secret-access permissions; order service creation after this attachment.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When additional execution policies are configured, :resource.aws_ecs_service.this has no ordering dependency on :resource.aws_iam_role_policy_attachment.task_exec_additional. Tasks may launch before those execution permissions are attached, causing initialization failures for workloads that require them. Wait for these attachments before deploying the service.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When additional execution policies are configured, :resource.aws_ecs_service.ignore_task_definition has no ordering dependency on :resource.aws_iam_role_policy_attachment.task_exec_additional. Its initial tasks may launch before the execution permissions they require are attached. Wait for these attachments before deploying the service.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.this does not wait for :resource.aws_iam_role_policy.tasks. When ECS Exec or custom task-role statements are enabled, tasks and their Exec agent can start before the corresponding permissions are installed. The task-role ARN reference orders role creation, not this inline policy; add ordering on the policy.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_ecs_service.ignore_task_definition does not wait for :resource.aws_iam_role_policy.tasks. When ECS Exec or custom task-role statements are enabled, initial tasks and their Exec agent can start before the corresponding permissions are installed. Ignoring task-definition changes does not establish ordering on this inline policy.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When managed task-role policies are configured, :resource.aws_ecs_service.this can start the workload before :resource.aws_iam_role_policy_attachment.tasks attaches its application permissions. A task-role reference does not wait for these attachments. Order deployment after them to avoid startup-time AccessDenied failures.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When managed task-role policies are configured, :resource.aws_ecs_service.ignore_task_definition can start its initial workload before :resource.aws_iam_role_policy_attachment.tasks attaches its application permissions. A task-role reference does not wait for these attachments; order service deployment after them.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For awsvpc deployments using the module-created security group, :resource.aws_ecs_service.this does not wait for :resource.aws_security_group_rule.this. Terraform removes the group's default allow-all egress rule, so starting tasks before configured egress/ingress rules exist can break image pulls, secret retrieval, or health checks. Order service deployment after these rules.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_security_group_rule.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For awsvpc deployments using the module-created security group, :resource.aws_ecs_service.ignore_task_definition does not wait for :resource.aws_security_group_rule.this. Security-group existence alone does not ensure configured traffic is allowed; initial tasks can fail initialization or health checks while the separate rules are still being created. Order deployment after the rules.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_security_group_rule.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

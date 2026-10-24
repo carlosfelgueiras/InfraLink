@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner agent instances boot from user data that registers the runner with GitLab and writes the resulting token into the SSM parameter `aws_ssm_parameter.runner_registration_token` (the code comment states \"Parameter value is managed by the user-data script of the gitlab runner instance\"). The autoscaling group has no dependency on the SSM parameter, so instances can boot before Terraform creates the parameter. The user-data script (`put-parameter`) would then create the parameter itself, and Terraform's subsequent create of `aws_ssm_parameter.runner_registration_token` would fail with a ParameterAlreadyExists error (the resource's `overwrite` defaults to false on create, per provider docs). The ASG should be ordered after the SSM parameter.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [\\\"tls_private_key.ssh\\\"]` duplicates the data dependency already established by `content = \\\"${tls_private_key.ssh.public_key_openssh}\\\"`. Terraform already orders the local_file after the tls_private_key via the attribute reference, so the explicit depends_on is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [\\\"tls_private_key.ssh\\\"]` duplicates the data dependency already established by `content = \\\"${tls_private_key.ssh.private_key_pem}\\\"`. Terraform already orders the local_file after the tls_private_key via the attribute reference, so the explicit depends_on is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `policy_arn` of this attachment is `${local.bucket_policy}`, which resolves to `module.cache.policy_arn` when `var.cache_bucket[\"create\"]` is true (the default). The graph only records the direct reference to `aws_iam_role.instance`; the transitive dependency through the local is not captured, so the attachment can be planned/applied before the cache module (and its policy ARN) exists. The attachment must wait for the cache module's policy to be created. Fix: add `depends_on = [\"module.cache\"]` (or inline the local's expression into `policy_arn`: `\"${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}\"`, which would make the dependency implicit).",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `bucket_name` var of this template is `${local.bucket_name}`, which resolves to `module.cache.bucket` when `var.cache_bucket[\"create\"]` is true (the default). The dependency on `module.cache` is only transitive through the local and is not captured in the graph, so the runner config (rendered into the runner agent's user data) could be evaluated before the cache bucket exists. The template should depend on the cache module so the rendered bucket name is consistent with the created bucket. Fix: add `depends_on = [\"module.cache\"]` (or inline the local's expression into the `bucket_name` var: `\"${var.cache_bucket[\"create\"] ? module.cache.bucket : var.cache_bucket[\"bucket\"]}\"`, which would make the dependency implicit).",
+      "node": "module.runner:data.template_file.runners",
+      "target": "module.runner:module.cache",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

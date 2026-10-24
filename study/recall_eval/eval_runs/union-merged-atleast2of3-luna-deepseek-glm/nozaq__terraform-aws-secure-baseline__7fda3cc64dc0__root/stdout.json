@@ -1,0 +1,184 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe organization configuration aggregator references the IAM role ARN, but that does not order it after the AWSConfigRoleForOrganizations policy attachment. AWS Config organization aggregation requires that policy to be attached before the aggregator is created; add an explicit dependency on the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe organization Config aggregator should wait for the AWSConfigRoleForOrganizations policy attachment on its role. The provider documentation's organization-aggregator example explicitly depends on the attachment; the current reference to the role ARN only orders the aggregator after role creation.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n:resource.aws_config_configuration_aggregator.organization only references aws_iam_role.config_organization.arn, so it can be created before :resource.aws_iam_role_policy_attachment.config_organization attaches AWSConfigRoleForOrganizations. Creating an organization-source aggregator requires the role to already carry that policy (it calls Organizations APIs through the role), so the aggregator must depend on the policy attachment \u2014 the provider documentation's organization example includes depends_on = [aws_iam_role_policy_attachment.organization].\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.aws_config_configuration_aggregator.organization aggregates from AWS Organizations using aws_iam_role.config_organization, but it only references the role's ARN (aws_iam_role.config_organization[0].arn) and never the resource that grants that role permission to call organizations:DescribeOrganization/ListAccounts, i.e. :resource.aws_iam_role_policy_attachment.config_organization (AWSConfigRoleForOrganizations). If the aggregator is created first, AWS Config fails with an insufficient-permissions error because the role cannot read the organization. The provider documentation for organization-based aggregation explicitly sets depends_on = [aws_iam_role_policy_attachment.organization] on the aggregator; the same ordering is missing here (a bare depends_on is the only option, since no aggregator attribute can reference the attachment).",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe CloudTrail resource needs the destination bucket policy to be installed before trail creation so AWS accepts the service's access to the bucket. The CloudTrail resource references the bucket name, but that does not order it after the bucket policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nCloudTrail creation should wait for the audit bucket policy that grants CloudTrail delivery access. The AWS provider documentation demonstrates an explicit dependency on the bucket policy to prevent a creation race; no such ordering is expressed here.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe CloudTrail resource should wait for the audit bucket policy to be installed. The AWS provider documentation's CloudTrail example explicitly orders trail creation after the S3 bucket policy; without this dependency, AWS may reject trail creation or validation before the policy permits CloudTrail delivery.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\nmodule.cloudtrail_baseline:resource.aws_cloudtrail.global is given s3_bucket_name (the audit log bucket) but has no ordering against aws_s3_bucket_policy.audit_log, which is what grants cloudtrail.amazonaws.com s3:GetBucketAcl / s3:PutObject. CreateTrail validates the bucket policy and fails with InsufficientS3BucketPolicyException if the policy is not yet applied (the provider documentation's own example uses depends_on = [aws_s3_bucket_policy.example] for exactly this reason). The trail must depend on the bucket policy resource.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.cloudtrail_baseline:resource.aws_cloudtrail.global writes to the audit log bucket (:resource.aws_s3_bucket_policy.audit_log), but nothing orders the trail after the bucket policy. The trail only receives the bucket *name* via module.cloudtrail_baseline:var.s3_bucket_name (sourced from local.audit_log_bucket_id), which carries no dependency on the policy: data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log is a completely separate resource in the root module. CloudTrail validates the destination bucket policy at CreateTrail time and fails with InsufficientS3BucketPolicyException when the cloudtrail.amazonaws.com s3:GetBucketAcl / s3:PutObject statements are not yet applied (the provider docs' own example puts depends_on = [aws_s3_bucket_policy.example] on the trail). Add depends_on = [aws_s3_bucket_policy.audit_log] to the cloudtrail_baseline module block.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`module.cloudtrail_baseline:resource.aws_cloudtrail.global` publishes to the audit log bucket (`s3_bucket_name = local.audit_log_bucket_id`) but has no ordering relationship with `:resource.aws_s3_bucket_policy.audit_log`. CloudTrail validates the destination bucket policy during CreateTrail and fails with `InsufficientS3BucketPolicyException` unless the bucket policy granting cloudtrail.amazonaws.com s3:GetBucketAcl/s3:PutObject already exists (the AWS provider docs explicitly recommend `depends_on = [aws_s3_bucket_policy...]` on `aws_cloudtrail`). The bucket ARN reaching the module goes through `local.audit_log_bucket_id`, and the policy itself is referenced nowhere, so nothing creates this edge.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe trail references the CloudWatch delivery role ARN, but that does not order it after the role's inline permissions policy. Ensure the delivery policy is attached before creating the trail so CloudTrail can deliver events to the log group.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe CloudTrail trail should wait for its CloudWatch delivery role's inline policy. The trail is configured to deliver to CloudWatch Logs through this role, and the policy grants the Logs permissions needed for delivery; ordering only on the role itself can let the trail start before those permissions are attached.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe CloudTrail trail created by module.cloudtrail_baseline (aws_cloudtrail.global) receives the audit-log bucket name as a plain string, so Terraform infers no dependency on the bucket policy. CloudTrail's CreateTrail API validates that the S3 bucket policy permits cloudtrail.amazonaws.com; if :resource.aws_s3_bucket_policy.audit_log has not been applied yet, trail creation fails with InsufficientS3BucketPolicyException. The aws_s3_bucket_policy should be created before the trail is created (the provider's own documentation shows a bare `depends_on` on the bucket policy for exactly this race).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.cloudtrail_baseline creates the aws_cloudtrail trail, which validates the S3 bucket policy at creation time (AWS returns InsufficientS3BucketPolicyException if the policy granting cloudtrail.amazonaws.com access isn't applied yet). It only receives local.audit_log_bucket_id (the bucket id), so nothing orders it after resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.cloudtrail_baseline",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_ap-northeast-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_ap-northeast-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_ap-northeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_ap-northeast-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_ap-northeast-2 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_ap-northeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_ap-south-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_ap-south-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_ap-south-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_ap-southeast-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_ap-southeast-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_ap-southeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_ap-southeast-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_ap-southeast-2 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_ap-southeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_ca-central-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_ca-central-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_ca-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_eu-central-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_eu-central-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_eu-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_eu-north-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_eu-north-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_eu-north-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_eu-west-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_eu-west-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_eu-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_eu-west-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_eu-west-2 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_eu-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_eu-west-3 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_eu-west-3 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_eu-west-3",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_sa-east-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_sa-east-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_sa-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_us-east-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_us-east-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_us-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_us-east-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_us-east-2 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_us-east-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_us-west-1 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_us-west-1 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_us-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe AWS Config recorder started by module.config_baseline_us-west-2 (aws_config_configuration_recorder_status.recorder) uses a delivery channel whose s3_bucket_name is passed in as a plain string, so there is no dependency on the audit-log bucket policy. Starting the configuration recorder requires the S3 bucket policy to permit config.amazonaws.com delivery; if :resource.aws_s3_bucket_policy.audit_log is applied after this module, StartConfigurationRecorder fails with InsufficientDeliveryPolicyException. The bucket policy must be in place before the recorder is started.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.config_baseline_us-west-2 creates an aws_config_delivery_channel pointing at the audit log bucket (via s3_bucket_name). AWS Config validates that the bucket policy grants config.amazonaws.com write access when the delivery channel is created (InsufficientDeliveryPolicyException), but the module has no dependency on resource.aws_s3_bucket_policy.audit_log. Add a depends_on on the audit log bucket policy.",
+      "node": ":module.config_baseline_us-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

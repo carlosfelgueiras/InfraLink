@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When the dispatcher Lambda is configured with VPC subnets, its VPC execution policy must be attached before Lambda creation so AWS can create the function's network interfaces. The function has no dependency on the VPC execution role attachment.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When the webhook Lambda is configured with VPC subnets, its VPC execution policy must be attached before Lambda creation so AWS can create the function's network interfaces. The function has no dependency on the VPC execution role attachment.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be registered before the Lambda invoke permission is in place, leaving the rule unable to invoke the function until permission is created. Ensure the permission exists before associating the target.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_ecs_cluster_capacity_providers.this` builds its `capacity_providers`/`default_capacity_provider_strategy` lists from `var.autoscaling_capacity_providers` names, so it has no data reference to `:resource.aws_ecs_capacity_provider.this`; the existing `depends_on` only orders the initial create/destroy of the whole set. Per the AWS provider docs for both `aws_ecs_capacity_provider` and `aws_ecs_cluster_capacity_providers`, AWS will not delete a capacity provider that is still associated with a cluster, so when a capacity provider is forced to be replaced (e.g. name or ASG change) the association must be recreated before the old provider is deleted \u2014 an operational ordering neither an attribute reference nor the current depends_on expresses. Wire the association to the created provider resources (or add `lifecycle { replace_triggered_by = [aws_ecs_capacity_provider.this] }`) so the old provider is detached first.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.default_capacity_provider_strategy : try(coalesce(v.name, k))], aws_ecs_capacity_provider.this != null ? [for k, v in aws_ecs_capacity_provider.this : v.name] : []))"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC host-project operation uses the Compute API, but it has no ordering edge to the project service activations. If compute.googleapis.com is enabled by this module, wait for project_services before configuring the host project to avoid an API-not-enabled failure.",
+      "node": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Assigning service projects to a Shared VPC host uses the Compute API, but this resource has no ordering edge to project service activations. If compute.googleapis.com is enabled by this module, wait for project_services before creating the association.",
+      "node": ":resource.google_compute_shared_vpc_service_project.service_projects",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Assigning this project as a Shared VPC service project uses the Compute API, but this resource has no ordering edge to the service activations for the current project. If compute.googleapis.com is enabled by this module, wait for project_services before creating the association.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

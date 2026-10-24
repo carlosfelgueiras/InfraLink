@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`google_project_iam_member.additive` grants whatever roles are listed in `var.iam_additive_roles`, which can include the custom roles created by `google_project_iam_custom_role.roles` in this same module. A role cannot be granted before it exists, so the additive member must be ordered after the custom role. The sibling authoritative binding already expresses exactly this ordering with `depends_on = [google_project_iam_custom_role.roles]`, but the additive member relies only on input variables, so no implicit dependency exists and the two can race.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`:resource.google_project_iam_member.additive` builds its `role` argument directly from `var.iam_additive_roles`, which may contain ids of custom roles created by this same module (`google_project_iam_custom_role.roles` via `var.custom_roles`). Nothing in the code establishes ordering, so the additive bindings can be attempted before the custom role exists and fail (the module's own comment already notes additive roles \"might fail due to dynamic values\"). The authoritative counterpart `google_project_iam_binding.authoritative` explicitly orders itself after `google_project_iam_custom_role.roles` for exactly this reason; the additive members should do the same via `depends_on = [google_project_iam_custom_role.roles]`.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

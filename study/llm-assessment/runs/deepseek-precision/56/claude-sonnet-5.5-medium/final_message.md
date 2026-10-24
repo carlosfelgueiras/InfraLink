@@ -1,0 +1,3 @@
+The domain has no `depends_on` and no reference to the role, and nothing else in the configuration orders the two. The role is only created when `var.create_iam_service_linked_role` is true. When it is created in the same apply, the VPC domain needs it to exist first. AWS rejects VPC domain creation with "You must create the service-linked role" otherwise. The provider docs recommend a `depends_on` for this case.
+
+Correct

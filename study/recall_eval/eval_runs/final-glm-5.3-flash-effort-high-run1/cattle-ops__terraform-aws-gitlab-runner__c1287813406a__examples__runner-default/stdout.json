@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.local_file.public_ssh_key declares `depends_on = [\"tls_private_key.ssh\"]`, but the dependency is already implied by `content = tls_private_key.ssh.public_key_openssh`; the explicit depends_on is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "resource.local_file.private_ssh_key declares `depends_on = [\"tls_private_key.ssh\"]`, but the dependency is already implied by `content = tls_private_key.ssh.private_key_pem`; the explicit depends_on is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_iam_role_policy_attachment.docker_machine_cache_instance sets policy_arn via local.bucket_policy, which resolves to module.cache.policy_arn when cache_bucket.create is true. No direct dependency on the cache module is expressed, so the attachment could be created before the cache bucket policy exists.",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.template_file.runners renders the runner config with vars.bucket_name sourced from local.bucket_name, which resolves to module.cache.bucket when cache_bucket.create is true. The rendered config (which ends up in the runner agent's user-data) references the cache bucket, so the data source should depend on the cache module being created; no such dependency is expressed.",
+      "node": "module.runner:data.template_file.runners",
+      "target": "module.runner:module.cache",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner agent's user-data script manages the value of aws_ssm_parameter.runner_registration_token (the parameter is created by Terraform with a placeholder value and the instance writes the real token into it). The autoscaling group boots the agent instance but expresses no dependency on the SSM parameter; if the instance starts before the parameter exists, the user-data script creates it and Terraform's own creation of the parameter subsequently fails. The parameter must be created before the autoscaling group launches instances.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

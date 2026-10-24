@@ -1,0 +1,38 @@
+{
+  "id": "56",
+  "config": "glm-5.3-high",
+  "model": "openrouter/z-ai/glm-5.3#high",
+  "agent": null,
+  "repo": "aztfmod__terraform-azurerm-caf",
+  "commit": "2c855397c670f93638029e589cfd89f293562e6f",
+  "module_dir": "modules/networking/application_gateway_application",
+  "node": ":resource.null_resource.delete_http_listener",
+  "target": ":resource.null_resource.delete_frontend_port",
+  "verdict": "Correct",
+  "ambiguous": false,
+  "matches": [
+    "Correct"
+  ],
+  "session_id": "ses_e96362e6dffeFT6tlMMEIypf4f",
+  "exit_code": 1,
+  "duration_seconds": 39.458929874992464,
+  "cost": 0.006106573,
+  "tokens": {
+    "input": 6403,
+    "output": 700,
+    "reasoning": 776,
+    "cache_read": 45312,
+    "cache_write": 0
+  },
+  "tool_calls": 7,
+  "errors": [
+    {
+      "type": "provider.internal",
+      "message": "Upstream error from InferenceNet: Inference request failed, please try again. You will not be charged for this request. (generation ID = gv2_B8hbU62Bc5wsveSxNM9ld)",
+      "status": 200,
+      "response": {
+        "body": "{\"id\":\"gen-1792776198-DQ6y3Ujmg87NnE7Ixxyh\",\"object\":\"chat.completion.chunk\",\"created\":1792776198,\"model\":\"z-ai/glm-5.3\",\"provider\":\"InferenceNet\",\"choices\":[],\"error\":{\"code\":502,\"message\":\"Upstream error from InferenceNet: Inference request failed, please try again. You will not be charged for this request. (generation ID = gv2_B8hbU62Bc5wsveSxNM9ld)\",\"metadata\":{\"error_type\":\"provider_unavailable\"}}}"
+      }
+    }
+  ]
+}

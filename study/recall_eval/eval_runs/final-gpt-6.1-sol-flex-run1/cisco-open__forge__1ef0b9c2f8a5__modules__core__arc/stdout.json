@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The cleanup service account uses the controller namespace by name, but can be created before module.controller creates that namespace. Order it after module.controller (when that module manages the namespace).",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The cleanup Role uses the controller namespace by name without waiting for module.controller to create it. Add ordering on module.controller when it manages this namespace.",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cleanup CronJob can start a Job before its service account's RoleBinding exists, causing authorization failures. Wait for kubernetes_role_binding_v1.zombie_runner_cleanup before enabling the CronJob.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The runner Helm release passes var.service_account into its pod configuration but does not wait for runner_sa. Runners can be launched before their service account exists. Reference kubernetes_service_account_v1.runner_sa[0].metadata[0].name for the template's service_account value, or add depends_on.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In k8s mode the runner release can launch runners before kubernetes_role_binding.k8s grants their service account permission to create job pods. Make the release wait for this RoleBinding.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_role_binding.k8s",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner release references the IAM role but not its managed-policy attachments. It can launch runners before runner_role_policy_attachment grants the AWS permissions configured for their jobs. Order the release after the attachments.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner release can launch pods before eks_pod_identity associates their service account with the runner IAM role. For runners using EKS Pod Identity, wait for this association before installing the release.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

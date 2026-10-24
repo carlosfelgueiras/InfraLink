@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_service.ignore_task_definition` also uses `local.infrastructure_iam_role_arn` for `vpc_lattice_configurations.role_arn`, yet its `depends_on` waits only for `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy`. Nothing orders `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy` before the service, so a service with VPC Lattice configuration can be created before the infrastructure role has the required policy, failing with an authorization error. Add the VPC Lattice policy attachment to this resource's `depends_on` as well.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_service.this` passes `local.infrastructure_iam_role_arn` into `vpc_lattice_configurations.role_arn`, but its `depends_on` only waits for `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy` (the EBS/volumes policy). The VPC Lattice managed policy attachment is never ordered before the service, so when `vpc_lattice_configurations` is set Terraform may call CreateService/UpdateService while the infrastructure role still lacks AmazonECSInfrastructureRolePolicyForVpcLattice, causing an AccessDenied failure. Add `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy` to the service's `depends_on`, mirroring the existing EBS policy entry.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.aws_lambda_function.main` has a `vpc_config` block driven by `var.lambda.subnet_ids`/`security_group_ids`, but nothing orders it after `:resource.aws_iam_role_policy_attachment.vpc_execution_role`. When a Lambda function is attached to a VPC, AWS calls CreateNetworkInterface with the execution role at creation time; if `AWSLambdaVPCAccessExecutionRole` has not been attached yet, creation fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". Add an explicit `depends_on` on the attachment (there is no attribute-level data reference available).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_lambda_function.main` creates a VPC-enabled function (`dynamic \\\"vpc_config\\\"` when `var.lambda.subnet_ids`/`security_group_ids` are set), but the graph shows no dependency on `aws_iam_role_policy_attachment.vpc_execution_role`, which attaches `AWSLambdaVPCAccessExecutionRole` to the same execution role (gated by the identical `length(var.lambda.subnet_ids) > 0` condition). AWS validates the execution role's VPC permissions at function creation time, so when Terraform creates both in parallel the apply can fail with \\\"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\\\". Add `depends_on = [aws_iam_role_policy_attachment.vpc_execution_role]` to the function (the module's own docs example for Lambda shows the analogous `depends_on` on the role policy attachment).",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

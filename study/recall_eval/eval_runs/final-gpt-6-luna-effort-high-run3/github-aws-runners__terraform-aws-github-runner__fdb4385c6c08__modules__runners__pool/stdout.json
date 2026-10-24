@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule can become active and invoke the Lambda as soon as it is created, but it does not depend on the scheduler role's inline policy granting lambda:InvokeFunction. Ensure that policy is installed before creating the schedule to avoid invocations failing due to missing or not-yet-propagated permissions.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule can become active and invoke the Lambda as soon as it is created, but it does not wait for the scheduler role's inline policy granting lambda:InvokeFunction. If that policy is still being created or propagating, scheduled invocations can fail; make the schedule depend on this policy.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

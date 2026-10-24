@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.eks_managed_node_group:resource.aws_eks_node_group.this` reaches the node IAM role only through `node_role_arn = aws_iam_role.this[0].arn`; it does not depend on `:module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this`. The AWS provider documentation for `aws_eks_node_group` explicitly recommends ordering against the role's policy attachments: \"Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling. Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.\" Without the ordering, EKS may create the node group (and later fail to tear down its instances/ENIs) while the role still lacks AmazonEKSWorkerNodePolicy / AmazonEKS_CNI_Policy / AmazonEC2ContainerRegistryReadOnly \u2014 nodes fail to join and the apply times out. Note the only ordering present in source (`depends_on` on the launch template) does not apply when `create_launch_template`/`use_custom_launch_template` is false.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.eks_managed_node_group:resource.aws_eks_node_group.this` has no dependency (direct or transitive) on `:module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional`. Custom policies supplied via `iam_role_additional_policies` (often the CNI/CSI/registry permissions nodes need at boot) can be attached after the node group is created and after nodes register, and they are not ordered before deletion either \u2014 the same lifecycle hazard the provider documentation calls out for node groups. This attachment is not covered by the launch template's `depends_on`, which only names `aws_iam_role_policy_attachment.this`.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_cluster.this` enables `encryption_config` with the KMS key from `module.kms`, but it only orders itself against `aws_iam_role_policy_attachment.this`. The cluster IAM role's KMS permissions (`kms:Encrypt/Decrypt/CreateGrant/DescribeKey` for the encryption key) are granted by `:resource.aws_iam_role_policy_attachment.cluster_encryption`, which has no ordering relationship to the cluster \u2014 Terraform may create the cluster before the role can use the key, causing intermittent failures of the control plane's secrets-encryption operations during/right after cluster creation. The other role attachment is already ordered explicitly; this one is not.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

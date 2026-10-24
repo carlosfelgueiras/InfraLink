@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.this should depend on :resource.aws_eks_access_entry.this so self-managed instances do not start bootstrapping before their node IAM principal is authorized to join EKS, and the access entry remains until the group is destroyed. Neither the cluster-name input nor the launch template establishes this ordering.",
+      "node": ":resource.aws_autoscaling_group.this",
+      "target": ":resource.aws_eks_access_entry.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_launch_template.this waits for the standard node policy attachments but not :resource.aws_iam_role_policy_attachment.additional. Additional policies can therefore be attached after consumers launch nodes, or detached before nodes and their workloads are destroyed. Include the additional attachments in the same dependency barrier to protect workloads that require those permissions at startup or teardown.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

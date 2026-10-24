@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer is created before its managed CloudWatch log group (aws_cloudwatch_log_group.syncer actually depends on the function because its name references the function_name). AWS creates an unmanaged /aws/lambda/<name> log group on first invocation, so the managed log group's retention/KMS settings may not apply to early logs and creation can collide. The function should depend on the managed log group.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_cloudwatch_log_group.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer references the IAM role but not the inline policies attached to it. The function is invoked on deploy (S3 trigger object) and by schedule, and needs its S3 access policy (aws_iam_role_policy.syncer) in place to run. No attribute reference or depends_on orders the function after its execution-role policies; per the provider's own Lambda example it should depend on the role policy being attached.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

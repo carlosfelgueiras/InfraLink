@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EKS managed node group is created without any ordering relative to its node IAM role policy attachments. EKS validates node role permissions when provisioning the node group, and IAM policy changes propagate asynchronously: without the AmazonEKSWorkerNodePolicy/AmazonEKS_CNI_Policy/AmazonEC2ContainerRegistryReadOnly policies attached and propagated before node group creation, launched nodes cannot join the cluster, and node group deletion may fail to clean up EC2 instances and ENIs. The launch template has a bare `depends_on` on the base attachment, but the node group resource itself has no dependency on either attachment.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS managed node group should also wait for the additional policies (`aws_iam_role_policy_attachment.additional`, e.g. user-supplied policies like AmazonEKSVPCResourceController) to be attached to the node role. Policy changes propagate asynchronously, so creating the node group before the additional attachments can leave nodes running without required permissions. There is no implicit or explicit dependency path from the node group to this attachment.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Fargate profile is created without any ordering relative to the pod execution role's policy attachments. The pod execution role must have AmazonEKSFargatePodExecutionRolePolicy (and any CNI policy) attached \u2014 and propagated, given IAM's eventual consistency \u2014 before the profile is created, otherwise pods scheduled onto the profile cannot assume the role or pull images. There is no implicit or explicit dependency path from the profile resource to the policy attachment.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile should also wait for the additional policy attachment (`aws_iam_role_policy_attachment.additional`) on the pod execution role, for the same IAM-propagation reasons as the base attachment. No dependency path currently connects the two resources.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster's `encryption_config` uses the KMS key, and EKS validates the cluster IAM role's ability to use that key at cluster creation time. The permissions are granted via `aws_iam_policy.cluster_encryption` attached by `aws_iam_role_policy_attachment.cluster_encryption`. Since IAM policy changes propagate asynchronously, the cluster must not be created until the attachment has been applied \u2014 otherwise cluster creation (or later key operations by the control plane) can fail with AccessDenied. No implicit reference or explicit `depends_on` connects the cluster to the attachment.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster already uses a bare `depends_on` on `aws_iam_role_policy_attachment.this` (the EKS cluster policy) to ensure role permissions are in place before cluster creation, but it omits `aws_iam_role_policy_attachment.additional`, which attaches user-supplied additional policies (e.g. AmazonEKSVPCResourceController) to the same cluster role. For consistent IAM-propagation ordering, the cluster should wait for the additional attachments as well; no dependency path currently connects them.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "repo": "cisco-open__forge",
+  "parent_sha": "da6427f35428af5435a65af071b6a6cb6c0627e6^",
+  "resolved_sha": "0734618be824f6f60899b7eb64a67b2d79d4320d",
+  "module_dir": "modules/integrations/splunk_cloud_data_manager/data_input",
+  "profile": "openrouter-gpt-6.1-sol-flex",
+  "effort": "high",
+  "temperature": null,
+  "system_prompt": "default",
+  "cases": [
+    {
+      "repo": "cisco-open__forge",
+      "pr_number": 266,
+      "pr_url": "https://github.com/cisco-open/forge/pull/266",
+      "commit_url": "https://github.com/cisco-open/forge/commit/da6427f35428af5435a65af071b6a6cb6c0627e6",
+      "commit_sha": "da6427f35428af5435a65af071b6a6cb6c0627e6",
+      "parent_sha": "da6427f35428af5435a65af071b6a6cb6c0627e6^",
+      "commit_subject": "fix: fix splunk DM template upload (#266)",
+      "commit_date": "2026-01-09T10:21:05+01:00",
+      "file": "modules/integrations/splunk_cloud_data_manager/data_input/s3_template.tf",
+      "module_dir": "modules/integrations/splunk_cloud_data_manager/data_input",
+      "holder_address": "aws_s3_object.cloudformation_template",
+      "added_targets": [
+        "null_resource.create_integration"
+      ],
+      "pre_existing_targets": [
+        "data.external.splunk_dm_version",
+        "random_uuid.splunk_input_uuid"
+      ],
+      "already_implicit": {
+        "null_resource.create_integration": false
+      },
+      "verify_error": null
+    }
+  ]
+}

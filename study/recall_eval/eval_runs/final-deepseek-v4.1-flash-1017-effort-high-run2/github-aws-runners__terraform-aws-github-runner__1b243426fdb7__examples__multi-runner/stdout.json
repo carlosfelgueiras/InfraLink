@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `$default` stage is created with `auto_deploy = true`, but it only depends on `aws_apigatewayv2_api.webhook` \u2014 nothing orders it after the route/integration. The provider snapshots the routes that exist at stage-creation time, so if the stage's initial deployment runs before `aws_apigatewayv2_route.webhook` (which in turn requires `aws_apigatewayv2_integration.webhook`) exists, the deployed API has no `POST /webhook` route and the webhook endpoint returns 404. `aws_apigatewayv2_stage.webhook` should depend on `aws_apigatewayv2_route.webhook` (this is operational ordering, not inferable from any attribute).",
+      "node": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`null_resource.update_app` calls `update-app.sh` with `var.webhook_endpoint`, which is built from `module.webhook.gateway.api_endpoint` (an attribute of `aws_apigatewayv2_api.webhook`) rather than from the deployed stage. That value is available as soon as the API resource exists, so Terraform may run the GitHub App update before the API Gateway stage/route are actually deployed. The app then points at an endpoint that 404s until the stage exists. The updater should depend on the webhook's stage (which transitively follows route \u2192 integration \u2192 lambda) so the endpoint is live before it is registered.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

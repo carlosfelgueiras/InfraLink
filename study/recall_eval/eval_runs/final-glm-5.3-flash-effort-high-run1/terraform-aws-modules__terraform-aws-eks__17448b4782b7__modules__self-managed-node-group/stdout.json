@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch template has an explicit depends_on on aws_iam_role_policy_attachment.this to prevent instances from launching before the node role's IAM policies are attached (pods requiring permissions on create). However, it does not depend on aws_iam_role_policy_attachment.additional, which attaches the user-configured additional policies (var.iam_role_additional_policies) to the same role. There is no attribute reference from the launch template to .additional (it only references the instance profile/role name), so instances launched by the autoscaling group can come up and join the cluster before the additional policies are attached, causing the same premature-access failure the existing depends_on is meant to prevent.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

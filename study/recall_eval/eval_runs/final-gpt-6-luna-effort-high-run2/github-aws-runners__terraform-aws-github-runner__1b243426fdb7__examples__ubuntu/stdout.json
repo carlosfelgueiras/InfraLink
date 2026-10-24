@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` registers the webhook endpoint with GitHub, but its endpoint value only depends on the API object and path, not the API Gateway stage that makes the endpoint available. Waiting for the stage avoids registering a webhook URL before the endpoint is ready.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_s3_object.trigger` uploads an object that immediately triggers the syncer Lambda through the bucket notification. It must wait until `module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer` is attached, because the Lambda needs that policy to write the runner distribution object; otherwise the initial invocation can run before its S3 permissions are available.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` registers the endpoint with GitHub before the API Gateway route is guaranteed to exist. The route is required for the registered path to accept requests; it transitively waits for the integration as well.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` can register the API URL before the `$default` API Gateway stage exists and is ready to serve it. Wait for the stage before advertising the endpoint.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` can register the endpoint before API Gateway has permission to invoke the webhook Lambda. Wait for the Lambda permission so requests sent to the newly registered endpoint can invoke the function.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` can become active before EventBridge has permission to invoke the syncer Lambda; an event arriving in that interval can fail. Wait for the corresponding Lambda permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` can become active before EventBridge has permission to invoke the scale-down Lambda; an event arriving in that interval can fail. Wait for the corresponding Lambda permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` can become active before EventBridge has permission to invoke the pool Lambda; a scheduled event in that interval can fail. Wait for the corresponding Lambda permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

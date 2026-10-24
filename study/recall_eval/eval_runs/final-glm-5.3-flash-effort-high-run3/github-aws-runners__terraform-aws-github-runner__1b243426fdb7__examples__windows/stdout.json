@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runners module's `github_app_parameters` (used by the scale-up/scale-down lambdas via `PARAMETER_GITHUB_APP_ID_NAME` / `PARAMETER_GITHUB_APP_KEY_BASE64_NAME` and by the pool lambda) is fed from the SSM parameters (`github_app_id`, `github_app_key_base64`), but no dependency on `module.runners.module.ssm:output.parameters` is recorded. Terraform may therefore order the runner lambdas before the SSM parameters they point at exist, and can destroy the parameters while the lambdas still reference them. Wiring the SSM output references directly into the module's `github_app_parameters` argument makes the ordering implicit (note the sibling `module.runners:module.webhook` module already records this exact dependency).",
+      "node": "module.runners:module.runners",
+      "target": "module.runners.module.ssm:output.parameters",
+      "fix": {
+        "field": "github_app_parameters",
+        "expression": "{\n  id         = { name = module.ssm.parameters.github_app_id.name, arn = module.ssm.parameters.github_app_id.arn }\n  key_base64 = { name = module.ssm.parameters.github_app_key_base64.name, arn = module.ssm.parameters.github_app_key_base64.arn }\n}"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

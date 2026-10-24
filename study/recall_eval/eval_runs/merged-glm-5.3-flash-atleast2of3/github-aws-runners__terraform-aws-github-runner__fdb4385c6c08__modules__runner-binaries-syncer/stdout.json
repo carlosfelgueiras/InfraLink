@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_lambda_function.syncer configures vpc_config from var.lambda_subnet_ids/var.lambda_security_group_ids, but has no dependency on :resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role, which attaches the AWSLambdaVPCAccessExecutionRole policy granting the ec2 networking permissions (CreateNetworkInterface, etc.) Lambda needs to attach ENIs. If the function is created before the attachment propagates, function creation fails or the function cannot reach the VPC (\"Lambda was unable to configure your VPC\"). Nothing else in the graph orders the attachment before the function, so an explicit depends_on is required.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_lambda_function.syncer configures vpc_config (via var.lambda_subnet_ids / var.lambda_security_group_ids), but it does not depend on aws_iam_role_policy_attachment.syncer_vpc_execution_role, the resource that attaches AWSLambdaVPCAccessExecutionRole to its execution role. AWS creates the function's Hyperplane ENIs during function creation and requires the role to already have those EC2 network permissions; since the attachment and the function are currently only siblings under aws_iam_role.syncer_lambda, the function can be created before the policy is attached (and before IAM propagates it), causing \"the provided execution role does not have permissions to call CreateNetworkInterface\" failures. Add an explicit depends_on of the function on the attachment (a bare depends_on is appropriate here; the attachment is counted and has no attribute worth referencing).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nWhen var.lambda_subnet_ids is non-empty, aws_lambda_function.syncer is created with vpc_config, which requires the execution role to already have VPC networking permissions (AWSLambdaVPCAccessExecutionRole, attached by aws_iam_role_policy_attachment.syncer_vpc_execution_role). The lambda function only depends on the role itself and the var.lambda_subnet_ids variable, not on the attachment, so Terraform may create the function before the policy attachment is applied, causing CreateNetworkInterface permission failures or failed ENI provisioning. Follow the provider-documented pattern and add a depends_on from the lambda function to the VPC execution-role policy attachment.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

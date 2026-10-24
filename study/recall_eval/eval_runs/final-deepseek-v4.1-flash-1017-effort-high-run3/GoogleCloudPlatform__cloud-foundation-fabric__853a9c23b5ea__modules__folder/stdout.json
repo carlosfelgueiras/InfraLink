@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_essential_contacts_contact.contact sets parent = local.folder.name, which resolves to google_folder.folder via a try()/count conditional. The contact can only be created once the folder exists, but because the reference is indirected through a local, the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_firewall_policy_association.default sets attachment_target = local.folder.id, which resolves to google_folder.folder via the local/conditional. The association attaches a hierarchical firewall policy to the folder and can only be created after the folder exists, yet the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_compute_firewall_policy_association.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_folder_iam_binding.authoritative sets folder = local.folder.name, which resolves to google_folder.folder via the local/conditional. IAM bindings on the folder must be applied only after the folder exists, but the dependency on google_folder.folder is not captured (only var.iam-derived for_each is). Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_folder_iam_binding.authoritative",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_folder_iam_binding.bindings sets folder = local.folder.name, which resolves to google_folder.folder via the local/conditional. The binding must be created after the folder exists, but the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_folder_iam_binding.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_folder_iam_member.bindings sets folder = local.folder.name, which resolves to google_folder.folder via the local/conditional. The member must be created after the folder exists, but the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_folder_iam_member.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_folder_iam_audit_config.default sets folder = local.folder.name, which resolves to google_folder.folder via the local/conditional. The audit config can only be applied after the folder exists, but the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_folder_iam_audit_config.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_folder_sink.sink sets folder = local.folder.name, which resolves to google_folder.folder via the local/conditional. The sink can only be created after the folder exists; the only captured dependency is the explicit depends_on on google_folder_iam_binding.authoritative, not the folder itself. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_folder_exclusion.logging-exclusion sets folder = local.folder.name, which resolves to google_folder.folder via the local/conditional. The exclusion can only be created after the folder exists, but the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_logging_folder_exclusion.logging-exclusion",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_policy.default sets its name/parent from local.folder.name, which resolves to google_folder.folder via the local/conditional. Org policies on the folder can only be created after the folder exists, but the graph shows no dependency at all on google_folder.folder for this resource. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_binding.binding builds its parent from local.folder.id, which resolves to google_folder.folder via the local/conditional. The tag binding can only be created after the folder exists, but the dependency on google_folder.folder is not captured. Add an explicit depends_on on google_folder.folder.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

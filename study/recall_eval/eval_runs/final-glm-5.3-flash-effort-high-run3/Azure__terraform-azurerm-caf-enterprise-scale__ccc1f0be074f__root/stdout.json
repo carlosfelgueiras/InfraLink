@@ -1,0 +1,229 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_policy_set_definition: explicit depends_on of :resource.azurerm_policy_set_definition.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_policy_set_definition",
+      "target": ":resource.azurerm_policy_set_definition.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_role_assignment: explicit depends_on of :module.role_assignments_for_policy is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_role_assignment",
+      "target": ":module.role_assignments_for_policy",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_role_assignment: explicit depends_on of :resource.azurerm_role_assignment.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_role_assignment",
+      "target": ":resource.azurerm_role_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_1 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_1",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_2 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_2",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_3 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_3",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_4 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_4",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_5 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_5",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_6 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_6",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_policy_definition: explicit depends_on of :resource.azurerm_policy_definition.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_policy_definition",
+      "target": ":resource.azurerm_policy_definition.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_role_definition: explicit depends_on of :resource.azurerm_role_definition.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_role_definition",
+      "target": ":resource.azurerm_role_definition.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_policy_assignment: explicit depends_on of :resource.azurerm_management_group_policy_assignment.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_policy_assignment",
+      "target": ":resource.azurerm_management_group_policy_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.role_assignments_for_policy creates role assignments for policy assignment managed identities using role_definition_ids passed in as plain string values (from archetype config), with no attribute reference to azurerm_role_definition.enterprise_scale. The sibling resource azurerm_role_assignment.enterprise_scale waits on time_sleep.after_azurerm_role_definition for the same reason (Azure RBAC replication delays), but this module does not. Role assignments may be attempted before the custom role definitions they reference exist/replicate, causing transient apply failures. Add a bare depends_on on time_sleep.after_azurerm_role_definition (no data-dependency fix is possible since the role definition IDs are computed strings, not resource attributes).",
+      "node": ":module.role_assignments_for_policy",
+      "target": ":resource.time_sleep.after_azurerm_role_definition",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_management_group has an explicit depends_on on azurerm_management_group.level_1, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group.level_1))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_management_group has an explicit depends_on on azurerm_management_group.level_2, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group.level_2))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_2",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_management_group has an explicit depends_on on azurerm_management_group.level_3, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group.level_3))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_3",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_management_group has an explicit depends_on on azurerm_management_group.level_4, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group.level_4))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_4",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_management_group has an explicit depends_on on azurerm_management_group.level_5, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group.level_5))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_5",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_management_group has an explicit depends_on on azurerm_management_group.level_6, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group.level_6))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_6",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_policy_assignment has an explicit depends_on on azurerm_management_group_policy_assignment.enterprise_scale, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_management_group_policy_assignment.enterprise_scale))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_policy_assignment",
+      "target": ":resource.azurerm_management_group_policy_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_policy_definition has an explicit depends_on on azurerm_policy_definition.enterprise_scale, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_policy_definition.enterprise_scale))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_policy_definition",
+      "target": ":resource.azurerm_policy_definition.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_policy_set_definition has an explicit depends_on on azurerm_policy_set_definition.enterprise_scale, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_policy_set_definition.enterprise_scale))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_policy_set_definition",
+      "target": ":resource.azurerm_policy_set_definition.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_role_assignment has an explicit depends_on on azurerm_role_assignment.enterprise_scale, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_role_assignment.enterprise_scale))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_role_assignment",
+      "target": ":resource.azurerm_role_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_role_assignment has an explicit depends_on on module.role_assignments_for_policy, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(module.role_assignments_for_policy))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_role_assignment",
+      "target": ":module.role_assignments_for_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "time_sleep.after_azurerm_role_definition has an explicit depends_on on azurerm_role_definition.enterprise_scale, but this dependency is already established by the implicit attribute reference in its triggers block (jsonencode(keys(azurerm_role_definition.enterprise_scale))). The depends_on entry is redundant.",
+      "node": ":resource.time_sleep.after_azurerm_role_definition",
+      "target": ":resource.azurerm_role_definition.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

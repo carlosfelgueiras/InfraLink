@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.file_permission must wait for :resource.local_file.private_ssh_key before running chmod; a shared filename variable does not order file creation. The source contains depends_on, but this edge is absent from the supplied graph; ensure it is retained in the effective configuration.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": {
+        "field": "provisioner.local-exec.command",
+        "expression": "format(\"chmod 600 %s\", local_file.private_ssh_key.filename)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can launch its runner before module.runner:resource.aws_iam_role_policy_attachment.ssm grants SSM access. When token management is enabled, order instance startup after this attachment so bootstrap can read/write the registration token.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance must wait for module.runner:resource.aws_ssm_parameter.runner_registration_token: user data manages this parameter's value, so concurrent Terraform creation with the initial null value can race with bootstrap.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When CloudWatch logging is enabled, module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_iam_role_policy.instance so the logging agent has its permissions at startup; the instance-profile reference only orders role creation, not this policy.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When logging is enabled, module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_cloudwatch_log_group.environment before launching the logging agent. The logging template uses the environment string rather than a reference to the managed log group, leaving startup unordered.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

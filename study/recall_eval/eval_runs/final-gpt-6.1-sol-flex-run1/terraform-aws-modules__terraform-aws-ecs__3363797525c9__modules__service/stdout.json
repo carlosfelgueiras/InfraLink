@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_service.this must wait for aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy when VPC Lattice is configured: creating the infrastructure role alone does not grant ECS the permissions needed to manage Lattice targets. Add this attachment to depends_on alongside the EBS attachment.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_service.ignore_task_definition must wait for aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy when VPC Lattice is configured. The role reference does not ensure its Lattice permissions have been attached before ECS configures the service; include this attachment in depends_on.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_task_definition.this waits for the additional task-role attachments but not aws_iam_role_policy_attachment.tasks_internal. Include tasks_internal in depends_on so consumers launching this task definition cannot race attachment of the generated task-role policy (including ECS Exec permissions). Referencing the task role itself does not wait for this attachment.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks_internal",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.helm_release.certificate to :resource.helm_release.cert_manager is transitively redundant because :resource.helm_release.certificate also depends on :resource.helm_release.cluster_issuer, which itself depends on :resource.helm_release.cert_manager.",
+      "node": ":resource.helm_release.certificate",
+      "target": ":resource.helm_release.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart references the elastic-credentials Kubernetes Secret in its pod configuration, but the release has no ordering dependency on its creation. Ensure the Secret exists before installing the chart so its workloads do not start with a missing credential.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart mounts the elastic-certificates Kubernetes Secret, but the release has no ordering dependency on its creation. Ensure the Secret exists before installing the chart so Elasticsearch/Kibana workloads can start with their required TLS material.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart references the elasticsearch-s3-user-creds Kubernetes Secret for its S3 configuration, but the release has no ordering dependency on the Secret's creation.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ELK Helm chart references the kibana-encryption-key Kubernetes Secret, but the release has no ordering dependency on its creation. Ensure the key is present before Kibana starts.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_eks_node_group.this` sets `node_role_arn = aws_iam_role.this[0].arn` but never waits for `aws_iam_role_policy_attachment.this`. The AWS provider docs explicitly require the node role's policies (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly) to be created before and deleted after node group handling \u2014 otherwise EKS cannot properly register/delete instances and ENIs. The ordering is currently only covered transitively when a custom launch template is created (`aws_launch_template.this` depends_on the attachments); when `create_launch_template = false` the node group races the attachments with no guarantee. Add `depends_on = [aws_iam_role_policy_attachment.this]` on the node group. No clean data-reference fix exists since the node group only consumes the role ARN.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_eks_fargate_profile.this` references the pod execution role via `pod_execution_role_arn = aws_iam_role.this[0].arn`, but has no ordering guarantee on `aws_iam_role_policy_attachment.this`. Fargate profile creation is asynchronous and EKS requires the pod execution role to already carry its policies (AmazonEKSFargatePodExecutionRolePolicy and the CNI policy); if the attachments land after the profile is created, pods scheduled on Fargate fail to launch (or profile creation fails) until the role propagates. Add `depends_on = [aws_iam_role_policy_attachment.this]` (or an equivalent ordering) so the attachments are applied before the profile is registered with EKS. No clean data-reference fix exists since the profile only consumes the role ARN.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

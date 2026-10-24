@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Fargate profile can become active before the managed execution policy is attached to its pod execution role. Make the profile wait for the policy attachment so pods selected by the profile do not start with an incompletely provisioned role.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Fargate profile should wait for module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod so its execution role has the required AmazonEKSFargatePodExecutionRolePolicy before the profile can start serving workloads.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

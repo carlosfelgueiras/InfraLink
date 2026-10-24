@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.wait_for_aws_s3_bucket_settings lists :resource.aws_s3_bucket_public_access_block.origin in depends_on, but it already depends on :resource.aws_s3_bucket_policy.default, which itself declares depends_on = [aws_s3_bucket_public_access_block.origin]. The ordering after the public access block is already guaranteed transitively, so the extra entry is redundant.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudfront_distribution.default lists both :resource.aws_s3_bucket_ownership_controls.origin and :resource.time_sleep.wait_for_aws_s3_bucket_settings in depends_on, but :resource.aws_s3_bucket_ownership_controls.origin already declares depends_on = [time_sleep.wait_for_aws_s3_bucket_settings]. Waiting for the ownership controls therefore already implies waiting for the time_sleep resource, making the direct entry redundant.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudfront_distribution.default declares depends_on = [aws_s3_bucket.origin], but the distribution's origin uses domain_name = local.bucket_domain_name, which resolves through local.origin_bucket to aws_s3_bucket.origin[0] (bucket_regional_domain_name / website_endpoint). Terraform already infers that ordering from the attribute reference, so the explicit depends_on duplicates it (and is a no-op when an existing bucket is supplied).",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

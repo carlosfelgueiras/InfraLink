@@ -1,0 +1,3 @@
+Lambda creation doesn't invoke the function; the schedule is the only invoker. The schedule references the Lambda, not the policy. Policy absence at creation doesn't break creation, and IAM is evaluated at invocation time. A schedule could in theory fire before the policy exists, but the first run would be at a scheduled time, and the Lambda itself doesn't need the policy to be created. The role is already referenced. The ordering requirement is only for the schedule (a different node), not for the function's creation or configuration. Since the function isn't invoked at creation, no real dependency exists from function to policy.
+
+Incorrect

@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer can begin invoking the syncer as soon as it is installed, but it does not wait for module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer. Ensure the Lambda invoke permission is established before registering the target to avoid an invocation race.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down can begin invoking the scale-down Lambda as soon as it is installed, but it does not wait for module.runners.module.runners:resource.aws_lambda_permission.scale_down. Ensure the Lambda invoke permission is established before registering the target to avoid an invocation race.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool can begin invoking the pool Lambda as soon as it is installed, but it does not wait for module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool. Ensure the Lambda invoke permission is established before registering the target to avoid an invocation race.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The null_resource module.webhook-github-app:resource.null_resource.update_app registers the webhook endpoint with GitHub after the runners module endpoint is available, but it does not wait for module.runners.module.webhook:resource.aws_lambda_permission.webhook. GitHub can deliver an event as soon as registration completes, so ensure API Gateway's invoke permission is established before registering the endpoint.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up can become active and deliver queued messages before the scale-up execution role policy module.runners.module.runners:resource.aws_iam_role_policy.scale_up is installed. This can cause initial invocations to fail for missing SQS/SSM/EC2 permissions; order the mapping after that policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "EventBridge can invoke the syncer from module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer before its execution role has the S3 permissions configured by module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer. Order target registration after the policy to avoid an initial invocation failing for lack of S3 access.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled target module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down can invoke the Lambda before module.runners.module.runners:resource.aws_iam_role_policy.scale_down grants its execution permissions. Ensure the scale-down execution policy is installed before registering the event target.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Pool schedule events can invoke the Lambda before module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool grants its execution permissions. Ensure the pool execution policy is installed before registering the target.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The S3 trigger object module.runners.module.runner_binaries:resource.aws_s3_object.trigger is deliberately uploaded to invoke the syncer immediately, but it only waits for bucket notification setup and not for module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer. The initial sync can run before its S3 execution permissions are installed.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The app registration resource module.webhook-github-app:resource.null_resource.update_app can publish the webhook URL before the API Gateway route module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook exists. GitHub may deliver a test or webhook event as soon as the URL is registered; wait for the route (which transitively waits for its integration) to be configured.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The app registration resource module.webhook-github-app:resource.null_resource.update_app can publish the webhook URL before the API Gateway stage module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook is available. Ensure the endpoint's stage is ready before registering it with GitHub.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "GitHub can send webhook events as soon as module.webhook-github-app:resource.null_resource.update_app registers the endpoint, while the webhook Lambda's SQS publishing permissions may not yet be installed. The Lambda execution policy module.runners.module.webhook:resource.aws_iam_role_policy.webhook_sqs should be ready before endpoint registration.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "GitHub can send webhook events as soon as module.webhook-github-app:resource.null_resource.update_app registers the endpoint, while the webhook Lambda's SSM read policy may not yet be installed. Ensure module.runners.module.webhook:resource.aws_iam_role_policy.webhook_ssm is ready before endpoint registration.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

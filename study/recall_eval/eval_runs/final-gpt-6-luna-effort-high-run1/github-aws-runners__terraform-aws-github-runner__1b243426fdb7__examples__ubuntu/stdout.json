@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook` enables API Gateway auto-deploy but currently depends only on the API; it should wait for the configured route (and transitively its integration) so the initial stage deployment cannot race ahead of route creation.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` targets the syncer Lambda but does not wait for its EventBridge invoke permission. The target can be active before EventBridge is authorized to invoke the function.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` targets the scale-down Lambda but does not wait for its EventBridge invoke permission. Add an ordering dependency so a scheduled event cannot be delivered before invocation is authorized.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` targets the pool Lambda but does not wait for its EventBridge invoke permission. The target should be installed only after EventBridge is authorized to invoke the function.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` can register the webhook before the API Gateway `$default` stage exists. The module output feeding `webhook_endpoint` references the API endpoint, but not this stage; wait for stage readiness before configuring the external GitHub app.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` can configure the external GitHub webhook before API Gateway has permission to invoke the webhook Lambda. It should wait for the Lambda permission so any immediate delivery after registration is authorized.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

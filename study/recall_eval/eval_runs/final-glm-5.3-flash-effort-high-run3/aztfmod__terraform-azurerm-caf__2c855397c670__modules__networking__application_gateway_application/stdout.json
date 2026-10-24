@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_settings destroys HTTP settings that reference probes (PROBE = try(each.value.probe, var.settings.probes[each.value.probe_key].name)), but nothing orders null_resource.delete_probe after it on destroy: delete_probe has no depends_on at all, so its destroy-time delete script can run before/out-of-band with the settings deletion, leaving http_settings referencing a deleted probe (and delete_http_settings has on_failure = fail, which can break destroys). delete_http_settings should depend_on null_resource.delete_probe so settings are removed before their probes.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_listener deletes listeners that reference frontend ports (PORT = try(var.settings.frontend_ports[each.value.front_end_port_key].name, ...)), so the frontend port must be deleted after the listener on destroy. The resource's explicit depends_on includes null_resource.set_frontend_port (keeping the set-resource alive past the listener delete) but not null_resource.delete_frontend_port, the resource that actually performs the deletion; delete_frontend_port has no depends_on and no dependents, so its delete script can race with or precede the listener deletion (delete_http_listener has on_failure = fail). delete_http_listener should also depend_on null_resource.delete_frontend_port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

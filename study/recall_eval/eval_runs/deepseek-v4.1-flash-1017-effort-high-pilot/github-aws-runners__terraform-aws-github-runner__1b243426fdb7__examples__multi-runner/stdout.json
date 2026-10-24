@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_apigatewayv2_stage.webhook` uses `auto_deploy = true` and therefore creates a deployment when the stage is created, capturing only the routes/integrations that already exist. The stage references only `aws_apigatewayv2_api.webhook`, tags, and access-log settings \u2014 nothing orders it after `aws_apigatewayv2_route.webhook` (which in turn depends on `aws_apigatewayv2_integration.webhook`). On a fresh apply, Terraform may create the stage before the route exists, so the initial deployment omits the `POST /webhook` route and the live endpoint 404s until a subsequent deploy. It should depend on the route (which transitively orders the integration) via `depends_on`.",
+      "node": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

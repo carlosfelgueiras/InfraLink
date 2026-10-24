@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app runs a local-exec provisioner that registers the GitHub App webhook at var.webhook_endpoint, but its only dependency on the API Gateway is through the endpoint URL, which references aws_apigatewayv2_api.webhook \u2014 not aws_apigatewayv2_stage.webhook. The $default stage is what deploys the route/integration so the endpoint actually serves requests (and accepts GitHub's validation ping); nothing in the graph orders the stage before the webhook registration. Add depends_on = [aws_apigatewayv2_stage.webhook] (via the runners module webhook output) so the stage is deployed before the GitHub App webhook is (re)configured.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

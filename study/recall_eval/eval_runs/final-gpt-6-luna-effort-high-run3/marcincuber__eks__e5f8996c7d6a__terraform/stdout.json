@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS cluster references the IAM role, but not the role's policy attachments. The AWS provider documentation recommends an explicit dependency on the cluster role permissions so EKS has them before cluster handling and can clean up managed infrastructure during deletion.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed node group module receives the node role ARN but does not depend on the role's managed policy attachments. The AWS provider documentation recommends ensuring node-role permissions exist before EKS Node Group handling, including for cleanup of EC2 instances and network interfaces.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster log group is configured for the EKS cluster's control-plane logs, but the cluster can be created concurrently with that log group. Ordering the cluster after the log group avoids a creation race and ensures the configured group exists before EKS starts sending logs.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EBS CSI EKS add-on is configured to use this service-account role, but it depends only on the role itself, not its managed policy attachments. The provider documentation says the role must have the add-on's required permissions; create the attachments before installing the add-on to avoid starting it without those permissions.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ADOT add-on uses this IAM role, but the add-on has no dependency on the role's managed policy attachments. Since the configured role must have the permissions required by the add-on, ensure those permissions are attached before installing it.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

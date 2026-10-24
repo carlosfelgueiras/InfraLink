@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_eks_node_group.this must depend on :resource.aws_iam_role_policy_attachment.this so worker, image-pull, and applicable CNI permissions exist before node provisioning and remain attached until node-group deletion completes. Referencing the IAM role alone does not order policy attachments. The attachment dependency on the launch template is not sufficient for configurations using an external template or no custom template; put the dependency directly on the node group, as recommended by the provider documentation.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_binding.authoritative bindings may reference custom roles defined via var.iam / var.group_iam (as \"organizations/NNN/roles/<role_id>\"), but it has no dependency on google_organization_iam_custom_role.roles. GCP fails the binding if the custom role does not exist yet, so the roles must be created first.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_member.additive may grant custom roles created by this module (via var.iam_additive / var.iam_additive_members), but has no dependency on google_organization_iam_custom_role.roles. Applying the additive members before the custom roles exist would fail (or silently no-op) because the role is not yet defined in the organization.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_policy.authoritative sets an authoritative policy whose bindings (from var.iam_bindings_authoritative) can reference custom roles created by this module, but it has no dependency on google_organization_iam_custom_role.roles. The authoritative policy would overwrite/fail against bindings for roles that do not yet exist.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.custom_role_id's explicit depends_on on google_organization_iam_custom_role.roles is redundant: the output's value already iterates over that resource (google_organization_iam_custom_role.roles), so the dependency is already established via the attribute reference.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

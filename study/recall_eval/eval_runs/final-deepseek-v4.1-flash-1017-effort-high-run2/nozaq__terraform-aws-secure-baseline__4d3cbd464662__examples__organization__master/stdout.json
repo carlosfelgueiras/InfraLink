@@ -1,0 +1,43 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The secure_baseline module reads data.aws_organizations_organization.org and creates organization-scoped resources, but it does not depend on the aws_organizations_organization.org resource created alongside it. Terraform may read the organization data source before the organization exists, causing the module to fail. Add depends_on = [aws_organizations_organization.org] to the module block.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The organization configuration aggregator references the config_organization role ARN but does not depend on the aws_iam_role_policy_attachment that grants AWSConfigRoleForOrganizations. The aggregator can be created before the role policy is attached and fail to retrieve organization details. Add depends_on = [aws_iam_role_policy_attachment.config_organization].",
+      "node": "module.secure_baseline:resource.aws_config_configuration_aggregator.organization",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "CloudTrail is configured to publish to the SNS topic, but it only references the topic ARN and not the aws_sns_topic_policy that grants cloudtrail.amazonaws.com permission to publish. The trail can be created before the topic policy is in place and fail notification setup. Make sns_topic_name depend on the topic policy.",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": {
+        "field": "sns_topic_name",
+        "expression": "var.cloudtrail_sns_topic_enabled ? aws_sns_topic_policy.local-account-cloudtrail[0].arn : null"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "CloudTrail uses the CloudWatch delivery IAM role but does not depend on the aws_iam_role_policy that grants logs:CreateLogStream and logs:PutLogEvents. The trail can start logging before the role policy is attached, so CloudTrail cannot deliver events to CloudWatch Logs. Add depends_on = [aws_iam_role_policy.cloudwatch_delivery_policy].",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

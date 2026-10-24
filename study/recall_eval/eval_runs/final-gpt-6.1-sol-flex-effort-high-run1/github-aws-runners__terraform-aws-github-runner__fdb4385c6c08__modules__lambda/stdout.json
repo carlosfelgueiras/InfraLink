@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.main should depend on :resource.aws_iam_role_policy_attachment.vpc_execution_role when VPC networking is enabled. Referencing the execution role ARN does not wait for its VPC policy attachment, so Lambda creation can run before the role has the EC2 network-interface permissions required for VPC provisioning. Add depends_on = [aws_iam_role_policy_attachment.vpc_execution_role]; this also preserves the attachment until function deletion completes.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main does not wait for :resource.aws_iam_role_policy.lambda_logging, so the function can become available to callers before its execution role can write logs. The role ARN reference waits only for role creation, not its inline policies. Establish ordering after the logging policy. First break the current reverse dependency: derive aws_cloudwatch_log_group.main.name from the same input-based function name instead of aws_lambda_function.main.function_name; otherwise adding this depends_on would create a cycle through the log group.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, :resource.aws_lambda_function.main should wait for :resource.aws_iam_role_policy.xray. Both currently depend on the role independently, allowing the function to become available before the X-Ray permissions are installed and causing early invocations to lose traces. Add depends_on = [aws_iam_role_policy.xray]; depending on the counted resource also handles configurations where its count is zero.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main should be ordered after :resource.aws_cloudwatch_log_group.main so its managed log group exists before the function becomes available for invocation. Currently the log group instead waits for the function; early invocations can encounter a missing group or auto-create it (the VPC execution policy grants logging permissions), racing Terraform's creation. Derive the log-group name directly from var.lambda.prefix and var.lambda.name to remove the reverse dependency, then order the function after the log group. Do not simply add depends_on to the current configuration, which would create a cycle.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

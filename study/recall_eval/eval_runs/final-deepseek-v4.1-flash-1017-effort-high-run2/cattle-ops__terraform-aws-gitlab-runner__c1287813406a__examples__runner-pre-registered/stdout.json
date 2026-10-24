@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.public_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but its `content` attribute already references `tls_private_key.ssh.public_key_openssh`, which establishes the identical ordering implicitly. The explicit `depends_on` is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.private_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but its `content` attribute already references `tls_private_key.ssh.private_key_pem`, which establishes the identical ordering implicitly. The explicit `depends_on` is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner instance's user-data script writes the registration token into the SSM parameter `aws_ssm_parameter.runner_registration_token`, whose value is otherwise left unmanaged (`ignore_changes = [\"value\"]`). `aws_ssm_parameter` creates with `overwrite = false`, so the parameter must exist before the instance launches; otherwise the user-data `put-parameter` creates it first and Terraform's create fails with \"already exists\". `aws_autoscaling_group.gitlab_runner_instance` only receives the parameter's name as a plain string (via `local.secure_parameter_store_runner_token_key`), so no dependency is inferred and the group may launch instances first. It should depend on `aws_ssm_parameter.runner_registration_token`.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

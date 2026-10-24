@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`kubectl_manifest.karpenter_provisioner` applies a Karpenter `Provisioner` whose `spec.providerRef.name` is `default`, i.e. it references the `AWSNodeTemplate` named `default` that is created by `kubectl_manifest.karpenter_node_template`. Karpenter cannot launch nodes for this provisioner until that AWSNodeTemplate exists, so the provisioner must be applied after the node template. Currently the provisioner only declares a dependency on `module.eks_blueprints_kubernetes_addons` and has no dependency (implicit or `depends_on`) on `kubectl_manifest.karpenter_node_template`, so both CR objects can be applied concurrently / in the wrong order.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

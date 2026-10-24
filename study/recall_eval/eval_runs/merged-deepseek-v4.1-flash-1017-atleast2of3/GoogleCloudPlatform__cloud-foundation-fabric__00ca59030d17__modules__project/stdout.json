@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\ngoogle_compute_shared_vpc_host_project.shared_vpc_host enables the Shared VPC feature, which is a Compute Engine capability and requires compute.googleapis.com to be enabled on the project first. project_services enables the requested APIs but nothing orders shared_vpc_host after it, so the host-enablement can run before the Compute API is active and fail.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ngoogle_compute_shared_vpc_host_project.shared_vpc_host enables Shared VPC on local.project.project_id, which requires the Compute Engine API (compute.googleapis.com) to already be enabled on that project. That API is enabled by google_project_service.project_services when it is listed in var.services, but there is no attribute reference or depends_on connecting them, so the host-project resource can race ahead of API activation and fail.",
+      "node": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, relying on compute.googleapis.com being enabled on the project. It references the project only through local.project.project_id (string) and does not depend on google_project_service.project_services, so the attachment can be attempted before the Compute API is enabled.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ngoogle_compute_shared_vpc_service_project.shared_vpc_service attaches local.project.project_id as a Shared VPC service project, which requires the Compute Engine API (compute.googleapis.com) to be enabled on the service project. google_project_service.project_services enables that API, but nothing orders the attachment after API activation, so it can fail.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\ngoogle_project_iam_member.shared_vpc_host_robots grants host-project roles to this project's robot service accounts (e.g. service-<num>@compute-system.iam.gserviceaccount.com), which only exist once the corresponding APIs are enabled by google_project_service.project_services. The members are computed strings via local.service_accounts_robots, so no attribute reference orders the binding after service enablement; without it, granting to not-yet-created service accounts can fail.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`google_project_iam_member.shared_vpc_host_robots` grants roles to robot service accounts from `local.service_accounts_robots`, but those robots (`service-<num>@compute-system...`, etc.) are only created once their APIs are enabled by `google_project_service.project_services`. There is no dependency on `project_services` (the parallel `google_kms_crypto_key_iam_member.service_identity_cmek`, which uses the same robot accounts, explicitly depends on it), so the IAM grant can run before the principals exist and fail.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EKS node group should wait for the standard IAM policy attachments to be established; the AWS provider documentation recommends an explicit dependency so permissions are present before node-group operations. No clean attribute reference exists because the attachment resource exports no attributes.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EKS node group should wait for the worker-node IAM policy attachment. The aws_eks_node_group provider documentation warns that its role permissions must exist before node-group handling (and remain until deletion completes); the current node group only references the role, not this attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS node group should wait for the standard node-role policies to be attached. The AWS provider documentation recommends an explicit dependency on these policy attachments so EKS can correctly create and delete the node group's EC2 instances and network interfaces; a reference to the IAM role alone does not order the attachment before the node group.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EKS node group should wait for the additional IAM policy attachments to be established so any configured role permissions are present before node-group operations. The attachment resource exports no attributes, so a clean data-reference fix is unavailable.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EKS node group should wait for the additional IAM policy attachments on its role so those permissions are present before node-group provisioning and are retained through node-group deletion. No attribute from this attachment resource can be cleanly wired into the node group's configuration, so an explicit dependency is appropriate.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

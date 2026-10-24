@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.secure_baseline is used with account_type = \"master\", so it creates organization-scoped resources: aws_accessanalyzer_analyzer (type ORGANIZATION) in every target region, the organization CloudTrail trail (is_organization_trail = true), the AWS Config organization aggregator, and it reads data.aws_organizations_organization.org. All of these require the AWS Organization (with its aws_service_access_principals such as access-analyzer.amazonaws.com / cloudtrail.amazonaws.com / config.amazonaws.com enabled) to already exist. The organization is created in the same configuration (resource.aws_organizations_organization.org), but the module has no dependency on it, so Terraform may create the module's org-scoped resources before the organization exists (failed apply / \"organization not found\" for the data source). Add depends_on = [aws_organizations_organization.org] to the module block.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

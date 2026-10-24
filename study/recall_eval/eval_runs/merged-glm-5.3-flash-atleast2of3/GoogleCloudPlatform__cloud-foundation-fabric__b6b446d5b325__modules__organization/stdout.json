@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nThe deprecated gating output `organization_id` does not wait for `google_logging_organization_settings.default`, unlike its replacement `output.id` whose `depends_on` list is otherwise identical. Since the output's value (`var.organization_id`) references no resources, consumers using this output as a readiness signal may proceed before organization logging settings (disable_default_sink, storage_location) are applied. Add `google_logging_organization_settings.default` to its `depends_on` to match `output.id`.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\noutput.organization_id is documented as \"Organization id dependent on module resources\" and exists to gate downstream consumers until module resources are applied (matching the sibling output.id, which carries the same gating depends_on list). output.id was updated to also include google_logging_organization_settings.default in its depends_on, but output.organization_id was not, so consumers of the deprecated output can observe the organization before logging settings are applied. Since the output value is just var.organization_id, this ordering can only be expressed with a bare depends_on.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_logging_organization_settings.default",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\n`google_tags_tag_binding.binding` resolves `tag_value` via a static context lookup (`lookup(local.ctx.tag_values, each.value, each.value)`) with no data reference to the tag values managed by this module. The Tag Bindings API requires the TagValue to already exist (`tagValues/{id}` or namespaced format), so when the referenced values are created in this same module (e.g. with `tags_config.force_context_ids` making their ids predictable for `var.tag_bindings`), the binding can be created before the value exists and fail at apply time. It needs to wait for `google_tags_tag_value.default` to be created first; since values may also be externally managed, a bare `depends_on = [google_tags_tag_value.default]` is the idiomatic fix.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_tags_tag_binding.binding resolves its tag_value through a context lookup with a raw-string fallback (lookup(local.ctx.tag_values, each.value, each.value)), so no attribute reference ties it to tag values created by this module. When the bound value is a module-managed google_tags_tag_value.default instance (or referenced by namespaced name), the binding can be created before the value exists, and on destroy the tag value may be deleted while the binding still holds it (bindings must be removed before their values). An explicit depends_on on google_tags_tag_value.default (which transitively orders the tag key too) is needed; it is a no-op ordering constraint when only external tag values are used.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

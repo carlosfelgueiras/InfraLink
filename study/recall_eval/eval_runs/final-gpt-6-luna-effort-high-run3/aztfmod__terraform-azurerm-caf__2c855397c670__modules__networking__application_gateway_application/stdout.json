@@ -1,0 +1,373 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The HTTP settings deletion must run before probe deletion because settings can reference a probe; add an explicit ordering dependency from the HTTP-settings deletion resource to the probe deletion resource.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The HTTP listener must be deleted before its frontend port, but the listener deletion resource is not ordered against the frontend-port deletion resource. Add a dependency so Terraform destroys the listener deletion resource before the frontend-port deletion resource.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool setup is redundant: set_http_settings already depends on set_root_cert, which depends on set_backend_pools.",
+      "node": ":resource.null_resource.set_http_settings",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool deletion is redundant: delete_http_listener already depends on delete_http_settings, which depends on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate deletion is redundant: delete_http_listener already depends on delete_http_settings, which depends on delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate deletion is redundant: delete_http_listener already depends on delete_http_settings, which depends on delete_root_cert.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-settings deletion is redundant: delete_request_routing_rule already depends on delete_url_path_rule, which depends on delete_http_settings.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool deletion is redundant: delete_request_routing_rule already depends on delete_url_path_rule, which depends on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-listener deletion is redundant: delete_request_routing_rule already depends on delete_url_path_rule, which depends on delete_http_listener.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate deletion is redundant: delete_request_routing_rule already depends on delete_url_path_rule, which depends on delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate deletion is redundant: delete_request_routing_rule already depends on delete_url_path_rule, which depends on delete_root_cert.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on URL-path-map deletion is redundant: delete_request_routing_rule already depends on delete_url_path_rule, which depends on delete_url_path_map.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool deletion is redundant: delete_root_cert already depends on delete_ssl_cert, which depends on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_root_cert",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-settings deletion is redundant: delete_url_path_map already depends on delete_http_listener, which depends on delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool deletion is redundant: delete_url_path_map already depends on delete_http_listener, which reaches delete_backend_pool through delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate deletion is redundant: delete_url_path_map already depends on delete_http_listener, which reaches delete_ssl_cert through delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate deletion is redundant: delete_url_path_map already depends on delete_http_listener, which depends on delete_root_cert through delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool deletion is redundant: delete_http_settings already depends on delete_ssl_cert, which depends on delete_backend_pool.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate deletion is redundant: delete_http_settings already depends on delete_root_cert, which depends on delete_ssl_cert.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool setup is redundant: set_http_listener already depends on set_http_settings, which depends on set_backend_pools.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate setup is redundant: set_http_listener already depends on set_http_settings, which depends on set_root_cert.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-settings setup is redundant: set_url_path_map already depends on set_http_listener, which depends on set_http_settings.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool setup is redundant: set_url_path_map already depends on set_http_listener, which reaches set_backend_pools through set_http_settings.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate setup is redundant: set_url_path_map already depends on set_http_listener, which depends on set_ssl_cert.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate setup is redundant: set_url_path_map already depends on set_http_listener, which depends on set_root_cert.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-settings setup is redundant: set_url_path_rule already depends on set_url_path_map, which reaches set_http_settings through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool setup is redundant: set_url_path_rule already depends on set_url_path_map, which reaches set_backend_pools through set_http_listener and set_http_settings.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-listener setup is redundant: set_url_path_rule already depends on set_url_path_map, which depends on set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate setup is redundant: set_url_path_rule already depends on set_url_path_map, which reaches set_ssl_cert through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate setup is redundant: set_url_path_rule already depends on set_url_path_map, which reaches set_root_cert through set_http_listener.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-settings setup is redundant: set_request_routing_rule already depends on set_url_path_rule, which reaches set_http_settings through set_url_path_map and set_http_listener.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool setup is redundant: set_request_routing_rule already depends on set_url_path_rule, which reaches set_backend_pools through set_url_path_map and set_http_listener.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-listener setup is redundant: set_request_routing_rule already depends on set_url_path_rule, which reaches set_http_listener through set_url_path_map.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate setup is redundant: set_request_routing_rule already depends on set_url_path_rule, which reaches set_ssl_cert through set_url_path_map and set_http_listener.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate setup is redundant: set_request_routing_rule already depends on set_url_path_rule, which reaches set_root_cert through set_url_path_map and set_http_listener.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on URL-path-map setup is redundant: set_request_routing_rule already depends on set_url_path_rule, which depends on set_url_path_map.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-settings deletion is redundant: delete_url_path_rule already depends on delete_url_path_map, which reaches delete_http_settings through delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on backend-pool deletion is redundant: delete_url_path_rule already depends on delete_url_path_map, which reaches delete_backend_pool through delete_http_listener and delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on HTTP-listener deletion is redundant: delete_url_path_rule already depends on delete_url_path_map, which depends on delete_http_listener.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on SSL-certificate deletion is redundant: delete_url_path_rule already depends on delete_url_path_map, which reaches delete_ssl_cert through delete_http_listener and delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on root-certificate deletion is redundant: delete_url_path_rule already depends on delete_url_path_map, which reaches delete_root_cert through delete_http_listener and delete_http_settings.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

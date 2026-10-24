@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.webhook-github-app:resource.null_resource.update_app registers the webhook URL in the GitHub App via a local-exec provisioner using module.runners.webhook.endpoint, which resolves to \"${aws_apigatewayv2_api.webhook.api_endpoint}/webhook\". That path only traces back to the API object (and the lambda), not to module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook (the \"$default\" stage), so on a fresh apply the GitHub App can be pointed at a URL that is not yet served, and GitHub's verification ping will 404. The registration step should be ordered after the API stage is deployed (e.g. by exporting an endpoint that references the stage and depending on it). No idiomatic data-reference fix exists here because null_resource has no attribute that can reference the other module's stage.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`module.webhook-github-app:resource.null_resource.update_app` registers the runners webhook endpoint with the GitHub App via a local-exec script as soon as `module.runners:output.webhook` is known, but that output is derived from `aws_apigatewayv2_api.webhook.api_endpoint` plus the static local `webhook_endpoint` (\"webhook\"), so the address string is known before the `$default` stage, the `POST /webhook` integration/route and `aws_lambda_permission.webhook` exist. In that window `https://<api-id>.execute-api.<region>.amazonaws.com/webhook` returns 403/404, so GitHub's webhook validation ping fails and, because the provisioner is `on_failure = continue`, the failure is silent and the App keeps an endpoint that only starts working later. The null_resource should depend on `module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook` (which deploys the API) \u2014 and ideally transitively on `aws_apigatewayv2_route.webhook` / `aws_lambda_permission.webhook`. No data-reference fix is available because `modules/webhook/outputs.tf` does not export the stage, so a bare `depends_on` (or a new module output) is required.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

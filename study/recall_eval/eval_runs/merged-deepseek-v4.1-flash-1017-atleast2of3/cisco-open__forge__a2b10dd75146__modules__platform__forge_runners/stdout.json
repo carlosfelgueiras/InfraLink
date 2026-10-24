@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThis module looks up the CI/CD secrets by name (data.aws_secretsmanager_secret.secrets from var.secrets_prefix), but those secrets are created by aws_secretsmanager_secret.cicd_secrets in the parent module (forge_runners/secrets.tf). Nothing links the lookup to the creation, so on a first apply the data source is read during plan before the secret exists and fails. It must depend on the secret creation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndata.aws_secretsmanager_secret.secrets in module.github_app_runner_group looks up the CI/CD secrets by name, but it has no ordering against aws_secretsmanager_secret.cicd_secrets which creates them in the root module. On a fresh apply the lookup runs before the secret exists (Secrets Manager creation is eventually consistent), causing the read to fail. Add ordering to the secret resource.",
+      "node": "module.github_app_runner_group:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThis module looks up the CI/CD secrets by name (data.aws_secretsmanager_secret.secrets from var.secrets_prefix), but those secrets are created by aws_secretsmanager_secret.cicd_secrets in the parent module (forge_runners/secrets.tf). Nothing links the lookup to the creation, so the data source can be read before the secret exists. It must depend on the secret creation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndata.aws_secretsmanager_secret.secrets in module.github_global_lock looks up the CI/CD secrets by name with no dependency on aws_secretsmanager_secret.cicd_secrets, so on a first apply the read races ahead of secret creation and fails.",
+      "node": "module.github_global_lock:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThis module looks up the CI/CD secrets by name (data.aws_secretsmanager_secret.secrets from var.secrets_prefix), but those secrets are created by aws_secretsmanager_secret.cicd_secrets in the parent module (forge_runners/secrets.tf). Nothing links the lookup to the creation, so the data source can be read before the secret exists. It must depend on the secret creation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndata.aws_secretsmanager_secret.secrets in module.github_actions_job_logs looks up the CI/CD secrets by name without depending on aws_secretsmanager_secret.cicd_secrets; on a fresh apply the lookup can execute before the secret exists and fail.",
+      "node": "module.github_actions_job_logs:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

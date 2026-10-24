@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created before its execution-role policies are attached; its configured role reference orders it after the role, but not after the policies. Attaching the required execution permissions before function creation avoids startup or invocation failures caused by IAM propagation.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function references its IAM role, but it can be created before the role's inline pool policy is installed. Make the function depend on this policy so its configured execution permissions are present before invocation; this is distinct from the log-group policy, whose dependency path would form a cycle.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

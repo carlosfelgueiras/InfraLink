@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook-github-app update runs a local-exec operation that uses the generated webhook endpoint; no dependency on the multi-runner module output is implied by its secret/app input. Ensure the API endpoint and gateway configuration exist before updating the GitHub App.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner:output.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

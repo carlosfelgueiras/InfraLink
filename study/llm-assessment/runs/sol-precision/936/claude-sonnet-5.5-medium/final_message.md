@@ -1,0 +1,3 @@
+The report is correct. The instance profile and the role are both created only when `create_runner_iam_role` is true. The profile sets `role = local.aws_iam_role_instance_name`, which is just a name string. It doesn't reference `aws_iam_role.instance`, and the profile has no `depends_on`. Terraform therefore has no ordering between the two, and the profile can try to add a role that doesn't exist yet. The AWS API call that adds the role to the profile fails if the role is missing.
+
+Correct

@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.webhook is invoked by the (external) API Gateway and can receive traffic as soon as it exists, but its CloudWatch log group :resource.aws_cloudwatch_log_group.webhook is only created afterwards (the graph currently only has the inverse dependency via the log group's `name = \"/aws/lambda/${aws_lambda_function.webhook.function_name}\"` reference). If the function is invoked in that window, Lambda auto-creates the log group with default settings (no retention, no KMS), losing the configured retention_in_days/kms_key_id/log_group_class and failing the apply with ResourceAlreadyExistsException. The log group must exist before the function: compute the log group name from var.config.prefix instead of function_name, and add a dependency from the function to the log group (e.g. logging_config.log_group = aws_cloudwatch_log_group.webhook.name, or a bare depends_on once the name reference is removed to avoid a cycle).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.dispatcher is wired to EventBridge (rule/target) and starts receiving workflow_job events as soon as they are published, but its CloudWatch log group :resource.aws_cloudwatch_log_group.dispatcher is only created after the function (via the `name = \"/aws/lambda/${aws_lambda_function.dispatcher.function_name}\"` reference). An invocation before the log group exists makes Lambda auto-create it with default settings, losing the configured retention_in_days/kms_key_id/log_group_class and failing the apply with ResourceAlreadyExistsException. The log group must exist before the function: compute the log group name from var.config.prefix instead of function_name, and add a dependency from the function to the log group (e.g. logging_config.log_group = aws_cloudwatch_log_group.dispatcher.name, or a bare depends_on once the name reference is removed to avoid a cycle).",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_cloudwatch_log_group.dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.webhook is deployed with vpc_config (when var.config.lambda_subnet_ids/lambda_security_group_ids are set), but it has no dependency on :resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role, which grants the execution role the EC2 network-interface permissions (CreateNetworkInterface, etc.) required for VPC-attached functions. Both resources only depend on aws_iam_role.webhook_lambda/var.config, so the attachment can land after the function is created, causing intermittent CreateFunction failures (\"The provided execution role does not have permissions to call CreateNetworkInterface\") or failed first invocations. Add `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]` on the function (no attribute-level data reference exists for a policy attachment, so a bare depends_on is appropriate here; no cycle is introduced).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.dispatcher is deployed with vpc_config (when var.config.lambda_subnet_ids/lambda_security_group_ids are set), but it has no dependency on :resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role, which grants the execution role the EC2 network-interface permissions (CreateNetworkInterface, etc.) required for VPC-attached functions. Both resources only depend on aws_iam_role.dispatcher_lambda/var.config, so the attachment can land after the function is created, causing intermittent CreateFunction failures (\"The provided execution role does not have permissions to call CreateNetworkInterface\") or failed first invocations. Add `depends_on = [aws_iam_role_policy_attachment.dispatcher_vpc_execution_role]` on the function (no attribute-level data reference exists for a policy attachment, so a bare depends_on is appropriate here; no cycle is introduced).",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

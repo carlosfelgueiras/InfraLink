@@ -1,0 +1,160 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_service.project_services enables APIs on local.project.project_id, which is the newly created google_project.project when project_create is true. The graph has no dependency on the project resource, but APIs cannot be enabled until the project exists.",
+      "node": ":resource.google_project_service.project_services",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_access_context_manager_service_perimeter_resource.bridge builds its resource name from local.project.number, which comes from google_project.project when the project is created. It must wait for the project to exist before adding the project to the VPC-SC perimeter.",
+      "node": ":resource.google_access_context_manager_service_perimeter_resource.bridge",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "resource",
+        "expression": "\"projects/${try(google_project.project[0].number, data.google_project.project[0].number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_access_context_manager_service_perimeter_resource.standard builds its resource name from local.project.number, which comes from google_project.project when the project is created. It must wait for the project to exist before adding the project to the VPC-SC perimeter.",
+      "node": ":resource.google_access_context_manager_service_perimeter_resource.standard",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "resource",
+        "expression": "\"projects/${try(google_project.project[0].number, data.google_project.project[0].number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service sets service_project to local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before it can be attached as a Shared VPC service project.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "service_project",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_essential_contacts_contact.contact sets parent to projects/local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before contacts can be attached.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].project_id, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_logging_project_exclusion.logging-exclusion sets project to local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before logging exclusions can be created.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_monitoring_monitored_project.primary sets name to local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before it can be added to a metrics scope.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "name",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_org_policy_policy.default sets its policy parent/name from local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before project-level organization policies can be created.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].project_id, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_audit_config.default sets project to local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before audit log configuration can be applied.",
+      "node": ":resource.google_project_iam_audit_config.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_custom_role.roles sets project to local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before custom roles can be created in it.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_resource_manager_lien.lien sets parent to projects/local.project.number, which comes from google_project.project when project_create is true. The project must exist before a project-deletion lien can be created.",
+      "node": ":resource.google_resource_manager_lien.lien",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].number, local.project.number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_tags_tag_binding.binding sets parent from local.project.number, which comes from google_project.project when project_create is true. The project must exist before tag bindings can be applied to it.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"//cloudresourcemanager.googleapis.com/projects/${try(google_project.project[0].number, local.project.number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_tags_tag_key.default sets parent to projects/local.project.project_id, which is the newly created google_project.project when project_create is true. The project must exist before tag keys can be created under it.",
+      "node": ":resource.google_tags_tag_key.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].project_id, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

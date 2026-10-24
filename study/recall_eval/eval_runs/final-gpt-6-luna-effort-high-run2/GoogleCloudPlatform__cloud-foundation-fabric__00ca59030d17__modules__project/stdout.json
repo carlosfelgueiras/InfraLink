@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.google_kms_crypto_key_iam_member.service_identity_cmek to :resource.google_project.project duplicates the dependency inferred through local.service_accounts_robots \u2192 local.project.number, which references google_project.project when project_create is true.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.google_kms_crypto_key_iam_member.service_identity_cmek to :data.google_project.project duplicates the dependency inferred through local.service_accounts_robots \u2192 local.project.number, which references data.google_project.project when project_create is false.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

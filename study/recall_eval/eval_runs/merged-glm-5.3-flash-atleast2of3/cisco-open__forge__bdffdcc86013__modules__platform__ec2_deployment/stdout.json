@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ndata.aws_ssm_parameter.ami_id reads SSM parameters under /github-action-runners/<prefix>/<key>/runners/config/ami_id, which are created by module.runners (the terraform-aws-github-runner multi-runner module) at apply time. No attribute reference or depends_on establishes this ordering, so on a fresh apply the data read happens before the parameters exist and the apply fails; data.aws_ami.runner_ami and output.ec2_runners_ami_name_map fail transitively. Add an explicit depends_on on module.runners (no attribute of the data source can reference the module, so a data-dependency fix is not available).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ndata.aws_ssm_parameter.ami_id reads the runner-config SSM parameters (/github-action-runners/<prefix>/<key>/runners/config/ami_id) that are created by module.runners, but it has no attribute reference or depends_on linking it to the module. On a fresh environment the data read would evaluate before the parameters exist and fail with ParameterNotFound; an explicit depends_on on module.runners is needed to defer the read until after the parameters are created.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ndata.aws_ssm_parameter.ami_id reads the SSM parameters \"/github-action-runners/<prefix>/<key>/runners/config/ami_id\", which are created by module.runners (the terraform-aws-github-runner multi-runner module stores each runner group's AMI id there). There is no attribute reference or depends_on from this data source to module.runners, and the parameter names are computed purely from var.runner_configs, so Terraform reads the data source at plan time \u2014 on the first apply this fails hard with ParameterNotFound because module.runners has not created the parameters yet.",
+      "node": ":data.aws_ssm_parameter.ami_id",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

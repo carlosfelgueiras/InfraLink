@@ -1,0 +1,73 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "In key.tf, local_file.public_ssh_key explicitly depends_on tls_private_key.ssh, but its content already references tls_private_key.ssh.public_key_openssh and establishes the same ordering.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "In key.tf, local_file.private_ssh_key explicitly depends_on tls_private_key.ssh, but its content already references tls_private_key.ssh.private_key_pem and establishes the same ordering.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.template_file.gitlab_runner supplies the SSM parameter name to instance bootstrap using a shared local rather than aws_ssm_parameter.runner_registration_token.name. Consequently, the Auto Scaling group can launch bootstrap before Terraform initializes the parameter. Bootstrap reads or updates this parameter, so concurrent initialization can cause a missing-parameter failure, a creation conflict, or an overwrite of the registered token. Reference the managed parameter name in the template variables.",
+      "node": "module.runner:data.template_file.gitlab_runner",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": {
+        "field": "vars",
+        "expression": "{\n  gitlab_runner_version = var.gitlab_runner_version\n  docker_machine_version = var.docker_machine_version\n  runners_config = data.template_file.runners.rendered\n  runners_executor = var.runners_executor\n  pre_install = var.userdata_pre_install\n  post_install = var.userdata_post_install\n  runners_gitlab_url = var.runners_gitlab_url\n  runners_token = var.runners_token\n  secure_parameter_store_runner_token_key = aws_ssm_parameter.runner_registration_token.name\n  secure_parameter_store_region = var.aws_region\n  gitlab_runner_registration_token = var.gitlab_runner_registration_config[\"registration_token\"]\n  giltab_runner_description = var.gitlab_runner_registration_config[\"description\"]\n  gitlab_runner_tag_list = var.gitlab_runner_registration_config[\"tag_list\"]\n  gitlab_runner_locked_to_project = var.gitlab_runner_registration_config[\"locked_to_project\"]\n  gitlab_runner_run_untagged = var.gitlab_runner_registration_config[\"run_untagged\"]\n  gitlab_runner_maximum_timeout = var.gitlab_runner_registration_config[\"maximum_timeout\"]\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.template_file.logging configures logging using var.environment, while aws_cloudwatch_log_group.environment independently creates the log group with that name. There is no dependency ensuring the managed log group exists before the resulting user data starts logging. Reference its name when logging is enabled to order instance launch after log-group creation and avoid startup failures or a conflict if the logging agent auto-creates the group.",
+      "node": "module.runner:data.template_file.logging",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": {
+        "field": "vars",
+        "expression": "{\n  environment = var.enable_cloudwatch_logging ? element(aws_cloudwatch_log_group.environment.*.name, 0) : var.environment\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance can launch instances before aws_iam_role_policy.instance installs their CloudWatch Logs permissions. The launch configuration depends on the role through its instance profile, but that does not order creation of the separate inline policy. When logging is enabled, wait for the policy before launching instances so bootstrap logging has its required permissions.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance can launch bootstrap before aws_iam_role_policy_attachment.ssm attaches the parameter-store permissions to the instance role. Its dependency on the instance profile does not include this separate attachment. When token management is enabled, order launch after this attachment so bootstrap can read and store the registration token. This ordering does not itself guarantee completion of IAM propagation.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance can start the runner and accept jobs before aws_iam_role_policy_attachment.docker_machine_cache_instance grants its role access to the configured S3 cache. Referencing the instance profile orders creation of the role, not its policy attachments. Order the Auto Scaling group after this attachment so initial jobs do not race cache-permission installation; IAM propagation may still require retries.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

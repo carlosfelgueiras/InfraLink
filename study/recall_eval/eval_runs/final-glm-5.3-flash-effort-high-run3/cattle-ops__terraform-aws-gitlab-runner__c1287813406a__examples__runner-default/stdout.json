@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on tls_private_key.ssh is redundant: local_file.public_ssh_key already references tls_private_key.ssh.public_key_openssh in its content attribute, so Terraform infers the same ordering implicitly.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on tls_private_key.ssh is redundant: local_file.private_ssh_key already references tls_private_key.ssh.private_key_pem in its content attribute, so Terraform infers the same ordering implicitly.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The autoscaling group boots the runner agent instance whose user-data script writes the GitLab runner token into SSM (aws ssm put-parameter on local.secure_parameter_store_runner_token_key). aws_ssm_parameter.runner_registration_token (with lifecycle ignore_changes on value) must exist before that script runs, otherwise the script creates the parameter itself and Terraform's aws_ssm_parameter create later fails with \"parameter already exists\". No attribute reference connects the ASG/launch configuration to the SSM parameter, so this ordering is not captured by the graph.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

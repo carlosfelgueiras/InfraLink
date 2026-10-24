@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.additive grants roles from var.iam_additive_roles, which may reference custom roles created by google_project_iam_custom_role.roles in this module (role IDs like \"projects/<id>/roles/<name>\"). Applying the IAM member before the custom role exists fails (\"role not found\"). The sibling resource google_project_iam_binding.authoritative explicitly depends_on google_project_iam_custom_role.roles for exactly this reason; the additive member has neither an attribute reference nor a depends_on, so Terraform may create the IAM member first.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.additive should not be applied before the project's service APIs are enabled: GCP API enablement is asynchronous, and service-scoped roles (e.g. compute, dataproc, pubsub roles) may not be grantable until the corresponding google_project_service.project_services entries are active. The module already encodes this ordering for google_project_iam_binding.authoritative via depends_on, but the additive member has no such dependency.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

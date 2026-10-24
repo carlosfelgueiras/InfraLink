@@ -1,0 +1,127 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name`, a computed string rather than a reference to aws_iam_role.instance, so nothing orders it after the role. AddRoleToInstanceProfile fails with NoSuchEntity if :resource.aws_iam_role.instance has not been created yet (it is created in the same config, count = var.create_runner_iam_role).",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy.instance (logging.tf) uses `role = local.aws_iam_role_instance_name`, so it has no ordering edge to :resource.aws_iam_role.instance. `PutRolePolicy` fails with NoSuchEntity when the agent role has not been created yet.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy attaches by `role = local.aws_iam_role_instance_name` (a name string), so it does not depend on :resource.aws_iam_role.instance. The AttachRolePolicy call fails if the runner agent role does not exist yet.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy attaches by `role = local.aws_iam_role_instance_name` rather than referencing :resource.aws_iam_role.instance, so the attach can run before the role exists and fail with NoSuchEntity.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed attaches the AWS-managed SSM policy by `role = local.aws_iam_role_instance_name`, giving no ordering edge to :resource.aws_iam_role.instance; the attach fails if the role has not been created yet.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.user_defined_policies uses `role = local.aws_iam_role_instance_name`, so it does not depend on :resource.aws_iam_role.instance and can be created before the agent role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance attaches by `role = local.aws_iam_role_instance_name`, so it has no ordering edge to :resource.aws_iam_role.instance; the attach fails with NoSuchEntity when the runner agent role is created in the same apply.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance takes `policy_arn = local.bucket_policy`, but nothing orders it after the module that produces that ARN when var.cache_bucket[\"create\"] is true; the attach fails if the cache module's IAM policy does not exist yet.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "var.cache_bucket[\"create\"] ? module.cache[0].policy_arn : var.cache_bucket[\"policy\"]"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.service_linked_role attaches by `role = local.aws_iam_role_instance_name`, so it does not depend on :resource.aws_iam_role.instance and may run before the agent role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.ssm attaches the SSM token policy by `role = local.aws_iam_role_instance_name`, giving no ordering edge to :resource.aws_iam_role.instance; the attach fails if the runner agent role has not been created yet.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.eip attaches the EIP policy by `role = local.aws_iam_role_instance_name`, so it does not depend on :resource.aws_iam_role.instance and can be created before the agent role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_security_group_rule.docker_machine_ping_runner sources its ingress from `local.security_groups_ping`, which contains aws_security_group.runner.id, but the graph only records its dependence on aws_security_group.docker_machine. Without an edge to :resource.aws_security_group.runner the rule can be created with an empty source security group id and fail.",
+      "node": ":resource.aws_security_group_rule.docker_machine_ping_runner",
+      "target": ":resource.aws_security_group.runner",
+      "fix": {
+        "field": "source_security_group_id",
+        "expression": "element(concat(var.gitlab_runner_security_group_ids, [aws_security_group.runner.id]), count.index)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_launch_template.gitlab_runner_instance sets `iam_instance_profile { name = local.aws_iam_role_instance_name }` \u2014 the name of the profile created by aws_iam_instance_profile.instance \u2014 but has no dependency on it, so the ASG can launch instances before the instance profile exists (instances fail with \"Invalid IAM Instance Profile\").",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

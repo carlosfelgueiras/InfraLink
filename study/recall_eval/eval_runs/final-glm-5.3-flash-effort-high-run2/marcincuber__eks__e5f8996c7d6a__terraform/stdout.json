@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_eks_addon.cloudwatch manages the amazon-cloudwatch-observability addon, whose agent writes to the /aws/containerinsights/${var.name_prefix}/* log groups. If :resource.aws_eks_addon.cloudwatch is created before :resource.aws_cloudwatch_log_group.cluster_performance, AWS auto-creates the log group without the configured retention settings and Terraform then fails to create it. The sibling resource :resource.aws_eks_addon.amazon_cloudwatch_observability already carries an explicit depends_on on :resource.aws_cloudwatch_log_group.cluster_performance, but :resource.aws_eks_addon.cloudwatch (gated by the same var.eks_addon_version_cloudwatch) does not. The same ordering applies to aws_cloudwatch_log_group.cluster_application, cluster_dataplane and cluster_host.",
+      "node": ":resource.aws_eks_addon.cloudwatch",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_performance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_eks_cluster.cluster has no dependency on :resource.aws_cloudwatch_log_group.cluster, but when var.eks_enabled_log_types is non-empty the EKS control plane starts writing to /aws/eks/${var.name_prefix}/cluster as soon as the cluster is created. If the log group is created after the cluster, CloudWatch auto-creates it and Terraform fails with \"ResourceAlreadyExistsException\". :resource.aws_eks_cluster.cluster should wait for :resource.aws_cloudwatch_log_group.cluster to exist first (e.g. an explicit depends_on, since no attribute reference links them).",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":module.eks_node_group_al2023 only depends on :resource.aws_iam_role.eks_node_group via its node_role_arn, but not on :resource.aws_iam_role_policy_attachments_exclusive.eks_node_group, which attaches the required worker policies (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly, etc.). If the managed node group is provisioned before the policy attachments propagate, worker nodes cannot join the cluster. :module.eks_node_group_al2023 should wait for :resource.aws_iam_role_policy_attachments_exclusive.eks_node_group (e.g. an explicit depends_on, since only the bare role ARN is referenced).",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

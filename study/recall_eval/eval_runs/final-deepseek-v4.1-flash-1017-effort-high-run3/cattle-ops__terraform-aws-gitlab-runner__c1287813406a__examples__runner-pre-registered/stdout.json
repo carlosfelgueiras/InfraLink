@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`local_file.private_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but its `content` attribute is `${tls_private_key.ssh.private_key_pem}`, which already establishes the same ordering implicitly. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`local_file.public_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but its `content` attribute is `${tls_private_key.ssh.public_key_openssh}`, which already establishes the same ordering implicitly. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_autoscaling_group.gitlab_runner_instance` launches the runner EC2 instance whose user-data script writes the registration token into `aws_ssm_parameter.runner_registration_token` (Terraform creates it with value \"null\" and ignores later value changes). Nothing orders the ASG after the SSM parameter \u2014 the parameter name is only referenced as a string in the template \u2014 so the instance may boot and write/create the parameter before Terraform creates it, causing the `aws_ssm_parameter` create to fail (overwrite defaults to false on create). Add `depends_on = [aws_ssm_parameter.runner_registration_token]` to the autoscaling group.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

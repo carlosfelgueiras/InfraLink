@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references the transform \"forgecicd_trust_validation\" via variables[\"REPORT-forgecicd_trust_validation\"], but has no dependency on splunk_configs_conf.forgecicd_trust_validation. Since the transform name is a plain string (no attribute reference exists), the props stanza could be created before the transform, producing a props entry whose REPORT points at a nonexistent transform. All other REPORT-referenced transforms in this resource are covered by depends_on, making this omission look like an oversight.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references the transform \"forgecicd_extra_lambda_ec2_tenant_fields\" via variables[\"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\"], but has no dependency on splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields. The transform name is only a string literal, so Terraform will not infer the ordering; without an explicit depends_on the props stanza may be applied before the transform exists, unlike its sibling REPORT-* entries (lambda_tenant_fields, global_lambda_tenant_fields, extra_lambda_tenant_fields) which are covered.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

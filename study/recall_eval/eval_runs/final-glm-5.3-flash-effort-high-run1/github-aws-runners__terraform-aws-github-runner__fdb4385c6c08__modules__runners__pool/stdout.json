@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool is created before aws_cloudwatch_log_group.pool (the log group only depends on the function via its name attribute). Lambda auto-creates the /aws/lambda/<function_name> log group as soon as the function is created, with default retention and no KMS key, so the subsequent creation of aws_cloudwatch_log_group.pool fails with ResourceAlreadyExistsException \u2014 or the auto-created group shadows the managed one and retention_in_days/kms_key_id/log_class never take effect. The function must be created after the log group. Note: a bare depends_on would cycle because the log group name references aws_lambda_function.pool.function_name; the idiomatic fix is to compute the log group name from the same \"${var.config.prefix}-pool\" value (e.g. a local) instead of the resource attribute, then reference the log group from the lambda.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

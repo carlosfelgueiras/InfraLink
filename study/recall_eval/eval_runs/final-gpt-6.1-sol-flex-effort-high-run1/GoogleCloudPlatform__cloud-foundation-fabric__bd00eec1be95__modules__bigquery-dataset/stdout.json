@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_bigquery_table.views takes SQL from each.value.query, so Terraform cannot infer references to tables managed by :resource.google_bigquery_table.default. Views querying those tables require them to exist when BigQuery validates the view definition. Add depends_on = [google_bigquery_table.default] to order view creation after the module's tables and prevent first-apply races.",
+      "node": ":resource.google_bigquery_table.views",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

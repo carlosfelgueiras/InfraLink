@@ -1,0 +1,61 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_instance_profile.instance` sets `role = local.aws_iam_role_instance_name`, a string computed from locals/vars rather than a reference to `:resource.aws_iam_role.instance`. Terraform can therefore create the instance profile before the role exists, and the IAM API fails with NoSuchEntity. The profile must be ordered after the role (both use the same `var.create_runner_iam_role` count, so a direct reference is safe).",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_launch_template.gitlab_runner_instance` sets `iam_instance_profile { name = local.aws_iam_role_instance_name }` \u2014 a derived name string, not a reference to `:resource.aws_iam_instance_profile.instance`. Nothing orders the profile before the ASG launches its first instance, so the instance launch can fail because the IAM instance profile does not exist yet. No clean attribute-level fix exists here (the reference is inside a nested block and the profile is conditionally created), so an explicit `depends_on = [aws_iam_instance_profile.instance]` (a no-op when the profile count is 0) is the right closure.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy` attaches to the runner agent role by name only (`role = local.aws_iam_role_instance_name`); it has no reference to `:resource.aws_iam_role.instance`, so Terraform may attempt the attachment before the role exists and fail. Add a dependency on the role resource.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.instance_session_manager_policy` uses the derived role name (`local.aws_iam_role_instance_name`) instead of referencing `:resource.aws_iam_role.instance`, so the attachment can race ahead of role creation and fail. Add a dependency on the role resource.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed` attaches the AWS-managed SSM policy using only a derived role name string; it does not reference `:resource.aws_iam_role.instance`, so the attachment may be created before the role and fail. Add a dependency on the role resource.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.user_defined_policies` attaches caller-supplied policies to the runner agent role by name string only, with no reference to `:resource.aws_iam_role.instance`. When the module creates the role, the attachment can be attempted before the role exists; add a dependency on the role resource (harmless no-op when `create_runner_iam_role` is false).",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

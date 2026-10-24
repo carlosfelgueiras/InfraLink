@@ -1,0 +1,454 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global should depend on :resource.aws_s3_bucket_policy.audit_log. CloudTrail validates the destination bucket policy when the trail is created (logging is enabled by default), and the AWS provider's own example for aws_cloudtrail shows depends_on = [aws_s3_bucket_policy...]. The trail only references the bucket by name via s3_bucket_name, so Terraform orders it after the bucket but can create it concurrently with (or before) the bucket policy is attached, causing InsufficientS3BucketPolicyException on first apply. A bare depends_on is the idiomatic fix here since no trail attribute takes the policy document.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global should depend on module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy. The trail only references the delivery role by ARN (cloud_watch_logs_role_arn), which creates no dependency on the role policy. CloudTrail validates that the role can write to the CloudWatch Logs group when it starts logging (which happens at creation by default), so without the policy in place first the apply can fail with InsufficientCloudWatchLogsRolePolicyException. A bare depends_on is needed; no trail attribute can carry the policy document.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs should depend on :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log only references the publisher role via its ARN (vpc_flow_logs_iam_role_arn), which establishes no ordering with the role policy granting logs:CreateLogStream/PutLogEvents. If the flow log is created before the policy is attached, log delivery fails. No flow-log attribute can carry the policy document, so a bare depends_on is the fix.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_iam_role_policy.recorder_publish_policy. Enabling the recorder (is_enabled = true) activates the delivery pipeline, which immediately needs the recorder role's s3:PutObject and sns:Publish permissions. The status resource only references the recorder (which in turn only holds the role ARN), so no ordering is established with the role policy; recording can start with an unauthorized role. No attribute on the status resource can carry the policy, so a bare depends_on is the fix.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder should depend on :resource.aws_s3_bucket_policy.audit_log. Once recording is enabled, AWS Config delivers snapshots to the audit log bucket, which only accepts writes from config.amazonaws.com once the bucket policy (data.aws_iam_policy_document.audit_log / aws_s3_bucket_policy.audit_log) is applied. The delivery channel references the bucket only by name, so no ordering with the bucket policy is established and delivery fails until the policy lands. A bare depends_on is the fix.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

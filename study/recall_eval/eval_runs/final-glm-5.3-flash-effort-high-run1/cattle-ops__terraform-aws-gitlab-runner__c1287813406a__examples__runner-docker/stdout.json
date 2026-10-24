@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.private_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but the dependency is already established implicitly because `content` directly references `tls_private_key.ssh.private_key_pem`. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`local_file.public_ssh_key` declares `depends_on = [\"tls_private_key.ssh\"]`, but the dependency is already established implicitly because `content` directly references `tls_private_key.ssh.public_key_openssh`. The explicit depends_on is redundant and can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `aws_ssm_parameter.runner_registration_token` is created by Terraform with value \"null\" and `ignore_changes` on `value`; the runner instance's user-data script is responsible for writing the actual registration token into it (per the source comment \"Parameter value is managed by the user-data script\"). The user-data script overwrites an existing parameter (`aws ssm put-parameter ... --overwrite`), which fails if the parameter does not yet exist. Since the autoscaling group boots the instance as soon as it is created and neither an attribute reference nor a depends_on ties it to the SSM parameter, the instance can start and fail its user-data registration before the parameter is created.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When CloudWatch logging is enabled, the runner instance's user-data (data.template_file.logging / user_data) configures the awslogs agent for the log group named after the environment \u2014 the same log group Terraform creates via `aws_cloudwatch_log_group.environment`. If the autoscaling group creates the instance before the log group exists, the awslogs agent will auto-create the log group itself, causing a name collision with (or a failed create of) the Terraform-managed `aws_cloudwatch_log_group.environment`. There is no attribute reference or depends_on ensuring the log group is created before the instance boots.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

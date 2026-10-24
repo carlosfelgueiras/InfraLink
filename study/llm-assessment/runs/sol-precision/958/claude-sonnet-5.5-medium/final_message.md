@@ -1,0 +1,8 @@
+The report is correct.
+
+- **What the configuration expresses:** `aws_lambda_function.terminate_runner_instances` takes `role = aws_iam_role.lambda.arn`. That orders it after the role only. Nothing orders it after `aws_iam_role_policy_attachment.lambda`, which is what grants the permissions.
+- **Why the ordering is needed:** The attachment applies the policy that allows `autoscaling:CompleteLifecycleAction`, EC2 termination, and `logs:PutLogEvents` and `logs:CreateLogStream`. The function must have these before it is invoked. The invocation comes from the event target, `aws_cloudwatch_event_target.terminate_instances`. That target references the function ARN, so it is created after the function. Nothing in between waits for the attachment.
+- **Log group:** The policy references `aws_cloudwatch_log_group.lambda`, so the attachment already depends on the log group. The function itself has no link to the log group. If it ran before the group existed, Lambda would create `/aws/lambda/<name>` itself. Terraform's later creation of that group would then conflict. Ordering the function after the attachment fixes this too.
+- **How likely it is to matter:** The race window is narrow, because invocations only happen once an instance is terminating. Even so, the ordering requirement is real and Terraform has no information to enforce it. Ordering a Lambda after its role policy attachment is also the usual recommendation.
+
+Correct

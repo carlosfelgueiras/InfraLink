@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Shared VPC service-project association uses the Compute API but has no ordering dependency on this module's API-enablement resources. Unlike the host-project association, which waits for `google_project_service.project_services`, this resource could be created before Compute API enablement completes.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` should wait for `:resource.google_project_service.project_services` so the Compute Engine API is enabled before Terraform configures the project as a Shared VPC service project. The sibling host-project resource already enforces this ordering.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Shared VPC service-project association should wait for this project's enabled APIs. In particular, the association is a Compute Engine operation and can be attempted before Compute API activation completes; unlike the host-project resource, this resource has no dependency on the project service resources.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

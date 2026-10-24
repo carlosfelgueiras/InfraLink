@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_config_configuration_aggregator.organization` only depends on `aws_iam_role.config_organization` (through `role_arn`), but not on `aws_iam_role_policy_attachment.config_organization`. Creating an organization-source aggregator immediately exercises the role (AWS Config calls EnableAwsServiceAccess against AWS Organizations), so the `AWSConfigRoleForOrganizations` policy must already be attached. Both the AWS and Terraform registry examples for organization aggregation include an explicit `depends_on` on the role-policy attachment for exactly this reason. Without it, the aggregator can be created before the role has any permissions and creation fails with an insufficient-permissions error. Add `depends_on = [aws_iam_role_policy_attachment.config_organization]` to `aws_config_configuration_aggregator.organization`.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

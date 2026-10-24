@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down invokes aws_lambda_function.scale_down, but nothing orders it after aws_lambda_permission.scale_down. Per the AWS provider docs, an EventBridge rule can only invoke a Lambda once the aws_lambda_permission granting events.amazonaws.com exists; today the target and the permission are created in parallel (they share only the rule and the lambda), so a schedule firing before the permission propagates fails to invoke. The target should depend on the lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.ssm_housekeeper invokes aws_lambda_function.ssm_housekeeper, but has no ordering dependency on aws_lambda_permission.ssm_housekeeper. Without the resource-based policy granting events.amazonaws.com, EventBridge cannot invoke the function; the target and permission are created concurrently, so an early rule trigger fails. The target should depend on the lambda permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.pool:resource.aws_scheduler_schedule.pool invokes the pool Lambda using aws_iam_role.scheduler as its execution role, but does not wait for module.pool:resource.aws_iam_role_policy.scheduler, which is what grants that role lambda:InvokeFunction. Because IAM policy propagation is eventually consistent and the schedule is active on creation, a schedule could fire before the invoke permission is in effect. The schedule should depend on the scheduler role policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

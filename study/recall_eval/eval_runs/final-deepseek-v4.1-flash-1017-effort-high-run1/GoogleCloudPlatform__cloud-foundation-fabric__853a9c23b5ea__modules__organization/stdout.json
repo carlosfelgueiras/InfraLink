@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.google_org_policy_policy.default` explicitly depends_on `:resource.google_tags_tag_key.default`, but it also depends_on `:resource.google_tags_tag_value.default`, which already implicitly depends on the tag key (`parent = google_tags_tag_key.default[...].id`). The tag-key ordering is therefore already guaranteed transitively, making the explicit depends_on on the tag key redundant.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends_on `:resource.google_tags_tag_value.default`, but it also depends_on `:resource.google_tags_tag_value_iam_binding.default`, which implicitly depends on `google_tags_tag_value.default`. The tag-value ordering is already established, so this explicit entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.id` explicitly depends_on `:resource.google_tags_tag_key.default`, but it also depends_on both `:resource.google_tags_tag_key_iam_binding.default` and `:resource.google_tags_tag_value.default`, each of which implicitly depends on `google_tags_tag_key.default`. The tag-key ordering is already guaranteed, so this explicit entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends_on `:resource.google_tags_tag_value.default`, but it also depends_on `:resource.google_tags_tag_value_iam_binding.default`, which implicitly depends on `google_tags_tag_value.default`. The tag-value ordering is already established, so this explicit entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:output.organization_id` explicitly depends_on `:resource.google_tags_tag_key.default`, but it also depends_on both `:resource.google_tags_tag_key_iam_binding.default` and `:resource.google_tags_tag_value.default`, each of which implicitly depends on `google_tags_tag_key.default`. The tag-key ordering is already guaranteed, so this explicit entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

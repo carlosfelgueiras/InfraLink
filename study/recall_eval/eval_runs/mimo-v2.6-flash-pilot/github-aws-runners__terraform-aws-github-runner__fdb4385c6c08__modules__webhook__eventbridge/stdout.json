@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EventBridge target dispatcher can be created before aws_lambda_permission.allow_cloudwatch_to_call_lambda exists. The aws_cloudwatch_event_target docs state that a Lambda function can only be invoked by an EventBridge rule once an aws_lambda_permission grants events.amazonaws.com the lambda:InvokeFunction permission; without ordering, events delivered in that window are rejected with AccessDenied.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher only references the role ARN, so it can be created (and start receiving events from the target once the invoke permission exists) before the dispatcher_sqs inline policy is attached; its first invocations would fail to publish to the SQS job queues. The aws_lambda_function docs show ordering the function after the role's policies.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher can be created and invoked before the dispatcher_ssm inline policy is attached to its role; the function reads the runner-matcher SSM parameters via PARAMETER_RUNNER_MATCHER_CONFIG_PATH and would get AccessDenied on early invocations. No attribute reference or depends_on expresses this ordering.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher can be invoked before the dispatcher_logging inline policy is attached to its role; early invocations would fail to write to the CloudWatch log group (logs:CreateLogStream/PutLogEvents denied). The function is not ordered after the role's logging policy.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher can be invoked before the dispatcher_kms inline policy is attached to its role; when a CMK is configured the function's early invocations would fail KMS decrypt operations (e.g. SecureString SSM parameters / encrypted queues). No dependency between the function and this policy exists in the graph.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When lambda_subnet_ids is set, aws_lambda_function.dispatcher is created with a vpc_config but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; AWS requires the execution role to have the EC2 ENI permissions (CreateNetworkInterface etc.) for VPC configuration to succeed, so the function can be created before its role can fulfill them.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook only references the role ARN, so it can be created and become invocable through aws_lambda_permission.webhook (API Gateway) before the webhook_logging inline policy is attached; early invocations would fail to write to its CloudWatch log group. The aws_lambda_function docs show ordering the function after the role's policies.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook can be invoked via API Gateway before the webhook_ssm inline policy is attached to its role; the function reads PARAMETER_GITHUB_APP_WEBHOOK_SECRET (an SSM parameter) at runtime and early invocations would get AccessDenied. No graph edge orders the function after this policy.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook can be invoked before the webhook_eventbridge inline policy is attached to its role; the function publishes accepted webhook events to the event bus (EVENT_BUS_NAME) and early invocations would fail with AccessDenied on events:PutEvents. Nothing expresses this ordering.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_eventbridge",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook can be invoked before the webhook_kms inline policy is attached to its role; when a CMK is configured, early invocations would fail KMS decrypt operations needed to read encrypted configuration. No dependency between the function and this policy exists.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When lambda_subnet_ids is set, aws_lambda_function.webhook is created with a vpc_config but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; the execution role must have the EC2 ENI permissions for the VPC configuration to work, yet the attachment can be created in parallel with the function.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "When tracing_config.mode is set, aws_lambda_function.dispatcher is created with tracing_config Active but nothing orders it after the dispatcher_xray inline policy; early invocations would emit denied X-Ray PutTraceSegments calls until the policy attaches.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "When tracing_config.mode is set, aws_lambda_function.webhook is created with tracing_config Active but nothing orders it after the xray inline policy on its role; early invocations would emit denied X-Ray calls until the policy attaches.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk configures Elasticsearch PVCs with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The Helm release can be applied before the storage class exists, leaving the PVCs Pending and the release timing out.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.prometheus_operator configures Prometheus/Alertmanager PVCs with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The release can be applied before the storage class exists.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.victoria_metrics_k8s_stack configures VMSingle/Alertmanager PVCs with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The release can be applied before the storage class exists.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.loki_stack configures Loki persistence with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The release can be applied before the storage class exists.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk references the `elastic-credentials` Secret by name in its chart values, but nothing orders it after kubernetes_secret.elasticsearch_credentials. The ELK pods can start before the Secret exists and fail to mount/read credentials.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk references the `elastic-certificates` Secret by name in its chart values, but nothing orders it after kubernetes_secret.elasticsearch_certificates. Elasticsearch/Kibana pods can start before the TLS Secret exists.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk references the `elasticsearch-s3-user-creds` Secret by name in its chart values, but nothing orders it after kubernetes_secret.elasticsearch_s3_user_creds. Elasticsearch can start before the S3 keystore Secret exists.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.elk references the `kibana-encryption-key` Secret by name in its chart values, but nothing orders it after kubernetes_secret.kibana_enc_key. Kibana can start before the encryption-key Secret exists.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "helm_release.aws_loadbalancer_controller installs a chart whose webhook certificate relies on cert-manager CRDs, but it has no dependency on helm_release.cert_manager. The release can be applied before cert-manager is installed and fail to create its Certificate resources.",
+      "node": ":resource.helm_release.aws_loadbalancer_controller",
+      "target": ":resource.helm_release.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id already has an implicit dependency on module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user through its value expression (`aws_iam_access_key.this_user.id`), so the explicit depends_on is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key already has an implicit dependency on module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user through its value expression (`aws_iam_access_key.this_user.secret`), so the explicit depends_on is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

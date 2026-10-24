@@ -1,0 +1,5 @@
+In `modules/runner-binaries-syncer/runner-binaries-syncer.tf`, `aws_lambda_function.syncer` configures `vpc_config` using `var.lambda_subnet_ids` and `var.lambda_security_group_ids` and references `aws_iam_role.syncer_lambda.arn` as its execution role. The `AWSLambdaVPCAccessExecutionRole` policy is attached separately via `aws_iam_role_policy_attachment.syncer_vpc_execution_role`, which also references `aws_iam_role.syncer_lambda.name`.
+
+Because `aws_lambda_function.syncer` has neither an attribute reference to nor an explicit `depends_on` for `aws_iam_role_policy_attachment.syncer_vpc_execution_role`, Terraform can attempt to create the VPC-attached Lambda function before the VPC execution policy attachment completes (or detach the policy before the Lambda function is destroyed). AWS Lambda validates that the execution role has EC2 network interface permissions (`ec2:CreateNetworkInterface`, `ec2:DescribeNetworkInterfaces`, `ec2:DeleteNetworkInterface`) during function creation when VPC configuration is provided, so `aws_lambda_function.syncer` must depend on `aws_iam_role_policy_attachment.syncer_vpc_execution_role`.
+
+Correct

@@ -1,0 +1,3 @@
+The schedule references the role, but not the role policy, so Terraform has no ordering between the schedule and the policy. The policy is what grants `lambda:InvokeFunction`. A schedule that triggers before the policy exists would have its invocation denied. The schedule is enabled by default, so this is a real race. The effect is limited to early invocations, which is still an operational ordering requirement that Terraform doesn't enforce.
+
+Correct

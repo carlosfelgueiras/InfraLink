@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target invokes the syncer Lambda via `arn = aws_lambda_function.syncer.arn`, but `aws_lambda_permission.syncer` (principal events.amazonaws.com, source_arn = rule ARN) references only the rule and the function, so Terraform creates the event target and the resource-based policy concurrently. Per the aws_cloudwatch_event_target docs, the Lambda permission must be in place for the rule to be able to invoke the function; until it propagates, scheduled rule invocations fail with AccessDenied and the runner distribution is never synced. This is the same ordering the module already handles for the S3 path (aws_s3_bucket_notification.on_deploy depends_on aws_lambda_permission.on_deploy), so the target should depend on the permission as well.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.scale_down` references the rule and `aws_lambda_function.scale_down.arn` but not `aws_lambda_permission.scale_down`, so both are created in parallel. The scale-down rule is scheduled (default every 5 minutes, here every minute) and starts firing immediately; without the events.amazonaws.com resource-based policy already present the invocations fail with AccessDenied and stale/busy runners are not cleaned up. The event target should depend on the Lambda permission so the rule cannot fire before the function is invokable.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.pool` wires each schedule rule to `aws_lambda_function.pool.arn`, while `aws_lambda_permission.pool` (principal events.amazonaws.com, source_arn = rule ARN) is a sibling with no ordering relationship to the target. Because these scheduled rules begin firing as soon as they exist, the pool Lambda can receive an AccessDenied invocation before the resource-based policy propagates, so the pool is not adjusted for that window. The event target should depend on the Lambda permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

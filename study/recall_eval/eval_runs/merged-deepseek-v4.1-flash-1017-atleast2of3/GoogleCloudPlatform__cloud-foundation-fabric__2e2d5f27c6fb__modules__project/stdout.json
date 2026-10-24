@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_binding.authoritative` mutates the project IAM policy (cloudresourcemanager/IAM APIs) but is only ordered after `:resource.google_project.project`. `:resource.google_project_service.project_services` enables those APIs asynchronously and sets `disable_on_destroy`/`disable_dependent_services`, so on create the roles granted here may refer to services that are not yet enabled, and on destroy the policy binding is removed in parallel with the APIs being disabled \u2014 the same failure mode the module already guards against on `google_compute_project_metadata_item.oslogin_meta`. It should depend on `:resource.google_project_service.project_services` (bare `depends_on`; no attribute here can reference the service resources).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_binding.authoritative` only depends on `google_project.project` (via `project = google_project.project.project_id`); nothing orders it after `google_project_service.project_services`. Setting authoritative bindings requires the project's IAM/Cloud Resource Manager APIs to be live, and on destroy the module disables services (`disable_on_destroy = true`, `disable_dependent_services = true`), so removing bindings after the APIs are torn down fails. This is the same ordering the module already encodes for `google_compute_project_metadata_item.oslogin_meta` (\"depend on services or it will fail on destroy\"). Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.google_project_iam_binding.authoritative` only references `google_project.project`, so it can be applied before the APIs in `var.services` are enabled. The members it binds often include service agents that are created only when their API is enabled (e.g. `<project_number>@cloudservices.gserviceaccount.com`), and disabling services on destroy with surviving bindings can error. It should depend on `:resource.google_project_service.project_services` (e.g. via depends_on, as already done for `google_compute_project_metadata_item.oslogin_meta`).",
+      "node": ":resource.google_project_iam_binding.authoritative",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_custom_role.roles` creates custom roles whose `permissions` belong to services this module enables, but has no ordering against `:resource.google_project_service.project_services`. Custom role creation validates the permission set against enabled services, so it can fail if the backing API has not finished enabling; on destroy it is likewise torn down in parallel with `disable_on_destroy` disabling those APIs. Add a `depends_on` on `:resource.google_project_service.project_services`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_custom_role.roles` depends only on `google_project.project`; it is not ordered after `google_project_service.project_services`. Custom roles carry permissions belonging to the APIs enabled by that resource, so role creation/validation and especially destroy-time deletion can race with service enable/disable. Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_member.additive` writes additive IAM members via the IAM/cloudresourcemanager APIs, but only depends on `:resource.google_project.project`. It is not ordered against `:resource.google_project_service.project_services`, so granting roles provided by services that are still being enabled can fail, and on destroy the memberships are removed concurrently with `disable_on_destroy` disabling the APIs they rely on. Add an explicit `depends_on` on `:resource.google_project_service.project_services`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_member.additive` depends only on `google_project.project`; nothing orders it after `google_project_service.project_services`. Non-authoritative IAM writes are read-modify-write on the project IAM policy and can fail (or be reverted) when they race a service being enabled/disabled, and the module disables dependent services on destroy. Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.google_project_iam_member.additive` grants roles to members supplied by the caller, which commonly include per-service service accounts (cloudservices, container-engine-robot, containerregistry, appspot, etc.) that only exist after `:resource.google_project_service.project_services` enables the corresponding APIs. Without that ordering the binding fails with \"service account does not exist\".",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_member.oslogin_iam_serviceaccountuser` grants `roles/iam.serviceAccountUser`, which requires the IAM API to be enabled, yet it has no ordering against `:resource.google_project_service.project_services`. Creation can race the asynchronous API enablement and destruction races `disable_on_destroy`. Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_member.oslogin_iam_serviceaccountuser` grants `roles/iam.serviceAccountUser` but only depends on `google_project.project`; nothing orders it after `google_project_service.project_services`. As with the other OS Login grants in this module, the IAM write can race service enable/disable (the module disables dependent services on destroy). Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.google_project_iam_member.oslogin_iam_serviceaccountuser` grants `roles/iam.serviceAccountUser` to OS Login admins/users but does not depend on `:resource.google_project_service.project_services`; it should be applied after service enablement (and after the service agents those members reference exist).",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_member.oslogin_compute_viewer` grants `roles/compute.viewer`, which is only valid once the Compute API is enabled, but it is not ordered after `:resource.google_project_service.project_services`. Both the grant and (on destroy) the removal can race the project's service enable/disable lifecycle. Add an explicit `depends_on` on `:resource.google_project_service.project_services`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_member.oslogin_compute_viewer` grants `roles/compute.viewer` but depends only on `google_project.project`; it is not ordered after `google_project_service.project_services`, which enables the Compute API. The grant can be applied before the API exists and can be torn down after it is disabled. Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.google_project_iam_member.oslogin_compute_viewer` grants `roles/compute.viewer` without any ordering against `:resource.google_project_service.project_services`, so it can race service enablement on a freshly created project.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_member.oslogin_admins` grants `roles/compute.osAdminLogin`, a Compute-API-provided role, with no dependency on `:resource.google_project_service.project_services`. It can be applied before the Compute API has finished enabling and is removed in parallel with `disable_on_destroy` disabling it. Add a `depends_on` on `:resource.google_project_service.project_services`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_member.oslogin_admins` grants `roles/compute.osAdminLogin` but only depends on `google_project.project`; it is not ordered after `google_project_service.project_services`, which enables the Compute API these OS Login roles belong to. Granting them before the service is enabled (and removing them after it is disabled, given `disable_dependent_services = true`) can fail. Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.google_project_iam_member.oslogin_admins` grants `roles/compute.osAdminLogin` on a new project but only depends on `google_project.project`, so it can run before `:resource.google_project_service.project_services` enables the Compute API. Granting service-specific roles / service-agent members before the API exists fails, so it should be ordered after service enablement.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.google_project_iam_member.oslogin_users` grants `roles/compute.osLogin`, a Compute-API-provided role, with no dependency on `:resource.google_project_service.project_services`. As with `google_compute_project_metadata_item.oslogin_meta`, the OS Login / Compute API ordering matters on both apply and destroy. Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`google_project_iam_member.oslogin_users` grants `roles/compute.osLogin` but only depends on `google_project.project`; nothing orders it after `google_project_service.project_services`, the resource that enables the Compute API backing that role. This races service enable on create and service disable on destroy. Add `depends_on = [google_project_service.project_services]`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.google_project_iam_member.oslogin_users` grants `roles/compute.osLogin` but is not ordered after `:resource.google_project_service.project_services`, so it may be applied before the Compute API is enabled; bindings referencing service roles/agents can fail in that window.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

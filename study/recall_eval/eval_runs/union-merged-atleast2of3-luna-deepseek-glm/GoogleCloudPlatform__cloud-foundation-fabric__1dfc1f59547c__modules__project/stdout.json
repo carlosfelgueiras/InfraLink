@@ -1,0 +1,61 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nIf an additive IAM role refers to a custom role created by this module, the IAM member can be applied before that role exists. Unlike the authoritative binding, this resource has no dependency on the custom-role resources and its role value is only an input string; add an explicit dependency for correct ordering.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe additive IAM member accepts arbitrary roles, including custom roles created by this module, but it has no dependency on those role resources. It can attempt to assign a custom role before that role exists; the authoritative IAM binding already accounts for this ordering.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe additive IAM member accepts arbitrary role names, including project custom roles created by this module, but it has no dependency on those role resources. If an additive grant uses one of these custom roles, Terraform may attempt to create the grant before the role exists. The authoritative binding already handles this ordering explicitly; the additive member should as well.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`google_project_iam_member.additive` grants whatever roles are listed in `var.iam_additive_roles`, which can include the custom roles created by `google_project_iam_custom_role.roles` in this same module. A role cannot be granted before it exists, so the additive member must be ordered after the custom role. The sibling authoritative binding already expresses exactly this ordering with `depends_on = [google_project_iam_custom_role.roles]`, but the additive member relies only on input variables, so no implicit dependency exists and the two can race.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`:resource.google_project_iam_member.additive` builds its `role` argument directly from `var.iam_additive_roles`, which may contain ids of custom roles created by this same module (`google_project_iam_custom_role.roles` via `var.custom_roles`). Nothing in the code establishes ordering, so the additive bindings can be attempted before the custom role exists and fail (the module's own comment already notes additive roles \"might fail due to dynamic values\"). The authoritative counterpart `google_project_iam_binding.authoritative` explicitly orders itself after `google_project_iam_custom_role.roles` for exactly this reason; the additive members should do the same via `depends_on = [google_project_iam_custom_role.roles]`.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\ngoogle_project_iam_member.additive can reference custom roles (var.iam_additive_roles may contain IDs of roles created by google_project_iam_custom_role.roles), but it has no dependency on that resource, unlike google_project_iam_binding.authoritative which explicitly depends on it. A member binding to a custom role that has not been created yet will fail. Add 'depends_on = [google_project_iam_custom_role.roles]'.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_project_iam_member.additive grants roles from var.iam_additive_roles, which may reference custom roles created by google_project_iam_custom_role.roles in this module (role IDs like \"projects/<id>/roles/<name>\"). Applying the IAM member before the custom role exists fails (\"role not found\"). The sibling resource google_project_iam_binding.authoritative explicitly depends_on google_project_iam_custom_role.roles for exactly this reason; the additive member has neither an attribute reference nor a depends_on, so Terraform may create the IAM member first.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`google_project_iam_member.additive` grants roles from `var.iam_additive_roles`, which may reference custom roles created in this module by `google_project_iam_custom_role.roles`. Since `role` is a plain string from a variable, Terraform cannot infer this ordering, and applying an additive binding before its custom role exists fails with a \"role not found\" error. The module already guards the analogous authoritative binding (`google_project_iam_binding.authoritative`) with an explicit `depends_on` on the custom roles, but the additive bindings lack the same protection. Add `depends_on = [google_project_iam_custom_role.roles]` to `google_project_iam_member.additive`.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "try(google_project_iam_custom_role.roles[basename(each.value.role)].name, each.value.role)"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis IAM member resource has no dependency on the project's API service resources. Like the authoritative IAM binding, it should wait for service setup so IAM operations do not race service enablement and teardown.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis additive IAM member can call the IAM API before the configured project services are enabled, or after they are disabled during destroy. The authoritative IAM binding already waits for project services; this IAM member should have the same ordering.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\ngoogle_project_iam_member.additive grants (possibly service-related) roles on the project but has no ordering dependency on google_project_service.project_services, while the equivalent authoritative binding (google_project_iam_binding.authoritative) explicitly depends on it. If APIs are still being enabled asynchronously when the additive member bindings are applied, the IAM changes can fail or race with API activation. Add 'depends_on = [google_project_service.project_services]' (mirroring the authoritative resource).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_project_iam_member.additive should not be applied before the project's service APIs are enabled: GCP API enablement is asynchronous, and service-scoped roles (e.g. compute, dataproc, pubsub roles) may not be grantable until the corresponding google_project_service.project_services entries are active. The module already encodes this ordering for google_project_iam_binding.authoritative via depends_on, but the additive member has no such dependency.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis OS Login administrator IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis OS Login administrator IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis OS Login user IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis OS Login user IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis OS Login service-account-user IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis OS Login service-account-user IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis OS Login compute-viewer IAM grant has no dependency on the project's API service resources, unlike the authoritative IAM binding. It should wait for service setup to avoid IAM operations racing service enablement or teardown.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis OS Login compute-viewer IAM member can run before the configured project services are enabled, or after they are disabled during destroy. It should wait for project service enablement as the authoritative IAM binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

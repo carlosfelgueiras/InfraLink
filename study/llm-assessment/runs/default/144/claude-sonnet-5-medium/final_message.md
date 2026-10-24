@@ -1,0 +1,7 @@
+This confirms the structure. `aws_scheduler_schedule.pool` only references `aws_iam_role.scheduler.arn` (via `role_arn`) and `aws_scheduler_schedule_group.pool.name`. It has no reference—implicit or explicit—to `aws_iam_role_policy.scheduler`, which is the resource that actually grants `lambda:InvokeFunction` permission to that role.
+
+Since `aws_iam_role_policy.scheduler` only depends on `aws_iam_role.scheduler` (for `role = aws_iam_role.scheduler.name`) and `data.aws_iam_policy_document.scheduler` (which depends on the lambda ARN), Terraform's dependency graph allows it to be created in parallel with (or even after) `aws_scheduler_schedule.pool`, since nothing forces the policy before the schedule. The schedule is created with `flexible_time_window { mode = "OFF" }` and an exact `schedule_expression`, meaning it's active immediately upon creation and could fire before the policy attaches the permission to invoke the Lambda, potentially causing an authorization failure on the first invocation, with no node in the graph preventing that race.
+
+This matches a genuine real-world ordering requirement that is not currently captured by any attribute reference or `depends_on` in the configuration.
+
+Correct

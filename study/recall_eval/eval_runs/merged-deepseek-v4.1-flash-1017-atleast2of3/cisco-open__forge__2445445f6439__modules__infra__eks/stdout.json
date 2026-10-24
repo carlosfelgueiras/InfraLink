@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`null_resource.delete_daemonset` deletes the `aws-node` VPC CNI DaemonSet, which should only happen after Calico has been installed via `null_resource.create_calico_installation`. Currently it only depends on `update_kubeconfig`/`module.eks`, so Terraform may remove the VPC CNI before Calico is in place, leaving the cluster without pod networking.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nnull_resource.delete_daemonset removes the `aws-node` DaemonSet to hand pod networking over to Calico, but it only depends on null_resource.update_kubeconfig and module.eks. It should also depend on null_resource.create_calico_installation (which applies the Calico Installation and brings up calico-node); otherwise Terraform may delete the VPC CNI before Calico is applied, leaving nodes without working pod networking during apply.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nnull_resource.delete_daemonset removes the aws-node VPC CNI DaemonSet, but it has no dependency on null_resource.create_calico_installation. Terraform can therefore delete the existing CNI before the Calico Installation has been created, leaving the cluster without working pod networking.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ calico_installation_id = null_resource.create_calico_installation.id }"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

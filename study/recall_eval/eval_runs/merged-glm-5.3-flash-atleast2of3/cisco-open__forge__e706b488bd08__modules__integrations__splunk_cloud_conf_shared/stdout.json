@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nsplunk_configs_conf.forgecicd_cloudwatchlogs sets the variable \"REPORT-forgecicd_trust_validation\" = \"forgecicd_trust_validation\", referencing the transform stanza managed by splunk_configs_conf.forgecicd_trust_validation, but has no implicit or explicit dependency on it. Unlike the other REPORT-* entries (which are backed by depends_on entries), this transform could be created/updated out of order, leaving the props/aws:cloudwatchlogs stanza pointing at a missing or stale transform.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nsplunk_configs_conf.forgecicd_cloudwatchlogs references the transform \"forgecicd_trust_validation\" via variables[\"REPORT-forgecicd_trust_validation\"], but has no dependency on splunk_configs_conf.forgecicd_trust_validation. Since the transform name is a plain string (no attribute reference exists), the props stanza could be created before the transform, producing a props entry whose REPORT points at a nonexistent transform. All other REPORT-referenced transforms in this resource are covered by depends_on, making this omission look like an oversight.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nsplunk_configs_conf.forgecicd_cloudwatchlogs references the transform `forgecicd_trust_validation` via its variables map (`\"REPORT-forgecicd_trust_validation\" = \"forgecicd_trust_validation\"`), but has no dependency on it \u2014 neither an implicit reference (the value is a plain string) nor an explicit depends_on. The props stanza could be created before the transform exists, breaking the REPORT field extraction. All sibling transforms referenced by this resource are listed in its depends_on; this one is missing.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nsplunk_configs_conf.forgecicd_cloudwatchlogs sets the variable \"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = \"forgecicd_extra_lambda_ec2_tenant_fields\", referencing the transform stanza managed by splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields, but has no implicit or explicit dependency on it. Its depends_on covers the lambda/global/extra_lambda tenant-field transforms but omits this one, so the props stanza may be applied before the transform it references exists.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nsplunk_configs_conf.forgecicd_cloudwatchlogs references the transform \"forgecicd_extra_lambda_ec2_tenant_fields\" via variables[\"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\"], but has no dependency on splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields. The transform name is only a string literal, so Terraform will not infer the ordering; without an explicit depends_on the props stanza may be applied before the transform exists, unlike its sibling REPORT-* entries (lambda_tenant_fields, global_lambda_tenant_fields, extra_lambda_tenant_fields) which are covered.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nsplunk_configs_conf.forgecicd_cloudwatchlogs references the transform `forgecicd_extra_lambda_ec2_tenant_fields` via its variables map (`\"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = \"forgecicd_extra_lambda_ec2_tenant_fields\"`), but has no dependency on it \u2014 neither an implicit reference (the value is a plain string) nor an explicit depends_on. The props stanza could be created before the transform exists, breaking the REPORT field extraction. All sibling transforms referenced by this resource are listed in its depends_on; this one is missing.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_folder_iam_binding.authoritative sets `folder` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so the IAM binding could be applied before the folder exists, failing with a not-found error.",
+      "node": ":resource.google_folder_iam_binding.authoritative",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_folder_iam_binding.authoritative sets `folder` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed, so the binding's folder id may not be resolved from the existing folder in a defined order.",
+      "node": ":resource.google_folder_iam_binding.authoritative",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_folder_iam_binding.bindings sets `folder` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so this authoritative binding could be applied before the folder exists.",
+      "node": ":resource.google_folder_iam_binding.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_folder_iam_binding.bindings sets `folder` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_folder_iam_binding.bindings",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_folder_iam_member.bindings sets `folder` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so this additive IAM member could be applied before the folder exists.",
+      "node": ":resource.google_folder_iam_member.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_folder_iam_member.bindings sets `folder` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_folder_iam_member.bindings",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_folder_iam_audit_config.default sets `folder` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so the audit config could be applied before the folder exists.",
+      "node": ":resource.google_folder_iam_audit_config.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_folder_iam_audit_config.default sets `folder` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_folder_iam_audit_config.default",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_logging_folder_exclusion.logging-exclusion sets `folder` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so the exclusion could be applied before the folder exists.",
+      "node": ":resource.google_logging_folder_exclusion.logging-exclusion",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_logging_folder_exclusion.logging-exclusion sets `folder` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_logging_folder_exclusion.logging-exclusion",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_logging_folder_sink.sink sets `folder` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency on the folder itself is expressed (only on google_folder_iam_binding.authoritative), so sinks could be applied before the folder exists.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_logging_folder_sink.sink sets `folder` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_org_policy_policy.default builds `name` and `parent` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so org policies could be applied before the folder exists.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_org_policy_policy.default builds `name` and `parent` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_essential_contacts_contact.contact sets `parent` from `local.folder.name`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so essential contacts could be applied before the folder exists.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_essential_contacts_contact.contact sets `parent` from `local.folder.name`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_compute_firewall_policy_association.default sets `attachment_target` from `local.folder.id`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so the association could be applied before the folder exists.",
+      "node": ":resource.google_compute_firewall_policy_association.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_compute_firewall_policy_association.default sets `attachment_target` from `local.folder.id`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_compute_firewall_policy_association.default",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.google_tags_tag_binding.binding builds `parent` from `local.folder.id`, which resolves to :resource.google_folder.folder when var.folder_create is true. No dependency is expressed, so tag bindings could be applied before the folder exists.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_tags_tag_binding.binding builds `parent` from `local.folder.id`, which resolves to :data.google_folder.folder when var.folder_create is false. No dependency on the folder data source is expressed.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":data.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe AWSPCAClusterIssuer custom resource is applied before this module is guaranteed to install the cert-manager and AWS PCA issuer charts/CRDs. Without waiting for the add-ons module, Kubernetes may reject the manifest because its custom resource definition is not yet registered.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe cluster_pca_issuer manifest creates an AWSPCAClusterIssuer custom resource, whose CRD is installed by the Kubernetes add-ons module (including the AWS Private CA issuer). Without this dependency, Terraform may apply the custom resource before that CRD exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe PCA certificate issuer is a custom resource, but its CRD is installed by the Kubernetes add-ons module. Without ordering, kubectl_manifest.cluster_pca_issuer may be applied before that chart/CRD exists; make it depend on the add-ons module.",
+      "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe issuer manifest uses the PCA authority ARN while the authority is still in PENDING_CERTIFICATE until its certificate is associated. Ordering issuer creation after the authority-certificate association avoids configuring the issuer against a CA that cannot yet issue certificates.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe cluster_pca_issuer manifest configures an ACM PCA authority that is still in PENDING_CERTIFICATE until its CA certificate is associated. Its ARN reference only orders it after authority creation, not after activation; it should wait for the certificate association.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe PCA issuer manifest can be applied while the authority is still in PENDING_CERTIFICATE; the CA cannot issue certificates until its signed certificate is associated. Make this manifest wait for the CA certificate association resource.",
+      "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+      "target": ":resource.aws_acmpca_certificate_authority_certificate.example",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

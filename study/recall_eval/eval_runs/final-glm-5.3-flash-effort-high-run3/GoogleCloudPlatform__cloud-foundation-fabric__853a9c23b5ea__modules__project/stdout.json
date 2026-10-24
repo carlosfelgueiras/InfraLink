@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_essential_contacts_contact.contact requires the Essential Contacts API to be enabled in the target project; when essentialcontacts.googleapis.com is among var.services it is enabled asynchronously by google_project_service.project_services in the same apply. The contact resource has no dependency on the service enablement, so contact creation can race the API enablement and fail with an API-not-enabled/403 error. The module applies this ordering pattern elsewhere (e.g. google_compute_project_metadata_item.default waits for project_services).",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, which requires the Compute Engine API to be enabled in the service project. API enablement (google_project_service.project_services) is asynchronous, but this resource has no dependency on it \u2014 unlike the host-side counterpart google_compute_shared_vpc_host_project.shared_vpc_host, which does declare depends_on = [google_project_service.project_services]. Without the dependency the attachment can race ahead of API enablement and fail intermittently.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

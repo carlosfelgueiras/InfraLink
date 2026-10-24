@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is the dead-letter queue's policy (it is gated on `count = var.redrive_build_queue.enabled ? 1 : 0` and applies the same `data.aws_iam_policy_document.deny_unsecure_transport` document that `build_queue_policy` already attaches to the main queue), but its `queue_url` is set to `aws_sqs_queue.queued_builds.id`, so it never references `module.runners:resource.aws_sqs_queue.queued_builds_dlq`. As a result there is no ordering guarantee that the DLQ exists when this policy is applied, the DLQ is left without the required `DenyUnsecureTransport` policy (AWS creates queues with no resource policy), and the main build queue instead gets its policy written twice by two independent `aws_sqs_queue_policy` resources, which race and overwrite each other. Pointing `queue_url` at the DLQ resource establishes the dependency implicitly and applies the policy to the intended queue.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

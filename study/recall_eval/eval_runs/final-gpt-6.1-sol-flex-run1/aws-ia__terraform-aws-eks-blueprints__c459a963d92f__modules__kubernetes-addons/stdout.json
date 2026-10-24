@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_provider_config already depends on aws_provider through time_sleep.wait_30_seconds, whose depends_on includes aws_provider; the direct edge duplicates that ordering.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Fluent Bit IRSA service account can be created before its namespace: both use the namespace input string, without an ordering edge. Make the service account depend on the managed namespace when namespace creation is enabled.",
+      "node": "module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_for_fluent_bit.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.keda.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.keda.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.karpenter.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.external_dns.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa when namespace creation is enabled.",
+      "node": "module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.cert_manager.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_cloudwatch_metrics.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The service account uses a plain namespace input and can race creation of the namespace managed in the same IRSA module. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When a non-kube-system namespace is configured and namespace creation is enabled, the service account can race its creation because metadata.namespace only references the input string. Order it after kubernetes_namespace_v1.irsa.",
+      "node": "module.aws_load_balancer_controller.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_load_balancer_controller.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EBS CSI add-on references the IRSA role ARN, but that output does not wait for role policy attachments. Order the add-on after the attachment so its controller does not start without its required AWS permissions.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The VPC CNI add-on references the IRSA role ARN, but that output does not wait for role policy attachments. Order the add-on after the attachment so aws-node does not start without its required EC2 permissions.",
+      "node": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

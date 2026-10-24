@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The syncer Lambda is created with vpc_config when lambda_subnet_ids are set, but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; if the function is created before aws_iam_role_policy_attachment.syncer_vpc_execution_role, Lambda cannot create the network interfaces and the function fails to reach Active state.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-up Lambda is created with vpc_config when lambda_subnet_ids are set, but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; if the function is created before aws_iam_role_policy_attachment.scale_up_vpc_execution_role, Lambda cannot create the network interfaces and the function fails to reach Active state.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-down Lambda is created with vpc_config when lambda_subnet_ids are set, but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; if the function is created before aws_iam_role_policy_attachment.scale_down_vpc_execution_role, Lambda cannot create the network interfaces and the function fails to reach Active state.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook Lambda is created with vpc_config when lambda_subnet_ids are set, but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; if the function is created before aws_iam_role_policy_attachment.webhook_vpc_execution_role, Lambda cannot create the network interfaces and the function fails to reach Active state.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool Lambda is created with vpc_config when lambda subnets are configured, but nothing orders it after the AWSLambdaVPCAccessExecutionRole attachment; if the function is created before aws_iam_role_policy_attachment.pool_vpc_execution_role, Lambda cannot create the network interfaces and the function fails to reach Active state.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

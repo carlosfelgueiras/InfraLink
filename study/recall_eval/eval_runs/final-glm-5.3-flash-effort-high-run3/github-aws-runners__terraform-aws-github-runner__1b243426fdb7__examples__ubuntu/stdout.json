@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The local-exec provisioner of `null_resource.update_app` registers the GitHub App webhook against `var.webhook_endpoint`, but that endpoint is only functional once the API Gateway route (and its integration/stage deployment) exists. The resource's dependency chain (via `module.runners:output.webhook`) covers only the API, lambda, log group and role \u2014 `output.endpoint_relative_path` is a plain local string \u2014 so Terraform can run `update-app.sh` before `aws_apigatewayv2_route.webhook` is created, leaving the newly registered webhook pointing at a non-existent route. Add `depends_on` so the app update runs after the webhook route (and integration) are in place.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

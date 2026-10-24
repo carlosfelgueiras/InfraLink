@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.this enables encryption_config using the KMS key from module.kms, but its IAM role only gets the required kms:Encrypt/Decrypt/DescribeKey/CreateGrant permissions from aws_iam_role_policy_attachment.cluster_encryption (aws_iam_policy.cluster_encryption). The cluster's depends_on only covers aws_iam_role_policy_attachment.this, so Terraform has no ordering forcing the encryption policy to be attached before the cluster is created. EKS validates KMS access at create time, so the cluster can fail if the attachment hasn't happened yet. Add the encryption policy attachment to the cluster's depends_on (no attribute reference expresses this).",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_cluster.this should also depend on aws_iam_role_policy_attachment.additional. Those user-supplied policies are attached to the same cluster IAM role, and the aws_eks_cluster docs require explicit depends_on ordering on IAM role policy attachments so the cluster role always has its permissions before EKS creates/deletes managed infrastructure. It is currently absent from the cluster's depends_on (which only lists aws_iam_role_policy_attachment.this), and no attribute reference in the cluster links to it.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

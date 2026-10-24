@@ -1,0 +1,193 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "data.aws_ecrpublic_authorization_token.token explicitly depends on module.eks, but its dependency on time_sleep.wait_300_seconds already establishes that ordering because the sleep depends on module.eks.",
+      "node": ":data.aws_ecrpublic_authorization_token.token",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "data.aws_eks_cluster.cluster already depends transitively on module.eks through time_sleep.wait_300_seconds; the additional explicit module dependency duplicates that ordering.",
+      "node": ":data.aws_eks_cluster.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "data.aws_eks_cluster_auth.cluster already depends transitively on module.eks through time_sleep.wait_300_seconds; the additional explicit module dependency duplicates that ordering.",
+      "node": ":data.aws_eks_cluster_auth.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.karpenter already waits for module.self_managed_node_group through its dependencies on aws_eks_addon.aws_ebs_csi_driver and aws_eks_addon.eks_pod_identity_agent, both of which depend on that node group.",
+      "node": ":module.karpenter",
+      "target": ":module.self_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter already references module.karpenter.service_account and module.karpenter.queue_name in its values, so its explicit dependency on module.karpenter duplicates an implicit dependency.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter already depends on data.aws_eks_cluster_auth.cluster through module.karpenter, which explicitly depends on that data source.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter already waits for null_resource.update_kubeconfig through module.karpenter -> null_resource.apply_tigera_operator -> null_resource.update_kubeconfig.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_ec2_node_class already references module.eks security-group outputs in its triggers and manifest, making its explicit dependency on module.eks redundant.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_ec2_node_class already references module.karpenter.node_iam_role_arn in its triggers and manifest; the explicit dependency on that module output duplicates this data dependency.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_ec2_node_class already waits for null_resource.update_kubeconfig through its implicit dependency on module.karpenter, which depends on null_resource.apply_tigera_operator, which depends on update_kubeconfig.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_node_pool already depends on helm_release.karpenter through null_resource.apply_ec2_node_class, which explicitly waits for the Helm release.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.helm_release.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_node_pool already depends on module.eks through null_resource.apply_ec2_node_class and that resource's references to module.eks outputs.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.apply_node_pool already waits for null_resource.update_kubeconfig through null_resource.apply_ec2_node_class -> module.karpenter -> null_resource.apply_tigera_operator -> null_resource.update_kubeconfig.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.delete_daemonset already waits for module.eks through null_resource.update_kubeconfig, whose command references module.eks.cluster_name.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.update_kubeconfig already references module.eks.cluster_name in its local-exec command, so its explicit depends_on on module.eks duplicates an implicit dependency.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.create_calico_installation enables Calico as the cluster CNI, but it can run concurrently with null_resource.delete_daemonset, which removes the existing aws-node CNI. Make the Calico Installation depend on delete_daemonset so replacement CNI reconciliation does not race removal of the old CNI. Their shared dependency on update_kubeconfig does not order these operations.",
+      "node": ":resource.null_resource.create_calico_installation",
+      "target": ":resource.null_resource.delete_daemonset",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.aws_ebs_csi_driver waits for the node-group infrastructure but not null_resource.create_calico_installation. Because aws-node is being removed, the EBS CSI controller pods need the replacement Calico networking before they can become ready; add-on provisioning can otherwise race CNI installation and time out. Order this add-on after create_calico_installation, and ensure that the installation provisioner waits for Calico readiness rather than merely submitting the Installation object. This also orders the downstream Karpenter deployment after CNI installation.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

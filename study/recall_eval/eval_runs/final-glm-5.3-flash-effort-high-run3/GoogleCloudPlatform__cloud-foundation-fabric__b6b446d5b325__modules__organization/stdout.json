@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_binding.binding resolves its tag_value through a context lookup with a raw-string fallback (lookup(local.ctx.tag_values, each.value, each.value)), so no attribute reference ties it to tag values created by this module. When the bound value is a module-managed google_tags_tag_value.default instance (or referenced by namespaced name), the binding can be created before the value exists, and on destroy the tag value may be deleted while the binding still holds it (bindings must be removed before their values). An explicit depends_on on google_tags_tag_value.default (which transitively orders the tag key too) is needed; it is a no-op ordering constraint when only external tag values are used.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "output.organization_id is documented as \"Organization id dependent on module resources\" and exists to gate downstream consumers until module resources are applied (matching the sibling output.id, which carries the same gating depends_on list). output.id was updated to also include google_logging_organization_settings.default in its depends_on, but output.organization_id was not, so consumers of the deprecated output can observe the organization before logging settings are applied. Since the output value is just var.organization_id, this ordering can only be expressed with a bare depends_on.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_logging_organization_settings.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

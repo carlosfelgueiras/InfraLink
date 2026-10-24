@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The Lambda function is created before its Terraform-managed CloudWatch log group. On first invocation Lambda can auto-create `/aws/lambda/<function-name>`, racing the later `aws_cloudwatch_log_group.pool` creation and causing an already-exists conflict. The log group must exist first; because its current name references the Lambda resource, the name should also be decoupled from that reference to avoid a dependency cycle.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool Lambda can be invoked by the schedule before its execution role has the core `aws_iam_role_policy.pool` inline policy attached. The function should be ordered after this role policy so its runtime permissions are present before invocation.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda's execution role can lack the CloudWatch Logs inline policy when the function is created/invoked. `aws_iam_role_policy.pool_logging` should be established before the function is usable; note that the existing log-group name reference currently makes the overall ordering cyclic, so that reference also needs to be refactored.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, the Lambda can be invoked before `aws_iam_role_policy.pool_xray` has granted the execution role its X-Ray permissions. The function should be ordered after the conditional X-Ray role policy.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "For a VPC-attached Lambda, the execution role needs `AWSLambdaVPCAccessExecutionRole` before the function creates/manages its ENIs. When `aws_iam_role_policy_attachment.pool_vpc_execution_role` is created, the Lambda function must depend on that attachment.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the AMI ID SSM parameter is configured, the Lambda needs the SSM read policy at runtime. The function should be ordered after `aws_iam_role_policy_attachment.ami_id_ssm_parameter_read` so the attachment exists before any scheduled invocation.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule can start invoking the pool Lambda as soon as it is created, but the scheduler execution role's invoke permission is in `aws_iam_role_policy.scheduler`, which Terraform may still be attaching. The schedule should depend on that role policy before becoming active.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

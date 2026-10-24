@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The subnet IAM grant targets service-agent principals configured by `service_agent_subnet_iam`, but it can be applied before the relevant project APIs are enabled. Add an ordering dependency so those identities can be provisioned before the grant.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This subnet IAM grant can be applied before the configured service identities have been created. The closely related project-level Shared VPC service-agent grant explicitly waits for these identities.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This subnet IAM grant may reference default service accounts before the module's default-service-account operation has completed; the corresponding project-level Shared VPC grant explicitly waits for that operation.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_default_service_accounts.default_service_accounts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The subnet grant can be created before the BigQuery default service account lookup has completed. The matching project-level Shared VPC service-agent grant explicitly waits for this data source.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":data.google_bigquery_default_service_account.bq_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The subnet grant can be created before the Cloud Storage project service account lookup has completed. The matching project-level Shared VPC service-agent grant explicitly waits for this data source.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":data.google_storage_project_service_account.gcs_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Associating this project as a Shared VPC service project requires the Compute API to be available, but this resource has no ordering edge to the module's managed API activations. If `compute.googleapis.com` is enabled here, wait for those activations first.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

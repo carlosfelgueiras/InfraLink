@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`:resource.aws_lambda_function.syncer` should wait for `:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role` when VPC execution is configured, so the role has the required VPC networking permissions before the function is provisioned for VPC use.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nWhen VPC subnets are configured, Lambda creation/operation requires the execution role's VPC networking permissions. The function currently depends on the role but not on the managed VPC execution policy attachment, so it may be created before those permissions are attached.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`:resource.aws_cloudwatch_event_target.syncer` should depend on `:resource.aws_lambda_permission.syncer` so the EventBridge rule cannot become active with its target before invocation permission for EventBridge is installed. The target references the Lambda and rule, but not this permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can be created before the Lambda invoke permission, leaving the rule unable to invoke the function until the permission is installed. Make the target wait for the permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can be created before the Lambda invoke permission is installed, so scheduled invocations may be attempted without authorization. Make the target depend on the permission resource.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nUploading this trigger object can invoke the Lambda immediately, but the trigger object has no ordering dependency on the role's S3 access policy. Ensure the policy is attached before creating the trigger to avoid an invocation before the function has permission to access the distribution bucket.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe initial S3 object creation triggers the Lambda, but it can run before the role's S3 access policy is installed. Make the trigger wait for this policy so its first invocation can access the distribution bucket.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:resource.time_sleep.wait_for_aws_s3_bucket_settings` to `:resource.aws_s3_bucket_public_access_block.origin` is redundant: the sleep already depends on `:resource.aws_s3_bucket_policy.default`, which itself depends on the public access block.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:resource.aws_cloudfront_distribution.default` to `:resource.time_sleep.wait_for_aws_s3_bucket_settings` is redundant: the distribution also depends on `:resource.aws_s3_bucket_ownership_controls.origin`, which in turn depends on the sleep resource.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from `:resource.aws_cloudfront_distribution.default` to `:resource.aws_s3_bucket.origin` duplicates the dependency implied by the distribution's origin domain name, which is derived from the created S3 bucket through `local.origin_bucket`.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

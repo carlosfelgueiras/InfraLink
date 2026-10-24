@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers launches EKS worker instances as soon as the ASG is created, but nothing orders it after the AmazonEKSWorkerNodePolicy attachment on the worker IAM role. Instances launched before the policy is attached will fail to authenticate/join the cluster (and slow or break cluster formation). The node_groups submodule guards this exact race via ng_depends_on; the legacy ASG path does not.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch instances before the AmazonEKS_CNI_Policy attachment exists on the worker role, so aws-node may fail to configure pod networking on nodes that join early. No attribute reference or depends_on expresses this ordering.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch instances before the AmazonEC2ContainerRegistryReadOnly policy is attached, preventing ECR image pulls for early-joining nodes. The dependency chain (ASG -> launch config -> instance profile -> role) stops at the role and does not include its policy attachments.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template launches instances asynchronously during creation, but is not ordered after the AmazonEKSWorkerNodePolicy attachment on the worker IAM role. Instances launched before the policy is attached will fail to join the EKS cluster; the node_groups submodule guards this race while this launch-template ASG path does not.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template is not ordered after the AmazonEKS_CNI_Policy attachment; early-launched nodes may fail aws-node pod networking setup. No attribute reference or explicit depends_on captures this real-world ordering.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can start instances before the AmazonEC2ContainerRegistryReadOnly policy is attached to the worker role, breaking ECR pulls for nodes that join early. The dependency chain ends at the worker role via the instance profile and does not cover its policy attachments.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on of null_resource.wait_for_cluster on aws_eks_cluster.this duplicates the implicit dependency already established by its provisioner environment attribute (ENDPOINT = aws_eks_cluster.this[0].endpoint). The explicit entry can be removed without changing plan ordering.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

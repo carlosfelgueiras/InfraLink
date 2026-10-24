@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.syncer` should wait for `:resource.aws_iam_role_policy.syncer` so its execution role has the S3 permissions the function needs before the function can be invoked; the current dependency graph only orders both after the role.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.syncer` should wait for `:resource.aws_iam_role_policy.lambda_kms` when the KMS policy is configured, so the execution role has the required KMS permissions before invocation; no current dependency orders the function after this policy.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.syncer` should wait for `:resource.aws_iam_role_policy.syncer_lambda_xray` when tracing is enabled, so the execution role has the X-Ray permissions before invocation; no current dependency orders the function after this policy.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.syncer_lambda_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.syncer` should wait for `:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role` when VPC execution is configured, so the role has the required VPC networking permissions before the function is provisioned for VPC use.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_cloudwatch_event_target.syncer` should depend on `:resource.aws_lambda_permission.syncer` so the EventBridge rule cannot become active with its target before invocation permission for EventBridge is installed. The target references the Lambda and rule, but not this permission.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

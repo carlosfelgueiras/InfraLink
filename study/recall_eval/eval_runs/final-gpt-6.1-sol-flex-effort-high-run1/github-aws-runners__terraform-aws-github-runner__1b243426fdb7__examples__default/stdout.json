@@ -1,0 +1,376 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC subnets are configured, aws_lambda_function.syncer must wait for aws_iam_role_policy_attachment.syncer_vpc_execution_role. Referencing the execution role alone does not wait for its ENI permissions; Lambda creation can otherwise fail because the role cannot create network interfaces. Add an explicit dependency on this attachment.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC subnets are configured, aws_lambda_function.webhook must wait for aws_iam_role_policy_attachment.webhook_vpc_execution_role. Its execution-role reference does not order the separate attachment, so Lambda can attempt VPC provisioning before the required ENI permissions are attached.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC subnets are configured, aws_lambda_function.scale_up must wait for aws_iam_role_policy_attachment.scale_up_vpc_execution_role. Both currently depend on the role independently, allowing Lambda VPC provisioning to race the attachment of its required ENI permissions.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC subnets are configured, aws_lambda_function.scale_down must wait for aws_iam_role_policy_attachment.scale_down_vpc_execution_role. The role reference does not ensure that the separate attachment granting ENI permissions is complete before Lambda VPC provisioning.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the pool and its VPC configuration are enabled, aws_lambda_function.pool must wait for aws_iam_role_policy_attachment.pool_vpc_execution_role. Depending on the execution role does not wait for this attachment, so Lambda creation can race the ENI permissions required for VPC provisioning.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_event_source_mapping.scale_up must wait for aws_iam_role_policy.scale_up, which supplies the execution role's SQS-consumption permissions. The mapping currently waits only for the function and queue, not this policy; AWS validates queue access when creating the mapping, so creation can fail before the policy is installed. Add an explicit dependency on the policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer activates an enabled scheduled trigger but does not wait for aws_lambda_permission.syncer. Add an explicit dependency so EventBridge cannot attempt invocation before its Lambda resource-policy permission is installed, and the target is removed before that permission during destruction.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down can activate scheduled invocations before aws_lambda_permission.scale_down grants EventBridge permission to invoke the function. Both reference the rule and function independently; add an explicit dependency from the target to the permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.pool should wait for aws_lambda_permission.pool before activating the pool schedules. Their shared rule/function references do not order the permission before the target, allowing scheduled invocations to fail during deployment.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_object.trigger immediately invokes the syncer through the S3 notification, but does not wait for aws_iam_role_policy.syncer to grant the function access to its distribution object. Waiting for the notification and function does not wait for this separate execution-role policy. Add an explicit dependency so the initial sync cannot race its S3 permissions.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger immediately starts the syncer but has no dependency on aws_iam_role_policy.lambda_logging. That policy also depends on the managed syncer log group. Wait for the logging policy before uploading the trigger so the first invocation has both its log group and permission to write logs.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a KMS key is configured for the distribution bucket, aws_s3_object.trigger must wait for aws_iam_role_policy.lambda_kms before immediately invoking the syncer. The shared encryption configuration does not order the policy attachment, so the initial sync can fail when accessing KMS-encrypted S3 objects.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_sqs_queue_policy.build_queue_dlq_policy is intended for aws_sqs_queue.queued_builds_dlq, but queue_url currently references queued_builds instead. Consequently it manages the main queue's policy a second time and leaves the DLQ policy unapplied. Reference the actual DLQ URL to establish the missing dependency and manage the intended queue.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[count.index].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook can become reachable through the HTTP API before aws_iam_role_policy.webhook_ssm grants access to its webhook-secret parameter. The execution-role and parameter references do not wait for this separate policy. Make the function depend on the policy so early webhook requests can read the secret.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook should wait for aws_iam_role_policy.webhook_sqs before becoming available to API Gateway. Both depend on the role and queue configuration independently; an early accepted webhook can otherwise fail to publish its build event because the SendMessage policy is not yet installed.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the workflow-job queue is enabled, aws_lambda_function.webhook should wait for aws_iam_role_policy.webhook_workflow_job_sqs. Referencing the queue does not wait for this separate execution-role policy, allowing early webhook invocations to race their permission to publish workflow-job events.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_workflow_job_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.scale_down can be scheduled as soon as it is created, but its aws_iam_role_policy.scale_down is provisioned independently. Make the function wait for that execution-role policy so initial scheduled invocations have their EC2 and GitHub-credential access permissions.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the pool is enabled, aws_lambda_function.pool can be scheduled before aws_iam_role_policy.pool is installed. A reference to the role alone does not wait for its separate policy. Make the function depend on that policy so the first pool adjustment has its runner-provisioning and parameter-access permissions.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.scale_down should wait for aws_iam_role_policy.scale_down_logging. The policy also waits for the managed log group, whereas the target currently waits only for the Lambda function and rule. Without ordering, the first scheduled invocation can run before logging is ready.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_down_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.pool should wait for aws_iam_role_policy.pool_logging before enabling scheduled pool invocations. That policy waits for the managed pool log group; the target's function reference waits for neither, permitting the first invocation to race log-group provisioning and logging permissions.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_event_source_mapping.scale_up enables queue consumption immediately but does not wait for aws_iam_role_policy.scale_up_logging. Make the mapping wait for this policy, which also waits for the managed scale-up log group, so queued messages cannot invoke the function before its logging infrastructure is ready.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_apigatewayv2_route.webhook can expose the Lambda handler before aws_iam_role_policy.webhook_logging and its managed log group are ready. Make the route wait for the logging policy so requests through the auto-deploying default stage cannot invoke the function before logging has been provisioned.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_apigatewayv2_route.webhook should wait for aws_lambda_permission.webhook before exposing its Lambda integration through the auto-deploying HTTP API. Their common API and function references do not establish that ordering, so early requests can fail because API Gateway is not yet allowed to invoke the handler.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app enables GitHub delivery to the webhook URL, but the endpoint output only references the API object, not aws_apigatewayv2_stage.webhook. It can update the GitHub App before the default HTTP stage exists. Propagate a stage dependency through the exported endpoint (or wait for the complete runners module) before executing the provisioner.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app can configure GitHub to deliver events before aws_apigatewayv2_route.webhook exists. The endpoint is constructed from the API URL and a literal relative path, so it does not wait for the POST route and integration. Propagate route readiness through the endpoint output, or order the GitHub-App module after the complete runners module.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner advertises the SSM configuration directory in its ghr:ssm_config_path tag, but does not wait for aws_ssm_parameter.runner_config_run_as. The scale-up and pool functions can launch instances as soon as this template exists; ensure the run_as parameter is written before making the template available to those launchers.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_ssm_parameter.runner_config_run_as",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner exposes the runner configuration path without waiting for aws_ssm_parameter.runner_agent_mode. Ensure this bootstrap parameter exists before the template's dependent scale-up/pool functions can launch instances; sharing the ssm_paths variable does not establish an ordering dependency.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_ssm_parameter.runner_agent_mode",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner should wait for aws_ssm_parameter.jit_config_enabled before its dependent launchers can start runners. The bootstrap configuration directory is conveyed by a constructed tag rather than a parameter reference, so the enable_jit_config parameter can otherwise still be absent when a runner starts.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_ssm_parameter.jit_config_enabled",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner should wait for aws_ssm_parameter.runner_enable_cloudwatch. Its bootstrap configuration path is constructed from variables and does not wait for this parameter, allowing a runner launched during apply to read incomplete configuration.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_ssm_parameter.runner_enable_cloudwatch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner should wait for aws_ssm_parameter.token_path before scale-up/pool consumers can launch instances from it. The runner's configuration-directory tag does not reference this parameter, so bootstrapping can race creation of the token-location configuration.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_ssm_parameter.token_path",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner references the instance profile but does not wait for aws_iam_role_policy.ssm_parameters on the runner role. The dependent scale-up/pool functions can therefore launch runners before they can read their SSM configuration and token. Add an explicit dependency on this bootstrap policy before exposing the template to launchers.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.ssm_parameters",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When binary synchronization is enabled, aws_launch_template.runner's user-data downloads the distribution from S3, but the template does not wait for aws_iam_role_policy.dist_bucket. Its instance-profile reference only waits for the role, not this policy. Order the template after the policy so immediately launched runners have permission to download their agent.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.dist_bucket",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner can be consumed by the scale-up/pool functions before aws_iam_role_policy.describe_tags is installed on the instance role. Runner bootstrap uses EC2 tags for configuration; the instance-profile reference does not wait for the separate tag-reading policy. Ensure this policy is installed before launchers can use the template.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.describe_tags",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the CloudWatch agent is enabled, aws_launch_template.runner waits for its configuration parameter but not aws_iam_role_policy.cloudwatch, which grants the runner its logging, metrics, and configuration access. Make the template wait for the policy so runners launched during apply do not start the agent before these permissions are installed.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.cloudwatch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.runner can be used to start the CloudWatch agent before aws_cloudwatch_log_group.gh_runners has created its configured destinations. Those names are assembled as strings in the SSM configuration, not referenced from the log-group resources. Order the template after the managed log groups to avoid early log loss or an agent-created group racing Terraform's CreateLogGroup.",
+      "node": "module.runners.module.runners:resource.aws_launch_template.runner",
+      "target": "module.runners.module.runners:resource.aws_cloudwatch_log_group.gh_runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When create_service_linked_role_spot is enabled, aws_lambda_event_source_mapping.scale_up should wait for aws_iam_role_policy.service_linked_role before consuming jobs. That policy permits the scale-up handler to create the EC2 Spot service-linked role; the current mapping/function dependencies do not wait for it, allowing the first Spot provisioning attempt to fail in a new account.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When an AMI-ID SSM parameter is configured, aws_lambda_event_source_mapping.scale_up should wait for aws_iam_role_policy_attachment.ami_id_ssm_parameter_read. Otherwise it can consume jobs before the handler's permission to read the selected AMI parameter is attached; referencing the parameter name does not establish this ordering.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the pool uses an AMI-ID SSM parameter, aws_lambda_function.pool should wait for aws_iam_role_policy_attachment.ami_id_ssm_parameter_read before its schedules can invoke it. The config's reference to the managed policy waits for policy creation but not its attachment to the pool role.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer can invoke the syncer before aws_iam_role_policy.syncer grants its execution role S3 access. The function and policy share a role dependency but are otherwise unordered. Make the scheduled target wait for this policy, independently of the S3 on-deploy trigger's readiness.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer should wait for aws_iam_role_policy.lambda_logging before activating scheduled invocations. This policy also waits for the managed log group; neither is an ancestor of the scheduled target, so the first scheduled sync can run without its logging infrastructure.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When KMS encryption is configured for the distribution bucket, aws_cloudwatch_event_target.syncer should wait for aws_iam_role_policy.lambda_kms. The target currently can activate scheduled syncs before the execution role receives the KMS permissions needed for encrypted S3 access.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

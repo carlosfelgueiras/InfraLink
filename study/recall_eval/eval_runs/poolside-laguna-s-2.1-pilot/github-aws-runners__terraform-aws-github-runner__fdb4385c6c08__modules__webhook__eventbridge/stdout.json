@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The aws_cloudwatch_event_target.dispatcher routes CloudWatch Events to aws_lambda_function.dispatcher, but does not depend on aws_lambda_permission.allow_cloudwatch_to_call_lambda which grants EventBridge permission to invoke the Lambda. The EventBridge documentation explicitly states that Lambda permissions must be set up for EventBridge rules to invoke Lambda functions. The event target should be created after the permission to ensure events can be successfully delivered to the Lambda function.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-poolside-laguna-s-2.1"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The aws_lambda_function.dispatcher has a conditional vpc_config block (enabled when both lambda_subnet_ids and lambda_security_group_ids are provided) but does not depend on aws_iam_role_policy_attachment.dispatcher_vpc_execution_role, which attaches the AWSLambdaVPCAccessExecutionRole managed policy to the execution role. AWS Lambda requires this policy to create elastic network interfaces (ENIs) for VPC-connected functions. Without this dependency, the Lambda function may fail to deploy or remain in a pending state when VPC configuration is enabled.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-poolside-laguna-s-2.1"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The aws_lambda_function.webhook has a conditional vpc_config block (enabled when both lambda_subnet_ids and lambda_security_group_ids are provided) but does not depend on aws_iam_role_policy_attachment.webhook_vpc_execution_role, which attaches the AWSLambdaVPCAccessExecutionRole managed policy to the execution role. AWS Lambda requires this policy to create elastic network interfaces (ENIs) for VPC-connected functions. Without this dependency, the Lambda function may fail to deploy or remain in a pending state when VPC configuration is enabled.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-poolside-laguna-s-2.1"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The cluster capacity-provider association must wait until the autoscaling ECS capacity providers are created and registered. The source references these providers through a local, but the graph does not record a dependency from :resource.aws_ecs_cluster_capacity_providers.this to :resource.aws_ecs_capacity_provider.this.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.fargate_capacity_providers : try(v.name, k)], [for cp in aws_ecs_capacity_provider.this : cp.name]))"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

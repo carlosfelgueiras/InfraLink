@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC host-project operation uses the Compute Engine Shared VPC feature, but has no ordering dependency on API activation. Ensure configured project services complete before enabling the host role, so the Compute API is available first.",
+      "node": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Associating this project as a Shared VPC service project requires the Compute Engine Shared VPC API, but this resource has no dependency on configured API activation. Order it after project services to avoid attempting the association before the Compute API is enabled.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "These host-project IAM grants target this project's Google-managed service identities, whose creation follows API activation. Without ordering after configured project services, the grants can race service-agent creation and fail because an identity is not yet available.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The host-project IAM grants can include Secret Manager, Pub/Sub, or Cloud Asset service agents, whose just-in-time identities are created by this resource. The member values are assembled from naming conventions rather than referencing the identity resource, so these grants can be attempted before the service agent exists; order them after identity creation.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service_identity.jit_si",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

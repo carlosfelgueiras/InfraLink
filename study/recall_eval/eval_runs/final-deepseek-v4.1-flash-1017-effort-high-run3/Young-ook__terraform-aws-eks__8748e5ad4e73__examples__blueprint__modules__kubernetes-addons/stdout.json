@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks-addons builds several IAM policy ARNs with format(\"arn:%s:iam::aws:policy/...\", local.aws.partition). local.aws.partition is derived from module.aws.partition.partition, but module.eks-addons has no direct reference or depends_on edge to module.aws, so the required ordering is absent from the graph. If module.aws is not resolved first the ARNs are wrong. It should depend on module.aws (a bare depends_on is the simplest fix; the inline format() expressions could also be rewritten to reference module.aws.partition.partition).",
+      "node": ":module.eks-addons",
+      "target": ":module.aws",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.local_file.halconfig renders aws_id and aws_region from local.aws.id / local.aws.region into halconfig.sh. Those locals are derived from module.aws.caller.account_id / module.aws.region.name, but the graph shows no dependency from halconfig to module.aws, so the ordering is invisible to the mechanical analysis. Referencing module.aws directly in content would establish the dependency implicitly.",
+      "node": ":resource.local_file.halconfig",
+      "target": ":module.aws",
+      "fix": {
+        "field": "content",
+        "expression": "templatefile(\"${path.module}/scripts/templates/halconfig.tpl\", { aws_id = module.aws.caller.account_id, aws_region = module.aws.region.name, spin_managed_role = module.devops.addons.irsa[\"spinnaker\"].arn, spin_irsa_cli = module.devops.addons.irsa[\"spinnaker\"].kubecli })"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

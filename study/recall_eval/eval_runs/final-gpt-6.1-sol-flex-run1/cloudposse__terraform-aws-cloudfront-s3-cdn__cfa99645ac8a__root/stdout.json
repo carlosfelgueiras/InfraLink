@@ -1,0 +1,37 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_s3_bucket_policy.default must wait for :resource.aws_s3_bucket.origin when this module creates the bucket; otherwise the policy can be applied before the bucket exists. The supplied graph contains no dependency path to the bucket.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "join(\"\", compact(concat(list(var.origin_bucket), concat(list(\"\"), aws_s3_bucket.origin.*.id))))"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":data.aws_s3_bucket.selected must wait for :resource.aws_s3_bucket.origin when reading the module-created bucket, or its lookup can fail before creation. The supplied graph has no dependency path between them.",
+      "node": ":data.aws_s3_bucket.selected",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "join(\"\", compact(concat(list(var.origin_bucket), concat(list(\"\"), aws_s3_bucket.origin.*.id)))) == \"\" ? var.static_s3_bucket : join(\"\", compact(concat(list(var.origin_bucket), concat(list(\"\"), aws_s3_bucket.origin.*.id))))"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudfront_distribution.default should wait for :resource.aws_s3_bucket.origin so its S3 origin exists before the enabled distribution is deployed. Although the source includes depends_on for this bucket, the supplied graph records neither that edge nor an implicit path; ensure this dependency is present in the effective configuration.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

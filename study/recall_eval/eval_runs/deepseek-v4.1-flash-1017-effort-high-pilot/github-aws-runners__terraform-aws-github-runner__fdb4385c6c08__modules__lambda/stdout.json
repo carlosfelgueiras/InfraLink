@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_lambda_function.main` does not depend on `:resource.aws_iam_role_policy_attachment.vpc_execution_role`. When `var.lambda.subnet_ids` is non-empty the function is created with a `vpc_config` block, and Lambda validates at CreateFunction time that the execution role can manage ENIs (the AWSLambdaVPCAccessExecutionRole policy attached by this resource). Because the attachment body never references the function, Terraform may create the function before the managed policy is attached, producing `InvalidParameterValueException: The provided execution role does not have permissions to call CreateNetworkInterface on EC2`. The AWS provider docs' own examples add `depends_on = [aws_iam_role_policy_attachment.<vpc/logs>]` to `aws_lambda_function` for exactly this reason. No clean data-reference fix exists here (the function has no attribute that can consume the attachment), so an explicit `depends_on` is required.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.main` does not depend on `:resource.aws_iam_role_policy.lambda_logging`. The inline policy grants logs:CreateLogStream/logs:PutLogEvents (and the log-group-scoped writes) for the function, but nothing orders it before/with the function: the policy depends on the function's log group and role, not the other way round. The function can therefore exist (and be invoked, e.g. by an event source wired up in the same apply) before the logging permissions are in effect, and IAM changes are eventually consistent, so logs are lost/delivered with errors. The AWS provider documentation for `aws_lambda_function` recommends `depends_on = [aws_iam_role_policy_attachment.lambda_logs]` alongside the log group. No clean attribute-level fix exists \u2014 an explicit `depends_on` is the appropriate mechanism.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.main` does not depend on `:resource.aws_iam_role_policy.xray`, even though the function's `tracing_config` block is enabled from the same `var.lambda.tracing_config.mode` that gates the X-Ray inline policy (`count = var.lambda.tracing_config.mode != null ? 1 : 0`). When tracing mode is set, Lambda needs the xray:PutTraceSegments/PutTelemetryRecords permissions on the execution role from the moment the function is created and first invoked; without the ordering (and given IAM propagation delay) invocations fail with \"The provided execution role does not have permissions to call PutTraceSegments on X-Ray\". Add `depends_on = [aws_iam_role_policy.xray]` to `aws_lambda_function.main`; no data-reference fix is available.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_lambda_function.main` does not depend on `:resource.aws_cloudwatch_log_group.main`; the dependency currently runs the other way (the log group derives its name from `aws_lambda_function.main.function_name`). Lambda lazily creates `/aws/lambda/<function_name>` on first invocation, so if the function is invoked before the managed log group is created (invocations racing a concurrent apply/event source), the log group is created out-of-band without the configured retention, KMS key and log class, and the subsequent `aws_cloudwatch_log_group.main` create fails with ResourceAlreadyExistsException / shows perpetual drift. The AWS provider docs for `aws_lambda_function` explicitly say \"Ensure log group exists before function\" with `depends_on = [aws_cloudwatch_log_group.example]`. There is no clean data-reference fix here (any reference from the function to the log group would form a cycle with the existing name reference), so a bare `depends_on`\u2014ideally after deriving the log group name without referencing the function\u2014is the remedy.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

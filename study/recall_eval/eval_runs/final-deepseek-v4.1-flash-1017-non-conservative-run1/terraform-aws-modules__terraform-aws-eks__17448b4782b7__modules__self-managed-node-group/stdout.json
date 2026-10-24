@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_launch_template.this declares `depends_on = [aws_iam_role_policy_attachment.this]` but not :resource.aws_iam_role_policy_attachment.additional. Instances launched from this template assume the node IAM role immediately and require the user-supplied `var.iam_role_additional_policies` permissions (pod/CSI/etc.) to already be attached. Because IAM policy attachments are eventually consistent and nothing orders :resource.aws_iam_role_policy_attachment.additional before :resource.aws_launch_template.this (nor before the ASG that launches from it), Terraform can bring nodes up before those permissions propagate, causing first-boot / pod failures. Add :resource.aws_iam_role_policy_attachment.additional to the launch template's depends_on list. No clean data-reference fix exists because the launch template does not consume the attachment's ARNs.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

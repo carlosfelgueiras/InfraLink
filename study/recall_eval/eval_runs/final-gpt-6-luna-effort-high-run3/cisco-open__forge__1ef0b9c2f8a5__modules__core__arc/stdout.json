@@ -1,0 +1,43 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-set Helm release can create runner workloads that use this service account, but its namespace is currently configured only from a variable and does not order creation of the service account. Derive the Helm namespace from the account so the account exists before the release is applied.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "namespace",
+        "expression": "kubernetes_service_account_v1.runner_sa[count.index].metadata[0].namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-set Helm release may create runner workloads that use EKS Pod Identity, but it does not wait for the Pod Identity association. Ensure the association exists before installing the release so workloads do not start before their identity mapping is established.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-set Helm release can start runner workloads using this IAM role while managed policy attachments are still being applied. Order the release after the role policy attachment so runner workloads do not start before the role's configured permissions are attached.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The zombie cleanup CronJob can run as soon as it is created, but its Kubernetes RoleBinding may still be pending because the CronJob has no dependency on it. Order CronJob creation after the binding so the first scheduled cleanup run has the required RBAC permissions.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

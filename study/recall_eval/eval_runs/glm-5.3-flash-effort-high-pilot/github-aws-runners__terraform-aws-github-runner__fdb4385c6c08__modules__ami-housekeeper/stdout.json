@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper should depend on aws_iam_role_policy.lambda_logging: the function only references the role ARN, so the CloudWatch Logs logging policy may not be attached when the function is first invoked, causing the first executions to fail writing logs. Add depends_on (or reference the policy) so the policy is in place before the function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper should depend on aws_cloudwatch_log_group.ami_housekeeper: if the function is created before the log group, Lambda will auto-create a default \"/aws/lambda/<name>\" log group on first invocation, which then conflicts with the managed log group (ResourceAlreadyExists) or leaves its retention/KMS/class settings unapplied. The graph currently orders them the wrong way (the log group references the function's name). Since the log group's name is derived from the function, first replace the log group's name reference with the equivalent literal expression (\"/aws/lambda/${var.prefix}-ami-housekeeper\") to avoid a cycle, then add depends_on on the function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper should depend on aws_iam_role_policy.ami_housekeeper: the AMI-cleanup permissions in this policy are required for the function's core operation, but nothing guarantees they are attached before the function is created and can be triggered by the EventBridge rule. Add depends_on so the policy is in place before the function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper should depend on aws_iam_role_policy.ami_housekeeper_xray: when tracing is enabled (tracing_config.mode != null), the function emits X-Ray traces but the xray policy may not yet be attached, producing permission errors on early invocations. Add depends_on so the policy is in place before the function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper should depend on aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role: when the function is deployed into a VPC (lambda_subnet_ids/lambda_security_group_ids set), the AWSLambdaVPCAccessExecutionRole permissions are needed for network interface management; if the function is created before the attachment propagates, creation or first invocations in the VPC can fail. Add depends_on so the attachment exists before the function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`google_kms_crypto_key_iam_member.service_identity_cmek` sets `member = \"serviceAccount:${local.service_accounts_robots[...]}\"`, and `local.service_accounts_robots` derives from `local.project.number`, which resolves `google_project.project.0.number`. That already establishes an implicit dependency on `google_project.project`, so the explicit `depends_on = [google_project.project]` is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`local.project.number` also references `data.google_project.project.0.number` (the `project_create = false` branch), so `google_kms_crypto_key_iam_member.service_identity_cmek` already depends implicitly on `data.google_project.project` via `local.service_accounts_robots`. The explicit `depends_on = [data.google_project.project]` duplicates that dependency.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`google_project_iam_member.shared_vpc_host_robots` grants roles to robot service accounts from `local.service_accounts_robots`, but those robots (`service-<num>@compute-system...`, etc.) are only created once their APIs are enabled by `google_project_service.project_services`. There is no dependency on `project_services` (the parallel `google_kms_crypto_key_iam_member.service_identity_cmek`, which uses the same robot accounts, explicitly depends on it), so the IAM grant can run before the principals exist and fail.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

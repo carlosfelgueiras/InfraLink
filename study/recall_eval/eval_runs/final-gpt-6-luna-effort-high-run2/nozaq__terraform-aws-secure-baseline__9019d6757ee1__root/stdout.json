@@ -1,0 +1,346 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The organization aggregator references the IAM role ARN but can be created before the role's AWSConfigRoleForOrganizations policy attachment is complete. The AWS provider's organization-aggregator example explicitly waits for this attachment; add an ordering dependency so the aggregator does not start before its required permissions are attached.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's AWS_ConfigRole managed policy is attached. Add ordering so recorder startup occurs after the role has its required permissions.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "AWS Config recorder status starts recording, but this regional status resource can start before the root recorder's custom publish policy is installed. Add ordering so recorder startup occurs after the role has its S3/SNS permissions.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The organization aggregator references the IAM role ARN but can be created before the role's AWSConfigRoleForOrganizations policy attachment is complete. The provider's documented organization-aggregator pattern waits for this attachment; add ordering so the aggregator starts with the required permissions in place.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When CloudTrail is configured for CloudWatch Logs, it references the delivery role but may create the trail before the role's logging permissions are attached. Ensure the CloudTrail resource waits for its CloudWatch delivery inline policy.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudTrail resource can be created after the SNS topic exists but before its topic policy grants CloudTrail permission to publish delivery notifications. Ensure the trail creation waits for the topic policy so notification delivery is authorized.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

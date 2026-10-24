@@ -1,0 +1,37 @@
+{
+  "repo": "GoogleCloudPlatform__cloud-foundation-fabric",
+  "parent_sha": "fe485414e67b5a0ffb11ce1c65871834e05cfa77^",
+  "resolved_sha": "c501c657ec723e3757aecd0706a8a4d780b2db53",
+  "module_dir": "modules/project",
+  "profile": "merged(min_runs=1): merged-gpt-6-luna-atleast2of3,merged-deepseek-v4.1-flash-1017-atleast2of3,merged-glm-5.3-flash-atleast2of3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "GoogleCloudPlatform__cloud-foundation-fabric",
+      "pr_number": 1823,
+      "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/1823",
+      "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/fe485414e67b5a0ffb11ce1c65871834e05cfa77",
+      "commit_sha": "fe485414e67b5a0ffb11ce1c65871834e05cfa77",
+      "parent_sha": "fe485414e67b5a0ffb11ce1c65871834e05cfa77^",
+      "commit_subject": "Add end-to-end tests for project module (#1823)",
+      "commit_date": "2023-11-03T18:04:19+01:00",
+      "file": "modules/project/logging.tf",
+      "module_dir": "modules/project",
+      "holder_address": "google_logging_project_sink.sink",
+      "added_targets": [
+        "google_project_service.project_services"
+      ],
+      "pre_existing_targets": [
+        "google_project_iam_binding.authoritative",
+        "google_project_iam_binding.bindings",
+        "google_project_iam_member.bindings"
+      ],
+      "already_implicit": {
+        "google_project_service.project_services": false
+      },
+      "verify_error": null
+    }
+  ]
+}

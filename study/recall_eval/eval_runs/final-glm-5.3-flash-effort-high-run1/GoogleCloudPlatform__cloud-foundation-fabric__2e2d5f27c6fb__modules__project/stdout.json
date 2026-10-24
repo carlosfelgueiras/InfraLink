@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_binding.authoritative grants roles from var.iam_roles on the project, but has no dependency on google_project_service.project_services. Service APIs are enabled asynchronously; on a fresh project (or one where services are being disabled on destroy) the IAM grant races against API enablement. The module already relies on this ordering elsewhere (oslogin_meta and all outputs carry depends_on = [google_project_service.project_services]), so the IAM binding needs the same ordering. A bare depends_on is appropriate; the grant roles come from variables, so no attribute reference can establish the ordering.",
+      "node": ":resource.google_project_iam_binding.authoritative",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.additive grants non-authoritative roles from var.iam_additive_roles with no dependency on google_project_service.project_services, so role grants can race against asynchronous API enablement on a new project \u2014 the same ordering problem the module guards against for oslogin_meta and its outputs with explicit depends_on. A bare depends_on is appropriate here; there is no attribute on this resource that could reference project_services.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.oslogin_admins grants roles/compute.osAdminLogin, a Compute Engine role that is only usable after the compute API has been enabled by google_project_service.project_services, yet it has no dependency on it. The sibling resource google_compute_project_metadata_item.oslogin_meta (same OS-Login feature) explicitly depends on project_services for exactly this reason; the OS-Login IAM grants were left out. A bare depends_on is appropriate; the role and member are variable-driven.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.oslogin_users grants roles/compute.osLogin, which requires the Compute Engine API enabled via google_project_service.project_services, but has no dependency on it. Its sibling oslogin_meta in the same OS-Login feature depends on project_services, showing the intended ordering; the IAM member should too. A bare depends_on is appropriate here.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.oslogin_compute_viewer grants roles/compute.viewer, a Compute Engine role, without depending on google_project_service.project_services that enables the compute API. Granting it can race API enablement on a fresh project; the OS-Login metadata item in the same feature block already carries this depends_on. A bare depends_on is the appropriate remedy.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.oslogin_iam_serviceaccountuser grants roles/iam.serviceAccountUser as part of the OS-Login setup, but does not depend on google_project_service.project_services. On a new project the IAM grant races asynchronous API enablement, the same ordering issue the module addresses explicitly for the OS-Login metadata item and its outputs. A bare depends_on is appropriate; no attribute of this resource can reference project_services.",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

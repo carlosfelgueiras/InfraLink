@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this provisions the node group's EC2 instances and ENIs using the node IAM role, but it only depends on aws_iam_role.this (via node_role_arn) \u2014 not on the role's policy attachments. Per the AWS provider documentation, the EKS node group must depend on the IAM role policy attachments (here aws_iam_role_policy_attachment.this, which attaches AmazonEKSWorkerNodePolicy, AmazonEC2ContainerRegistryReadOnly and the CNI policy) so EKS can create the nodes and, importantly on teardown, properly delete the EC2 instances and Elastic Network Interfaces. Today the ordering is at best met indirectly through the launch template and breaks entirely when use_custom_launch_template = false.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.this deliberately depends_on aws_iam_role_policy_attachment.this so that pods do not access IAM permissions before they are attached, but its depends_on list omits aws_iam_role_policy_attachment.additional. Additional policies attached to the node role via iam_role_additional_policies are subject to the same race: without an ordering dependency, EKS can launch nodes (and workloads on them) before those additional permissions exist, and on destroy the additional policies can be detached before the node group is torn down. The dependency on aws_iam_role_policy_attachment.additional should be added so the ordering holds in every path.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

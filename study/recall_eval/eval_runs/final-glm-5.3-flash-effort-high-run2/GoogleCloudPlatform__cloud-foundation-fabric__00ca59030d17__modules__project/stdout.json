@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project as a Shared VPC service project via a Compute Engine (XPN) API call, which fails on a newly created project unless the Compute API (and other services in `var.services`) are already enabled. No attribute reference or depends_on expresses ordering against `google_project_service.project_services`, so Terraform may apply the attachment before API activation completes.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`google_compute_shared_vpc_host_project.shared_vpc_host` enables the Shared VPC host feature via the Compute Engine (XPN) API, which requires the Compute API to be enabled in this project. Nothing in the resource's configuration references `google_project_service.project_services`, so on a brand-new project Terraform may attempt to enable the host feature before the APIs are active and fail.",
+      "node": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`google_project_iam_member.shared_vpc_host_robots` grants roles in the host project to this project's service robot identities (e.g. `service-<num>@gcp-sa-*`, `service_account_cloud_services`). These robot service accounts are only created when their corresponding APIs are enabled in this project, but the resource has no dependency on `google_project_service.project_services`, so the IAM grant can race API activation and fail with a nonexistent-serviceAccount error.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

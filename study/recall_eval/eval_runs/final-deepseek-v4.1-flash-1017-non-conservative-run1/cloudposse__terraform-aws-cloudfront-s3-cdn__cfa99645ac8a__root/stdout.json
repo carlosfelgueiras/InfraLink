@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_cloudfront_distribution.default declares depends_on = [\"aws_s3_bucket.origin\"], but this dependency is already established implicitly: origin.domain_name = local.bucket_domain_name, and local.bucket_domain_name \u2192 local.bucket \u2192 aws_s3_bucket.origin.*.id. Terraform already infers the ordering through the local value, so the explicit depends_on duplicates an existing implicit dependency. (The mechanical graph does not expand locals, which is why aws_s3_bucket.origin doesn't appear in the distribution's implicit_deps.)",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default serves the S3 origin through the origin access identity, but access is only granted by aws_s3_bucket_policy.default (which applies the aws_iam_policy_document.origin policy granting the OAI s3:GetObject/s3:ListBucket). The distribution neither references nor depends_on the bucket policy, so nothing orders it after the policy is applied \u2014 the distribution (and the DNS records in module.dns that point at it) can become live while the bucket policy is still pending, resulting in 403 responses from the origin until the policy lands.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

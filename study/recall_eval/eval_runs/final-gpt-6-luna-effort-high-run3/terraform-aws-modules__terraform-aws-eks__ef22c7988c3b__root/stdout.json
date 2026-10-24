@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.eks_managed_node_group:resource.aws_eks_node_group.this` should wait for `module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this` so EKS has the node-role permissions before creating or deleting the managed node group. The provider documentation specifically recommends this ordering; the launch-template dependency only covers cases where that template is actually created.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.eks_managed_node_group:resource.aws_eks_node_group.this` should depend on `module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this` to ensure the node-role permissions are attached before EKS creates or deletes the managed node group. The AWS provider documentation recommends this ordering, and the launch-template dependency does not guarantee it when the module uses no created launch template.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

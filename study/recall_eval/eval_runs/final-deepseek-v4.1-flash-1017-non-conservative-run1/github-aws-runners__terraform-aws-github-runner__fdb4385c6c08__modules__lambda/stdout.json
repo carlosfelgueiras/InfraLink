@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main has no ordering constraint against :resource.aws_iam_role_policy.lambda_logging, even though the inline policy grants logs:CreateLogStream/logs:PutLogEvents on the function's log group. In the graph the dependency runs the other way (the policy references aws_cloudwatch_log_group.main.arn, which in turn references the function), so the function can be created and invoked while its execution role still lacks CloudWatch Logs permissions, causing invocation failures / lost logs on the very first run. Add `depends_on = [aws_iam_role_policy.lambda_logging]` to aws_lambda_function.main; no data reference exists because aws_iam_role_policy exposes nothing the function consumes.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main only depends on :resource.aws_iam_role.main (via `role = aws_iam_role.main.arn`), but not on :resource.aws_iam_role_policy_attachment.vpc_execution_role. The function is configured with a `vpc_config`, and AWS requires the execution role to already hold the AWSLambdaVPCAccessExecutionRole policy when the function is created (Lambda calls ec2:CreateNetworkInterface to provision the ENIs). Without an ordering constraint the function can be created first and fail with \"The provided execution role does not have permissions to call CreateNetworkInterface\". This can't be expressed as an attribute reference since aws_iam_role_policy_attachment exports no attributes for the function to consume, so an explicit `depends_on = [aws_iam_role_policy_attachment.vpc_execution_role]` on aws_lambda_function.main is required.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_settings does not depend on null_resource.delete_probe. HTTP settings reference the probe, so on destroy the settings must be removed before the probe. delete_http_settings currently lists null_resource.set_probe instead \u2014 a create-only resource with no destroy provisioner \u2014 so delete_probe has no incoming ordering and can be destroyed in the first wave, deleting the probe while HTTP settings still reference it (referential-integrity failure). It should depend on null_resource.delete_probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_listener does not depend on null_resource.delete_frontend_port. HTTP listeners reference the frontend port, so on destroy the listener must be removed before the frontend port. delete_http_listener currently lists null_resource.set_frontend_port instead \u2014 a create-only resource with no destroy provisioner \u2014 leaving delete_frontend_port with no incoming ordering, so the port may be deleted while a listener still references it. delete_http_listener should depend on null_resource.delete_frontend_port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

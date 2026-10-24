@@ -1,0 +1,3 @@
+Confirmed: `helm_release.elk` has no `depends_on` and no attribute reference to `kubernetes_secret.elasticsearch_certificates`; the secret name "elastic-certificates" is only hardcoded as a literal string in the YAML values (secretMounts). Since Terraform's Helm provider applies the release once the chart values render, there's no implicit graph edge from the literal string to the secret resource. Helm will attempt to deploy, and if the secret doesn't yet exist, pods relying on `secretMounts` will fail to start (CreateContainerConfigError / volume mount failure). This is a real operational ordering requirement not captured by Terraform.
+
+Correct

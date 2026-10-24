@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The output value iterates over google_organization_iam_custom_role.roles, so it already has an implicit dependency on that resource; the explicit depends_on duplicates the same ordering.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

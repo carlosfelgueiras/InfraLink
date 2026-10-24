@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_compute_organization_security_policy_association.attachment` takes `policy_id` straight from `var.firewall_policy_attachments` (a plain string), while the hierarchical firewall policies it attaches are created in this same module by `google_compute_organization_security_policy.policy`. Because there is no attribute reference or `depends_on` between them, Terraform can create/associate the policy before the policy exists on a first apply (the provider's own example sets `policy_id = google_compute_organization_security_policy.policy.id`). The association should be ordered after the security policy \u2014 e.g. `policy_id = try(google_compute_organization_security_policy.policy[each.key].id, each.value)` so a module-created policy is referenced when the attachment key matches a policy key and externally supplied IDs still win otherwise, or a bare `depends_on = [google_compute_organization_security_policy.policy]`.",
+      "node": ":resource.google_compute_organization_security_policy_association.attachment",
+      "target": ":resource.google_compute_organization_security_policy.policy",
+      "fix": {
+        "field": "policy_id",
+        "expression": "try(google_compute_organization_security_policy.policy[each.key].id, each.value)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

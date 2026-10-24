@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The dispatcher Lambda can be configured with VPC subnets, but its VPC execution-role policy attachment is not ordered before function creation. Lambda needs the VPC networking permissions when creating or updating a VPC-connected function; ensure the attachment is complete first. No clean attribute reference exists, so use depends_on.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook Lambda can be configured with VPC subnets, but its VPC execution-role policy attachment is not ordered before function creation. Lambda needs the VPC networking permissions when creating or updating a VPC-connected function; ensure the attachment is complete first. No clean attribute reference exists, so use depends_on.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda permission that authorizes EventBridge to invoke the dispatcher, leaving the target unable to invoke the function until permission is established. Make the target wait for the permission with depends_on; the permission has no usable data attribute to reference.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The dispatcher function can be invoked through the EventBridge target before its execution-role SQS permissions are installed. The provider documentation demonstrates ordering a Lambda function after its role-policy attachments; make function creation wait for this required runtime policy. No clean data-reference fix exists.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The dispatcher function can be invoked through the EventBridge target before its execution-role SSM permissions are installed. Ensure the function is not ready for invocation until this runtime policy is installed; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The dispatcher function can be invoked before its execution-role KMS permissions are installed, when the configured KMS-backed functionality is used. Ensure the function waits for this policy; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, the dispatcher function may be invoked before its execution-role X-Ray permissions are installed. Ensure function creation waits for the conditional X-Ray policy; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook function may be invoked before its execution-role permissions to publish to the EventBridge bus are installed. Ensure the function waits for this runtime policy; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_eventbridge",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook function may be invoked before its execution-role SSM permissions are installed. Ensure the function waits for this runtime policy; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook function may be invoked before its execution-role KMS permissions are installed, when the configured KMS-backed functionality is used. Ensure the function waits for this policy; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, the webhook function may be invoked before its execution-role X-Ray permissions are installed. Ensure function creation waits for the conditional X-Ray policy; there is no clean data-reference fix.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

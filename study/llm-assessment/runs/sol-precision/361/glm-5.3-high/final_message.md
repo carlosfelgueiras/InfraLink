@@ -1,0 +1,18 @@
+Web search remains rate-limited, but I now have sufficient evidence from primary sources to make the assessment. Let me consolidate my findings.
+
+## Assessment
+
+**Reported claim:** `google_compute_shared_vpc_service_project.shared_vpc_service` (modules/project/shared-vpc.tf:124-137) waits for VPC-SC perimeter membership but not for `google_project_service.project_services` (modules/project/main.tf:104-111), so when the module enables `compute.googleapis.com`, the service-project attachment can race that activation.
+
+**Configuration facts (verified):**
+- `shared_vpc_service` attaches the module's own project (`local.project.project_id`) to a host project. Its `depends_on` contains only `google_access_context_manager_service_perimeter_dry_run_resource.default` and `google_access_context_manager_service_perimeter_resource.default` (perimeter membership). Neither it nor any attribute it references points at `google_project_service.project_services`, so **no implicit or explicit dependency exists** — the two resources are siblings, both rooted only at `google_project.project`, and Terraform will schedule them in parallel.
+- `project_services` enables `var.services` on the **same project** — and the module's own README documents a first-class supported configuration where a shared VPC service project enables `compute.googleapis.com` (README "Shared VPC" section, last example).
+
+**Is there a concrete ordering requirement from target to node? Yes:**
+- Google Cloud's official "Provision Shared VPC" documentation states explicitly, in the *Attach service projects* section: *"Before you can attach to a host project, you must enable the Compute Engine API for the service project."* It repeats the requirement twice more: *"Ensure that you have enabled the Compute Engine API... for your host project and all service projects that you plan to attach"* and *"The Compute Engine API must be enabled... and for any service projects that will attach to it."*
+- Google's own reference Terraform module (`terraform-google-modules/terraform-google-project-factory`, `modules/core_project_factory/main.tf`) implements this exact pattern and enforces the ordering with `depends_on = [time_sleep.wait_5_seconds[0], module.project_services]` on `google_compute_shared_vpc_service_project.shared_vpc_attachment` — i.e., API activation must complete before attachment.
+- Fabric itself already follows this convention for analogous resources: `google_compute_shared_vpc_host_project.shared_vpc_host` (shared-vpc.tf:109), service agents (service-agents.tf), agent IAM bindings (shared-vpc.tf:152, 209), `google_compute_project_metadata_item.default` (main.tf:120), logging, CMEK, and quota resources all carry `depends_on = [google_project_service.project_services]` — because those operations need the service (and its agents) activated first. The attachment is the one place this prerequisite is not expressed, despite the module being able to activate `compute.googleapis.com` on the very project it attaches.
+
+Since the attachment (`enableXpnResource`) is a documented operation that requires the Compute Engine API to be enabled in the service project beforehand, and Terraform currently has no information to enforce that ordering (the two resources proceed concurrently once the project exists, and the attachment can run before activation completes), the missing dependency exists exactly as reported.
+
+Correct

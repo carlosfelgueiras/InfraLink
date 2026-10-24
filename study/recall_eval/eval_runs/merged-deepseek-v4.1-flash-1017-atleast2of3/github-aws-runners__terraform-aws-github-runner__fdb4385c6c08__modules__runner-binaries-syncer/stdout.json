@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_cloudwatch_event_target.syncer points the scheduled rule at aws_lambda_function.syncer, but the resource-based policy that grants events.amazonaws.com permission to invoke the function (aws_lambda_permission.syncer) is created independently. Until that permission exists, the rule's invocations are rejected. Add depends_on = [aws_lambda_permission.syncer] to aws_cloudwatch_event_target.syncer, mirroring the notification->permission ordering already used for the S3 trigger path (aws_s3_bucket_notification.on_deploy depends on aws_lambda_permission.on_deploy).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_cloudwatch_event_target.syncer registers aws_lambda_function.syncer as the target of the EventBridge rule, but does not ensure that aws_lambda_permission.syncer (the events.amazonaws.com lambda:InvokeFunction permission) exists first. The AWS docs state that to have a Lambda invoked by an EventBridge rule you must set up the permission via aws_lambda_permission. The S3 path in this same module already handles the equivalent case with depends_on on aws_lambda_permission.on_deploy; the EventBridge target needs the analogous ordering to aws_lambda_permission.syncer.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

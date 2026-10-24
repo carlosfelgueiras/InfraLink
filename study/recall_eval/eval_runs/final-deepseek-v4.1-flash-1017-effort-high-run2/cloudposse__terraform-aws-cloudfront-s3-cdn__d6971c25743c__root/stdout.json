@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudfront_distribution.default enables access logging into the bucket created by :module.logs (logging_config.bucket = local.cf_log_bucket_domain, which resolves to module.logs.bucket_domain_name). That reference only waits for the bucket resource to exist \u2014 it does not wait for module.logs to apply the ACL/grants that give the awslogsdelivery canonical user FULL_CONTROL. CloudFront validates/writes to the log bucket at distribution creation time and fails (`InvalidArgument`/`AccessDenied`) if those grants are not yet applied. Add `depends_on = [module.logs]` to the distribution so the whole logs module (bucket + ACL grants) completes first; there is no attribute on module.logs that is emitted only after the grants, so a bare depends_on is the correct closure.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":module.logs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_cloudfront_distribution.default lists `aws_s3_bucket.origin` in depends_on, but the distribution's `origin` block already sets `domain_name = local.bucket_domain_name`, which is derived from `local.origin_bucket` \u2192 `aws_s3_bucket.origin[0]` (the count/ternary branches reference the resource, so the edge exists statically). Terraform therefore already orders distribution creation after the bucket through an ordinary attribute reference, making the explicit depends_on on :resource.aws_s3_bucket.origin redundant. The sibling entries (aws_s3_bucket_ownership_controls.origin and time_sleep.wait_for_aws_s3_bucket_settings) are not implied by any attribute and should stay.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service enables the Shared VPC (XPN) feature on the service project (this project, service_project = local.project.project_id), which requires the Compute Engine API to be enabled first. Its host-side sibling (google_compute_shared_vpc_service_project.service_projects) reaches google_project_service.project_services transitively via google_compute_shared_vpc_host_project.shared_vpc_host, but the service-side resource has no path to project_services at all, so attaching the service project can race API enablement. Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_identity_cmek lists google_project.project in depends_on, but its `member` is `${local.service_accounts_robots[...]}` which derives from `local.project.number`, and `local.project.number` is `try(google_project.project.0.number, null)`. That attribute reference already forces ordering after google_project.project, so the explicit depends_on entry is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_identity_cmek lists data.google_project.project in depends_on, but the same `member` expression flows through `local.project.number`, which in the not-create branch is `try(data.google_project.project.0.number, null)`. That attribute reference already establishes the dependency, making the explicit depends_on entry redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

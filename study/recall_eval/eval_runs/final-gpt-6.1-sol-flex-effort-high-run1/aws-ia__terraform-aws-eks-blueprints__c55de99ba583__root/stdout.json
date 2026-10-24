@@ -1,0 +1,187 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.kubernetes_config_map.amazon_vpc_cni explicitly depends on :module.aws_eks, but its retained dependency on :data.http.eks_cluster_readiness already reaches :module.aws_eks through :data.aws_eks_cluster.cluster. Remove the direct module dependency while retaining the readiness check.",
+      "node": ":resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.kubernetes_config_map.aws_auth explicitly depends on :module.aws_eks, but :data.http.eks_cluster_readiness already depends on :data.aws_eks_cluster.cluster, which depends on :module.aws_eks. The direct module dependency duplicates this ordering; retain the readiness dependency.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng already references module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng through node_role_arn. Its explicit dependency on that same IAM role is redundant.",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_launch_template.managed_node_groups already waits for module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng through its explicit dependency on aws_iam_role_policy_attachment.managed_ng, whose role attribute references the IAM role. The additional direct role dependency is redundant.",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_launch_template.managed_node_groups",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng references aws_launch_template.managed_node_groups, which explicitly depends on module.aws_eks_managed_node_groups:resource.aws_iam_role_policy_attachment.managed_ng. Its direct dependency on the attachment duplicates that transitive ordering. Retain the launch template's attachment dependency if removing this edge.",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role_policy_attachment.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng already depends on module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng through the launch-template outputs, the launch-template resource, and its launch_template_config input containing the instance-profile name. Its explicit instance-profile dependency is redundant.",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng already reaches module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng through both its launch-template/instance-profile data references and the retained dependency on aws_iam_role_policy_attachment.self_managed_ng. Its direct IAM-role dependency adds no ordering.",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy already references module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution.id in its local-exec command. Terraform infers the role dependency from that interpolation, so the explicit depends_on entry duplicates it.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy already references module.emr_on_eks:resource.kubernetes_namespace.spark.id in its local-exec command. Its explicit dependency on that namespace is therefore redundant.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":module.aws_eks_teams creates Kubernetes namespaces, RBAC objects, and manifests without waiting for :data.http.eks_cluster_readiness. Its cluster-ID input orders cluster provisioning but does not include the project's explicit Kubernetes API health check. Add a dependency on the readiness data source so team resources cannot race API readiness, as the root ConfigMaps are already protected against.",
+      "node": ":module.aws_eks_teams",
+      "target": ":data.http.eks_cluster_readiness",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.aws_eks_teams:resource.kubernetes_cluster_role_binding.team names the ClusterRole managed by module.aws_eks_teams:resource.kubernetes_cluster_role.team using a reconstructed string. No dependency orders the binding after its referenced role or preserves the reverse teardown order. Reference the managed ClusterRole's name in the role_ref block.",
+      "node": "module.aws_eks_teams:resource.kubernetes_cluster_role_binding.team",
+      "target": "module.aws_eks_teams:resource.kubernetes_cluster_role.team",
+      "fix": {
+        "field": "role_ref[0].name",
+        "expression": "kubernetes_cluster_role.team[each.key].metadata[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.aws_eks_teams:resource.kubernetes_role_binding.team refers to the Role managed by module.aws_eks_teams:resource.kubernetes_role.team only through the string \"${each.key}-role\". Their shared namespace dependency does not order them relative to one another. Reference the managed Role's name so the binding follows role creation and precedes role destruction.",
+      "node": "module.aws_eks_teams:resource.kubernetes_role_binding.team",
+      "target": "module.aws_eks_teams:resource.kubernetes_role.team",
+      "fix": {
+        "field": "role_ref[0].name",
+        "expression": "kubernetes_role.team[each.key].metadata[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.kubernetes_role_binding.emr_containers uses local.emr_service_name for its role_ref rather than referencing module.emr_on_eks:resource.kubernetes_role.emr_containers. Both wait for the namespace, but neither waits for the other, allowing the binding to precede its Role and leaving teardown unordered. Use the managed Role's name in role_ref.",
+      "node": "module.emr_on_eks:resource.kubernetes_role_binding.emr_containers",
+      "target": "module.emr_on_eks:resource.kubernetes_role.emr_containers",
+      "fix": {
+        "field": "role_ref[0].name",
+        "expression": "kubernetes_role.emr_containers.metadata[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":data.aws_iam_policy_document.eks_key constructs the cluster IAM-role principal from its expected ARN instead of referencing the role created by :module.aws_eks. Consequently, the KMS key consuming this document can be created before that principal exists, causing KMS to reject the policy as containing an invalid principal. Reference the module's cluster_iam_role_arn output in the principal identifiers to order policy consumption after role creation. Use the role output rather than a broad depends_on on the EKS module, since the cluster itself consumes the KMS key.",
+      "node": ":data.aws_iam_policy_document.eks_key",
+      "target": ":module.aws_eks",
+      "fix": {
+        "field": "statement[3].principals[0].identifiers",
+        "expression": "[var.create_iam_role ? module.aws_eks.cluster_iam_role_arn : var.iam_role_arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

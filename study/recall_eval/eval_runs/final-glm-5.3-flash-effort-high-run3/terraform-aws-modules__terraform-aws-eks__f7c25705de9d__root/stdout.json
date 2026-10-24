@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this provision instances asynchronously and can launch/join the cluster before aws_iam_role_policy_attachment.this is applied. The node role (aws_iam_role.this) must have its policies attached first (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly), otherwise nodes join without permissions and EKS cannot properly manage EC2 instances and ENIs.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this should also wait for aws_iam_role_policy_attachment.additional so that any user-specified policies on the node role are attached before instances launch and join the cluster.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_fargate_profile.this uses pod_execution_role_arn (aws_iam_role.this) whose policies (aws_iam_role_policy_attachment.this) must be attached before pods execute; the fargate profile should wait for the policy attachment to be applied.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_fargate_profile.this should also depend on aws_iam_role_policy_attachment.additional so additional policies on the pod execution role are attached before the profile becomes ACTIVE and pods are scheduled.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.this launches EC2 instances whose role needs aws_iam_role_policy_attachment.this (e.g. AmazonEKS_CNI_Policy) attached before instance launch; the graph shows no reference to the launch template or the policy attachment, so no ordering is guaranteed.",
+      "node": "module.self_managed_node_group:resource.aws_autoscaling_group.this",
+      "target": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.this should also wait for aws_iam_role_policy_attachment.additional so additional policies on the node role are attached before instances are launched by the autoscaling group.",
+      "node": "module.self_managed_node_group:resource.aws_autoscaling_group.this",
+      "target": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The null_resource \"update_app\" registers the GitHub App webhook by running a local-exec script against the API Gateway endpoint. Its only reference to the endpoint chain resolves to aws_apigatewayv2_api.webhook, so Terraform may run the script after the API object exists but before the webhook route, AWS_PROXY integration, and $default stage are deployed \u2014 at which point the endpoint returns 404 and the GitHub App would be configured with a non-functional webhook (masked by on_failure = continue). It should explicitly wait for the webhook module's route/integration/stage to be in place.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners:module.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

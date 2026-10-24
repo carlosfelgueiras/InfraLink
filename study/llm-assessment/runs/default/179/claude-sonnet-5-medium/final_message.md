@@ -1,0 +1,7 @@
+Confirmed: the `depends_on = [aws_security_group_rule.this, aws_iam_role_policy_attachment.this]` block (lines 251-254) belongs to `aws_launch_template.this` (which starts at line 43), not to `aws_eks_node_group.this` (lines 269-348). The `aws_eks_node_group.this` resource itself has no `depends_on` and only references `aws_iam_role.this[0].arn` via `node_role_arn` — it has no reference (implicit or explicit) to `aws_iam_role_policy_attachment.this`.
+
+This matches the well-documented AWS provider guidance: node groups should depend on the IAM role policy attachments to avoid nodes failing to join the cluster (on create) or having permissions stripped before instances/ENIs are cleaned up (on destroy). The launch template's `depends_on` does not help when a custom/external launch template is used instead of the one created by this module (`local.use_custom_launch_template` with external LT), and even when the module creates the LT, that dependency is on the launch template resource — the node group itself still lacks the dependency on the policy attachments.
+
+Since this ordering requirement is real and is not currently expressed anywhere for `aws_eks_node_group.this`, the report is correct.
+
+Correct

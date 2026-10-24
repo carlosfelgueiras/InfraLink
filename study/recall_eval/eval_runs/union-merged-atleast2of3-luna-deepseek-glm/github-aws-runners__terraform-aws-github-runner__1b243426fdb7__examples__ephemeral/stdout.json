@@ -1,0 +1,70 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe GitHub App is configured with the webhook URL before the API Gateway default stage exists. The stage provides the invokable endpoint, so the external webhook configuration should wait until stage creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe GitHub App updater uses the API endpoint, but its current module-output dependency does not ensure the API Gateway stage has been provisioned. The updater should wait for the stage before configuring the webhook.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe GitHub App webhook can be enabled before its API Gateway route is installed, so early GitHub deliveries may fail. Ensure the route exists before updating the external app configuration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe GitHub App updater can run before the API Gateway route is configured; the referenced endpoint output only implies dependencies on selected API/Lambda outputs. Ensure the route (and its integration) exists before configuring the webhook.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nEventBridge can begin delivering scheduled events as soon as this target is registered; ensure the Lambda resource-based invoke permission exists first to avoid failed initial invocations.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can become active before Lambda has permission to invoke the function, causing an invocation to fail if the schedule fires during that interval. Order target creation after the matching Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can become active before its Lambda invoke permission exists. The schedule may fire during that interval, causing an invocation to be denied; make the target wait for the corresponding permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nEventBridge can invoke the scale-down target as soon as it is registered. The target should wait for its Lambda invoke permission so initial scheduled invocations are authorized.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can become active before Lambda has permission to invoke the function, causing an invocation to fail if the schedule fires during that interval. Order target creation after the matching Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can become active before its Lambda invoke permission exists. A scheduled invocation in that interval can be denied; order target creation after the corresponding permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe pool schedule target can receive events immediately after registration; ensure the Lambda invoke permission is installed first to avoid failed initial invocations.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nA scheduled pool target can become active before Lambda has permission to invoke the function, potentially failing an invocation if the schedule fires during that interval. Order target creation after the matching Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can become active before its Lambda invoke permission exists. A scheduled invocation in that interval can be denied; order target creation after the corresponding permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe SQS event source mapping may start polling as soon as it is enabled, but the scale-up execution role's inline policy (including queue access) is a separate resource. Make the mapping wait for that policy so queue processing does not start before permissions are available.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe SQS event source mapping can begin polling and invoking the scale-up Lambda as soon as it is enabled, but the Lambda execution role's SQS permissions are provisioned by this inline policy. Ensure the mapping is not enabled before those permissions are attached.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is the TLS-only policy for the dead-letter queue, but it sets `queue_url = aws_sqs_queue.queued_builds.id`, so it never depends on (and never attaches to) `module.runners:resource.aws_sqs_queue.queued_builds_dlq`. When `redrive_build_queue.enabled` is true, the DLQ is created with no queue policy, while the main build queue ends up with two competing `aws_sqs_queue_policy` resources (this one and `build_queue_policy`), so the two policies overwrite each other depending on apply order. Point `queue_url` at the DLQ so the DLQ exists before its policy is attached and the redrive target is actually secured.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-insecure-transport policy to the dead-letter queue, but it sets `queue_url = aws_sqs_queue.queued_builds.id`, so it never references `aws_sqs_queue.queued_builds_dlq`. As a result it has no ordering dependency on the DLQ (the policy can be applied before/after the DLQ arbitrarily) and it silently manages the same queue policy as `build_queue_policy`, which the other resource overwrites. Point `queue_url` at the DLQ instead.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The self-managed CoreDNS Helm installation in module.helm_addon must wait for null_resource.modify_kube_dns to transfer ownership of the existing kube-dns service to Helm. Waiting only for removal of the default deployment allows Helm to race the ownership annotations and fail.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:resource.null_resource.modify_kube_dns",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Crossplane helm_provider references a ControllerConfig by name in its YAML, but waits only for the cluster role binding. It must also wait for helm_controller_config so Crossplane cannot start installing the provider before that configuration exists.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_controller_config",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_provider_config already waits for aws_provider through time_sleep.wait_60_seconds; its direct depends_on on aws_provider duplicates that ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "upbound_aws_provider_config already waits for upbound_aws_provider through time_sleep.upbound_wait_60_seconds, making the direct dependency redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.upbound_aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.upbound_aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_provider_config already waits for helm_provider through time_sleep.wait_60_seconds_helm, making the direct dependency redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_provider_config already waits for kubernetes_provider through time_sleep.wait_60_seconds_kubernetes, making the direct dependency redundant.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_controller_config implicitly references kubernetes_service_account_v1.helm_provider, which explicitly waits for module.helm_addon. Its own depends_on on module.helm_addon duplicates that transitive ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_controller_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_provider_clusterolebinding implicitly references kubernetes_service_account_v1.helm_provider, which already waits for module.helm_addon; the direct depends_on duplicates that ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider_clusterolebinding",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_controller_config implicitly references kubernetes_service_account_v1.kubernetes_controller, which already waits for module.helm_addon; the direct depends_on duplicates that ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_controller_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_controller_clusterolebinding implicitly references kubernetes_service_account_v1.kubernetes_controller, which already waits for module.helm_addon; the direct depends_on duplicates that ordering.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_controller_clusterolebinding",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:module.helm_addon",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot waits for the RBAC roles but not kubernetes_role_binding_v1.adot. The addon-manager user needs this binding before installing namespaced operator resources; otherwise installation can race permission setup.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.adot must also wait for kubernetes_cluster_role_binding_v1.adot. Creating the ClusterRole alone does not grant addon-manager the cluster-scoped permissions needed to install CRDs and operator resources.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_cluster_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

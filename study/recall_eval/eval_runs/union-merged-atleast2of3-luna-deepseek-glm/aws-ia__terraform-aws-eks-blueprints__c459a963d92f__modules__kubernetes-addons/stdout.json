@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe EKS add-on can be created as soon as the IRSA role ARN is available, while the role policy attachment may still be in progress. Make the add-on wait for the policy attachment so its service account role has the required permissions when the add-on starts.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EBS CSI EKS add-on gets its service-account role ARN from the IRSA module, but that output only depends on the IAM role, not the policy attachment. The add-on may become active before the role has the permissions it needs; ensure the IRSA policy attachment completes first.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS add-on consumes the IRSA role ARN, but that reference waits for role creation only; it does not ensure the IRSA policy attachment is complete before EKS starts the add-on, so the add-on can initialize without its required permissions.",
+      "node": "module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe VPC CNI EKS add-on currently waits for the IRSA role output but not for the policy attachment that grants the role its CNI permissions. Add an ordering dependency on the attachment before creating the add-on.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe VPC CNI EKS add-on uses the IRSA role ARN, while the role's IAM policy attachment is not included in that ARN's dependency chain. The add-on could be created before its required CNI permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS add-on consumes the IRSA role ARN, but that reference waits for role creation only; it does not ensure the IRSA policy attachment is complete before EKS starts the add-on, so the add-on can initialize without its required permissions.",
+      "node": "module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nEventBridge can install the SQS target before the queue policy granting EventBridge permission to send messages is in place. Order target creation after the queue policy to avoid a window where delivered events are rejected.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can be installed before the SQS queue policy grants EventBridge permission to send messages. This creates a window in which matching events may fail delivery; order target creation after the queue policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can be created after the queue but before its resource policy permits EventBridge to send messages. Make the target wait for the SQS queue policy to avoid an unauthorized or unusable target.",
+      "node": "module.aws_node_termination_handler:resource.aws_cloudwatch_event_target.aws_node_termination_handler_rule_target",
+      "target": "module.aws_node_termination_handler:resource.aws_sqs_queue_policy.aws_node_termination_handler_queue_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

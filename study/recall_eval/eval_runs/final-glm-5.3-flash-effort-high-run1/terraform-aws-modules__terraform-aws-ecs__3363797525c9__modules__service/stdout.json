@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_service.this` passes the infrastructure role ARN (`local.infrastructure_iam_role_arn`) to `vpc_lattice_configurations.role_arn`, but it only has an explicit `depends_on` on `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy` and the role itself. When `vpc_lattice_configurations` is set, ECS uses the infrastructure role during service creation, so the `AmazonECSInfrastructureRolePolicyForVpcLattice` attachment must be in place first \u2014 otherwise service creation can fail with AccessDenied. The equivalent EBS attachment is already covered by `depends_on`; the VPC Lattice attachment is not.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_service.ignore_task_definition` passes the infrastructure role ARN to `vpc_lattice_configurations.role_arn` and volume configuration exactly like `aws_ecs_service.this`, but its `depends_on` only covers `aws_iam_role_policy_attachment.service` and `aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy`. When `vpc_lattice_configurations` is set, the `aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy` must be applied before the service is created so ECS can use the role for VPC Lattice operations.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_ecs_task_definition.this` has an explicit `depends_on` on `aws_iam_role_policy_attachment.tasks`, `task_exec`, and `task_exec_additional` to ensure role permissions are propagated before tasks launch, but it omits `aws_iam_role_policy_attachment.tasks_internal`, which attaches the policy containing the ECS Exec (`ssmmessages:*`) statements and any `tasks_iam_role_statements` to the task role. Tasks created from this definition (e.g., by `aws_ecs_service.this` or `aws_ecs_task_set.this`) may launch before that attachment propagates, breaking ECS Exec and task-role permissions.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks_internal",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

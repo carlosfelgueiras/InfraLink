@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe Helm release configures runner pods to use this service account, but the service account and release can currently be created concurrently. Order the release after the service account so workloads cannot be installed against a not-yet-created account.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe runner scale-set Helm release can install workloads that use the runner service account, but it does not wait for Terraform to create that Kubernetes service account. Ensure the service account exists before deploying the release.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe scale-set Helm release can install workloads that use this pod identity, but it has no dependency on the association. Ensure the EKS Pod Identity association is established before the release can start workloads that need those credentials.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe runner scale-set Helm release can create workloads that rely on EKS Pod Identity, but it has no dependency on the Pod Identity association. Ensure the association is established before deploying workloads that use it.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis module reads the GitHub App secrets through its own Secrets Manager data sources, but the module call has no dependency on the root module's secret seeding. It can attempt those reads before the secrets or initial versions exist; make the module wait for the seed versions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nmodule.github_app_runner_group reads the root-managed GitHub App secrets through child-module data sources, but it has no ordering dependency on the resources that create and seed those secrets. Make the module wait for the seeded secret versions to avoid a first-apply lookup racing creation.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nmodule.github_app_runner_group reads the tenant's CI/CD secrets (app key, app id, installation id) by name via data \"aws_secretsmanager_secret\"/\"aws_secretsmanager_secret_version\" inside the submodule, but nothing orders those reads after aws_secretsmanager_secret_version.cicd_secrets, which creates the seed (AWSCURRENT) versions in this same configuration. On a first apply the submodule's data sources will be read before the secrets/versions exist and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.github_app_runner_group reads the CI/CD secrets (data.aws_secretsmanager_secret.secrets / data.aws_secretsmanager_secret_version.secrets) by name only; those secrets are created and seeded in this same module tree by aws_secretsmanager_secret.cicd_secrets / aws_secretsmanager_secret_version.cicd_secrets. Nothing orders the submodule's data reads after secret creation/seeding, so on a first apply the reads can race and fail. Add `depends_on = [aws_secretsmanager_secret.cicd_secrets, aws_secretsmanager_secret_version.cicd_secrets]` on the `module \"github_app_runner_group\"` block.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`module.github_app_runner_group` reads its secrets via `data \"aws_secretsmanager_secret\" \"secrets\"` looked up by name (`${var.secrets_prefix}...`), where `var.secrets_prefix` is built only from `var.tenant`/`var.deployment_config`. No attribute reference or depends_on ties the module to the secrets created and seeded by this configuration (`aws_secretsmanager_secret.cicd_secrets` / `aws_secretsmanager_secret_version.cicd_secrets`), so on a fresh apply the data reads execute before the secrets and their seed versions exist and the plan fails. The root module's own `data_cicd_secrets` data sources carry exactly this depends_on, but this module does not.",
+      "node": ":module.github_app_runner_group",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThis module reads the GitHub App secrets through its own Secrets Manager data sources, but the module call has no dependency on the root module's secret seeding. It can attempt those reads before the secrets or initial versions exist; make the module wait for the seed versions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nmodule.github_global_lock reads the root-managed GitHub App secrets through child-module data sources, but it has no ordering dependency on the resources that create and seed those secrets. Make the module wait for the seeded secret versions to avoid a first-apply lookup racing creation.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nmodule.github_global_lock reads the tenant's CI/CD secrets (app key, app id, installation id) by name via data \"aws_secretsmanager_secret\"/\"aws_secretsmanager_secret_version\" inside the submodule, but nothing orders those reads after aws_secretsmanager_secret_version.cicd_secrets, which creates the seed (AWSCURRENT) versions in this same configuration. On a first apply the submodule's data sources will be read before the secrets/versions exist and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.github_global_lock reads the CI/CD secrets (data.aws_secretsmanager_secret.secrets / data.aws_secretsmanager_secret_version.secrets) by name only; those secrets are created and seeded in this same module tree by aws_secretsmanager_secret.cicd_secrets / aws_secretsmanager_secret_version.cicd_secrets. Nothing orders the submodule's data reads after secret creation/seeding, so on a first apply the reads can race and fail. Add `depends_on` referencing those resources on the `module \"github_global_lock\"` block.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`module.github_global_lock` reads its secrets via `data \"aws_secretsmanager_secret\" \"secrets\"` looked up by name (`${var.secrets_prefix}...`), with no dependency on the secrets created and seeded in this configuration (`aws_secretsmanager_secret.cicd_secrets` / `aws_secretsmanager_secret_version.cicd_secrets`). On a fresh apply the by-name data lookups run before the secrets exist, causing a plan failure; the clean-global-lock lambda's IAM policy also references these data versions.",
+      "node": ":module.github_global_lock",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThis module looks up the CI/CD secrets by name (data.aws_secretsmanager_secret.secrets from var.secrets_prefix), but those secrets are created by aws_secretsmanager_secret.cicd_secrets in the parent module (forge_runners/secrets.tf). Nothing links the lookup to the creation, so on a first apply the data source is read during plan before the secret exists and fails. It must depend on the secret creation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndata.aws_secretsmanager_secret.secrets in module.github_app_runner_group looks up the CI/CD secrets by name, but it has no ordering against aws_secretsmanager_secret.cicd_secrets which creates them in the root module. On a fresh apply the lookup runs before the secret exists (Secrets Manager creation is eventually consistent), causing the read to fail. Add ordering to the secret resource.",
+      "node": "module.github_app_runner_group:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThis module looks up the CI/CD secrets by name (data.aws_secretsmanager_secret.secrets from var.secrets_prefix), but those secrets are created by aws_secretsmanager_secret.cicd_secrets in the parent module (forge_runners/secrets.tf). Nothing links the lookup to the creation, so the data source can be read before the secret exists. It must depend on the secret creation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndata.aws_secretsmanager_secret.secrets in module.github_global_lock looks up the CI/CD secrets by name with no dependency on aws_secretsmanager_secret.cicd_secrets, so on a first apply the read races ahead of secret creation and fails.",
+      "node": "module.github_global_lock:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThis module looks up the CI/CD secrets by name (data.aws_secretsmanager_secret.secrets from var.secrets_prefix), but those secrets are created by aws_secretsmanager_secret.cicd_secrets in the parent module (forge_runners/secrets.tf). Nothing links the lookup to the creation, so the data source can be read before the secret exists. It must depend on the secret creation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\ndata.aws_secretsmanager_secret.secrets in module.github_actions_job_logs looks up the CI/CD secrets by name without depending on aws_secretsmanager_secret.cicd_secrets; on a fresh apply the lookup can execute before the secret exists and fail.",
+      "node": "module.github_actions_job_logs:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\nmodule.github_actions_job_logs reads the CI/CD secrets (data.aws_secretsmanager_secret.secrets / data.aws_secretsmanager_secret_version.secrets) by name only; those secrets are created and seeded in this same module tree by aws_secretsmanager_secret.cicd_secrets / aws_secretsmanager_secret_version.cicd_secrets. Nothing orders the submodule's data reads after secret creation/seeding, so on a first apply the reads can race and fail. Add `depends_on` referencing those resources on the `module \"github_actions_job_logs\"` block.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`module.github_actions_job_logs` reads its secrets via `data \"aws_secretsmanager_secret\" \"secrets\"` looked up by name (`${var.secrets_prefix}...`), with no dependency on the secrets created and seeded in this configuration (`aws_secretsmanager_secret.cicd_secrets` / `aws_secretsmanager_secret_version.cicd_secrets`). On a fresh apply the by-name data lookups run before the secrets exist, causing a plan failure; the lambdas' IAM policy documents also reference these data versions, so the whole module needs to be ordered after seeding.",
+      "node": ":module.github_actions_job_logs",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

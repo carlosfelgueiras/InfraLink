@@ -1,0 +1,175 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_policy.default sets `bucket = local.bucket`, which resolves to aws_s3_bucket.origin[0].bucket in the new-bucket mode; the bucket must exist before its policy can be attached, but no dependency on aws_s3_bucket.origin is visible in the graph.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In existing-bucket mode (override_origin_bucket_policy), aws_s3_bucket_policy.default attaches a policy to the bucket looked up by data.aws_s3_bucket.origin (via local.bucket); the policy depends on that data source but no dependency is recorded.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_public_access_block.origin targets `bucket = local.bucket`, which resolves to aws_s3_bucket.origin[0].bucket; the public access block can only be applied after the bucket exists, but the graph shows no dependency on aws_s3_bucket.origin.",
+      "node": ":resource.aws_s3_bucket_public_access_block.origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When used with an existing origin bucket (override_origin_bucket_policy), aws_s3_bucket_public_access_block.origin's bucket name comes from data.aws_s3_bucket.origin (via local.bucket); that dependency is missing from the graph.",
+      "node": ":resource.aws_s3_bucket_public_access_block.origin",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_ownership_controls.origin sets `bucket = local.bucket`, which resolves to aws_s3_bucket.origin[0].bucket; ownership controls require the bucket to exist first, but no dependency on aws_s3_bucket.origin is recorded.",
+      "node": ":resource.aws_s3_bucket_ownership_controls.origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudfront_distribution.default uses `local.cf_access.path` as origin_access_identity for its S3 origin, which resolves to aws_cloudfront_origin_access_identity.default[0].cloudfront_access_identity_path; the OAI must be created before the distribution, but no dependency on it is visible in the graph.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_cloudfront_origin_access_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When cloudfront_access_log_create_bucket is true, the distribution's logging_config.bucket is `module.logs.bucket_domain_name` (via local.cf_log_bucket_domain); CloudFront requires the log bucket to exist before the distribution is created, but the graph shows no dependency on module.logs.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":module.logs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In lookup mode, the distribution's logging_config.bucket is `data.aws_s3_bucket.cf_logs[0].bucket_domain_name` (via local.cf_log_bucket_domain); the distribution depends on that data source but the graph records no such dependency.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":data.aws_s3_bucket.cf_logs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In existing-bucket mode the distribution's origin domain_name (local.bucket_domain_name) comes from data.aws_s3_bucket.origin (e.g. website_endpoint); the distribution should depend on that data source, which the graph does not show.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_iam_policy_document.s3_origin grants s3:GetObject/s3:ListBucket to `local.cf_access.arn`, which resolves to aws_cloudfront_origin_access_identity.default[0].iam_arn; the policy document cannot be rendered until the OAI exists, but no dependency is visible in the graph.",
+      "node": ":data.aws_iam_policy_document.s3_origin",
+      "target": ":resource.aws_cloudfront_origin_access_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_iam_policy_document.s3_origin builds resource ARNs from `local.bucket` (aws_s3_bucket.origin[0].bucket in create mode); it should depend on aws_s3_bucket.origin but the graph records no such dependency.",
+      "node": ":data.aws_iam_policy_document.s3_origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In existing-bucket mode, data.aws_iam_policy_document.s3_origin's resource ARNs derive from data.aws_s3_bucket.origin (via local.bucket); that dependency is missing from the graph.",
+      "node": ":data.aws_iam_policy_document.s3_origin",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_iam_policy_document.s3_website_origin merges local.override_policy, which substitutes local.cf_access.arn (aws_cloudfront_origin_access_identity.default[0].iam_arn); the OAI must exist before this document is evaluated, but no dependency is recorded.",
+      "node": ":data.aws_iam_policy_document.s3_website_origin",
+      "target": ":resource.aws_cloudfront_origin_access_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_iam_policy_document.s3_website_origin builds resource ARNs from `local.bucket` (aws_s3_bucket.origin[0].bucket in create mode); it should depend on aws_s3_bucket.origin but the graph records no such dependency.",
+      "node": ":data.aws_iam_policy_document.s3_website_origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In existing-bucket mode, data.aws_iam_policy_document.s3_website_origin's resource ARNs derive from data.aws_s3_bucket.origin (via local.bucket); that dependency is missing from the graph.",
+      "node": ":data.aws_iam_policy_document.s3_website_origin",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_iam_policy_document.s3_ssl_only builds its Deny resource list from `local.origin_bucket.arn`, which resolves to aws_s3_bucket.origin[0].arn in create mode; the graph shows no dependency on aws_s3_bucket.origin.",
+      "node": ":data.aws_iam_policy_document.s3_ssl_only",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In existing-bucket mode, data.aws_iam_policy_document.s3_ssl_only's resources derive from data.aws_s3_bucket.origin.arn (via local.origin_bucket); that dependency is missing from the graph.",
+      "node": ":data.aws_iam_policy_document.s3_ssl_only",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_iam_policy_document.deployment builds its resource list from `local.origin_bucket.arn`, which resolves to aws_s3_bucket.origin[0].arn in create mode; the graph shows no dependency on aws_s3_bucket.origin.",
+      "node": ":data.aws_iam_policy_document.deployment",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In existing-bucket mode, data.aws_iam_policy_document.deployment's resources derive from data.aws_s3_bucket.origin.arn (via local.origin_bucket); that dependency is missing from the graph.",
+      "node": ":data.aws_iam_policy_document.deployment",
+      "target": ":data.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_ecs_cluster_capacity_providers.this associates capacity providers with the cluster and configures default_capacity_provider_strategy entries built from local.cluster_capacity_providers, which merges in the autoscaling capacity providers from aws_ecs_capacity_provider.this. No dependency (implicit or explicit) is recorded between them, so Terraform may create the association before the capacity providers exist; ECS rejects a cluster capacity-provider update referencing providers that are not yet registered. Add a depends_on or, better, derive the autoscaling provider names directly from the resource so the ordering is inferred.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat(\n  [for k, v in var.fargate_capacity_providers : try(v.name, k)],\n  [for k, v in aws_ecs_capacity_provider.this : v.name]\n))"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

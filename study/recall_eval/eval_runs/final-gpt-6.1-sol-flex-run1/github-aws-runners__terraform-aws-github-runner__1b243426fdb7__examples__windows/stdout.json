@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up must wait for module.runners.module.runners:resource.aws_iam_role_policy.scale_up: the SQS polling permissions on the execution role must exist before AWS accepts the event source mapping. Referencing the Lambda function alone does not order this policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger immediately invokes the syncer, but does not wait for module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer. Order the upload after the S3 execution policy so the initial sync does not run without permission to write the distribution.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger can invoke the syncer before module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging is installed, losing initial deployment logs. Wait for the logging policy before uploading the trigger.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When KMS encryption is configured, module.runners.module.runner_binaries:resource.aws_s3_object.trigger must wait for module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms so the immediately invoked syncer has the required key permissions.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.webhook:resource.aws_lambda_function.webhook must wait for module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role; Lambda creation requires the execution role's ENI permissions, which the role ARN reference does not establish.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runners:resource.aws_lambda_function.scale_up must wait for module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role so the execution role has ENI permissions before Lambda creation.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runners:resource.aws_lambda_function.scale_down must wait for module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role so the execution role has ENI permissions before Lambda creation.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runners.module.pool:resource.aws_lambda_function.pool must wait for module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role so the execution role has ENI permissions before Lambda creation.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, module.runners.module.runner_binaries:resource.aws_lambda_function.syncer must wait for module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role so the execution role has ENI permissions before Lambda creation.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed and the schedule can fire before Lambda's invoke permission is granted. Add an explicit ordering dependency so the target is not active before its permission exists.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled scale-down target can become active before its Lambda invoke permission is granted; order target creation after the permission.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled pool target can be installed before the corresponding Lambda invoke permission exists, allowing a scheduled invocation to fail during deployment. Make the target depend on the permission.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The API Gateway route can become active while its Lambda invoke permission is still being created, so early webhook requests may fail. Ensure the route is created only after the permission is in place.",
+      "node": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping can begin polling before the Lambda execution role's SQS permissions are attached, leaving the mapping unable to consume messages during deployment. Make the mapping depend on the scale-up role policy.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The stage has auto_deploy enabled but is not ordered after the API Gateway route. It may be created before the route is configured, producing an initially empty or incomplete deployment. Make the stage depend on the route (the route itself depends on its integration).",
+      "node": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The deployment trigger uploads an S3 object that invokes the syncer, but it is not ordered after the syncer's S3 access policy is attached. The first invocation can run before the Lambda role has the permissions needed to read/write the distribution bucket; add an ordering dependency before uploading the trigger object.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

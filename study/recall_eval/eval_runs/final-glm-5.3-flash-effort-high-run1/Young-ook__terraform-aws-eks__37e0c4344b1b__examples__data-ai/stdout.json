@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.csi: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":module.csi has an explicit `depends_on = [module.eks]`, but the module already depends on :module.eks through ordinary attribute references (the addon configuration reads `module.eks.cluster.name` as `eks_name` and `module.eks.oidc` for the IRSA provider). The explicit depends_on duplicates a dependency Terraform infers automatically and can be removed.",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

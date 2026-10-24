@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Auto Scaling group can launch the runner before its instance role's inline CloudWatch permissions are attached. Ensure module.runner:resource.aws_iam_role_policy.instance is in place before module.runner:resource.aws_autoscaling_group.gitlab_runner_instance starts instances.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group launches the runner instances, but it has no dependency on the inline logging policy attached to the instance role. Ensure the policy is in place before instances run their logging bootstrap.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWith CloudWatch logging enabled, the runner instance role's logging policy should be installed before the Auto Scaling group launches instances that use it.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nRunner instances may start before the instance role's Docker Machine policy attachment is active, leaving the runner unable to create Docker Machine instances. Order module.runner:resource.aws_autoscaling_group.gitlab_runner_instance after module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group can launch runner instances before the instance role's docker-machine permissions are attached; those permissions are needed when the runner provisions docker-machine instances.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe runner Auto Scaling group can launch instances as soon as its launch configuration and instance profile exist, without waiting for the runner instance's docker-machine IAM policy attachment. Ensure this attachment is complete before the group launches instances.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nRunner instances may start before the instance role's cache policy attachment is active, preventing cache access during startup or job execution. Order module.runner:resource.aws_autoscaling_group.gitlab_runner_instance after module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group can launch runner instances before the cache policy is attached to their instance role, risking cache access failures during runner operation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe runner Auto Scaling group can launch instances before the cache-access IAM policy is attached to the instance role; order group creation after this attachment so launched runners have the required cache permissions.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen SSM token management is enabled, runner instances may start before their role has the SSM policy attachment needed to manage the registration token. Order module.runner:resource.aws_autoscaling_group.gitlab_runner_instance after module.runner:resource.aws_iam_role_policy_attachment.ssm.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nWhen SSM token management is enabled, runner bootstrap/runtime needs the SSM permissions attached to its instance role before instances launch; no dependency orders the Auto Scaling group after this attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen SSM token management is enabled, runner startup/runtime relies on the instance role's SSM permissions. Ensure the policy attachment completes before the Auto Scaling group launches its instance.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen service-linked-role creation is enabled, runner instances may start before their role has the corresponding policy attachment. Order module.runner:resource.aws_autoscaling_group.gitlab_runner_instance after module.runner:resource.aws_iam_role_policy_attachment.service_linked_role.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nWhen service-linked-role creation is enabled, the runner instance needs this attached permission before it operates; the Auto Scaling group does not wait for the attachment before launching instances.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen enabled, the runner instance's service-linked-role permissions should be attached before instances begin running docker-machine workloads; the Auto Scaling group has no ordering dependency on this attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe runner user-data workflow manages the registration token in this SSM parameter, but the Auto Scaling group can launch instances before the parameter is created. Order module.runner:resource.aws_autoscaling_group.gitlab_runner_instance after module.runner:resource.aws_ssm_parameter.runner_registration_token.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe runner user-data script manages the registration-token SSM parameter, but the Auto Scaling group can launch its instance before that parameter is created. Make the group wait for the parameter so bootstrap does not race its creation.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

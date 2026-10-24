@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "resource.null_resource.delete_http_settings has a destroy-time provisioner that deletes HTTP settings which can reference custom probes, but it does not depend on null_resource.delete_probe. Its depends_on list references null_resource.set_probe instead (almost certainly a typo for the delete counterpart), so on destroy the probe can be deleted while HTTP settings referencing it still exist, failing the Application Gateway update (and the provisioner uses on_failure = fail). Adding depends_on on delete_probe ensures HTTP settings are removed before the probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "resource.null_resource.delete_http_listener has a destroy-time provisioner that deletes HTTP listeners which reference frontend ports, but it does not depend on null_resource.delete_frontend_port. Its depends_on list references null_resource.set_frontend_port instead (almost certainly a typo for the delete counterpart), so on destroy the frontend port can be deleted while a listener still references it, failing the Application Gateway update (and the provisioner uses on_failure = fail). Adding depends_on on delete_frontend_port ensures listeners are removed before the frontend port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

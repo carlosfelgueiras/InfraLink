@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_autoscaling_group.data_nodes to :resource.aws_autoscaling_group.master_nodes is redundant because the bootstrap user-data/template references the master ASG name, and this dependency is already transitive through the launch configuration.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

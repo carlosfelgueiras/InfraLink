@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper is created before aws_cloudwatch_log_group.ami_housekeeper (the log group references the function's name, inverting the required order). Lambda auto-creates a default log group (no retention, no KMS) on first log write, so an invocation arriving before the log group is provisioned either yields a log group with the wrong settings or makes the log group's own create fail with ResourceAlreadyExistsException. The function must be ordered after the log group; since the log group currently references the function's name (which would create a cycle), the name should be computed directly (e.g. \"/aws/lambda/${var.prefix}-ami-housekeeper\") and the function given a bare depends_on on the log group.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper depends only on the execution role, not on aws_iam_role_policy.lambda_logging, which grants the role the CloudWatch Logs permissions (logs:CreateLogStream/PutLogEvents, scoped to the log group ARN) the function needs when it first runs. Terraform applies the function and the inline policy in parallel (both only depend on the role), so an early invocation can fail with access-denied on logging. The function should also depend on the logging policy; there is no attribute on the function that can reference the policy, so a bare depends_on is required.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

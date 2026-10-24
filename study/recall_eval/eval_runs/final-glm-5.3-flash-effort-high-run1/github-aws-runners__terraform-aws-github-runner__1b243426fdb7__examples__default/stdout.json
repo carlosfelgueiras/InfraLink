@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale-up lambda's event source mapping (SQS poller) can be created before aws_iam_role_policy.scale_up is attached. AWS validates that the function's execution role has permissions to read the queue (sqs:ReceiveMessage, GetQueueAttributes, DeleteMessage) when the event source mapping is created, and once created the mapping immediately begins polling and invoking the function. With no dependency between the mapping and the role policy, Terraform may create the mapping first and the apply fails (or the mapping processes messages without the required policy). The mapping should depend on the role policy; there is no attribute of the mapping that can reference the policy, so a bare depends_on is required.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The syncer lambda is invoked automatically (and immediately) by the on-deploy S3 trigger as soon as the bucket notification is applied, but it has no dependency on its execution role's S3 write policy (aws_iam_role_policy.syncer). If the policy is not yet attached/propagated when the trigger fires, the first sync invocations fail to write the runner distribution to the bucket (S3's asynchronous retry makes this recoverable, hence a warning). The function should depend on its role policy; there is no attribute reference that can express this, so a bare depends_on is required.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

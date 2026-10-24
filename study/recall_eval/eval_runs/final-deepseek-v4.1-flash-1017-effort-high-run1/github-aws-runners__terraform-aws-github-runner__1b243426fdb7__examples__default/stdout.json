@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.syncer` only depends on the EventBridge rule and the Lambda function; nothing orders it after `aws_lambda_permission.syncer`, which grants `events.amazonaws.com` the right to invoke the syncer function. Both are siblings created in parallel, so the scheduled rule can be fully wired before the resource-based permission exists, and invocations are rejected until the permission lands. Add `depends_on = [aws_lambda_permission.syncer]` on the event target (no attribute on the target can reference the permission, so a bare depends_on is required).",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.scale_down` depends only on `aws_cloudwatch_event_rule.scale_down` and `aws_lambda_function.scale_down`, so it can be created \u2014 and the schedule (every 5 minutes by default) can fire \u2014 before `aws_lambda_permission.scale_down` exists, causing failed invocations of the scale-down function (no logs, no scaling). The EventBridge-target docs require the lambda permission to be present for the rule to invoke the function; add `depends_on = [aws_lambda_permission.scale_down]` on the target, since no target attribute can reference the permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.pool` depends only on the per-config rule and `aws_lambda_function.pool`, but not on `aws_lambda_permission.pool` (principal `events.amazonaws.com`). Because the two are parallel siblings, the pool schedule can be wired to the function before the invoke permission exists, so the first scheduled pool adjustments fail. Use `depends_on = [aws_lambda_permission.pool]` on the event target; there is no attribute on the target that can reference the permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

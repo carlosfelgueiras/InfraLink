@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks-addons builds its IRSA/policy ARNs with format(..., local.aws.partition), and local.aws is derived from module.aws (caller account id / region / partition). Because the lookup is hidden behind the local, the graph does not record the dependency on module.aws, so Terraform's real ordering edge (eks-addons must be evaluated after the aws-partitions module) is invisible to the mechanical analysis. Reference module.aws.partition.partition directly in the addons policy_arns to make the ordering explicit.",
+      "node": ":module.eks-addons",
+      "target": ":module.aws",
+      "fix": {
+        "field": "addons",
+        "expression": "[\n  { name = \"vpc-cni\", eks_name = var.eks.cluster.name },\n  { name = \"coredns\", eks_name = var.eks.cluster.name },\n  { name = \"kube-proxy\", eks_name = var.eks.cluster.name },\n  {\n    name           = \"aws-ebs-csi-driver\"\n    namespace      = \"kube-system\"\n    serviceaccount = \"ebs-csi-controller-sa\"\n    eks_name       = var.eks.cluster.name\n    oidc           = var.eks.oidc\n    policy_arns    = [format(\"arn:%s:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy\", module.aws.partition.partition)]\n  },\n  {\n    name           = \"adot\"\n    namespace      = \"default\"\n    serviceaccount = \"adot-collector\"\n    eks_name       = var.eks.cluster.name\n    oidc           = var.eks.oidc\n    policy_arns = [\n      format(\"arn:%s:iam::aws:policy/AmazonPrometheusRemoteWriteAccess\", module.aws.partition.partition),\n      format(\"arn:%s:iam::aws:policy/AWSXrayWriteOnlyAccess\", module.aws.partition.partition),\n      format(\"arn:%s:iam::aws:policy/CloudWatchAgentServerPolicy\", module.aws.partition.partition),\n    ]\n  },\n  {\n    name           = \"amazon-cloudwatch-observability\"\n    namespace      = \"amazon-cloudwatch\"\n    serviceaccount = \"cloudwatch-agent\"\n    eks_name       = var.eks.cluster.name\n    oidc           = var.eks.oidc\n    policy_arns = [\n      format(\"arn:%s:iam::aws:policy/AWSXrayWriteOnlyAccess\", module.aws.partition.partition),\n      format(\"arn:%s:iam::aws:policy/CloudWatchAgentServerPolicy\", module.aws.partition.partition),\n    ]\n  },\n  { name = \"kubecost_kubecost\", namespace = \"kubecost\", eks_name = var.eks.cluster.name },\n  { name = \"eks-pod-identity-agent\", eks_name = var.eks.cluster.name },\n  { name = \"aws-guardduty-agent\", eks_name = var.eks.cluster.name },\n]"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "local_file.halconfig fills its templatefile arguments from local.aws.id and local.aws.region, which are derived from module.aws (caller account id / region). The reference is indirected through the local, so the graph lists only module.devops and var.features and omits the real ordering edge on module.aws. Reference module.aws.caller.account_id and module.aws.region.name directly in the content expression so the dependency is captured.",
+      "node": ":resource.local_file.halconfig",
+      "target": ":module.aws",
+      "fix": {
+        "field": "content",
+        "expression": "templatefile(\"${path.module}/scripts/templates/halconfig.tpl\", {\n  aws_id            = module.aws.caller.account_id\n  aws_region        = module.aws.region.name\n  spin_managed_role = module.devops.addons.irsa[\"spinnaker\"].arn\n  spin_irsa_cli     = module.devops.addons.irsa[\"spinnaker\"].kubecli\n})"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

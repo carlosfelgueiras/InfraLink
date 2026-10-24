@@ -1,0 +1,124 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In the supplied graph, null_resource.file_permission does not depend on local_file.private_ssh_key, so its chmod command can run before the private key file exists. The source already contains the correct depends_on; preserve that dependency and reconcile the graph with the source.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ filename = local_file.private_ssh_key.filename, content_hash = local_file.private_ssh_key.id }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance launches the runner agent without waiting for aws_iam_role_policy_attachment.instance_docker_machine_policy. Its instance-profile reference waits for the role, not its policy attachments, so the runner can start accepting jobs before it has permission to provision Docker Machine instances. Order instance launch after this attachment; this does not by itself guarantee IAM propagation has completed.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance should wait for aws_iam_role_policy_attachment.docker_machine_cache_instance so the runner agent's cache permissions are attached before it starts processing jobs. Referencing the instance profile does not order this separate attachment before instance launch.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When service-linked-role creation is enabled, aws_autoscaling_group.gitlab_runner_instance should wait for aws_iam_role_policy_attachment.service_linked_role. Otherwise the runner can attempt its first Spot provisioning operation before the permission to create the necessary service-linked role is attached. The instance-profile dependency does not cover this attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When token management is enabled, aws_autoscaling_group.gitlab_runner_instance should wait for aws_iam_role_policy_attachment.ssm. The instance's user-data manages the runner token in Parameter Store, but the ASG can launch it before the SSM permissions are attached to its role.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When CloudWatch logging is enabled, aws_autoscaling_group.gitlab_runner_instance should wait for aws_iam_role_policy.instance. Its bootstrap configures logging, but the separate inline logging policy can still be pending when the instance starts; the instance-profile reference only orders creation of the role and profile.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance should wait for aws_ssm_parameter.runner_registration_token before launching the instance whose user-data manages that parameter's value. Both use the same locally constructed name without a resource dependency. Concurrent initialization can cause ParameterAlreadyExists if user-data creates it first, or a race between the initial null value and the registered token.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When logging is enabled, aws_autoscaling_group.gitlab_runner_instance should wait for aws_cloudwatch_log_group.environment. Bootstrap enables logging using the environment name, but no reference orders the Terraform-managed log group before the agent starts. The agent can encounter a missing group or create it before Terraform does, causing a creation conflict.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance should wait for aws_security_group_rule.docker_machine_ssh before starting the runner service. Its Docker Machine executor needs SSH access to provision workers, but the user-data dependency on the worker security group's name does not wait for the separately managed SSH rule.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_security_group_rule.docker_machine_ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance should wait for aws_security_group_rule.docker_machine_docker before starting the runner service. The Docker Machine executor connects to workers on TCP 2376, but the existing reference to the worker security group does not order this separate ingress rule before the runner can accept jobs.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_security_group_rule.docker_machine_docker",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.gitlab_runner_instance should wait for aws_security_group_rule.out_all before starting the Docker Machine executor. Worker provisioning and builds require outbound connectivity, while the worker security group has its egress supplied only by this separate rule. Referencing the group in runner configuration does not wait for the egress rule.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_security_group_rule.out_all",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The source for local_file.public_ssh_key explicitly declares depends_on = [\"tls_private_key.ssh\"], but its content already references tls_private_key.ssh.public_key_openssh. The implicit dependency shown in the graph supplies the same ordering, so the source-level depends_on is redundant. Note that this explicit edge is absent from the supplied graph's depends_on_deps.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The source for local_file.private_ssh_key explicitly declares depends_on = [\"tls_private_key.ssh\"], but its content already references tls_private_key.ssh.private_key_pem. The implicit dependency shown in the graph supplies the same ordering, so the source-level depends_on is redundant. Note that this explicit edge is absent from the supplied graph's depends_on_deps.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

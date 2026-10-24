@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`aws_lambda_function.ami_housekeeper` has a `vpc_config` block (subnets/security groups as soon as subnets are configured) but no dependency on `aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role`, which grants the execution role `AWSLambdaVPCAccessExecutionRole`. Both only depend on the shared `aws_iam_role.ami_housekeeper`, so Terraform may create the function before the policy attachment exists and CreateFunction fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". The function should be ordered after the attachment (the AWS provider docs include `aws_iam_role_policy_attachment.lambda_logs` in the function's `depends_on`). No clean attribute reference exists on the function to express this, so a bare `depends_on` is appropriate.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_lambda_function.ami_housekeeper defines a vpc_config (subnet_ids/security_group_ids) but has no dependency on aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role. When Lambda creates a function in a VPC it assumes the execution role to create network interfaces; if the AWSLambdaVPCAccessExecutionRole policy is not yet attached to aws_iam_role.ami_housekeeper, function creation fails with 'The provided execution role does not have permissions to call CreateNetworkInterface on EC2'. Both resources only reference var.lambda_subnet_ids, so nothing orders the policy attachment before the function. Add an explicit dependency (or otherwise ensure the attachment is applied first).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_lambda_function.ami_housekeeper is configured with a vpc_config (active whenever var.lambda_subnet_ids is non-empty), which requires the execution role to already have the AWSLambdaVPCAccessExecutionRole policy so Lambda can create ENIs. The function only depends on aws_iam_role.ami_housekeeper (the bare role), not on aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role. If Terraform creates the function before that attachment, function creation fails with \"The provided execution role does not have permissions to call CreateNetworkInterface\". Add depends_on = [aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role].",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

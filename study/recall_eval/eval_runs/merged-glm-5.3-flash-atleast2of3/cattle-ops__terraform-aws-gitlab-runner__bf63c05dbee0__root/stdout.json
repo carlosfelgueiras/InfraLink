@@ -1,0 +1,106 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name`, which is a plain string, so Terraform does not know it must be created after :resource.aws_iam_role.instance. When `create_runner_iam_role` is true the role is created by this module, and the instance profile could be created before the role exists, causing the profile creation to fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name`, a plain name string, so Terraform sees no dependency on :resource.aws_iam_role.instance. When var.create_runner_iam_role is true both are created in the same apply, and IAM rejects an instance profile that references a role that does not exist yet, so the profile can be applied before the role and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_instance_profile.instance references the role only via the name string `local.aws_iam_role_instance_name` (which contains no resource reference), so Terraform may create the instance profile before :resource.aws_iam_role.instance exists, failing with a NoSuchEntity error.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_launch_template.gitlab_runner_instance sets `iam_instance_profile.name = local.aws_iam_role_instance_name` (a plain string), so Terraform infers no dependency on :resource.aws_iam_instance_profile.instance. The launch template (and the ASG that consumes it) can be created before the instance profile exists, which makes launching the runner agent fail. A bare depends_on (guarded by var.create_runner_iam_role) is needed here.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_launch_template.gitlab_runner_instance sets iam_instance_profile.name from local.aws_iam_role_instance_name (a name string), so Terraform orders it independently of :resource.aws_iam_instance_profile.instance. EC2 validates the instance profile when the launch template is created/updated, so the profile must exist first; the two can currently be applied in the wrong order.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_launch_template.gitlab_runner_instance sets `iam_instance_profile.name` to the plain string `local.aws_iam_role_instance_name`, establishing no dependency on :resource.aws_iam_instance_profile.instance. On a fresh apply the ASG can launch instances before the instance profile exists, and instance launches will fail until the profile is created.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy.instance sets `role = local.aws_iam_role_instance_name` (a string, not an attribute reference), so Terraform may create this inline policy before :resource.aws_iam_role.instance exists, and PutRolePolicy would fail. It should depend on the role.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy.instance (the CloudWatch logging policy) targets `role = local.aws_iam_role_instance_name`, a name string, so Terraform does not order it after :resource.aws_iam_role.instance. The inline role policy can be applied before the role exists.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy.instance (CloudWatch logging policy) sets `role = local.aws_iam_role_instance_name`, a string with no resource reference, so when the role is created in the same apply it may be applied before :resource.aws_iam_role.instance exists.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy attaches to `role = local.aws_iam_role_instance_name` by name string only; there is no dependency on :resource.aws_iam_role.instance, so the attachment can race the role's creation and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy attaches to `role = local.aws_iam_role_instance_name` (a name string), so Terraform sees no dependency on :resource.aws_iam_role.instance even though it creates that role in the same apply; the attachment can be applied before the role exists and fail with NoSuchEntity.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy sets `role = local.aws_iam_role_instance_name`, a string with no resource reference. Its count is tied to `var.create_runner_iam_role`, so whenever the role is created in the same apply, the attachment may be applied before :resource.aws_iam_role.instance exists and fail.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.instance_session_manager_policy attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can be created before the role exists.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.instance_session_manager_policy attaches to the runner agent role only via the name string local.aws_iam_role_instance_name; when :resource.aws_iam_role.instance is module-managed, the attachment has no ordering on the role and can fail if applied first.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.instance_session_manager_policy sets `role = local.aws_iam_role_instance_name` (a plain string), so when the module also creates the role (`var.create_runner_iam_role = true`) there is no ordering against :resource.aws_iam_role.instance and the attachment can be applied before the role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed attaches the AWS-managed SSM policy to `role = local.aws_iam_role_instance_name`; Terraform does not know it must come after :resource.aws_iam_role.instance, which the module creates in the same apply when var.create_runner_iam_role is true.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed attaches the managed policy to `local.aws_iam_role_instance_name` (a string with no resource reference); when the role is module-managed it must be applied after :resource.aws_iam_role.instance.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.user_defined_policies attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.user_defined_policies attaches user-supplied policies to `role = local.aws_iam_role_instance_name`. When the runner role is module-managed (:resource.aws_iam_role.instance), the attachment must be created after it, but no attribute reference or depends_on expresses that ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.user_defined_policies uses `role = local.aws_iam_role_instance_name` (a plain string), so it has no ordering guarantee against :resource.aws_iam_role.instance when that role is created in the same apply.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.service_linked_role attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.service_linked_role attaches to `role = local.aws_iam_role_instance_name`; it has no dependency on :resource.aws_iam_role.instance, which the module may create in the same apply, so the attachment can race ahead of the role creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.service_linked_role sets `role = local.aws_iam_role_instance_name` (a plain string); when the role is created by the module, apply order against :resource.aws_iam_role.instance is not guaranteed.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.ssm attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.ssm attaches the SSM policy to `role = local.aws_iam_role_instance_name` (a plain name). When :resource.aws_iam_role.instance is module-managed, the attachment has no ordering on the role and can be applied before it exists.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.ssm sets `role = local.aws_iam_role_instance_name` (a string with no resource reference), so it can be applied before :resource.aws_iam_role.instance exists when the role is module-managed.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.eip attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.eip attaches the EIP policy to `role = local.aws_iam_role_instance_name`; Terraform sees no dependency on :resource.aws_iam_role.instance, so when the role is created in the same apply the attachment can run first and fail with NoSuchEntity.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.eip sets `role = local.aws_iam_role_instance_name` (a plain string); when the module creates the runner role there is no ordering against :resource.aws_iam_role.instance.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance attaches to `role = local.aws_iam_role_instance_name` by name string only (its policy ARN comes via local.bucket_policy, which also only covers module.cache). It lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance attaches the cache policy to `role = local.aws_iam_role_instance_name` (a name string). When :resource.aws_iam_role.instance is created by this module, the attachment can be applied before the role exists and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance sets `role = local.aws_iam_role_instance_name` (a string, not a resource reference). When the runner role is module-managed, this attachment may be applied before :resource.aws_iam_role.instance exists and fail with NoSuchEntity.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

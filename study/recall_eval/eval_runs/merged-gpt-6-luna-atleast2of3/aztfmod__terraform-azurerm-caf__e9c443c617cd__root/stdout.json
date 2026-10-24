@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe AKS module registers the AAD-V2 preview feature in this null_resource, and the cluster uses managed Azure AD integration; the cluster should wait for feature registration before creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe AKS module's local-exec resource registers the AAD-V2 preview feature and waits for registration, but the cluster can be created concurrently; make the cluster depend on this prerequisite registration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe AKS cluster enables managed Azure AD integration, while the source registers the AAD-V2 Container Service feature in a separate null_resource that can take time to complete. The cluster should wait for that registration to finish.",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

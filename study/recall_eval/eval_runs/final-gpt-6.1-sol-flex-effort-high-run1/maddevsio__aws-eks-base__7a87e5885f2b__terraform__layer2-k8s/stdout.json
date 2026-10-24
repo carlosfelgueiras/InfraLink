@@ -1,0 +1,259 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.helm_release.certificate explicitly depends on :resource.helm_release.cert_manager, but that ordering is already established transitively through helm_release.cluster_issuer, which explicitly depends on cert_manager.",
+      "node": ":resource.helm_release.certificate",
+      "target": ":resource.helm_release.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.helm_release.kiali explicitly depends on :resource.kubectl_manifest.kube_prometheus_stack_operator_crds, but already depends on helm_release.istiod, which explicitly depends on those CRDs.",
+      "node": ":resource.helm_release.kiali",
+      "target": ":resource.kubectl_manifest.kube_prometheus_stack_operator_crds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id already references module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user.id. Its explicit depends_on on the same access key adds no ordering.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key already references module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user.secret. Its explicit depends_on on the same access key adds no ordering.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.cluster_autoscaler starts a controller that calls AWS autoscaling/EC2 APIs, but has no ordering dependency on module.aws_iam_autoscaler:resource.aws_iam_role_policy.this. The role ARN output references only the IAM role, not its inline permissions policy. Wait for the IAM module's policy before deploying the controller (for example, depends_on = [module.aws_iam_autoscaler]), or add the policy to the role_arn output's depends_on.",
+      "node": ":resource.helm_release.cluster_autoscaler",
+      "target": "module.aws_iam_autoscaler:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.external_dns starts Route53 reconciliation, but does not wait for module.aws_iam_external_dns:resource.aws_iam_role_policy.this. The referenced role_arn output waits only for the role, allowing ExternalDNS to start before its permissions exist. Depend on the IAM module or make its role_arn output depend on this policy.",
+      "node": ":resource.helm_release.external_dns",
+      "target": "module.aws_iam_external_dns:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.cert_manager must have Route53 permissions for the subsequent ClusterIssuer/Certificate DNS validation workflow, but does not wait for module.aws_iam_cert_manager:resource.aws_iam_role_policy.this. Its role_arn reference waits only for the IAM role. Depend on the IAM module, or add the policy to its role_arn output's depends_on, so downstream certificate creation is ordered after policy installation.",
+      "node": ":resource.helm_release.cert_manager",
+      "target": "module.aws_iam_cert_manager:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk runs a Kibana init container that registers and verifies an S3 snapshot repository, which requires module.aws_iam_elastic_stack:resource.aws_iam_user_policy.this to be installed. Neither the credentials secret nor the access-key outputs wait for this user policy. Depend on the IAM module (and the credentials secret), or make the credential outputs depend on the user policy and wire the secret into the release.",
+      "node": ":resource.helm_release.elk",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_user_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.aws_loadbalancer_controller can start AWS reconciliation before module.aws_iam_aws_loadbalancer_controller:resource.aws_iam_role_policy.this grants its EC2/ELB permissions. The role_arn output references only the role. Depend on the IAM module or make its role_arn output depend on the inline policy; this orders policy installation, although IAM propagation can still require retries.",
+      "node": ":resource.helm_release.aws_loadbalancer_controller",
+      "target": "module.aws_iam_aws_loadbalancer_controller:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.external_secrets begins polling SSM/Secrets Manager, but does not wait for module.aws_iam_external_secrets:resource.aws_iam_role_policy.this. Referencing the module's role_arn does not wait for its separate inline policy. Depend on the IAM module or add the policy to the role_arn output's depends_on to avoid startup authorization races.",
+      "node": ":resource.helm_release.external_secrets",
+      "target": "module.aws_iam_external_secrets:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.gitlab_runner enables S3 caching and ECR operations but does not wait for module.aws_iam_gitlab_runner:resource.aws_iam_role_policy.this. The module's role_arn output waits only for the role, not its permissions. Depend on the IAM module or make its role_arn output depend on the policy before starting the runner.",
+      "node": ":resource.helm_release.gitlab_runner",
+      "target": "module.aws_iam_gitlab_runner:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.prometheus_operator configures Grafana's CloudWatch datasource, but does not wait for module.aws_iam_kube_prometheus_stack_grafana:resource.aws_iam_role_policy.this. The role ARN alone does not establish ordering on this separate permissions policy. Depend on the IAM module or make its role_arn output depend on the policy to avoid initial CloudWatch authorization failures.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": "module.aws_iam_kube_prometheus_stack_grafana:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.victoria_metrics_k8s_stack configures Grafana's CloudWatch datasource, but does not wait for module.aws_iam_victoria_metrics_k8s_stack_grafana:resource.aws_iam_role_policy.this. Its role_arn reference does not wait for the separate permissions policy. Depend on the IAM module or add the policy to its role_arn output's depends_on to avoid initial CloudWatch authorization failures.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": "module.aws_iam_victoria_metrics_k8s_stack_grafana:resource.aws_iam_role_policy.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk uses the literal Secret name elastic-credentials in Elasticsearch, Kibana and Beats configuration, but has no dependency on :resource.kubernetes_secret.elasticsearch_credentials. Pods and init containers can start before credentials are available, and Terraform can delete the Secret before uninstalling the release. Reference the managed Secret name in the Helm values.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": {
+        "field": "values",
+        "expression": "[local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values, yamlencode({ elasticsearch = { extraEnvs = [{ name = \"ELASTIC_PASSWORD\", valueFrom = { secretKeyRef = { name = kubernetes_secret.elasticsearch_credentials[count.index].metadata[0].name, key = \"password\" } } }, { name = \"ELASTIC_USERNAME\", valueFrom = { secretKeyRef = { name = kubernetes_secret.elasticsearch_credentials[count.index].metadata[0].name, key = \"username\" } } }] } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk mounts the literal Secret name elastic-certificates but does not wait for :resource.kubernetes_secret.elasticsearch_certificates. Sharing the namespace dependency does not order the release after the certificate Secret. Wire its managed name into the Helm values to order Secret creation before consumers and destruction after them.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": {
+        "field": "values",
+        "expression": "[local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values, yamlencode({ elasticsearch = { secretMounts = [{ name = \"elastic-certificates\", secretName = kubernetes_secret.elasticsearch_certificates[count.index].metadata[0].name, path = \"/usr/share/elasticsearch/config/certs\" }] } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk configures its Elasticsearch keystore with the literal Secret name elasticsearch-s3-user-creds, but has no dependency on :resource.kubernetes_secret.elasticsearch_s3_user_creds. The keystore initialization can race Secret creation. Use the managed Secret's metadata name in the keystore values.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": {
+        "field": "values",
+        "expression": "[local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values, yamlencode({ elasticsearch = { keystore = [{ secretName = kubernetes_secret.elasticsearch_s3_user_creds[count.index].metadata[0].name, items = [{ key = \"aws_s3_user_access_key\", path = \"s3.client.default.access_key\" }, { key = \"aws_s3_user_secret_key\", path = \"s3.client.default.secret_key\" }] }] } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk uses the literal Secret name kibana-encryption-key for KIBANA_ENCRYPTION_KEY, but does not wait for :resource.kubernetes_secret.kibana_enc_key. Reference the managed Secret name so Terraform orders Kibana deployment after Secret creation.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": {
+        "field": "values",
+        "expression": "[local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values, yamlencode({ kibana = { extraEnvs = [{ name = \"NODE_OPTIONS\", value = \"--max-old-space-size=800\" }, { name = \"ELASTICSEARCH_USERNAME\", valueFrom = { secretKeyRef = { name = \"elastic-credentials\", key = \"username\" } } }, { name = \"ELASTICSEARCH_PASSWORD\", valueFrom = { secretKeyRef = { name = \"elastic-credentials\", key = \"password\" } } }, { name = \"KIBANA_ENCRYPTION_KEY\", valueFrom = { secretKeyRef = { name = kubernetes_secret.kibana_enc_key[count.index].metadata[0].name, key = \"encryptionkey\" } } }] } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk requests Elasticsearch persistent storage with the literal storageClassName advanced but has no dependency on :resource.kubernetes_storage_class.advanced. Helm waits for readiness by default, so volume provisioning can block while that independently scheduled StorageClass is absent. Reference the managed StorageClass name in the Helm values.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "[local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values, yamlencode({ elasticsearch = { volumeClaimTemplate = { storageClassName = kubernetes_storage_class.advanced.metadata[0].name } } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.loki_stack enables persistence using the literal storageClassName advanced but does not wait for :resource.kubernetes_storage_class.advanced. Order the StorageClass before the release's PVC provisioning to avoid a readiness/installation race.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "[local.loki_stack_values, yamlencode({ loki = { persistence = { storageClassName = kubernetes_storage_class.advanced.metadata[0].name } } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.prometheus_operator configures Prometheus volume claims with the literal storageClassName advanced, but has no ordering dependency on :resource.kubernetes_storage_class.advanced. Reference that managed name so storage provisioning is ordered after StorageClass creation.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "concat(compact([local.kube_prometheus_stack_values, local.kube_prometheus_stack_grafana_values, local.istio.enabled ? local.kube_prometheus_stack_grafana_istio_values : null, local.kube_prometheus_stack_grafana_oauth_type == \"gitlab\" ? local.kube_prometheus_stack_grafana_gitlab_oauth_values : null, local.kube_prometheus_stack_grafana_oauth_type == \"github\" ? local.kube_prometheus_stack_grafana_github_oauth_values : null, local.kube_prometheus_stack_alertmanager_values, local.kube_prometheus_stack_alertmanager_slack_webhook != \"\" ? local.kube_prometheus_stack_alertmanager_slack_values : null]), [yamlencode({ prometheus = { prometheusSpec = { storageSpec = { volumeClaimTemplate = { spec = { storageClassName = kubernetes_storage_class.advanced.metadata[0].name } } } } } })])"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.victoria_metrics_k8s_stack configures VMSingle persistent storage with the literal storageClassName advanced but does not wait for :resource.kubernetes_storage_class.advanced. Wire the managed StorageClass name into the values to order storage provisioning and preserve the correct reverse destruction order.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "concat(compact([local.victoria_metrics_k8s_stack_values, local.victoria_metrics_k8s_stack_grafana_values, local.istio.enabled ? local.victoria_metrics_k8s_stack_grafana_istio_values : null, local.victoria_metrics_k8s_stack_grafana_oauth_type == \"gitlab\" ? local.victoria_metrics_k8s_stack_grafana_gitlab_oauth_values : null, local.victoria_metrics_k8s_stack_grafana_oauth_type == \"github\" ? local.victoria_metrics_k8s_stack_grafana_github_oauth_values : null, local.victoria_metrics_k8s_stack_alertmanager_values, local.victoria_metrics_k8s_stack_alertmanager_slack_webhook != \"\" ? local.victoria_metrics_k8s_stack_alertmanager_slack_values : null]), [yamlencode({ vmsingle = { spec = { storage = { storageClassName = kubernetes_storage_class.advanced.metadata[0].name } } } })])"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.cluster_autoscaler enables a ServiceMonitor explicitly placed in namespace monitoring, but only waits for its own workload namespace and the CRDs. When :module.kube_prometheus_stack_namespace supplies the monitoring namespace, its creation can race installation of that ServiceMonitor. Reference the enabled monitoring stack's namespace output instead of hard-coding monitoring.",
+      "node": ":resource.helm_release.cluster_autoscaler",
+      "target": ":module.kube_prometheus_stack_namespace",
+      "fix": {
+        "field": "values",
+        "expression": "[local.cluster_autoscaler_values, yamlencode({ serviceMonitor = { namespace = local.victoria_metrics_k8s_stack.enabled ? module.victoria_metrics_k8s_stack_namespace[0].name : (local.kube_prometheus_stack.enabled ? module.kube_prometheus_stack_namespace[0].name : \"monitoring\") } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.cluster_autoscaler creates its ServiceMonitor in the literal monitoring namespace, without waiting for :module.victoria_metrics_k8s_stack_namespace when VictoriaMetrics supplies that namespace. Waiting for CRDs does not wait for namespace creation. Wire the selected monitoring stack's namespace output into serviceMonitor.namespace.",
+      "node": ":resource.helm_release.cluster_autoscaler",
+      "target": ":module.victoria_metrics_k8s_stack_namespace",
+      "fix": {
+        "field": "values",
+        "expression": "[local.cluster_autoscaler_values, yamlencode({ serviceMonitor = { namespace = local.victoria_metrics_k8s_stack.enabled ? module.victoria_metrics_k8s_stack_namespace[0].name : (local.kube_prometheus_stack.enabled ? module.kube_prometheus_stack_namespace[0].name : \"monitoring\") } })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

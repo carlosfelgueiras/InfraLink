@@ -1,0 +1,286 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.managed_ng already references aws_iam_role.managed_ng through node_role_arn, so its explicit depends_on on that role duplicates an implicit dependency.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.managed_ng already depends on aws_launch_template.managed_node_groups, which explicitly depends on aws_iam_role_policy_attachment.managed_ng. Its direct depends_on on the attachment duplicates that transitive ordering.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role_policy_attachment.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_launch_template.managed_node_groups explicitly waits for aws_iam_role_policy_attachment.managed_ng, which references aws_iam_role.managed_ng. The additional explicit dependency on the role is redundant.",
+      "node": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_launch_template.managed_node_groups",
+      "target": "module.eks_blueprints.module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_autoscaling_group.self_managed_ng references launch-template outputs. The launch template receives aws_iam_instance_profile.self_managed_ng.name through launch_template_config, already establishing a transitive dependency on the instance profile.",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_autoscaling_group.self_managed_ng already waits for aws_iam_role.self_managed_ng through the referenced launch template and instance profile, and through its explicit policy-attachment dependency. Its direct depends_on on the role is redundant.",
+      "node": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.eks_blueprints.module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy interpolates aws_iam_role.emr_on_eks_execution.id in its local-exec command, already establishing the dependency expressed again in depends_on.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy interpolates kubernetes_namespace.spark.id in its local-exec command, so the explicit depends_on on that namespace duplicates an implicit dependency.",
+      "node": "module.eks_blueprints.module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.eks_blueprints.module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_config_map.amazon_vpc_cni already waits for data.http.eks_cluster_readiness, which depends on data.aws_eks_cluster.cluster and then module.aws_eks. Its additional explicit dependency on module.aws_eks is redundant; retain the readiness dependency.",
+      "node": "module.eks_blueprints:resource.kubernetes_config_map.amazon_vpc_cni",
+      "target": "module.eks_blueprints:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubernetes_config_map.aws_auth already waits for data.http.eks_cluster_readiness, which depends on data.aws_eks_cluster.cluster and then module.aws_eks. Its additional explicit dependency on module.aws_eks is redundant; retain the readiness dependency.",
+      "node": "module.eks_blueprints:resource.kubernetes_config_map.aws_auth",
+      "target": "module.eks_blueprints:module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "kubectl_manifest.aws_provider_config explicitly waits for time_sleep.wait_30_seconds, which itself waits for kubectl_manifest.aws_provider. The direct depends_on on aws_provider duplicates that transitive dependency; retain the sleep dependency.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubectl_manifest.cluster_pca_issuer applies an AWSPCAClusterIssuer custom resource, but does not wait for module.eks_blueprints_kubernetes_addons to install the AWS Private CA issuer CRD. Cluster endpoint and CA ARN references do not establish this ordering, so a fresh apply can fail with an unknown resource kind. Add depends_on = [module.eks_blueprints_kubernetes_addons].",
+      "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubectl_manifest.cluster_pca_issuer references the CA's ARN before aws_acmpca_certificate_authority_certificate.example necessarily associates its root certificate. The AWS provider documentation explicitly states that a CA cannot issue certificates before this association. Reference the association's certificate_authority_arn in the issuer manifest so issuer reconciliation and downstream certificate requests do not race CA activation.",
+      "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+      "target": ":resource.aws_acmpca_certificate_authority_certificate.example",
+      "fix": {
+        "field": "yaml_body",
+        "expression": "yamlencode({ apiVersion = \"awspca.cert-manager.io/v1beta1\", kind = \"AWSPCAClusterIssuer\", metadata = { name = module.eks_blueprints.eks_cluster_id }, spec = { arn = aws_acmpca_certificate_authority_certificate.example.certificate_authority_arn, region = local.region } })"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks_blueprints_kubernetes_addons consumes control-plane outputs but never waits for the managed-node-group ARN output. Its data_plane_wait_arn input remains the empty default, so the dataplane sleep is not gated on worker creation and Helm releases can start waiting for pods before workers exist. Feed module.eks_blueprints.managed_node_group_arn into the provided readiness input.",
+      "node": ":module.eks_blueprints_kubernetes_addons",
+      "target": "module.eks_blueprints:output.managed_node_group_arn",
+      "fix": {
+        "field": "data_plane_wait_arn",
+        "expression": "join(\",\", module.eks_blueprints.managed_node_group_arn)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cert_manager_csi_driver installs its Helm release into the cert-manager namespace with create_namespace defaulting to false, while module.cert_manager creates that namespace. When both are enabled, there is no ordering between them and the CSI release can fail because the namespace does not exist. Make module.cert_manager_csi_driver depend on module.cert_manager.",
+      "node": "module.eks_blueprints_kubernetes_addons:module.cert_manager_csi_driver",
+      "target": "module.eks_blueprints_kubernetes_addons:module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When enabled alongside module.cert_manager, module.cert_manager_istio_csr installs into its cert-manager namespace with create_namespace = false and requires cert-manager certificate issuance. There is no dependency on module.cert_manager to establish the namespace, CRDs and controller first. Add an explicit dependency when this project manages both add-ons.",
+      "node": "module.eks_blueprints_kubernetes_addons:module.cert_manager_istio_csr",
+      "target": "module.eks_blueprints_kubernetes_addons:module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.aws_privateca_issuer starts a controller that watches cert-manager CertificateRequests, but has no dependency on module.cert_manager installing those CRDs. Both are enabled in this example. Order module.aws_privateca_issuer after module.cert_manager to avoid starting the external issuer before its cert-manager API prerequisites exist.",
+      "node": "module.eks_blueprints_kubernetes_addons:module.aws_privateca_issuer",
+      "target": "module.eks_blueprints_kubernetes_addons:module.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When replacing default CoreDNS, module.helm_addon waits for null_resource.remove_default_coredns_deployment but not null_resource.modify_kube_dns. Helm and the ownership-annotation provisioner can therefore run concurrently, causing Helm to reject the existing kube-dns Service as not owned by this release. Make module.helm_addon wait for null_resource.modify_kube_dns.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_coredns:resource.null_resource.modify_kube_dns",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.adot waits for the Role definition, but not kubernetes_role_binding_v1.adot granting that Role to eks:addon-manager. Creating the Role alone does not authorize the add-on manager to install namespaced ADOT resources. Wait for the binding before creating the add-on.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_addon.adot waits for the ClusterRole definition, but not kubernetes_cluster_role_binding_v1.adot granting its permissions to eks:addon-manager. Without the binding, the add-on manager can lack permission to install ADOT CRDs and other cluster-scoped resources. Wait for this binding before creating the add-on.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.aws_eks_addon.adot",
+      "target": "module.eks_blueprints_kubernetes_addons.module.opentelemetry_operator:resource.kubernetes_cluster_role_binding_v1.adot",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.vpc_cni receives module.irsa_addon.irsa_iam_role_arn, whose output depends only on the IAM role, not on aws_iam_role_policy_attachment.irsa. The provider documentation requires the service-account role to have the add-on permissions assigned. The add-on can start using the new role before AmazonEKS_CNI_Policy is attached. Add depends_on = [module.irsa_addon] to the add-on, or gate the role ARN output on its policy attachments.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni:resource.aws_eks_addon.vpc_cni",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver references the IRSA role ARN output, but that output does not wait for aws_iam_role_policy_attachment.irsa to grant EBS CSI permissions. The provider documentation requires these permissions on the service-account role. Gate the add-on on module.irsa_addon completion, or gate the role ARN output on the policy attachments, so installation cannot race permission assignment.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver:resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_ebs_csi_driver.module.irsa_addon:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.helm_addon and kubernetes_namespace_v1.this both independently create the argo-workflows namespace: the Helm configuration has create_namespace = true but only uses a literal namespace name. If Helm creates it first, the Terraform namespace resource fails with AlreadyExists. Wire the managed namespace name into helm_config to serialize Helm after the namespace resource.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.argo_workflows:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.argo_workflows:resource.kubernetes_namespace_v1.this",
+      "fix": {
+        "field": "helm_config",
+        "expression": "merge(local.helm_config, { namespace = try(kubernetes_namespace_v1.this[0].metadata[0].name, local.helm_config[\"namespace\"]) })"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.helm_addon installs Prometheus into local.namespace_name, not the already-defined local.namespace expression that references kubernetes_namespace_v1.prometheus. With the default enable_amazon_prometheus = false, nothing orders Helm after namespace creation and create_namespace defaults to false, so installation can fail with Namespace not found. Use local.namespace in the Helm configuration.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:resource.kubernetes_namespace_v1.prometheus",
+      "fix": {
+        "field": "helm_config",
+        "expression": "merge({ name = local.name, chart = local.name, version = \"15.17.0\", repository = \"https://prometheus-community.github.io/helm-charts\", description = \"Prometheus helm Chart deployment configuration\", values = [templatefile(\"${path.module}/values.yaml\", { operating_system = try(var.helm_config.operating_system, \"linux\") })] }, var.helm_config, { namespace = local.namespace })"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When AMP is enabled, module.helm_addon disables creation of the Prometheus server service account and expects amp-ingest from module.irsa_amp_ingest. Its role-ARN reference waits only for the IAM role, not for that module's Kubernetes service account and policy attachments. Add depends_on = [module.irsa_amp_ingest] so Helm cannot launch pods before their externally managed service account exists.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.prometheus:module.irsa_amp_ingest",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.helm_addon configures Fluent Bit with a log-group name assembled from locals, without waiting for aws_cloudwatch_log_group.aws_for_fluent_bit. Fluent Bit has logs:CreateLogGroup permission and can start writing or create the group before Terraform creates its KMS-encrypted, retention-managed group. When create_cw_log_group is true, order the Helm deployment after this log-group resource to avoid failed logging or an AlreadyExists race.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.aws_for_fluent_bit:module.helm_addon",
+      "target": "module.eks_blueprints_kubernetes_addons.module.aws_for_fluent_bit:resource.aws_cloudwatch_log_group.aws_for_fluent_bit",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nazapi_resource.diag_settings writes diagnostic settings whose workspaceId (via local.template_file_variables.log_analytics_workspace_resource_id) is a string computed inside module.management_resources from coalesce() of plain values \u2014 no attribute reference reaches azurerm_log_analytics_workspace.management, so nothing guarantees the Log Analytics workspace exists before the diagnostic settings are created. If the workspace is created in the same apply, the azapi_resource call can fail or point at a non-existent workspace.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.azapi_resource.diag_settings creates Management Group diagnostic settings whose workspaceId (local.template_file_variables.log_analytics_workspace_resource_id) points at the Log Analytics workspace deployed by :resource.azurerm_log_analytics_workspace.management. That dependency only flows through locals/module outputs (module.management_resources is data-only), so no resource-level ordering exists; on a first apply the diagnostic settings could be created before the workspace exists and fail. Add an explicit depends_on on :resource.azurerm_log_analytics_workspace.management.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nazapi_resource.diag_settings writes the Log Analytics workspace resource ID (local.template_file_variables.log_analytics_workspace_resource_id) into its body, but this value is a computed string that creates no Terraform dependency on azurerm_log_analytics_workspace.management. When deploy_diagnostics_for_mg and deploy_management_resources are both enabled, the diagnostic settings can be created before the workspace exists, causing the azapi_resource call to fail against a non-existent workspace. azapi_resource.diag_settings should depend on azurerm_log_analytics_workspace.management (e.g. via depends_on) to guarantee the workspace is created first.",
+      "node": ":resource.azapi_resource.diag_settings",
+      "target": ":resource.azurerm_log_analytics_workspace.management",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

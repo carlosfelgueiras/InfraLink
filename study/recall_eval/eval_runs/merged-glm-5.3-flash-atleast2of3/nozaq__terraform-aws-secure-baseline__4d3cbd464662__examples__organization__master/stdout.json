@@ -1,0 +1,157 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ap-northeast-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ap-northeast-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-northeast-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ap-northeast-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ap-northeast-2 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-northeast-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ap-northeast-3:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ap-northeast-3 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-northeast-3:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ap-south-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ap-south-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-south-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ap-southeast-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ap-southeast-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-southeast-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ap-southeast-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ap-southeast-2 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ap-southeast-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_ca-central-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_ca-central-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_ca-central-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_eu-central-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_eu-central-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-central-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_eu-north-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_eu-north-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-north-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_eu-west-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_eu-west-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-west-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_eu-west-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_eu-west-2 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-west-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_eu-west-3:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_eu-west-3 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_eu-west-3:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_sa-east-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_sa-east-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_sa-east-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_us-east-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_us-east-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-east-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_us-east-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_us-east-2 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-east-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_us-west-1:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_us-west-1 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-west-1:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n`module.secure_baseline.module.analyzer_baseline_us-west-2:resource.aws_accessanalyzer_analyzer.default` is created with `type = \"ORGANIZATION\"` (`is_organization = local.is_master_account`), which requires the organization and the `access-analyzer.amazonaws.com` service access enabled by `:resource.aws_organizations_organization.org`. It has no dependency on that resource; the official provider documentation for this resource type shows `depends_on = [aws_organizations_organization.example]` as the required pattern for ORGANIZATION-type analyzers.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe analyzer in module.secure_baseline.module.analyzer_baseline_us-west-2 is created with type \"ORGANIZATION\" (is_organization=true), which requires the AWS Organizations organization to already exist. No attribute reference or depends_on connects this analyzer to the organization resource, so Terraform may provision the analyzer before :resource.aws_organizations_organization.org, causing an API failure or a wrong-scope analyzer. Add depends_on = [aws_organizations_organization.org] to the analyzer resource (or to the module call).",
+      "node": "module.secure_baseline.module.analyzer_baseline_us-west-2:resource.aws_accessanalyzer_analyzer.default",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

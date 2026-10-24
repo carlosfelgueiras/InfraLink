@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The binaries-syncer event target can be created in parallel with (or before) aws_lambda_permission.syncer, leaving the schedule rule pointing at a Lambda that events.amazonaws.com is not yet allowed to invoke; the official aws_cloudwatch_event_target docs explicitly require the aws_lambda_permission to be set up for EventBridge to invoke the function. The S3 notification in this same module already handles its equivalent permission with depends_on, but this target does not.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-down event target has no ordering edge to aws_lambda_permission.scale_down; Terraform may register the target on the rule before Lambda allows events.amazonaws.com to invoke, so a rule firing mid-apply would be denied. Per the aws_cloudwatch_event_target docs, the lambda permission must exist for the target to work, and no attribute reference expresses this.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool event target depends only on the rule and the pool Lambda, not on aws_lambda_permission.pool; without that ordering, the scheduled target can be attached before events.amazonaws.com is granted invoke permission, causing denied invocations if the schedule fires during apply. The provider docs require the aws_lambda_permission for EventBridge targets to invoke Lambda.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app registers the webhook URL (api_endpoint + \"webhook\") with the GitHub App via local-exec, but nothing orders it after aws_apigatewayv2_stage.webhook \u2014 the output.webhook chain only reaches the API, Lambda, log group and role, never the $default stage. The script can therefore configure GitHub to call an endpoint that returns 403/404 until the stage is deployed, failing the initial webhook deliveries.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

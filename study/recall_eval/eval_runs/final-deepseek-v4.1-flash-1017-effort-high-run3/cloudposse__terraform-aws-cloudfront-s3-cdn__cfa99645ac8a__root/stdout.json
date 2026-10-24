@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_cloudfront_distribution.default has an explicit depends_on on aws_s3_bucket.origin, but it already depends on that bucket implicitly: its origin block sets domain_name = local.bucket_domain_name, and local.bucket_domain_name resolves through local.bucket to aws_s3_bucket.origin.*.id. Terraform infers the same ordering from that attribute reference, so the explicit depends_on is redundant and can be removed.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

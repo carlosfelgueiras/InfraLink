@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.secure_baseline creates organization-scoped resources (including the organization CloudTrail trail, the Config organization aggregator, and organization Access Analyzer analyzers) and reads the organization via data.aws_organizations_organization.org, but the example module call does not depend on aws_organizations_organization.org. Terraform can therefore start the module before the organization and its required service access principals exist.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The organization configuration aggregator uses aws_iam_role.config_organization through role_arn, but it does not wait for aws_iam_role_policy_attachment.config_organization. AWS Config must be able to assume that role with the AWSConfigRoleForOrganizations policy before the aggregator is created; otherwise creation can fail.",
+      "node": "module.secure_baseline:resource.aws_config_configuration_aggregator.organization",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe scale-set Helm release can start runner workloads, but it has no dependency on the EKS Pod Identity association that grants credentials to its service account. Ensure the association is created before the release can launch workloads.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nRunner pods deployed by this Helm release use EKS Pod Identity, but the identity association can otherwise be created concurrently with the release. Ensure the association exists before the chart can start workloads.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe scale-set Helm release may create runner workloads that use EKS Pod Identity, but it does not wait for the Pod Identity association. Ensure the association exists before installing the release so workloads do not start before their identity mapping is established.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": {
+        "field": "namespace",
+        "expression": "aws_eks_pod_identity_association.eks_pod_identity[0].namespace"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe scale-set Helm release is configured to use the runner service account, which this module creates separately, but it has no dependency on that service account. Ensure the service account exists before installing the release.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Helm release can deploy runner workloads using this service account before its Kubernetes service account exists. Make the release depend on the service-account resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe scale-set Helm release can create runner workloads that use this service account, but its namespace is currently configured only from a variable and does not order creation of the service account. Derive the Helm namespace from the account so the account exists before the release is applied.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "namespace",
+        "expression": "kubernetes_service_account_v1.runner_sa[0].metadata[0].namespace"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe cleanup CronJob can begin running with its service account before the RoleBinding granting that account permissions exists. Add an ordering dependency so the job cannot run until the binding is established.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe cleanup CronJob runs with the zombie-runner service account and needs the permissions granted by this RoleBinding. Without ordering, a scheduled job could start before those permissions are in place.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe zombie cleanup CronJob can run as soon as it is created, but its Kubernetes RoleBinding may still be pending because the CronJob has no dependency on it. Order CronJob creation after the binding so the first scheduled cleanup run has the required RBAC permissions.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe scale-set Helm release can launch runner workloads that use the IAM role, but it has no dependency on the managed policy attachments for that role. If those attachments are created concurrently, workloads may start before their required permissions are attached.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe runner Helm release may start workloads that assume this role before its managed policies have been attached, leaving the runners without their intended AWS permissions during startup. Ensure the policy attachment completes before deploying the release.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe scale-set Helm release can start runner workloads using this IAM role while managed policy attachments are still being applied. Order the release after the role policy attachment so runner workloads do not start before the role's configured permissions are attached.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

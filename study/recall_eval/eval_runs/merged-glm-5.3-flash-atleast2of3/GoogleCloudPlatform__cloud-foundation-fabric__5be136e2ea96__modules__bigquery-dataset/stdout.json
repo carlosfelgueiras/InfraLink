@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_bigquery_routine.default has no dependency on google_bigquery_table.default, but a routine's definition_body is free-form SQL that typically references tables in the same dataset by name. BigQuery validates the routine's SQL at creation time, so if the routine queries a table managed by this module that has not been created yet, the apply fails. The module already expresses this ordering for views and materialized views via depends_on, but omits it for routines; an explicit depends_on on google_bigquery_table.default is needed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`google_bigquery_routine.default` has no ordering dependency on the regular tables created by this module. A routine's `definition_body` (SQL TVF, procedure, etc.) commonly references tables defined via `var.tables`; BigQuery validates table references when the routine is created, so creating the routine before the referenced table fails (or yields a broken routine). The module already encodes exactly this ordering for `google_bigquery_table.views` and `google_bigquery_table.materialized_view` (both have `depends_on = [google_bigquery_table.default]`) but omits it for routines, which only implicitly depend on the dataset.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_bigquery_routine.default has no dependency on google_bigquery_table.views, but a routine's definition_body can reference views in the same dataset by name in its SQL. BigQuery validates the routine's SQL at creation time, so if the routine queries a view managed by this module that has not been created yet, the apply fails. An explicit depends_on on google_bigquery_table.views is needed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`google_bigquery_routine.default` has no ordering dependency on the views created by this module. A routine's `definition_body` may query views defined via `var.views`; if the routine is created before the view exists, BigQuery's creation-time validation of the routine body fails. There is no attribute reference or `depends_on` expressing this, and since the routine body comes from `var.routines`, only a bare `depends_on` can close the gap.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.views",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_bigquery_routine.default has no dependency on google_bigquery_table.materialized_view, but a routine's definition_body can reference materialized views in the same dataset by name in its SQL. BigQuery validates the routine's SQL at creation time, so if the routine queries a materialized view managed by this module that has not been created yet, the apply fails. An explicit depends_on on google_bigquery_table.materialized_view is needed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`google_bigquery_routine.default` has no ordering dependency on the materialized views created by this module. A routine's `definition_body` may query materialized views defined via `var.materialized_views`; creating the routine before those tables exist breaks creation-time validation of the routine body. This mirrors the dependency the module already declares from `google_bigquery_table.views` and `google_bigquery_table.materialized_view` onto `google_bigquery_table.default`, but is absent for routines.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.materialized_view",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\ngoogle_bigquery_dataset_access.authorized_routines grants dataset access to routines (from var.authorized_routines) but has no dependency on google_bigquery_routine.default, which creates routines in this same dataset from var.routines. BigQuery requires the referenced routine to exist when the access entry is written; without ordering, Terraform can apply the access entry before the routine is created, producing a 'routine not found' error or a broken authorized routine. An explicit depends_on on google_bigquery_routine.default is required (the routine block's fields come from variables, so no data-reference fix is possible).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`google_bigquery_dataset_access.authorized_routines` grants access to a routine referenced only by name (`project_id`/`dataset_id`/`routine_id` from `var.authorized_routines`), so it has no real dependency on `google_bigquery_routine.default`. A primary use case of this module (mirrored in the provider's own examples) is authorizing a routine created in the same configuration; if the routine is not created yet, the API call to add the access entry fails because the routine does not exist. A bare `depends_on` is required since the routine reference comes from a variable, not an attribute reference.",
+      "node": ":resource.google_bigquery_dataset_access.authorized_routines",
+      "target": ":resource.google_bigquery_routine.default",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\ngoogle_bigquery_dataset_access.authorized_views grants dataset access to views (from var.authorized_views / var.access_identities) but has no dependency on google_bigquery_table.views, which creates those views in the same module from var.views. BigQuery requires the referenced view to exist when the access entry is written; without ordering, the access entry can be applied before the view table exists, causing 'view not found' errors or a dangling authorization. An explicit depends_on on google_bigquery_table.views is required (the view block's fields come from variables, so no data-reference fix is possible).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`google_bigquery_dataset_access.authorized_views` grants access to a view referenced only by name (`project_id`/`dataset_id`/`table_id` from `var.authorized_views` / `access_identities`), so it has no dependency on the views this module creates via `google_bigquery_table.views`. If an authorized view is defined in this same module and the access entry is applied before the view exists, BigQuery rejects the access update. This ordering is not expressed by any attribute reference or `depends_on`, and can only be closed with a bare `depends_on` since the view identity comes from variables.",
+      "node": ":resource.google_bigquery_dataset_access.authorized_views",
+      "target": ":resource.google_bigquery_table.views",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

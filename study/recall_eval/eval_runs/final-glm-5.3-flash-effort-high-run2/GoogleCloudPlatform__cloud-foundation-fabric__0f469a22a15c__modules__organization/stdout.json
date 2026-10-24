@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_organization_security_policy_association.attachment sets policy_id from var.firewall_policy_attachments with no reference to the policies created by this module. When the attached policy is one created by google_compute_organization_security_policy.policy (the module's own firewall_policy_id output exists precisely for this), the association can be applied before the policy exists, and the organizationSecurityPolicies.addAssociation API call will fail. The association must be ordered after the policy resource.",
+      "node": ":resource.google_compute_organization_security_policy_association.attachment",
+      "target": ":resource.google_compute_organization_security_policy.policy",
+      "fix": {
+        "field": "policy_id",
+        "expression": "try(google_compute_organization_security_policy.policy[each.value].id, each.value)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

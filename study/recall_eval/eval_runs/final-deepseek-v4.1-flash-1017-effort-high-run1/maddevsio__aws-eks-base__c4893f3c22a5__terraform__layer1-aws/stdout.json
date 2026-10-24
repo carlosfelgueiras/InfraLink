@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_cloudtrail.main` only references `aws_s3_bucket.cloudtrail` (via `s3_bucket_name`), so nothing in the graph forces `aws_s3_bucket_policy.cloudtrail` to be applied first. CloudTrail validates that it can write to the target bucket at creation time and fails with `InsufficientS3BucketPolicyException` if the trail bucket policy (AWSCloudTrailAclCheck / AWSCloudTrailWrite) is not already attached \u2014 an ordering gap that is worse on a fresh apply where the bucket is brand new. The provider's own example documents `depends_on = [aws_s3_bucket_policy.example]` on the trail for exactly this reason.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.eventbridge` creates rule targets that publish to `aws_sns_topic.security_alerts`, and therefore depends only on the topic itself. The topic's resource policy (`aws_sns_topic_policy.security_alerts`), which grants `events.amazonaws.com` `sns:Publish`, is established independently, so EventBridge can be created and begin matching rules before the topic accepts its publishes \u2014 matched CIS events are dropped with an authorization error. `module.eventbridge` should depend on `aws_sns_topic_policy.security_alerts` (and it should be destroyed before the policy).",
+      "node": ":module.eventbridge",
+      "target": ":resource.aws_sns_topic_policy.security_alerts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

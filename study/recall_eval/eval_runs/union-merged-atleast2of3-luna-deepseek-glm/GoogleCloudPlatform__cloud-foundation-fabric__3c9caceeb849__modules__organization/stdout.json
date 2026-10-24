@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`google_privileged_access_manager_entitlement.default` grants IAM roles resolved from `local.ctx.custom_roles` (via `lookup(local.ctx.custom_roles, binding.value.role, binding.value.role)`), and users can point those at custom roles created in this same module by `google_organization_iam_custom_role.roles` (whose IDs are the plan-known `organizations/<id>/roles/<name>` strings that go into `var.context.custom_roles`). The entitlement has no ordering edge to the custom-role resource, so it can be created before the referenced role exists and fail. `google_org_policy_policy.default` guards this exact scenario with an explicit `depends_on = [google_organization_iam_custom_role.roles, ...]`, but the entitlement does not. Add `google_organization_iam_custom_role.roles` to the entitlement's `depends_on`. No clean data-reference fix exists because the role is nested inside a dynamic `privileged_access.gcp_iam_access.role_bindings` block.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\ngoogle_privileged_access_manager_entitlement.default resolves its privileged_access role_bindings[].role through lookup(local.ctx.custom_roles, ...), so an entitlement can reference a custom role created by google_organization_iam_custom_role.roles in this same module. Nothing currently orders the entitlement after the custom role's creation (its only depends_on entries are the organization IAM bindings, for service-agent permissions). google_org_policy_policy.default already guards this exact context-indirected reference with a depends_on on google_organization_iam_custom_role.roles, so the entitlement should too; otherwise the referenced custom role may not exist yet when the entitlement is created.",
+      "node": ":resource.google_privileged_access_manager_entitlement.default",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

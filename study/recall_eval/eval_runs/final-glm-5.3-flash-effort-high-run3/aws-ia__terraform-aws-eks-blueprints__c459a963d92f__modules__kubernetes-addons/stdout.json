@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the aws-privateca-issuer add-on's IRSA module, kubernetes_service_account_v1.irsa is created in namespace var.kubernetes_namespace while kubernetes_namespace_v1.irsa creates that same namespace (create_kubernetes_namespace = true). The two resources have no dependency between them and will be applied in parallel by the kubernetes provider, so the service account can be created before the namespace exists, which the Kubernetes API rejects. kubernetes_service_account_v1.irsa should depend on kubernetes_namespace_v1.irsa.",
+      "node": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.aws_privateca_issuer.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the velero add-on's IRSA module, kubernetes_service_account_v1.irsa is created in namespace local.namespace while kubernetes_namespace_v1.irsa creates that same namespace (create_kubernetes_namespace = true). The two resources have no dependency between them and will be applied in parallel by the kubernetes provider, so the service account can be created before the namespace exists, which the Kubernetes API rejects. kubernetes_service_account_v1.irsa should depend on kubernetes_namespace_v1.irsa.",
+      "node": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.velero.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

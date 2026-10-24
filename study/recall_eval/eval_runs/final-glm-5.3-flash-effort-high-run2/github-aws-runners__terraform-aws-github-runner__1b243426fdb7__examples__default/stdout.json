@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app registers the GitHub App webhook (endpoint and secret) via a local-exec provisioner, but it only depends on module.runners:output.webhook, which exposes the API Gateway *API* URL \u2014 not the $default stage that actually makes that URL serve requests. Terraform can apply the provisioner before module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook is created/deployed, so GitHub's webhook configuration can briefly (or, since triggers only change on endpoint/secret changes, until the next relevant change) point at a non-serving endpoint, and `on_failure = continue` would hide a failed registration. The stage should be established before the GitHub App is updated.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

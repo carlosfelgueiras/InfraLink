@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:module.ec2_update_runner_ssm_ami` deploys a Lambda that reads/updates the runner AMI SSM parameters at `/github-action-runners/${prefix}/<runner>/runners/config/ami_id`, i.e. parameters owned and created by `:module.runners`. It currently depends only on `var.runner_configs`/`var.tenant_configs` (the ARNs are hand-built strings), so nothing orders it after the runners module and the Lambda's first GetParameter/PutParameter calls can hit parameters that don't exist yet. Contrast with `:module.ec2_update_runner_tags`, which is ordered implicitly because it consumes `module.runners.webhook.eventbridge.event_bus.name`. There is no attribute of `module.runners` to wire in here, so an explicit `depends_on = [module.runners]` is the appropriate fix.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`:module.ec2_update_runner_ssm_ami` builds the SSM parameter ARNs it manages from locally concatenated strings (`local.runner_ami_ssm_parameter_arns`) instead of from any resource or module, so it has no ordering relative to `:module.runners`, which owns/creates those `/github-action-runners/<prefix>/<runner_key>/runners/config/ami_id` parameters. On a fresh apply the scheduled lambda can be deployed and invoked (the rule fires every 10 minutes) while the parameters do not yet exist, so its GetParameter call fails. Add `depends_on = [module.runners]` on `:module.ec2_update_runner_ssm_ami`.",
+      "node": ":module.ec2_update_runner_ssm_ami",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`:data.aws_ssm_parameter.ami_id` reads `/github-action-runners/<prefix>/<runner_key>/runners/config/ami_id`, a parameter that is created by `:module.runners` (the multi-runner module manages the runner config SSM parameters, and the AMI is later refreshed in place by the AMI-updater lambda). The read only references a locally-built name string (`local.runner_ami_ssm_parameter_names`), so the graph records no dependency and Terraform may refresh this data source during plan before the parameter exists, failing with ParameterNotFound on a fresh apply. `:data.aws_ssm_parameter.ami_id` should depend on `:module.runners` (e.g. a `depends_on = [module.runners]`), which also transitively fixes `:data.aws_ami.runner_ami`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`data.aws_ssm_parameter.ami_id` reads `/github-action-runners/${var.runner_configs.prefix}/${key}/runners/config/ami_id`, but those parameters are created by `module.runners` (the multi-runner module's SSM runner-config parameters, enabled via `enable_ssm_on_runners = true`). Terraform sees no relationship between the two, so on a fresh apply the data source is read before the parameters exist and fails with ParameterNotFound. The data source should depend on `module.runners` (e.g. an explicit `depends_on`), since nothing about the parameter name can reference the module in a clean way.",
+      "node": ":data.aws_ssm_parameter.ami_id",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

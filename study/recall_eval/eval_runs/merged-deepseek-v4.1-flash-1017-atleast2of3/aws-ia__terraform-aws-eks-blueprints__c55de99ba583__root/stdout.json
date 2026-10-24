@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`module.aws_eks_teams` creates Kubernetes namespaces, RBAC objects, service accounts, and `kubectl_manifest` resources, but it does not wait for the `kubernetes_config_map.aws_auth` readiness/auth barrier that the other Kubernetes-facing modules use. It should depend on `kubernetes_config_map.aws_auth` so the cluster API is ready and aws-auth is configured before team Kubernetes resources are applied.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe aws_eks_teams module creates Kubernetes namespaces, RBAC resources, and manifests but has no ordering dependency on the aws-auth ConfigMap or cluster readiness. Its Kubernetes resources can race with cluster/API readiness; add depends_on = [kubernetes_config_map.aws_auth] so they are created only after read-readiness and aws-auth are applied.",
+      "node": ":module.aws_eks_teams",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

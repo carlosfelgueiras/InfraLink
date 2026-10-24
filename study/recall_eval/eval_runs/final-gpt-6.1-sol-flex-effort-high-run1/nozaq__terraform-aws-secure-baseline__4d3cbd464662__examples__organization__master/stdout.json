@@ -1,0 +1,1039 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.secure_baseline is configured for the organization management account, but has no dependency on aws_organizations_organization.org. Its organization data lookup can run before the organization exists, and its organization analyzers, organization trail and Config aggregator can run before ALL features and trusted service access are enabled. Add depends_on = [aws_organizations_organization.org] to the root module call.",
+      "node": ":module.secure_baseline",
+      "target": ":resource.aws_organizations_organization.org",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_configuration_aggregator.organization references only aws_iam_role.config_organization, not aws_iam_role_policy_attachment.config_organization. The organization aggregator must wait for AWSConfigRoleForOrganizations to be attached so Config can retrieve organization details. Add an explicit dependency on the attachment, as in the provider's organization-aggregation example.",
+      "node": "module.secure_baseline:resource.aws_config_configuration_aggregator.organization",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudtrail.global references the CloudWatch delivery role but does not wait for aws_iam_role_policy.cloudwatch_delivery_policy. Creating/configuring the trail can therefore race installation of logs:CreateLogStream and logs:PutLogEvents permissions, causing CloudWatch Logs authorization failures. Depend on the role policy before enabling delivery.",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudtrail.global references the SNS topic but does not wait for aws_sns_topic_policy.local-account-cloudtrail to grant cloudtrail.amazonaws.com sns:Publish. Trail creation/start can race the required topic authorization. Reference the policy's topic ARN to order creation after the policy.",
+      "node": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.secure_baseline.module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": {
+        "field": "sns_topic_name",
+        "expression": "var.cloudtrail_sns_topic_enabled ? aws_sns_topic_policy.local-account-cloudtrail[0].arn : null"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ap-northeast-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference orders only topic creation, not its service authorization. Reference the policy's ARN to wait for that authorization.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ap-northeast-2 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-northeast-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ap-northeast-3 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-3:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-northeast-3:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ap-south-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-south-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ap-southeast-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-southeast-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ap-southeast-2 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ap-southeast-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in ca-central-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_ca-central-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in eu-central-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-central-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in eu-north-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in eu-west-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-west-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in eu-west-2 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-west-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in eu-west-3 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_eu-west-3:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in sa-east-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_sa-east-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in us-east-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-east-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in us-east-2 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-east-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in us-west-1 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_config_delivery_channel.bucket in us-west-2 can configure SNS delivery before aws_sns_topic_policy.config grants config.amazonaws.com sns:Publish. The topic ARN reference does not wait for the topic policy.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.secure_baseline.module.config_baseline_us-west-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config.arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ap-northeast-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants the publisher role its log-writing permissions. The role ARN reference does not wait for this policy; order flow-log activation after the policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ap-northeast-2 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ap-northeast-3 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ap-south-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ap-southeast-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ap-southeast-2 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in ca-central-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in eu-central-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in eu-north-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in eu-west-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in eu-west-2 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in eu-west-3 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in sa-east-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in us-east-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in us-east-2 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in us-west-1 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_flow_log.default_vpc_flow_logs in us-west-2 can start CloudWatch delivery before aws_iam_role_policy.flow_logs_publish_policy grants log-writing permissions. Referencing the publisher role ARN does not wait for its policy.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-1 enables recording without waiting for aws_iam_role_policy.recorder_publish_policy. The recorder's role reference does not wait for its S3/SNS delivery permissions. Add ordering at recorder activation, rather than a whole-module dependency on this policy, because the policy itself references regional SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-2 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy; a whole-module dependency would risk a cycle through the policy's SNS topic references.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-3 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-south-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-southeast-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-southeast-2 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ca-central-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-central-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-north-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-west-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-west-2 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-west-3 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in sa-east-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-east-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-east-2 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-west-1 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-west-2 can enable recording before aws_iam_role_policy.recorder_publish_policy grants S3/SNS delivery permissions. Order activation after this policy, not the entire module, to avoid a cycle through SNS outputs.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-1 can start recording before aws_iam_role_policy_attachment.recorder_read_policy attaches AWS_ConfigRole. Referencing the recorder and its IAM role does not order the managed-policy attachment; wait for the resource-discovery permissions before activation.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-2 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-northeast-3 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-south-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-southeast-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ap-southeast-2 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in ca-central-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-central-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-north-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-west-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-west-2 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in eu-west-3 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in sa-east-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-east-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-east-2 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-west-1 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_config_configuration_recorder_status.recorder in us-west-2 should wait for aws_iam_role_policy_attachment.recorder_read_policy so AWS_ConfigRole resource-discovery permissions exist before recording starts. The current role reference does not order the attachment.",
+      "node": "module.secure_baseline.module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": "module.secure_baseline:resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ap-northeast-1 reads default subnet inventory independently of aws_default_vpc.default. When no default VPC exists, the VPC resource creates it and its default subnets during apply, after this lookup may already have returned an empty set; the subnet-hardening resources then miss those subnets. Order the lookup after the default VPC. An idiomatic implementation is an additional filter block: filter { name = \"vpc-id\"; values = [aws_default_vpc.default.id] } (use separate HCL lines, not semicolons).",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ap-northeast-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ap-northeast-2 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-2:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ap-northeast-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ap-northeast-3 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-northeast-3:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ap-northeast-3:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ap-south-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-south-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ap-south-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ap-southeast-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-southeast-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ap-southeast-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ap-southeast-2 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_ap-southeast-2:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ap-southeast-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in ca-central-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_ca-central-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_ca-central-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in eu-central-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-central-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_eu-central-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in eu-north-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-north-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_eu-north-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in eu-west-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-west-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_eu-west-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in eu-west-2 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-west-2:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_eu-west-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in eu-west-3 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_eu-west-3:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_eu-west-3:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in sa-east-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_sa-east-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_sa-east-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in us-east-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-east-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_us-east-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in us-east-2 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-east-2:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_us-east-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in us-west-1 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-west-1:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_us-west-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.aws_subnets.default in us-west-2 should wait for aws_default_vpc.default: if the VPC resource creates a missing default VPC, it also creates default subnets that a plan-time inventory lookup would miss, leaving them unhardened. Add a dependency or a vpc-id filter block referencing aws_default_vpc.default.id.",
+      "node": "module.secure_baseline.module.vpc_baseline_us-west-2:data.aws_subnets.default",
+      "target": "module.secure_baseline.module.vpc_baseline_us-west-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.unauthorized_api_calls enables SNS actions without waiting for aws_sns_topic_policy.alarms to authorize cloudwatch.amazonaws.com. Alarm creation can succeed, but an early ALARM transition can lose its notification while the policy is still pending. Reference the policy's ARN for alarm_actions to order activation after authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.unauthorized_api_calls",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.no_mfa_console_signin can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.no_mfa_console_signin",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.root_usage can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.root_usage",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.iam_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.iam_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.cloudtrail_cfg_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.cloudtrail_cfg_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.console_signin_failures can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.console_signin_failures",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.disable_or_delete_cmk can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.disable_or_delete_cmk",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.s3_bucket_policy_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.s3_bucket_policy_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.aws_config_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.aws_config_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.security_group_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.security_group_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.nacl_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.nacl_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.network_gw_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.network_gw_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.route_table_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.route_table_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.vpc_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.vpc_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_metric_alarm.organizations_changes can execute SNS actions before aws_sns_topic_policy.alarms authorizes CloudWatch to publish, losing an early notification. Referencing the topic alone does not wait for that authorization.",
+      "node": "module.secure_baseline.module.alarm_baseline:resource.aws_cloudwatch_metric_alarm.organizations_changes",
+      "target": "module.secure_baseline.module.alarm_baseline:resource.aws_sns_topic_policy.alarms",
+      "fix": {
+        "field": "alarm_actions",
+        "expression": "[aws_sns_topic_policy.alarms.arn]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

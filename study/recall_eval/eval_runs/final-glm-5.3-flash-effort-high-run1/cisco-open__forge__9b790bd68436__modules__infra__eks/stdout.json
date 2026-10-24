@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit `depends_on = [null_resource.wait_for_cluster]` on `helm_release.karpenter` is redundant: the helm provider configuration already references `data.aws_eks_cluster.cluster` and `data.aws_eks_cluster_auth.cluster`, both of which carry an explicit `depends_on = [null_resource.wait_for_cluster]`, so `helm_release.karpenter` already transitively waits for the cluster to become active through the provider-configuration dependency chain.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`helm_release.karpenter` deploys the Karpenter controller, whose pods can only be scheduled on cluster worker nodes. The self-managed node group (`module.self_managed_node_group`) is the source of those nodes, but nothing orders the node group before the helm release \u2014 the existing `depends_on` on `null_resource.wait_for_cluster` only guarantees the control plane is active. Since the release is installed with `wait = false`, Terraform can finish while the controller sits Pending until nodes (much later) join the cluster. The release should be ordered after the node group.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.self_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Karpenter authenticates via the Pod Identity Association created by `module.karpenter` (`create_pod_identity_association = true`), which only functions if the EKS Pod Identity Agent addon is running. `aws_eks_addon.eks_pod_identity_agent` is ordered after the node group and has no path feeding into `helm_release.karpenter`, so the controller can be deployed (and start assuming roles) before the agent addon exists, causing credential failures that only self-heal once the addon lands. The helm release should depend on the addon.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

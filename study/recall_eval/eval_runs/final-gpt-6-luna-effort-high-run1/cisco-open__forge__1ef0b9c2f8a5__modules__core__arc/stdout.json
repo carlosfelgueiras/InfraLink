@@ -1,0 +1,46 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-set Helm release can start runner workloads, but it has no dependency on the EKS Pod Identity association that grants credentials to its service account. Ensure the association is created before the release can launch workloads.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": {
+        "field": "namespace",
+        "expression": "aws_eks_pod_identity_association.eks_pod_identity[0].namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-set Helm release is configured to use the runner service account, which this module creates separately, but it has no dependency on that service account. Ensure the service account exists before installing the release.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "namespace",
+        "expression": "kubernetes_service_account_v1.runner_sa[0].metadata[0].namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cleanup CronJob can begin running with its service account before the RoleBinding granting that account permissions exists. Add an ordering dependency so the job cannot run until the binding is established.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-set Helm release can launch runner workloads that use the IAM role, but it has no dependency on the managed policy attachments for that role. If those attachments are created concurrently, workloads may start before their required permissions are attached.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

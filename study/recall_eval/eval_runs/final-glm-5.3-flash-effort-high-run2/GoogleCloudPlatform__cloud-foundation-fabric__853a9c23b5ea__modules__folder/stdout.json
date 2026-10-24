@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_essential_contacts_contact.contact sets parent = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. The contact could be created before the folder exists, failing the apply. Remedy: depends_on = [google_folder.folder] (or reference the folder directly in parent).",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_firewall_policy_association.default sets attachment_target = local.folder.id, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. The association could attach before the folder exists. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_compute_firewall_policy_association.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_binding.authoritative sets folder = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. IAM bindings could be applied before the folder exists, failing the apply. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_folder_iam_binding.authoritative",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_binding.bindings sets folder = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. These authoritative bindings could be applied before the folder exists. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_folder_iam_binding.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_member.bindings sets folder = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. Additive bindings could be applied before the folder exists. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_folder_iam_member.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_folder_iam_audit_config.default sets folder = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. The audit config could be applied before the folder exists. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_folder_iam_audit_config.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_logging_folder_sink.sink sets folder = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. Sinks could be created before the folder exists. (The existing depends_on on google_folder_iam_binding.authoritative does not cover this.) Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_logging_folder_exclusion.logging-exclusion sets folder = local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. Exclusions could be created before the folder exists. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_logging_folder_exclusion.logging-exclusion",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_org_policy_policy.default builds name and parent from local.folder.name, which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. Policies could be created against a folder that does not exist yet. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_tags_tag_binding.binding sets parent = \"//cloudresourcemanager.googleapis.com/${local.folder.id}\", which resolves to google_folder.folder[0] when folder_create is true, but no dependency on the folder resource is recorded. Tag bindings could be created before the folder exists. Remedy: depends_on = [google_folder.folder].",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

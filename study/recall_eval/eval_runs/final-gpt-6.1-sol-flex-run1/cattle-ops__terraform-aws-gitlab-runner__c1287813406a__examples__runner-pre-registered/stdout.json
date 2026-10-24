@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.file_permission must wait for :resource.local_file.private_ssh_key before chmod runs; the supplied graph contains no ordering edge (although the source shows a depends_on). Reference the created file's filename in the command.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": {
+        "field": "provisioner.local-exec.command",
+        "expression": "format(\"chmod 600 %s\", local_file.private_ssh_key.filename)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can start the runner before module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy grants its role permission to provision docker-machine instances. Wait for the attachment before launching the runner.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_iam_role_policy_attachment.ssm so startup token-management operations have their required SSM permissions when enabled.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_ssm_parameter.runner_registration_token. Otherwise user data can write the registration token before Terraform creates the placeholder parameter, causing a creation conflict or replacement of the token.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance should wait for module.runner:resource.aws_iam_role_policy.instance so the logging agent has its CloudWatch permissions at startup when logging is enabled.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

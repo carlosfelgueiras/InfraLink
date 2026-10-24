@@ -1,0 +1,38 @@
+{
+  "repo": "Azure__terraform-azurerm-caf-enterprise-scale",
+  "parent_sha": "4a0e61ce2f6230cbace76607901ec92ae458a183^",
+  "resolved_sha": "557a3fc134e3e7a76c85759950818aeed68df6d4",
+  "module_dir": ".",
+  "profile": "merged(min_runs=2): final-deepseek-v4.1-flash-1017-effort-high-run1,final-deepseek-v4.1-flash-1017-effort-high-run2,final-deepseek-v4.1-flash-1017-effort-high-run3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "Azure__terraform-azurerm-caf-enterprise-scale",
+      "pr_number": 870,
+      "pr_url": "https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/pull/870",
+      "commit_url": "https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/commit/4a0e61ce2f6230cbace76607901ec92ae458a183",
+      "commit_sha": "4a0e61ce2f6230cbace76607901ec92ae458a183",
+      "parent_sha": "4a0e61ce2f6230cbace76607901ec92ae458a183^",
+      "commit_subject": "Fix routing intent deployment issue in virtual wan (#870)",
+      "commit_date": "2023-11-22T15:33:47Z",
+      "file": "resources.virtual_wan.tf",
+      "module_dir": ".",
+      "holder_address": "azurerm_virtual_hub_routing_intent.virtual_wan",
+      "added_targets": [
+        "azurerm_firewall.virtual_wan"
+      ],
+      "pre_existing_targets": [
+        "azurerm_resource_group.connectivity",
+        "azurerm_resource_group.virtual_wan",
+        "azurerm_virtual_hub.virtual_wan",
+        "azurerm_virtual_wan.virtual_wan"
+      ],
+      "already_implicit": {
+        "azurerm_firewall.virtual_wan": false
+      },
+      "verify_error": null
+    }
+  ]
+}

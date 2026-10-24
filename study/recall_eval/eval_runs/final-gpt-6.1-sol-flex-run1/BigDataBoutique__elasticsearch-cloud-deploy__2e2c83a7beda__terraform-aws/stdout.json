@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.cluster_bootstrap_state must wait for :resource.aws_instance.bootstrap_node before writing the bootstrapped marker; otherwise it can mark the cluster bootstrapped before the bootstrap instance is created. The source declares this ordering, but it is absent from the supplied graph.",
+      "node": ":resource.null_resource.cluster_bootstrap_state",
+      "target": ":resource.aws_instance.bootstrap_node",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_instance_profile.elasticsearch should wait for :resource.aws_iam_role_policy.elasticsearch so instances using the profile cannot start discovery before the EC2 Describe permissions are attached. Referencing the role alone does not order policy attachment.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_instance_profile.elasticsearch should wait for :resource.aws_iam_role_policy.asg_discover when that policy is enabled, ensuring bootstrap instances receive Auto Scaling discovery permissions before launch. Both currently depend only on the role and can be created concurrently.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_instance_profile.elasticsearch should wait for :resource.aws_iam_role_policy.s3_backup when backups are enabled, so instances using the profile do not start without the configured S3 backup permissions. The role reference does not order attachment of this policy.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.s3_backup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.data_nodes lacks ordering on :resource.aws_autoscaling_group.master_nodes in the supplied graph, allowing data nodes to launch before the master group exists. Restore the master-before-data launch ordering declared in datas.tf; this orders infrastructure creation, not Elasticsearch application readiness.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

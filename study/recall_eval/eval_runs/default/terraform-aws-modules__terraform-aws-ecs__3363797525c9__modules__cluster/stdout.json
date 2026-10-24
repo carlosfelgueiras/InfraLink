@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_ecs_cluster_capacity_providers.this to :resource.aws_ecs_capacity_provider.this is redundant: the capacity provider name is derived from the configuration, and the relationship does not need an additional ordering edge beyond the cluster-name reference. However, explicit ordering may be intentional for AWS API readiness.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper does not depend on aws_cloudwatch_log_group.ami_housekeeper, but the log group must exist before the function is invoked: if Lambda is invoked while the Terraform-managed log group is absent, the Lambda service auto-creates a default /aws/lambda/<function_name> log group (no retention policy, default encryption, STANDARD class), and the subsequent create of aws_cloudwatch_log_group.ami_housekeeper then fails with ResourceAlreadyExistsException \u2014 so the intended retention_in_days, kms_key_id, and log_group_class settings are never applied. The current graph only has the reverse edge (the log group's name references aws_lambda_function.ami_housekeeper.function_name), which forces the function to be created first. A bare depends_on on the function would create a cycle with that name reference; the recommended fix is to compute the function name in a local (e.g. local.function_name = \"${var.prefix}-ami-housekeeper\"), use it for both the function_name and the log group name, and add depends_on = [aws_cloudwatch_log_group.ami_housekeeper] to the lambda function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "data.http.wait_for_cluster lists aws_eks_cluster.this in its explicit `depends_on`, but the dependency is already implicit: `url = format(\"%s/healthz\", aws_eks_cluster.this[0].endpoint)` and `ca_certificate = base64decode(...aws_eks_cluster.this[*].certificate_authority[0].data...)` both reference the cluster directly. The `depends_on` entry on aws_eks_cluster.this can be dropped (the aws_security_group_rule.cluster_private_access entry must stay, as nothing references it).",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers launches self-managed workers that can only register with the cluster once their IAM role is present in the aws-auth ConfigMap, yet the ASG has no ordering relationship to kubernetes_config_map.aws_auth (it depends only on the launch configuration and variables). The module already encodes this prerequisite for the other node-provisioning paths \u2014 `ng_depends_on` includes kubernetes_config_map.aws_auth, and `eks_depends_on` (Fargate) includes it too \u2014 so self-managed worker groups can come up before they are authorized to join the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template launches self-managed workers that can only register with the cluster once their IAM role is present in the aws-auth ConfigMap, yet it has no ordering relationship to kubernetes_config_map.aws_auth (it depends only on aws_launch_template.workers_launch_template and variables). The module already encodes this prerequisite for managed node groups (`ng_depends_on`) and Fargate (`eks_depends_on`), both of which include the aws-auth ConfigMap.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_fargate_profile.this is ordered only against `var.eks_depends_on` (cluster + aws-auth ConfigMap). Its `pod_execution_role_arn` resolves through local.pod_execution_role_arn to the aws_iam_role.eks_fargate_pod *role* only, so nothing orders the Fargate profiles after aws_iam_role_policy_attachment.eks_fargate_pod, which attaches the required AmazonEKSFargatePodExecutionRolePolicy. Profiles/pods created before that attachment exists fail to pull images and start. The root module closes the equivalent gap for workers by listing the worker policy attachments in the `depends_on` of aws_launch_configuration.workers / aws_launch_template.workers_launch_template.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In the supplied graph, :resource.null_resource.file_permission is not ordered after :resource.local_file.private_ssh_key. Its local-exec chmod uses only the filename variable, so it can run before the private-key file exists. Reference the file resource's filename to establish creation-before-chmod ordering.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": {
+        "field": "command",
+        "expression": "format(\"chmod 600 %s\", local_file.private_ssh_key.filename)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runner:data.template_file.gitlab_runner passes the SSM token parameter name through a local string, without depending on module.runner:resource.aws_ssm_parameter.runner_registration_token. The ASG can therefore boot and let user-data read or write the token before Terraform initializes the parameter to \"null\", causing a missing-parameter or competing-creation race. Use the managed parameter's name in the template variables to order the launch transitively.",
+      "node": "module.runner:data.template_file.gitlab_runner",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": {
+        "field": "vars",
+        "expression": "{\n  gitlab_runner_version = var.gitlab_runner_version\n  docker_machine_version = var.docker_machine_version\n  runners_config = data.template_file.runners.rendered\n  runners_executor = var.runners_executor\n  pre_install = var.userdata_pre_install\n  post_install = var.userdata_post_install\n  runners_gitlab_url = var.runners_gitlab_url\n  runners_token = var.runners_token\n  secure_parameter_store_runner_token_key = aws_ssm_parameter.runner_registration_token.name\n  secure_parameter_store_region = var.aws_region\n  gitlab_runner_registration_token = var.gitlab_runner_registration_config[\"registration_token\"]\n  giltab_runner_description = var.gitlab_runner_registration_config[\"description\"]\n  gitlab_runner_tag_list = var.gitlab_runner_registration_config[\"tag_list\"]\n  gitlab_runner_locked_to_project = var.gitlab_runner_registration_config[\"locked_to_project\"]\n  gitlab_runner_run_untagged = var.gitlab_runner_registration_config[\"run_untagged\"]\n  gitlab_runner_maximum_timeout = var.gitlab_runner_registration_config[\"maximum_timeout\"]\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runner2:data.template_file.gitlab_runner passes the SSM token parameter name through a local string, without depending on module.runner2:resource.aws_ssm_parameter.runner_registration_token. The ASG can therefore boot and let user-data read or write the token before Terraform initializes the parameter to \"null\", causing a missing-parameter or competing-creation race. Use the managed parameter's name in the template variables to order the launch transitively.",
+      "node": "module.runner2:data.template_file.gitlab_runner",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": {
+        "field": "vars",
+        "expression": "{\n  gitlab_runner_version = var.gitlab_runner_version\n  docker_machine_version = var.docker_machine_version\n  runners_config = data.template_file.runners.rendered\n  runners_executor = var.runners_executor\n  pre_install = var.userdata_pre_install\n  post_install = var.userdata_post_install\n  runners_gitlab_url = var.runners_gitlab_url\n  runners_token = var.runners_token\n  secure_parameter_store_runner_token_key = aws_ssm_parameter.runner_registration_token.name\n  secure_parameter_store_region = var.aws_region\n  gitlab_runner_registration_token = var.gitlab_runner_registration_config[\"registration_token\"]\n  giltab_runner_description = var.gitlab_runner_registration_config[\"description\"]\n  gitlab_runner_tag_list = var.gitlab_runner_registration_config[\"tag_list\"]\n  gitlab_runner_locked_to_project = var.gitlab_runner_registration_config[\"locked_to_project\"]\n  gitlab_runner_run_untagged = var.gitlab_runner_registration_config[\"run_untagged\"]\n  gitlab_runner_maximum_timeout = var.gitlab_runner_registration_config[\"maximum_timeout\"]\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:data.template_file.logging identifies the logging destination using only var.environment, so the bootstrap path has no dependency on module.runner:resource.aws_cloudwatch_log_group.environment. With logging enabled, the ASG may start its logging agent before the group exists, or the agent may auto-create the group and race Terraform. Derive the template's environment value from the managed group name, retaining the variable fallback when logging is disabled.",
+      "node": "module.runner:data.template_file.logging",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": {
+        "field": "vars",
+        "expression": "{ environment = element(concat(aws_cloudwatch_log_group.environment.*.name, list(var.environment)), 0) }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:data.template_file.logging identifies the logging destination using only var.environment, so the bootstrap path has no dependency on module.runner2:resource.aws_cloudwatch_log_group.environment. With logging enabled, the ASG may start its logging agent before the group exists, or the agent may auto-create the group and race Terraform. Derive the template's environment value from the managed group name, retaining the variable fallback when logging is disabled.",
+      "node": "module.runner2:data.template_file.logging",
+      "target": "module.runner2:resource.aws_cloudwatch_log_group.environment",
+      "fix": {
+        "field": "vars",
+        "expression": "{ environment = element(concat(aws_cloudwatch_log_group.environment.*.name, list(var.environment)), 0) }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance launches an active runner, but its instance-profile reference waits only for the role, not module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy. Order the ASG after this attachment so the runner cannot begin creating Docker Machine workers before its EC2 permissions are attached. This ordering does not itself guarantee IAM propagation has completed.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance launches an active runner, but its instance-profile reference waits only for the role, not module.runner2:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy. Order the ASG after this attachment so the runner cannot begin creating Docker Machine workers before its EC2 permissions are attached. This ordering does not itself guarantee IAM propagation has completed.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can launch and accept jobs before module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance grants its role access to the configured build cache. The shared role reference does not order the ASG after the attachment. Add that ordering to avoid initial cache authorization failures.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance can launch and accept jobs before module.runner2:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance grants its role access to the configured build cache. The shared role reference does not order the ASG after the attachment. Add that ordering to avoid initial cache authorization failures.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can execute the token-management user-data before module.runner:resource.aws_iam_role_policy_attachment.ssm grants SSM access. Referencing the instance profile does not wait for this separate policy attachment. With enable_manage_gitlab_token enabled, order instance launch after the attachment to avoid bootstrap authorization failures.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance can execute the token-management user-data before module.runner2:resource.aws_iam_role_policy_attachment.ssm grants SSM access. Referencing the instance profile does not wait for this separate policy attachment. With enable_manage_gitlab_token enabled, order instance launch after the attachment to avoid bootstrap authorization failures.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance is not ordered after module.runner:resource.aws_iam_role_policy_attachment.service_linked_role. This example enables Spot workers and service-linked-role creation permission; an initial worker request that needs to create the EC2 service-linked role can fail if the runner starts before that permission is attached. Order the ASG after the enabled attachment.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance is not ordered after module.runner2:resource.aws_iam_role_policy_attachment.service_linked_role. This example enables Spot workers and service-linked-role creation permission; an initial worker request that needs to create the EC2 service-linked role can fail if the runner starts before that permission is attached. Order the ASG after the enabled attachment.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance may start the CloudWatch logging bootstrap before module.runner:resource.aws_iam_role_policy.instance grants logging permissions. Both paths reference the IAM role, but neither orders instance launch after this separate inline policy. With logging enabled, wait for the policy before starting the ASG.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance may start the CloudWatch logging bootstrap before module.runner2:resource.aws_iam_role_policy.instance grants logging permissions. Both paths reference the IAM role, but neither orders instance launch after this separate inline policy. With logging enabled, wait for the policy before starting the ASG.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can start its docker+machine runner before module.runner:resource.aws_security_group_rule.docker_machine_ssh opens port 22 on worker instances. The user-data configuration references only the worker security group, not its separately managed rules. Order runner startup after this rule so initial worker provisioning has SSH connectivity.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_security_group_rule.docker_machine_ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance can start its docker+machine runner before module.runner2:resource.aws_security_group_rule.docker_machine_ssh opens port 22 on worker instances. The user-data configuration references only the worker security group, not its separately managed rules. Order runner startup after this rule so initial worker provisioning has SSH connectivity.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_security_group_rule.docker_machine_ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can start requesting workers before module.runner:resource.aws_security_group_rule.docker_machine_docker permits access to their Docker daemon on port 2376. Referencing the worker security group's name does not wait for this separate ingress rule. Gate runner startup on the rule to prevent initial Docker connection failures.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_security_group_rule.docker_machine_docker",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance can start requesting workers before module.runner2:resource.aws_security_group_rule.docker_machine_docker permits access to their Docker daemon on port 2376. Referencing the worker security group's name does not wait for this separate ingress rule. Gate runner startup on the rule to prevent initial Docker connection failures.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_security_group_rule.docker_machine_docker",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance can start provisioning workers before module.runner:resource.aws_security_group_rule.out_all enables their outbound traffic. The worker security group has no inline egress rule, and the configuration's group reference does not depend on the standalone egress rule. Order runner startup after out_all so initial workers can download packages and images.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_security_group_rule.out_all",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance can start provisioning workers before module.runner2:resource.aws_security_group_rule.out_all enables their outbound traffic. The worker security group has no inline egress rule, and the configuration's group reference does not depend on the standalone egress rule. Order runner startup after out_all so initial workers can download packages and images.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_security_group_rule.out_all",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

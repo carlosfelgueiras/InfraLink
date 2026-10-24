@@ -1,0 +1,91 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup uses var.controller_config.namespace, but that namespace is created inside :module.controller without any dependency from the cleanup service account. On a fresh apply the service account can be submitted before its namespace exists. Order the service account after module.controller; merely sharing the namespace input does not establish ordering.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.kubernetes_role_v1.zombie_runner_cleanup uses the controller namespace by input string and can be created concurrently with :module.controller, which creates that namespace. Order the Role after module.controller to prevent a namespace-not-found failure on initial creation.",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup depends on its service account but not on :resource.kubernetes_role_binding_v1.zombie_runner_cleanup. Its scheduled cleanup jobs require the pod and ephemeralrunner permissions granted by that binding. Order the CronJob after the binding so a job cannot start before its authorization is installed.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.scale_sets:resource.helm_release.gha_runner_scale_set passes the runner service-account name from var.service_account rather than referencing module.scale_sets:resource.kubernetes_service_account_v1.runner_sa. The controller can consequently launch runner pods before their service account exists. Reference the managed account in the rendered values. If the runner namespace is new, provision it independently before both resources rather than relying solely on this Helm release's create_namespace.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "values",
+        "expression": "[\n  templatefile(\n    \"${path.module}/template_files/${var.scale_set_type}.yml.tftpl\",\n    {\n      config_secret                = var.secret_name\n      max_runners                  = var.runner_size.max_runners\n      min_runners                  = var.runner_size.min_runners\n      runner_group_name            = var.runner_group_name\n      scale_set_name               = var.scale_set_name\n      container_limits_cpu         = var.container_limits_cpu\n      container_limits_memory      = var.container_limits_memory\n      container_requests_cpu       = var.container_requests_cpu\n      container_requests_memory    = var.container_requests_memory\n      volume_requests_storage_size = var.volume_requests_storage_size\n      volume_requests_storage_type = var.volume_requests_storage_type\n      container_ecr_registries     = var.container_ecr_registries\n      service_account              = kubernetes_service_account_v1.runner_sa[0].metadata[0].name\n      github_config_url            = local.github_config_url\n      controller_namespace         = var.controller.namespace\n      controller_service_account   = var.controller.service_account\n      container_actions_runner     = var.container_actions_runner\n      runner_role                  = aws_iam_role.runner_role.arn\n    }\n  )\n]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.scale_sets:resource.helm_release.gha_runner_scale_set can launch runner pods concurrently with module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity. EKS injects Pod Identity credential configuration when pods are created; pods launched before the association exists can lack that configuration and need recreation. Order the release after the association. Using the association's namespace also keeps the release and its credential association aligned.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": {
+        "field": "namespace",
+        "expression": "aws_eks_pod_identity_association.eks_pod_identity[0].namespace"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.scale_sets:resource.helm_release.gha_runner_scale_set references the runner IAM role, but this does not order it after module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment. Runners can start and attempt AWS operations while the role still lacks its configured managed policies. Make the release depend on completion of the policy attachments; waiting for role creation alone is insufficient.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In k8s mode, module.scale_sets:resource.helm_release.gha_runner_scale_set enables runners that create and manage Kubernetes job pods, but it does not wait for module.scale_sets:resource.kubernetes_role_binding.k8s to grant the runner service account those permissions. Order the release after the binding to avoid authorization failures for early jobs. Depending on the binding also orders its referenced Role; the binding has no instances in dind mode.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_role_binding.k8s",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.scale_sets:resource.kubernetes_config_map.hook_extension supplies the runner-hook pod specification, but module.scale_sets:resource.helm_release.gha_runner_scale_set has no dependency on it. The scale set can begin launching runners and hook jobs before that supporting ConfigMap is available. Order the release after the hook-extension ConfigMap; sharing var.scale_set_name does not establish a dependency.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_config_map.hook_extension",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.scale_sets:resource.kubernetes_config_map.hook_pre_post_job provides the runner job-started and job-completed scripts, but module.scale_sets:resource.helm_release.gha_runner_scale_set can be installed independently of it. Order the release after this supporting ConfigMap so early runner jobs do not encounter unavailable hook scripts.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_config_map.hook_pre_post_job",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

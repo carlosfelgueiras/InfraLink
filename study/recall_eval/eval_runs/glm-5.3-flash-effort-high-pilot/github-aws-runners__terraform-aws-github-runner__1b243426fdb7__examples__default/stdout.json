@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Uploading aws_s3_object.trigger during apply invokes the syncer Lambda via the S3 bucket notification (the object's key matches the notification's \"triggers/*.json\" filter), but nothing orders this invocation after aws_cloudwatch_log_group.syncer is created. The log group only depends on the Lambda (via its function_name), so it is a sibling of the trigger object rather than a predecessor. If the trigger fires the Lambda first, Lambda auto-creates the default log group without the configured retention_in_days/kms_key_id, causing Terraform's log group creation to fail with \"log group already exists\" or drift. Add depends_on = [aws_cloudwatch_log_group.syncer] to aws_s3_object.trigger.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_cloudwatch_log_group.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

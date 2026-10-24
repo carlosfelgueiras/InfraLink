@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.syncer configures vpc_config from var.lambda_subnet_ids/var.lambda_security_group_ids, but has no dependency on :resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role, which attaches the AWSLambdaVPCAccessExecutionRole policy granting the ec2 networking permissions (CreateNetworkInterface, etc.) Lambda needs to attach ENIs. If the function is created before the attachment propagates, function creation fails or the function cannot reach the VPC (\"Lambda was unable to configure your VPC\"). Nothing else in the graph orders the attachment before the function, so an explicit depends_on is required.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.syncer has no dependency on :resource.aws_iam_role_policy.lambda_logging, which grants the execution role CloudWatch Logs permissions (and embeds the log group ARN of aws_cloudwatch_log_group.syncer). There is no attribute reference or depends_on ordering the policy before the function, so the function can be created and invoked before the logging policy exists, losing early log output. This mirrors the provider-recommended pattern of depends_on = [aws_iam_role_policy_attachment.lambda_logs, aws_cloudwatch_log_group.example] on the function.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

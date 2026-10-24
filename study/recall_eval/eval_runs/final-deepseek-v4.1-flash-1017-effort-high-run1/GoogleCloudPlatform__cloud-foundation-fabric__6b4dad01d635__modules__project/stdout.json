@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_logging_project_exclusion.logging-exclusion` creates Cloud Logging exclusions in the project but has no dependency on `:resource.google_project_service.project_services`, so the exclusion can be attempted before logging.googleapis.com is enabled and fail. Its sibling `google_logging_project_sink.sink` in the same file correctly declares `depends_on = [google_project_service.project_services, ...]`, so this is an inconsistency/oversight; the dependency is not expressible through an attribute since the exclusion only takes name/project/filter.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_essential_contacts_contact.contact` creates Essential Contacts on the project without depending on `:resource.google_project_service.project_services`. The essentialcontacts.googleapis.com API is not enabled by default, and the module enables APIs from `var.services`; creating a contact before that API is active fails with a service-not-enabled error. No attribute reference expresses this (parent is built from `local.project.project_id`).",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` attaches the project as a Shared VPC service project but has no dependency on `:resource.google_project_service.project_services`. Attaching requires the Compute Engine API to be enabled in the service project, so the attach can race API activation. The mirror-image resource in the same file (`google_compute_shared_vpc_host_project.shared_vpc_host`) does declare `depends_on = [google_project_service.project_services]`; nothing in the service-project resource's `host_project`/`service_project` attributes can reference the enablement.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

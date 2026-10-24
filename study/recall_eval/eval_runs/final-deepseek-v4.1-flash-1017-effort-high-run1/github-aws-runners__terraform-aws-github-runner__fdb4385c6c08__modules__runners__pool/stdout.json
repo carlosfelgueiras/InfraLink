@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.pool is created with a vpc_config block whenever var.config.lambda.subnet_ids is non-empty, but it only references aws_iam_role.pool \u2014 nothing orders aws_iam_role_policy_attachment.pool_vpc_execution_role (gated by the exact same subnet_ids condition) before the function. Lambda must be able to call ec2:CreateNetworkInterface to attach ENIs at creation time, so without the AWSLambdaVPCAccessExecutionRole policy already attached the apply fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". Add depends_on = [aws_iam_role_policy_attachment.pool_vpc_execution_role] to aws_lambda_function.pool.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "All of aws_lambda_function.pool's core runtime permissions (SSM config/token parameters, EC2 runner lifecycle, tagging) live in the inline policy aws_iam_role_policy.pool, which the function does not depend on \u2014 it only references aws_iam_role.pool.arn. Terraform will therefore happily finish creating the pool Lambda (and let the scheduler or a manual invoke hit it) before the role's policy exists, producing AccessDenied errors on the first invocations. The aws_lambda_function documentation's \"ensure IAM role and log group are ready\" example handles exactly this with an explicit depends_on; aws_lambda_function.pool should depend on aws_iam_role_policy.pool.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool points target.role_arn at aws_iam_role.scheduler.arn and therefore waits for the role, but the lambda:InvokeFunction permission the target actually needs is in the separate inline policy aws_iam_role_policy.scheduler, which no edge orders before the schedule. Because the schedule uses flexible_time_window mode = \"OFF\" (an exact, immediately-active schedule_expression), the first fire can happen while the execution role still has no invoke permission, and the pool is never resized until the next scheduled run. Add depends_on = [aws_iam_role_policy.scheduler] to aws_scheduler_schedule.pool.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

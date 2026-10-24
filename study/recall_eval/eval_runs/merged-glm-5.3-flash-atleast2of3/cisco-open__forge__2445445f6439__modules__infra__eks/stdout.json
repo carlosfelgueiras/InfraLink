@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nIn the Calico-on-EKS install sequence the aws-node daemonset must be deleted only after the Tigera operator and the Calico Installation resource have been applied; otherwise aws-node may be recreated by kubelet before Calico takes over networking. null_resource.delete_daemonset currently only waits on null_resource.update_kubeconfig and can run before/parallel to the Calico apply steps.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nnull_resource.delete_daemonset runs `kubectl delete daemonset aws-node`, removing the AWS VPC CNI from the cluster. This must only happen after Calico is installed and able to take over pod networking \u2014 i.e. after the Tigera operator is applied and the Calico Installation resource is created. Currently it only depends on null_resource.update_kubeconfig (and module.eks), which guarantees cluster reachability but not that Calico is in place; deleting aws-node too early can leave nodes without pod networking.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

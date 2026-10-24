@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_router_peer.peer_0 references router appliance instances (router_appliance_instance = each.value.vm) via a different GCP API than the NCC spoke. BGP peers backed by router appliance instances require the VM to be registered as a linked router appliance instance on a Network Connectivity Center spoke first, so peer_0 must be created after google_network_connectivity_spoke.spoke-ra. There is no attribute reference connecting the two (the peer only sees var.router_appliances), so an explicit depends_on is needed; without it, parallel creation can make peer creation fail while the spoke is still being registered.",
+      "node": ":resource.google_compute_router_peer.peer_0",
+      "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_router_peer.peer_1 references router appliance instances (router_appliance_instance = each.value.vm) via a different GCP API than the NCC spoke. BGP peers backed by router appliance instances require the VM to be registered as a linked router appliance instance on a Network Connectivity Center spoke first, so peer_1 must be created after google_network_connectivity_spoke.spoke-ra. There is no attribute reference connecting the two (the peer only sees var.router_appliances), so an explicit depends_on is needed; without it, parallel creation can make peer creation fail while the spoke is still being registered.",
+      "node": ":resource.google_compute_router_peer.peer_1",
+      "target": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

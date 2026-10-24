@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_autoscaling_group.ng: explicit depends_on of :resource.aws_launch_template.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_eks_node_group.ng: explicit depends_on of :resource.aws_iam_role.ng is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.ng already depends on aws_launch_template.ng through its launch template ID and version references.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_launch_template.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.ng already depends transitively on aws_iam_role.ng through the launch template and instance profile (and through its policy attachments).",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_eks_node_group.ng already references aws_iam_role.ng in node_role_arn, making the explicit role dependency redundant.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "kubernetes_config_map.aws-auth already depends on aws_eks_cluster.cp transitively through its explicit aws_autoscaling_group.ng dependency and that group's cluster references.",
+      "node": ":resource.kubernetes_config_map.aws-auth",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "time_sleep.wait already depends on aws_eks_cluster.cp through the node groups and kubernetes_config_map.aws-auth.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_eks_cluster.cp",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "time_sleep.wait already depends on aws_autoscaling_group.ng through kubernetes_config_map.aws-auth's explicit dependency.",
+      "node": ":resource.time_sleep.wait",
+      "target": ":resource.aws_autoscaling_group.ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.albingress references only the IRSA role ARN; it can start the controller before aws_iam_role_policy_attachment.irsa grants its AWS permissions. Order the release after the attachment, for example by adding depends_on to the IRSA ARN output or depending on the whole irsa module.",
+      "node": "module.alb-ingress:resource.helm_release.albingress",
+      "target": "module.alb-ingress.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.appmesh references only the IRSA role ARN and can start the controller before aws_iam_role_policy_attachment.irsa grants its required AWS permissions. Make the IRSA ARN output depend on its attachments or depend on the whole irsa module.",
+      "node": "module.app-mesh:resource.helm_release.appmesh",
+      "target": "module.app-mesh.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.autoscaler can start before aws_iam_role_policy_attachment.irsa grants autoscaling permissions: referencing the role ARN does not wait for its policy attachments. Make the IRSA ARN output depend on attachments or depend on the whole irsa module.",
+      "node": "module.cluster-autoscaler:resource.helm_release.autoscaler",
+      "target": "module.cluster-autoscaler.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.containerinsights can start agents before aws_iam_role_policy_attachment.irsa grants logging permissions; the role ARN reference alone does not order policy attachment. Make the IRSA ARN output depend on attachments or depend on the whole irsa module.",
+      "node": "module.container-insights:resource.helm_release.containerinsights",
+      "target": "module.container-insights.module.irsa:resource.aws_iam_role_policy_attachment.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

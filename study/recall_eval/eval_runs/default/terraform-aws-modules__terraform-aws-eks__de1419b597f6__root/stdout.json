@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS cluster should wait for the cluster IAM role to be created before it is submitted. Its role_arn comes from a conditional local that can select an existing-role data source, so there is no reference to the managed role in this graph; when manage_cluster_iam_resources is enabled the cluster can race role creation.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker instances may launch before the worker-node IAM policy is attached. The Auto Scaling group depends on its launch configuration, but neither has an ordering dependency on this policy attachment; the node group path explicitly gates creation on worker policy attachments, indicating this readiness ordering matters.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template Auto Scaling group can launch worker instances before the worker-node IAM policy attachment is complete; no attribute reference or explicit dependency orders this ASG after the attachment.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

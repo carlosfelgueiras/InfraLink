@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit `depends_on = [google_dns_managed_zone.dns_managed_zone]` on `google_dns_record_set.dns_record_set` duplicates an implicit dependency that already exists: `name = each.value.resource_name` comes from `local.recordsets`, which is derived from `local.managed_zone.dns_name`, and `local.managed_zone` references `google_dns_managed_zone.dns_managed_zone[0]`. Terraform builds this edge statically from the local's expression regardless of which conditional branch is taken, so the record sets are already guaranteed to be created after the managed zone. The `depends_on` can be dropped.",
+      "node": ":resource.google_dns_record_set.dns_record_set",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

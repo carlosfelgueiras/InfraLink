@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_logging_folder_sink.sink` explicitly orders itself after `google_folder_iam_binding.authoritative` (logging.tf: `depends_on = [google_folder_iam_binding.authoritative]`) so that folder-level IAM is settled before sinks are created, but the keyed authoritative bindings in `google_folder_iam_binding.bindings` are not covered. Nothing in the graph connects the sink to that resource (sink's only implicit dep is `var.logging_sinks`; the binding's `folder = local.folder.name` gives no edge to the sink), so a parallel apply can create the sinks before these folder IAM bindings exist. The same `depends_on` should list `google_folder_iam_binding.bindings`.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The same folder-IAM-before-sinks ordering declared in logging.tf (`depends_on = [google_folder_iam_binding.authoritative]`) also needs to cover the additive folder IAM members in `google_folder_iam_member.bindings`. The graph shows no edge between `google_logging_folder_sink.sink` (implicit dep: `var.logging_sinks` only) and `google_folder_iam_member.bindings`, so sinks can be created concurrently with those members and observe a folder whose IAM has not yet been applied.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

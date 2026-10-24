@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\ngoogle_logging_organization_settings.default creates organization-level logging configuration (needs logging.configWriter at the org), but has no ordering against the org IAM bindings that this module may create. Its sibling google_logging_organization_sink.sink does depend on these IAM resources. It should depend on google_organization_iam_binding.authoritative so IAM grants are in place first.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\ngoogle_logging_organization_settings.default creates/updates organization-level logging settings, which requires the same organization-scope roles/permissions that the module grants via its google_organization_iam_binding resources. Its sibling google_logging_organization_sink.sink in logging.tf explicitly depends_on these IAM bindings for exactly this reason, but this resource does not, so its creation can race ahead of the permission grants. No attribute reference establishes this ordering (its inputs come from var.logging_settings / locals), so it must be modeled explicitly.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

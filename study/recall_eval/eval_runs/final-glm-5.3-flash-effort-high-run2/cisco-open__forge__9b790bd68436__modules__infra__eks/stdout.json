@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.helm_release.karpenter (the Karpenter controller) has no ordering relationship with aws_eks_addon.eks_pod_identity_agent, even though module.karpenter creates a Pod Identity Association (create_pod_identity_association = true) whose service-account credentials can only be mounted by the Pod Identity Agent. The aws_eks_addon resources and the helm_release sit on disjoint dependency chains (the addons wait behind module.self_managed_node_group; the helm release waits behind null_resource.wait_for_cluster/module.karpenter), so Terraform may deploy the Karpenter chart before the agent add-on is active, leaving the controller unable to assume its IAM role until the agent eventually installs.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

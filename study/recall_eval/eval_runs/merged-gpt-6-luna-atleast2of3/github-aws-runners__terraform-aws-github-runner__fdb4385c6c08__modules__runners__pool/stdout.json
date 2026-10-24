@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Lambda function can be created before its inline execution policy is installed, so an immediate invocation may run without the permissions defined by the policy. Make the function wait for this role policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function should wait for its execution-role inline policy before it can be invoked; otherwise the function (and its schedule) can become available while the permissions needed by the handler are not yet attached.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen the Lambda function is configured for VPC access, its execution role needs the VPC access policy before the function is invoked so Lambda can manage the required network interfaces. The function and this attachment currently depend only on the role, so the attachment can be created later.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function should wait for its logging policy attachment so its execution role has CloudWatch Logs permissions before the function is created or invoked; the role ARN reference alone does not order this attachment ahead of Lambda creation.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe schedule references the Scheduler role but not its inline invoke policy, so it can become enabled before the role is authorized to invoke the Lambda. Make the schedule wait for this policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe schedule can be created and enabled before the scheduler role's inline invoke policy is attached. It should wait for :resource.aws_iam_role_policy.scheduler so that EventBridge Scheduler has permission to invoke the Lambda when the schedule first fires.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe schedule can become active and invoke the Lambda as soon as it is created, but it does not depend on the scheduler role's inline policy granting lambda:InvokeFunction. Ensure that policy is installed before creating the schedule to avoid invocations failing due to missing or not-yet-propagated permissions.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

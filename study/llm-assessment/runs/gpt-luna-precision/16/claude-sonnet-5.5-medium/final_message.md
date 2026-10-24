@@ -1,0 +1,3 @@
+Granting roles/compute.viewer is a project IAM operation. It does not need the compute API to be enabled, because IAM role bindings on a project work without it. Predefined roles like this one are always grantable. The only plausible issue is teardown ordering. On destroy, the services could be disabled before the IAM member is removed. That does not break the removal, because the IAM API (cloudresourcemanager) is not one of the services being disabled in a way that blocks it. The authoritative binding's `depends_on` is there mainly to cover custom roles and the case where a service (such as one that creates service agents) must exist first. No real ordering requirement exists for this member.
+
+Incorrect

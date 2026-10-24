@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.local_file.kubeconfig` writes the credentials file that consumers (and the `kubeconfig`/`kubeconfig_filename` outputs, which deliberately wait on `data.http.wait_for_cluster`) are meant to use only once the cluster API is actually reachable. The file itself only derives from cluster attributes via `local.kubeconfig`, so it is written as soon as the control plane exists, not when it is ready \u2014 the polling gate `data.http.wait_for_cluster` is never ordered before it. Adding the wait data source to its `depends_on` (or otherwise ordering it after the readiness probe) closes the gap.",
+      "node": ":resource.local_file.kubeconfig",
+      "target": ":data.http.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:data.http.wait_for_cluster` lists `:resource.aws_eks_cluster.this` in its `depends_on`, but its own `url`/`ca_certificate` attributes already reference `aws_eks_cluster.this[0].endpoint` and `aws_eks_cluster.this[*].certificate_authority[0].data`, which establishes the same ordering implicitly (see the graph's implicit_deps). The `depends_on` entry for the cluster is therefore duplicative; only the `aws_security_group_rule.cluster_private_access` entry carries information the references don't.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The iam_project_id output is intended to wait for IAM bindings, but it does not depend on google_project_iam_member.additive. Its source instead names the nonexistent google_project_iam_member.non_authoritative. Replace that stale dependency with google_project_iam_member.additive so consumers wait for the additive grants too.",
+      "node": ":output.iam_project_id",
+      "target": ":resource.google_project_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_binding.authoritative receives role names through var.iam_roles without depending on google_project_iam_custom_role.roles. When those names identify custom roles created here, bindings can be applied before the roles exist or roles deleted before their bindings. Resolve matching names through the custom-role resources to establish ordering.",
+      "node": ":resource.google_project_iam_binding.authoritative",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "lookup({ for r in google_project_iam_custom_role.roles : r.name => r.name }, each.value, each.value)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_project_iam_member.additive receives role names through its input-derived map without depending on google_project_iam_custom_role.roles. When an additive grant uses a custom role created here, Terraform can create the grant before that role exists or delete the role before removing the grant. Resolve matching names through the custom-role resources.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "lookup({ for r in google_project_iam_custom_role.roles : r.name => r.name }, each.value.role, each.value.role)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

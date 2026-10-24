@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The lambda function only depends on the IAM role itself (via `role = aws_iam_role.ami_housekeeper.arn`), not on the VPC execution policy attachment. When `vpc_config` is set (subnet/SG ids provided), AWS validates at CreateFunction time that the execution role can manage network interfaces; if `AWSLambdaVPCAccessExecutionRole` has not finished attaching (IAM is eventually consistent), function creation fails with an error about the role not having permissions to call CreateNetworkInterface/DescribeNetworkInterfaces on EC2. The lambda function should be ordered after the role policy attachment.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Both the event target and the lambda permission depend only on the rule and the function, so they can be created in any order. The aws_cloudwatch_event_target docs note that an aws_lambda_permission is required for EventBridge to invoke the function; if the target is registered on an enabled rule before the permission resource exists, the schedule can fire and the invocation is rejected with AccessDenied. Ordering the target after the lambda permission (permission without a target is inert) closes the race.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

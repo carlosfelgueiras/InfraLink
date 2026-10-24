@@ -1,0 +1,310 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [aws_eks_cluster.this[0]]` on null_resource.wait_for_cluster is redundant: the resource already depends on aws_eks_cluster.this implicitly through its local-exec provisioner's `environment` map (ENDPOINT = aws_eks_cluster.this[0].endpoint), which the graph records as an implicit dependency. The explicit depends_on can be removed.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "data.null_data_source.node_groups references kubernetes_config_map.aws_auth[*].id in its inputs (\"aws_auth = coalescelist(kubernetes_config_map.aws_auth[*].id, [\\\"\\\"])[0]\"). This reference is the heart of the ordering hack: the data source must not be \"unlocked\" (and thus node groups must not be created) until the aws-auth ConfigMap exists so worker nodes can join the cluster. The graph records no dependency on the config map, so the hack is inert.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.null_data_source.node_groups references aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy[*].id in its inputs (\"role_NodePolicy\") specifically so that node groups are only created after the workers' AmazonEKSWorkerNodePolicy attachment exists. The graph shows no such dependency, so EKS node groups could be created (and worker nodes launched) before the worker node policy is attached, and nodes would fail to join the cluster.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.null_data_source.node_groups references aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy[*].id in its inputs (\"role_CNI_Policy\") so node groups are created only after the CNI policy is attached to the worker role. The graph records no dependency, so node groups (and their nodes, which need the CNI policy to network) could be created before the attachment exists.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "data.null_data_source.node_groups references aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly[*].id in its inputs (\"role_Container\") so node groups are created only after the ECR read-only policy is attached to the worker role. The graph records no dependency, so node groups could be created before the attachment exists and their nodes would be unable to pull images.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_launch_template.workers_launch_template sets iam_instance_profile.name = coalescelist(aws_iam_instance_profile.workers_launch_template.*.name, data.aws_iam_instance_profile.custom_worker_group_launch_template_iam_instance_profile.*.name)[count.index]. The graph shows no dependency on the managed instance profile, so the launch template could be created before the instance profile exists.",
+      "node": ":resource.aws_launch_template.workers_launch_template",
+      "target": ":resource.aws_iam_instance_profile.workers_launch_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.this sets vpc_config.security_group_ids = compact([local.cluster_security_group_id]), and local.cluster_security_group_id = var.cluster_create_security_group ? join(\\\"\\\", aws_security_group.cluster.*.id) : var.cluster_security_group_id. The graph shows no dependency on the managed cluster security group, so the EKS cluster could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.cluster_egress_internet sets security_group_id = local.cluster_security_group_id, which resolves to aws_security_group.cluster[0].id when cluster_create_security_group is true. The graph shows no dependency on the cluster security group, so the rule could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_security_group_rule.cluster_egress_internet",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.cluster_https_worker_ingress sets security_group_id = local.cluster_security_group_id, which resolves to aws_security_group.cluster[0].id when cluster_create_security_group is true. The graph shows no dependency on the cluster security group, so the rule could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_security_group_rule.cluster_https_worker_ingress",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.cluster_https_worker_ingress sets source_security_group_id = local.worker_security_group_id, which resolves to aws_security_group.workers[0].id when worker_create_security_group is true. The graph shows no dependency on the workers security group, so the rule could be created before the source security group exists.",
+      "node": ":resource.aws_security_group_rule.cluster_https_worker_ingress",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_egress_internet sets security_group_id = local.worker_security_group_id, which resolves to aws_security_group.workers[0].id when worker_create_security_group is true. The graph shows no dependency on the workers security group, so the rule could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_security_group_rule.workers_egress_internet",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_self sets security_group_id = local.worker_security_group_id and source_security_group_id = local.worker_security_group_id, which resolve to aws_security_group.workers[0].id when worker_create_security_group is true. The graph shows no dependency on the workers security group, so the rule could be created before the security group exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_self",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_cluster sets security_group_id = local.worker_security_group_id, which resolves to aws_security_group.workers[0].id when worker_create_security_group is true. The graph shows no dependency on the workers security group, so the rule could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_cluster",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_cluster sets source_security_group_id = local.cluster_security_group_id, which resolves to aws_security_group.cluster[0].id when cluster_create_security_group is true. The graph shows no dependency on the cluster security group, so the rule could be created before the source security group exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_cluster",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_cluster_kubelet sets security_group_id = local.worker_security_group_id, which resolves to aws_security_group.workers[0].id when worker_create_security_group is true. The graph shows no dependency on the workers security group, so the rule could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_cluster_kubelet",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_cluster_kubelet sets source_security_group_id = local.cluster_security_group_id, which resolves to aws_security_group.cluster[0].id when cluster_create_security_group is true. The graph shows no dependency on the cluster security group, so the rule could be created before the source security group exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_cluster_kubelet",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_cluster_https sets security_group_id = local.worker_security_group_id, which resolves to aws_security_group.workers[0].id when worker_create_security_group is true. The graph shows no dependency on the workers security group, so the rule could be created before the security group it attaches to exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_cluster_https",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_security_group_rule.workers_ingress_cluster_https sets source_security_group_id = local.cluster_security_group_id, which resolves to aws_security_group.cluster[0].id when cluster_create_security_group is true. The graph shows no dependency on the cluster security group, so the rule could be created before the source security group exists.",
+      "node": ":resource.aws_security_group_rule.workers_ingress_cluster_https",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_launch_configuration.workers sets security_groups = flatten([local.worker_security_group_id, ...]), and local.worker_security_group_id = var.worker_create_security_group ? join(\\\"\\\", aws_security_group.workers.*.id) : var.worker_security_group_id. The graph shows no dependency on the workers security group, so the launch configuration could be created before the security group its instances join exists.",
+      "node": ":resource.aws_launch_configuration.workers",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_launch_template.workers_launch_template sets network_interfaces.security_groups = flatten([local.worker_security_group_id, ...]), and local.worker_security_group_id = var.worker_create_security_group ? join(\\\"\\\", aws_security_group.workers.*.id) : var.worker_security_group_id. The graph shows no dependency on the workers security group, so the launch template could be created before the security group its instances join exists.",
+      "node": ":resource.aws_launch_template.workers_launch_template",
+      "target": ":resource.aws_security_group.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker autoscaling group launches EC2 instances that assume aws_iam_role.workers; the nodes can only join the EKS cluster once AmazonEKSWorkerNodePolicy is attached to that role. The graph (and the config) order the ASG after the role only via the launch configuration/instance-profile chain; nothing orders it after aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy, so on a fresh apply instances can boot before the policy is attached and fail to register with the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker nodes need AmazonEKS_CNI_Policy attached to their IAM role for pod networking (the aws-node DaemonSet). The graph shows no ordering between aws_autoscaling_group.workers and aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy, so instances can boot before the CNI policy is attached and fail to join/network.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker nodes need AmazonEC2ContainerRegistryReadOnly attached to their IAM role to pull container images from ECR. The graph shows no ordering between aws_autoscaling_group.workers and aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly, so instances can boot before the ECR policy is attached and fail to pull images.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch-template worker autoscaling group launches EC2 instances that assume aws_iam_role.workers; the nodes can only join the EKS cluster once AmazonEKSWorkerNodePolicy is attached to that role. Nothing orders aws_autoscaling_group.workers_launch_template after aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy, so instances can boot before the policy is attached and fail to register with the cluster.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker nodes need AmazonEKS_CNI_Policy attached to their IAM role for pod networking. Nothing orders aws_autoscaling_group.workers_launch_template after aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy, so instances can boot before the CNI policy is attached and fail to join/network.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker nodes need AmazonEC2ContainerRegistryReadOnly attached to their IAM role to pull images from ECR. Nothing orders aws_autoscaling_group.workers_launch_template after aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly, so instances can boot before the ECR policy is attached and fail to pull images.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.node_groups gets its cluster_name argument from data.null_data_source.node_groups, which is the module's only ordering mechanism (\"Hack to ensure ordering of resource creation. Do not create node_groups before other resources are ready.\"). The graph shows no dependency from the module to this data source, so the EKS node groups (aws_eks_node_group.workers) could be created in parallel with \u2014 or before \u2014 the cluster and its auth/IAM setup are ready, causing node group creation to fail or race. Idiomatic fix: the module's cluster_name argument should be wired to the data source, e.g. cluster_name = coalescelist(data.null_data_source.node_groups[*].outputs[\"cluster_name\"], [\"\"])[0].",
+      "node": ":module.node_groups",
+      "target": ":data.null_data_source.node_groups",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy sets role = local.cluster_iam_role_name, which resolves to aws_iam_role.cluster[0].name when manage_cluster_iam_resources is true. The graph shows no dependency on the cluster IAM role, so the policy attachment could be applied before the role exists (the AttachRolePolicy call would fail), and aws_eks_cluster.this's depends_on on this attachment would not actually guarantee an attached role at cluster creation time. Fix: make the reference direct, e.g. role = var.manage_cluster_iam_resources ? aws_iam_role.cluster[0].name : var.cluster_iam_role_name.",
+      "node": ":resource.aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy",
+      "target": ":resource.aws_iam_role.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_role_policy_attachment.cluster_AmazonEKSServicePolicy sets role = local.cluster_iam_role_name, which resolves to aws_iam_role.cluster[0].name when manage_cluster_iam_resources is true. The graph shows no dependency on the cluster IAM role, so the policy attachment could be applied before the role exists. Fix: make the reference direct, e.g. role = var.manage_cluster_iam_resources ? aws_iam_role.cluster[0].name : var.cluster_iam_role_name.",
+      "node": ":resource.aws_iam_role_policy_attachment.cluster_AmazonEKSServicePolicy",
+      "target": ":resource.aws_iam_role.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_instance_profile.workers sets role = lookup(var.worker_groups[count.index], \"iam_role_id\", local.default_iam_role_id), where local.default_iam_role_id = concat(aws_iam_role.workers.*.id, [\"\"])[0]. The graph shows no dependency on aws_iam_role.workers, so the instance profile could be created before the worker role exists, which fails profile creation and leaves launch configurations/ASGs without a usable profile. Fix: inline the local, e.g. role = lookup(var.worker_groups[count.index], \"iam_role_id\", aws_iam_role.workers[0].id).",
+      "node": ":resource.aws_iam_instance_profile.workers",
+      "target": ":resource.aws_iam_role.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_iam_instance_profile.workers_launch_template sets role = lookup(var.worker_groups_launch_template[count.index], \"iam_role_id\", local.default_iam_role_id), where local.default_iam_role_id = concat(aws_iam_role.workers.*.id, [\"\"])[0]. The graph shows no dependency on aws_iam_role.workers, so the instance profile could be created before the worker role exists. Fix: inline the local, e.g. role = lookup(var.worker_groups_launch_template[count.index], \"iam_role_id\", aws_iam_role.workers[0].id).",
+      "node": ":resource.aws_iam_instance_profile.workers_launch_template",
+      "target": ":resource.aws_iam_role.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_launch_configuration.workers sets iam_instance_profile = coalescelist(aws_iam_instance_profile.workers.*.id, data.aws_iam_instance_profile.custom_worker_group_iam_instance_profile.*.name)[count.index]. The graph shows no dependency on the managed instance profile, so the launch configuration (and consequently the worker ASGs) could be created before the instance profile exists. Fix: keep the direct reference to aws_iam_instance_profile.workers[*].id in the iam_instance_profile argument (or add depends_on = [aws_iam_instance_profile.workers]).",
+      "node": ":resource.aws_launch_configuration.workers",
+      "target": ":resource.aws_iam_instance_profile.workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_cluster.this sets role_arn = local.cluster_iam_role_arn, which resolves to aws_iam_role.cluster[0].arn when manage_cluster_iam_resources is true. The graph shows no dependency on the cluster IAM role, so the cluster could be created before its IAM role exists (cluster creation would fail), and the cluster's depends_on on the policy attachments would not help since those attachments themselves are not ordered after the role. Fix: inline the local, e.g. role_arn = var.manage_cluster_iam_resources ? aws_iam_role.cluster[0].arn : data.aws_iam_role.custom_cluster_iam_role[0].arn.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

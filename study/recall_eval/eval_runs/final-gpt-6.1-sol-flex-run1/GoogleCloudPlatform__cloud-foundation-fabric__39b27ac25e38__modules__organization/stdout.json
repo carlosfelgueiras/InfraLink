@@ -1,0 +1,175 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The value of :output.custom_role_id already references :resource.google_organization_iam_custom_role.roles; its explicit dependency duplicates that reference.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_organization_iam_binding.authoritative can bind organization custom roles named in its input, but must wait for :resource.google_organization_iam_custom_role.roles to create those roles.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_organization_iam_member.additive can grant custom roles named in its inputs without waiting for :resource.google_organization_iam_custom_role.roles to create them. Order these grants after role creation.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_organization_iam_policy.authoritative can apply bindings containing locally created custom roles, but has no ordering dependency on :resource.google_organization_iam_custom_role.roles. Wait for role creation before applying the policy.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_organization_iam_audit_config.config transitively through google_org_policy_policy.default.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_audit_config.config",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_organization_iam_binding.authoritative through google_org_policy_policy.default and tag resources.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_organization_iam_custom_role.roles through google_org_policy_policy.default.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_organization_iam_member.additive through google_org_policy_policy.default and tag resources.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_organization_iam_policy.authoritative through google_org_policy_policy.default and tag resources.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_policy.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_tags_tag_key.default through google_tags_tag_key_iam_binding.default and google_tags_tag_value.default.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.id already depends on :resource.google_tags_tag_value.default through google_tags_tag_value_iam_binding.default.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_organization_iam_audit_config.config through google_org_policy_policy.default.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_audit_config.config",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_organization_iam_binding.authoritative through google_org_policy_policy.default and tag resources.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_organization_iam_custom_role.roles through google_org_policy_policy.default.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_organization_iam_member.additive through google_org_policy_policy.default and tag resources.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_organization_iam_policy.authoritative through google_org_policy_policy.default and tag resources.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_policy.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_tags_tag_key.default through google_tags_tag_key_iam_binding.default and google_tags_tag_value.default.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.organization_id already depends on :resource.google_tags_tag_value.default through google_tags_tag_value_iam_binding.default.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.scale_up` can be created with its dynamic `vpc_config` before `aws_iam_role_policy_attachment.scale_up_vpc_execution_role` has attached `AWSLambdaVPCAccessExecutionRole`; Lambda VPC creation needs the execution role to have EC2 ENI permissions already, so this ordering should be made explicit.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.scale_down` can be created with its dynamic `vpc_config` before `aws_iam_role_policy_attachment.scale_down_vpc_execution_role` has attached `AWSLambdaVPCAccessExecutionRole`; Lambda VPC creation needs the execution role to have EC2 ENI permissions already, so this ordering should be made explicit.",
+      "node": ":resource.aws_lambda_function.scale_down",
+      "target": ":resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.ssm_housekeeper` can be created with its dynamic `vpc_config` before `aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role` has attached `AWSLambdaVPCAccessExecutionRole`; Lambda VPC creation needs the execution role to have EC2 ENI permissions already, so this ordering should be made explicit.",
+      "node": ":resource.aws_lambda_function.ssm_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.job_retry.module.job_retry:resource.aws_lambda_function.main` can be created with its dynamic `vpc_config` before `module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role` has attached `AWSLambdaVPCAccessExecutionRole`; Lambda VPC creation needs the execution role to have EC2 ENI permissions already, so this ordering should be made explicit.",
+      "node": "module.job_retry.module.job_retry:resource.aws_lambda_function.main",
+      "target": "module.job_retry.module.job_retry:resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.pool:resource.aws_lambda_function.pool` can be created with its dynamic `vpc_config` before `module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role` has attached `AWSLambdaVPCAccessExecutionRole`; Lambda VPC creation needs the execution role to have EC2 ENI permissions already, so this ordering should be made explicit.",
+      "node": "module.pool:resource.aws_lambda_function.pool",
+      "target": "module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_event_source_mapping.scale_up` can be created before `aws_iam_role_policy.scale_up` grants the Lambda execution role permission to receive/delete messages from the SQS queue; event source mapping creation can fail until that role policy exists.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.job_retry:resource.aws_lambda_event_source_mapping.job_retry` can be created before `module.job_retry:resource.aws_iam_role_policy.job_retry` grants the Lambda execution role permission to receive/delete messages from the retry SQS queue; event source mapping creation can fail until that role policy exists.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_iam_role_policy.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_event_source_mapping.scale_up` may be created before `aws_lambda_permission.scale_runners_lambda`; the SQS invoke permission for the function is not guaranteed to exist first, leaving a window where the event source mapping cannot invoke the function.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_lambda_permission.scale_runners_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.job_retry:resource.aws_lambda_event_source_mapping.job_retry` may be created before `module.job_retry:resource.aws_lambda_permission.job_retry`; the SQS invoke permission for the retry function is not guaranteed to exist first, leaving a window where the event source mapping cannot invoke the function.",
+      "node": "module.job_retry:resource.aws_lambda_event_source_mapping.job_retry",
+      "target": "module.job_retry:resource.aws_lambda_permission.job_retry",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.scale_down` may be created, and the scheduled rule may fire, before `aws_lambda_permission.scale_down` grants EventBridge permission to invoke the function; the target should be ordered after the invoke permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudwatch_event_target.ssm_housekeeper` may be created, and the scheduled rule may fire, before `aws_lambda_permission.ssm_housekeeper` grants EventBridge permission to invoke the function; the target should be ordered after the invoke permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.pool:resource.aws_scheduler_schedule.pool` may be enabled and fire before `module.pool:resource.aws_iam_role_policy.scheduler` grants the scheduler execution role `lambda:InvokeFunction`; the schedule should be ordered after that role policy.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

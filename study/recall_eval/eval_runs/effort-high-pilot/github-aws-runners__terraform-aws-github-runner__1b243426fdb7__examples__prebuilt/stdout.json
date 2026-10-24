@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target `module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` can be registered before `module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer` grants EventBridge permission to invoke the Lambda. Add an explicit ordering dependency so the target is not active before its invocation permission exists.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target `module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` can be registered before `module.runners.module.runners:resource.aws_lambda_permission.scale_down` grants EventBridge permission to invoke the Lambda. Add an explicit ordering dependency so the target is not active before its invocation permission exists.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target `module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` can be registered before `module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool` grants EventBridge permission to invoke the Lambda. Add an explicit ordering dependency so the target is not active before its invocation permission exists.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `lambda_subnet_ids` is configured, `module.runners.module.runner_binaries:resource.aws_lambda_function.syncer` may be created before `module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role` grants the execution role the VPC networking permissions Lambda requires. Ensure the VPC execution policy attachment is in place before creating the function.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `lambda_subnet_ids` is configured, `module.runners.module.runners:resource.aws_lambda_function.scale_down` may be created before `module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role` grants the execution role the VPC networking permissions Lambda requires. Ensure the VPC execution policy attachment is in place before creating the function.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `lambda_subnet_ids` is configured, `module.runners.module.runners:resource.aws_lambda_function.scale_up` may be created before `module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role` grants the execution role the VPC networking permissions Lambda requires. Ensure the VPC execution policy attachment is in place before creating the function.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `lambda_subnet_ids` is configured, `module.runners.module.runners.module.pool:resource.aws_lambda_function.pool` may be created before `module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role` grants the execution role the VPC networking permissions Lambda requires. Ensure the VPC execution policy attachment is in place before creating the function.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `lambda_subnet_ids` is configured, `module.runners.module.webhook:resource.aws_lambda_function.webhook` may be created before `module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role` grants the execution role the VPC networking permissions Lambda requires. Ensure the VPC execution policy attachment is in place before creating the function.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

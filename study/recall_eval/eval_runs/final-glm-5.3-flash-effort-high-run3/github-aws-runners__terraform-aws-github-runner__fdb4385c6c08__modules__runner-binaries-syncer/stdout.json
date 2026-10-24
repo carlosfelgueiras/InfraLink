@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When var.lambda_subnet_ids is non-empty, aws_lambda_function.syncer is created with vpc_config, which requires the execution role to already have VPC networking permissions (AWSLambdaVPCAccessExecutionRole, attached by aws_iam_role_policy_attachment.syncer_vpc_execution_role). The lambda function only depends on the role itself and the var.lambda_subnet_ids variable, not on the attachment, so Terraform may create the function before the policy attachment is applied, causing CreateNetworkInterface permission failures or failed ENI provisioning. Follow the provider-documented pattern and add a depends_on from the lambda function to the VPC execution-role policy attachment.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer registers the syncer Lambda as a target of aws_cloudwatch_event_rule.syncer, which is created with state = var.state_event_rule_binaries_syncer (default \"ENABLED\"). Per the AWS provider docs, the Lambda must have an aws_lambda_permission granting events.amazonaws.com invoke rights before the target can be invoked successfully. The target currently depends only on the rule and the lambda function; aws_lambda_permission.syncer can be applied after the target, so a scheduled event firing in between fails with AccessDenied. Add an explicit depends_on of the target on the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_organization_settings.default creates organization-level logging configuration (needs logging.configWriter at the org), but has no ordering against the org IAM bindings that this module may create. Its sibling google_logging_organization_sink.sink does depend on these IAM resources. It should depend on google_organization_iam_binding.authoritative so IAM grants are in place first.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_organization_settings.default creates organization-level logging configuration and should be ordered after the authoritative IAM bindings the module creates (google_organization_iam_binding.bindings) so that granted logging permissions are effective before the resource is created.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_organization_settings.default should be ordered after the additive IAM members the module creates (google_organization_iam_member.bindings) so any logging permissions granted there are effective before creating the org logging settings.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint creates an organization-level org-policy custom constraint (needs orgpolicy.policyAdmin at the org) but has no ordering against the org IAM bindings. Its sibling google_org_policy_policy.default depends on these IAM resources. It should depend on google_organization_iam_binding.authoritative so the permission grants exist first.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint should be ordered after the authoritative IAM bindings (google_organization_iam_binding.bindings) that the module creates, so orgpolicy permissions granted there are in place before the custom constraint is created.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_org_policy_custom_constraint.constraint should be ordered after the additive IAM members (google_organization_iam_member.bindings) the module creates, so orgpolicy permissions granted there are effective before creating the custom constraint.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

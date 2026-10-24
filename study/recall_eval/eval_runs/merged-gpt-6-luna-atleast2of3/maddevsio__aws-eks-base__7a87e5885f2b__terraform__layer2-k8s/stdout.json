@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe ELK Helm chart configures PVCs with `storageClassName: advanced`, but `:resource.helm_release.elk` has no ordering dependency on the Kubernetes StorageClass. Ensure the class exists before Helm creates the claims to avoid transient pending claims or Helm readiness timeouts.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ELK chart creates persistent volumes using storage class advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Loki chart configures persistent storage with `storageClassName: advanced`, but `:resource.helm_release.loki_stack` does not depend on the Kubernetes StorageClass. Ordering the class first avoids a race when Helm creates the PVC.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Loki chart configures persistent storage with storageClassName advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Prometheus chart configures persistent storage with `storageClassName: advanced`, but `:resource.helm_release.prometheus_operator` does not depend on the Kubernetes StorageClass. Create the class before Helm creates its PVCs to avoid a readiness race.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Prometheus chart configures persistent volumes with storageClassName advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe VictoriaMetrics chart configures persistent storage with `storageClassName: advanced`, but `:resource.helm_release.victoria_metrics_k8s_stack` has no ordering dependency on the Kubernetes StorageClass.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe VictoriaMetrics chart configures persistent volumes with storageClassName advanced. Create the Kubernetes storage class before deploying the chart to avoid PVC provisioning/readiness failures.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe chart configures persistent volumes with storageClassName `advanced`, provided by :resource.kubernetes_storage_class.advanced. The Helm release should wait for that StorageClass to exist before creating its PVCs.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe ELK chart's Elasticsearch and Kibana workloads refer to the `elastic-credentials` Kubernetes Secret, but the release has no dependency ensuring that the Secret exists before Helm starts those workloads.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ELK Helm chart references this secret for Elasticsearch credentials; ensure the secret is created before installing the release so chart workloads do not start while the required secret is absent.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ELK Helm chart references the elastic-credentials Kubernetes Secret in its pod configuration, but the release has no ordering dependency on its creation. Ensure the Secret exists before installing the chart so its workloads do not start with a missing credential.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe ELK chart's Elasticsearch and Kibana workloads mount `elastic-certificates`, but the Helm release can start before this Secret is created. Add ordering so the referenced Secret is present when workloads are installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ELK Helm chart mounts this certificates secret for Elasticsearch and Kibana; ensure it exists before installing the release.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ELK Helm chart mounts the elastic-certificates Kubernetes Secret, but the release has no ordering dependency on its creation. Ensure the Secret exists before installing the chart so Elasticsearch/Kibana workloads can start with their required TLS material.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Elasticsearch chart configuration uses the `elasticsearch-s3-user-creds` Secret for its S3 keystore, but `:resource.helm_release.elk` does not wait for that Secret before installing the chart.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ELK Helm chart consumes this S3 credentials secret; ensure it exists before installing the release.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ELK Helm chart references the elasticsearch-s3-user-creds Kubernetes Secret for its S3 configuration, but the release has no ordering dependency on the Secret's creation.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Kibana chart configuration references the `kibana-encryption-key` Secret, but `:resource.helm_release.elk` has no dependency ensuring the Secret is created before the workloads are installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ELK Helm chart configures Kibana to consume this encryption-key secret; ensure it exists before installing the release.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ELK Helm chart references the kibana-encryption-key Kubernetes Secret, but the release has no ordering dependency on its creation. Ensure the key is present before Kibana starts.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service creates a Shared VPC service-project association via the Compute API in this (service) project, but unlike its siblings (google_compute_shared_vpc_host_project.shared_vpc_host, google_compute_shared_vpc_service_project.service_projects, google_compute_project_metadata_item.default) it has no depends_on google_project_service.project_services. It can therefore be applied before compute.googleapis.com is enabled on the project, failing the apply. Add depends_on = [google_project_service.project_services] (no clean attribute-based data reference exists, since service_project is the project id from local.project, not from project_services).",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_identity_cmek has an explicit depends_on google_project.project, but its member is built from local.service_accounts_robots -> local.project.number, whose conditional (var.project_create ? google_project.project.0.number : data.google_project.project.0.number) already establishes an attribute-based edge to google_project.project. The depends_on entry is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_identity_cmek has an explicit depends_on data.google_project.project, but its member (local.service_accounts_robots) resolves local.project.number, whose non-create branch already references data.google_project.project.0.number, so the ordering is already implied by attribute reference and the depends_on is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

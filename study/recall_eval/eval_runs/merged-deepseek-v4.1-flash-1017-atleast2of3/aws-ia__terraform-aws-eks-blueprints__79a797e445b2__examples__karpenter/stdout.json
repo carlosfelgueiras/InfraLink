@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nkubectl_manifest.karpenter_provisioner creates a Karpenter Provisioner whose spec.providerRef.name is the literal string \"default\", which refers to the AWSNodeTemplate named \"default\" created by kubectl_manifest.karpenter_node_template. Because that reference is just text inside the yaml_body heredoc, Terraform infers no ordering between the two resources \u2014 both only depend on module.eks_blueprints_kubernetes_addons and can be applied concurrently, so the Provisioner can be reconciled before its provider template exists. karpenter_provisioner should depend on karpenter_node_template (e.g. via an explicit depends_on, since no clean attribute on the node_template is available to reference).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`kubectl_manifest.karpenter_provisioner` applies a Karpenter `Provisioner` whose `spec.providerRef.name` is `default`, i.e. it references the `AWSNodeTemplate` named `default` that is created by `kubectl_manifest.karpenter_node_template`. Karpenter cannot launch nodes for this provisioner until that AWSNodeTemplate exists, so the provisioner must be applied after the node template. Currently the provisioner only declares a dependency on `module.eks_blueprints_kubernetes_addons` and has no dependency (implicit or `depends_on`) on `kubectl_manifest.karpenter_node_template`, so both CR objects can be applied concurrently / in the wrong order.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nkubectl_manifest.karpenter_provisioner defines a Provisioner whose spec sets `providerRef: { name: default }`, i.e. it references the AWSNodeTemplate named \"default\" that is created by kubectl_manifest.karpenter_node_template. The graph only records a dependency on module.eks_blueprints_kubernetes_addons (needed for the Karpenter CRDs), so Terraform is free to apply the Provisioner before the AWSNodeTemplate exists. Karpenter then cannot resolve its provider (`default`), the Provisioner never becomes usable and nodes are never provisioned. It must be ordered after kubectl_manifest.karpenter_node_template (e.g. `depends_on = [kubectl_manifest.karpenter_node_template]`).",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

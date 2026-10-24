@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When var.iam grants a custom role created by google_organization_iam_custom_role.roles, google_organization_iam_binding.authoritative must wait for that role to exist. Its role names come from map keys rather than role-resource references, so Terraform can otherwise attempt the binding before role creation.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When additive grants use custom roles created by google_organization_iam_custom_role.roles, google_organization_iam_member.additive must wait for those roles. The role strings derived from input variables do not establish this ordering.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the authoritative policy includes custom roles created by google_organization_iam_custom_role.roles, google_organization_iam_policy.authoritative must wait for their creation. The policy document is built from input role strings and has no dependency on the custom-role resources.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

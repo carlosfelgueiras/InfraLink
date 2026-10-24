@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.main with a dynamic vpc_config (set when var.lambda.subnet_ids is non-empty) requires the execution role to already carry the AWSLambdaVPCAccessExecutionRole permissions \u2014 AWS validates the role's ENI permissions at CreateFunction time. aws_iam_role_policy_attachment.vpc_execution_role attaches that policy, but the lambda function has no dependency on it; with IAM's eventual consistency the function creation can race ahead of the attachment and fail (or the policy may not be in effect when the function goes live). Add an explicit depends_on (the role ARN reference only orders the role itself, not its policy attachment).",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.main is created BEFORE aws_cloudwatch_log_group.main: the log group's name references aws_lambda_function.main.function_name, which forces log-group creation to happen after the function. If the function writes logs before Terraform creates the log group, the Lambda service auto-creates /aws/lambda/<function_name> itself (with default retention), and the subsequent creation of aws_cloudwatch_log_group.main then fails with ResourceAlreadyExistsException. The provider docs recommend the opposite order (\"Ensure log group exists before function\"). Note that a bare depends_on alone would cycle with the existing name reference \u2014 the log group name should be derived from var.lambda (e.g. \"/aws/lambda/${var.lambda.prefix}-${var.lambda.name}\", which is exactly how function_name is built) so the lambda function can depend on the pre-existing log group.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.main has no dependency on aws_iam_role_policy.lambda_logging, which grants the execution role permission to write to aws_cloudwatch_log_group.main (CreateLogStream/PutLogEvents on that log group's ARN). The role ARN reference only orders the role itself, not the inline policy, so the function can go live before its logging permissions are in place \u2014 the first invocations can fail to emit logs (and IAM policy propagation makes this worse). An explicit depends_on on the logging policy is the standard remedy.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "When X-Ray tracing is enabled (var.lambda.tracing_config.mode set), aws_lambda_function.main runs in Active tracing mode but aws_iam_role_policy.xray (which grants the execution role the xray:* permissions) is not ordered before the function \u2014 the function only depends on the role itself, not on this inline policy. The X-Ray permissions should be attached before the function is created so traces can be emitted as soon as the function is live.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

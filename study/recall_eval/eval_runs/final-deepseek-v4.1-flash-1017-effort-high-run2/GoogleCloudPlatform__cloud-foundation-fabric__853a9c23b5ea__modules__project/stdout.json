@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project to a Shared VPC host as a service project, which requires the Compute Engine API (compute.googleapis.com) to be enabled on the service project first. Unlike its sibling `google_compute_shared_vpc_host_project.shared_vpc_host` (which has `depends_on = [google_project_service.project_services]`), this resource has no `depends_on` and references only the project id via `local.project.project_id`, never `google_project_service.project_services`. It can therefore run before the API is enabled and fail. Add an explicit `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

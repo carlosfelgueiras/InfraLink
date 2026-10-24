@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster already depends on :resource.aws_eks_cluster.this through its url and ca_certificate expressions. Its explicit depends_on entry for the cluster adds no ordering and can be removed; retain the dependency on the private-access rule.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.fargate:resource.aws_eks_fargate_profile.this is not ordered after module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod. Referencing the execution role does not ensure AmazonEKSFargatePodExecutionRolePolicy is attached before Fargate uses it, or retained until the profile is deleted. Add the attachment to the profile's depends_on.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster does not wait for :resource.aws_security_group_rule.cluster_private_access_sg_source. When the Terraform runner reaches the private Kubernetes endpoint using one of the configured source security groups, the health check can start before its ingress permission exists. Include this rule in the health check's depends_on.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access_sg_source",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_eks_cluster.this waits for the managed cluster policies but not :resource.aws_iam_role_policy_attachment.cluster_elb_sl_role_creation. This attachment supplies control-plane permissions for ELB provisioning; without an ordering edge it is not guaranteed to be installed before the cluster is exposed to consumers or retained throughout cluster teardown. Include it with the other cluster IAM policy dependencies.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_elb_sl_role_creation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers waits for the three standard worker policies but not :resource.aws_iam_role_policy_attachment.workers_additional_policies. For groups using the default worker role, additional permissions can therefore be attached after nodes start or detached before their workloads finish draining. Add this attachment collection to the parent module's ng_depends_on list, as already done for the self-managed workers.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_additional_policies",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers has no ordering dependency on :resource.aws_security_group_rule.workers_egress_internet. When a managed group uses the module-created launch template and worker security group, nodes need this egress permission for bootstrapping and ongoing API/image access. Include the rule in the parent's ng_depends_on list so it is installed before node provisioning and retained until node-group deletion finishes.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_egress_internet",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers is not ordered after :resource.aws_security_group_rule.workers_ingress_self. Managed groups using the custom launch template's worker security group require this rule for node/pod communication; the security group ID alone does not wait for its rules. Include this rule in the parent's ng_depends_on list to preserve connectivity throughout provisioning and teardown.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_ingress_self",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers does not depend on :resource.aws_security_group_rule.workers_ingress_cluster. For managed groups using the custom launch template's worker security group, this rule supplies control-plane-to-worker connectivity, but can currently be created after nodes launch or removed during draining. Include it in the parent's ng_depends_on list, matching the ordering used for self-managed workers.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_ingress_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers has no dependency on :resource.aws_security_group_rule.workers_ingress_cluster_kubelet. When worker_sg_ingress_from_port exceeds 10250, this separate rule provides the control plane's kubelet access for managed nodes using the custom worker security group. Include it in the parent's ng_depends_on list so that access is established before provisioning and retained through deletion.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_ingress_cluster_kubelet",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers does not wait for :resource.aws_security_group_rule.workers_ingress_cluster_https. For managed nodes using the custom worker security group, extension API servers/webhooks on port 443 depend on this control-plane ingress rule. Add it to the parent's ng_depends_on list so these workloads do not lose access before node-group draining completes, consistent with self-managed worker ordering.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_ingress_cluster_https",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers is not ordered after :resource.aws_security_group_rule.workers_ingress_cluster_primary. When primary-security-group interoperability is enabled and managed nodes use the custom worker security group, this rule permits traffic from Fargate/primary-group workloads. Include it in the parent's ng_depends_on list to establish connectivity before nodes run and keep it until node-group teardown completes.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_ingress_cluster_primary",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.node_groups:resource.aws_eks_node_group.workers does not depend on :resource.aws_security_group_rule.cluster_primary_ingress_workers. When primary-security-group interoperability is enabled, managed nodes using the custom worker security group need this rule to reach Fargate/primary-group workloads. Include it in the parent's ng_depends_on list, as for self-managed workers, so connectivity is ready before node provisioning and maintained through draining.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_security_group_rule.cluster_primary_ingress_workers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

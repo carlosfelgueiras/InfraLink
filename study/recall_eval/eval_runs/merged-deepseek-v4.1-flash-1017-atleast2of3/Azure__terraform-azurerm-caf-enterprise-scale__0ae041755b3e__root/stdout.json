@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nazapi_resource.diag_settings publishes diagnostic settings whose workspaceId is derived only from a plain string (local.template_file_variables.log_analytics_workspace_resource_id), so Terraform has no ordering edge to azurerm_log_analytics_workspace.management. When deploy_management_resources is true this module creates that workspace; without a dependency the diagnostic settings (and the DDOS/diag policies) can be applied before the destination Log Analytics workspace exists. Add a dependency (e.g. depends_on) on azurerm_log_analytics_workspace.management.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nazapi_resource.diag_settings sends its diagnostic logs to `workspaceId = local.template_file_variables.log_analytics_workspace_resource_id`, which is only a string derived from module outputs (no resource reference is created). Its depends_on only covers the Management Group hierarchy and time_sleep.after_azurerm_management_group, so the subscription/tenant-level diagnostic setting can be created before azurerm_log_analytics_workspace.management exists and the Azure API call will fail. It must be ordered after the Log Analytics workspace (which in turn follows azurerm_resource_group.management).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nazapi_resource.diag_settings creates a diagnostic setting whose `workspaceId` is `local.template_file_variables.log_analytics_workspace_resource_id`, i.e. the Log Analytics workspace managed by azurerm_log_analytics_workspace.management, but it only depends on the management groups and time_sleep.after_azurerm_management_group. Nothing orders it after the workspace, so the diagnostic setting can be applied before the workspace exists and fail with a not-found workspace.",
+      "node": ":resource.azapi_resource.diag_settings",
+      "target": ":resource.azurerm_log_analytics_workspace.management",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

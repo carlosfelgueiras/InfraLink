@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`null_resource.delete_daemonset` removes the `aws-node` (VPC CNI) DaemonSet, but it only depends on `module.eks` and `null_resource.update_kubeconfig`. It should run only after Calico has been installed via `null_resource.create_calico_installation` (Tigera operator applied and the `Installation` CR created); otherwise the order is non-deterministic and the AWS VPC CNI can be torn down before Calico takes over, leaving pods without networking. Nothing in the graph constrains delete_daemonset after the Calico install chain, so add an explicit `depends_on = [null_resource.create_calico_installation]` (no clean data reference exists for this ordering).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`null_resource.delete_daemonset` removes the aws-node (AWS VPC CNI) daemonset from kube-system, but it only depends on `null_resource.update_kubeconfig` and `module.eks` \u2014 nothing ties it to `null_resource.create_calico_installation`. With Calico as the CNI, removing aws-node before Calico is actually installed/available leaves pods without working networking (and new nodes unable to register). The delete must be ordered after the Calico Installation is created; no attribute reference or depends_on currently expresses that.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.null_resource.delete_daemonset` deletes the `aws-node` VPC-CNI daemonset, which is only safe once the replacement Calico CNI is actually installed by `:resource.null_resource.create_calico_installation`. The two resources share no ordering edge (both only fan in on the kubeconfig/cluster), so Terraform may delete `aws-node` first and leave nodes with no working CNI.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ calico_installation_id = null_resource.create_calico_installation.id }"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

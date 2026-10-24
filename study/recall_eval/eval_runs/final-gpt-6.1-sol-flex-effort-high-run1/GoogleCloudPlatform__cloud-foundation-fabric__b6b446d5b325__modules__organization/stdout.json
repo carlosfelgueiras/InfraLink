@@ -1,0 +1,175 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_org_policy_policy.default already depends on google_organization_iam_binding.authoritative transitively through google_tags_tag_value.default \u2192 google_tags_tag_key.default. This explicit depends_on entry duplicates that ordering.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_org_policy_policy.default already depends on google_organization_iam_binding.bindings transitively through google_tags_tag_value.default \u2192 google_tags_tag_key.default. This explicit depends_on entry duplicates that ordering.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_org_policy_policy.default already depends on google_organization_iam_member.bindings transitively through google_tags_tag_value.default \u2192 google_tags_tag_key.default. This explicit depends_on entry duplicates that ordering.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_org_policy_policy.default explicitly depends on google_tags_tag_value.default, whose parent references google_tags_tag_key.default. Its separate depends_on entry for google_tags_tag_key.default is therefore redundant.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_org_policy_custom_constraint.constraint through google_org_policy_policy.default; the direct depends_on entry duplicates that transitive dependency.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_organization_iam_binding.authoritative through google_org_policy_policy.default (and the tag resources); the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_organization_iam_binding.bindings through google_org_policy_policy.default (and the tag resources); the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_organization_iam_custom_role.roles through google_org_policy_policy.default; its separate depends_on entry for the custom roles adds no ordering.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already waits for google_organization_iam_member.bindings through google_org_policy_policy.default (and the tag resources); the direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already depends on google_tags_tag_key.default through google_tags_tag_key_iam_binding.default and through google_tags_tag_value.default; its direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.id already depends on google_tags_tag_value.default through google_tags_tag_value_iam_binding.default and google_org_policy_policy.default; its direct depends_on entry is redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already waits for google_org_policy_custom_constraint.constraint through google_org_policy_policy.default; the direct depends_on entry duplicates that transitive dependency.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_org_policy_custom_constraint.constraint",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already waits for google_organization_iam_binding.authoritative through google_org_policy_policy.default (and the tag resources); the direct depends_on entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already waits for google_organization_iam_binding.bindings through google_org_policy_policy.default (and the tag resources); the direct depends_on entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already waits for google_organization_iam_member.bindings through google_org_policy_policy.default (and the tag resources); the direct depends_on entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already waits for google_organization_iam_custom_role.roles through google_org_policy_policy.default; its separate depends_on entry for the custom roles adds no ordering.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already depends on google_tags_tag_key.default through google_tags_tag_key_iam_binding.default and through google_tags_tag_value.default; its direct depends_on entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "output.organization_id already depends on google_tags_tag_value.default through google_tags_tag_value_iam_binding.default and google_org_policy_policy.default; its direct depends_on entry is redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "output.custom_role_id exposes manually constructed role IDs but has no dependency on google_organization_iam_custom_role.roles in the supplied graph. iam.tf explicitly tells callers to use this output to ensure custom roles exist, yet consumers currently receive no creation-order guarantee. Add depends_on = [google_organization_iam_custom_role.roles] to the output, preserving the deliberately plan-known ID strings used as map keys.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

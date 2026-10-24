@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.time_sleep.wait_30_seconds waits only for role creation, so its delay can expire before :resource.aws_iam_role_policy.splunk_integration finishes attaching the integration's inventory permissions. Add this policy to the timer's depends_on so the downstream enabled Splunk integration starts only after policy creation and the intended propagation delay.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.time_sleep.wait_30_seconds does not wait for :resource.aws_iam_role_policy.splunk_managed_policy. The downstream integration enables use_metric_streams_sync, which requires the CloudWatch Metric Streams and iam:PassRole permissions supplied by this policy. Add this policy to the timer's depends_on so its propagation delay begins after those permissions are attached.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

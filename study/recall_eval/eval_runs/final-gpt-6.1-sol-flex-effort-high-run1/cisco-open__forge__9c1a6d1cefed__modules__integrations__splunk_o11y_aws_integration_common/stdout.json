@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "time_sleep.wait_30_seconds should depend on aws_iam_role_policy.splunk_integration so the delay begins after the integration's inventory permissions are attached. Currently the policy and sleep can run concurrently after role creation, allowing signalfx_aws_integration.integration to become enabled before these permissions are installed or have had the intended propagation delay. Make the sleep wait for both inline policies; policy-hash triggers also rerun the delay when permissions change.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": {
+        "field": "triggers",
+        "expression": "{\n  splunk_integration_policy = sha256(aws_iam_role_policy.splunk_integration.policy)\n  splunk_managed_policy     = sha256(aws_iam_role_policy.splunk_managed_policy.policy)\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "time_sleep.wait_30_seconds should depend on aws_iam_role_policy.splunk_managed_policy so the delay starts after the metric-stream permissions are attached. signalfx_aws_integration.integration enables use_metric_streams_sync, whose documented requirements include the CloudWatch metric-stream actions and iam:PassRole provided by this policy. Waiting only for the role allows the delay to finish and the integration to activate before this policy is ready. Make the sleep wait for both inline policies; policy-hash triggers also rerun the delay when permissions change.",
+      "node": ":resource.time_sleep.wait_30_seconds",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": {
+        "field": "triggers",
+        "expression": "{\n  splunk_integration_policy = sha256(aws_iam_role_policy.splunk_integration.policy)\n  splunk_managed_policy     = sha256(aws_iam_role_policy.splunk_managed_policy.policy)\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

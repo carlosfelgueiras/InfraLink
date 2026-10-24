@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency is redundant: the distribution's origin domain_name is derived from local.bucket_domain_name, which depends on local.bucket and therefore aws_s3_bucket.origin.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The distribution can become active while its origin bucket policy is not yet attached. Since the policy grants the access CloudFront needs to retrieve origin objects, make the distribution wait for aws_s3_bucket_policy.default so it is ready when the distribution is deployed; CloudFront provisioning can take time to reach its deployed state.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

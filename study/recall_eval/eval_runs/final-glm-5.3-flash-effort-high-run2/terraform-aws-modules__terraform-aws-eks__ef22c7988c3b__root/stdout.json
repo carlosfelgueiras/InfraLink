@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this references only the IAM role itself (node_role_arn = aws_iam_role.this[0].arn) but has no ordering guarantee against aws_iam_role_policy_attachment.this. EKS node groups require AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy and AmazonEC2ContainerRegistryReadOnly to be attached to the node role; because IAM policy attachment is eventually consistent, creating the node group concurrently with the attachments can leave nodes unable to join (or the API rejecting the role). The AWS provider docs explicitly recommend depends_on on the role policy attachments for aws_eks_node_group. In the default configuration the launch template's depends_on covers this indirectly, but when create_launch_template = false the EKS default launch template is used and no chain exists. Note: no data-reference fix is offered because node_role_arn must keep pointing at the role, not an attachment.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_fargate_profile.this references only the IAM role itself (pod_execution_role_arn = aws_iam_role.this[0].arn) but has no ordering guarantee against aws_iam_role_policy_attachment.this, which attaches AmazonEKSFargatePodExecutionRolePolicy (and the CNI policy). Unlike the node-group modules there is no launch template (or other resource) whose depends_on could indirectly establish this ordering, so the Fargate profile can be created while the pod execution role still has no permissions, causing pods scheduled onto Fargate to fail with Access Denied until propagation completes. This matches the module's own convention: the cluster and both launch templates explicitly gate on their role policy attachments. No data-reference fix applies since pod_execution_role_arn must reference the role, not the attachment.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

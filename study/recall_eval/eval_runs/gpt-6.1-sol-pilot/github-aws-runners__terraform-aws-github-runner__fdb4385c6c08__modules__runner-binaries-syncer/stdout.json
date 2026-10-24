@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.syncer must wait for aws_iam_role_policy_attachment.syncer_vpc_execution_role when VPC subnets are configured. Referencing the role alone does not ensure its ENI-management permissions are attached before Lambda creates its VPC networking, and removal must occur after function deletion.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_object.trigger immediately invokes the syncer through S3, but does not wait for aws_iam_role_policy.syncer. The initial synchronization can run before its S3 access policy exists; make the trigger wait for this policy.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_object.trigger can invoke the function before aws_iam_role_policy.lambda_logging is installed (and before its dependent log group is ready). Wait for the logging policy before uploading the deployment trigger to avoid losing initial invocation logs.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When a customer KMS key is configured, aws_s3_object.trigger can invoke the syncer before aws_iam_role_policy.lambda_kms grants access to that key, causing the initial encrypted distribution upload to fail. Order the trigger after this conditional policy.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, aws_s3_object.trigger can invoke the function before aws_iam_role_policy.syncer_lambda_xray grants tracing permissions. Wait for this conditional policy before emitting the initial invocation event.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer_lambda_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer can activate scheduled invocations before aws_lambda_permission.syncer permits EventBridge to invoke the function. Order target creation after the permission to avoid a window of denied scheduled invocations.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

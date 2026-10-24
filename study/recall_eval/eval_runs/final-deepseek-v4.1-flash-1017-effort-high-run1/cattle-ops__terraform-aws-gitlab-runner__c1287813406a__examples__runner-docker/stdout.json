@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "local_file.public_ssh_key has an explicit depends_on on tls_private_key.ssh, but its `content` already references tls_private_key.ssh.public_key_openssh, so the dependency (including destroy ordering) is already inferred implicitly. The depends_on is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "local_file.private_ssh_key has an explicit depends_on on tls_private_key.ssh, but its `content` already references tls_private_key.ssh.private_key_pem, so the dependency (including destroy ordering) is already inferred implicitly. The depends_on is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_launch_configuration.gitlab_runner_instance carries the runner's user_data, which registers the runner and then stores the token into the SSM SecureString parameter named by local.secure_parameter_store_runner_token_key. The SSM parameter (aws_ssm_parameter.runner_registration_token) is only referenced by name string, so nothing guarantees it exists before the instance boots. If the instance's user-data writes the token first and the Terraform-managed parameter (value = \"null\") is created afterward, it overwrites the token and breaks the runner. The launch configuration should depend on the SSM parameter.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner's user_data accesses SSM (get/put the runner token) when enable_manage_gitlab_token is true, which requires the SSM access policy to be attached to the instance role. aws_iam_role_policy_attachment.ssm attaches to aws_iam_role.instance in parallel with the instance profile, and the launch configuration waits only on the profile, so an instance can boot before the SSM policy is attached. The launch configuration should depend on the ssm policy attachment.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner's user_data includes the CloudWatch logging config (data.template_file.logging) that targets the log group named var.environment, which is created by aws_cloudwatch_log_group.environment. That resource is referenced only by the environment name string, so nothing orders the launch configuration (and thus the instance launch) after the log group. The launch configuration should depend on the CloudWatch log group so it exists before the instance begins writing logs.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

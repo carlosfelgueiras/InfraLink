@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "CloudTrail should wait for the bucket policy to be installed before creating the trail; the AWS provider documentation's CloudTrail example explicitly orders the trail after its S3 bucket policy, and the bucket-name reference alone does not provide that ordering.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS module provisions worker instances and their EBS volumes, so it should wait until the account's default EBS encryption setting is enabled; otherwise volumes may be created before the setting takes effect.",
+      "node": ":module.eks",
+      "target": ":resource.aws_ebs_encryption_by_default.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge module creates targets for the SNS topic, but it only references the topic ARN, not the topic policy. SNS must grant EventBridge publish permission before the targets can deliver events; order the module after the policy resource.",
+      "node": ":module.eventbridge",
+      "target": ":resource.aws_sns_topic_policy.security_alerts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

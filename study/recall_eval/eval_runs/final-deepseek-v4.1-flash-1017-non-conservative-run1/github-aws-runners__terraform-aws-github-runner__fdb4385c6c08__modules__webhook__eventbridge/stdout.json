@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EventBridge target for the dispatcher can become active and invoke the Lambda function before the Lambda resource-based invoke permission has been created. EventBridge requires aws_lambda_permission for Lambda targets, so aws_cloudwatch_event_target.dispatcher should depend on aws_lambda_permission.allow_cloudwatch_to_call_lambda.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The webhook output only exports the Lambda, log group, and role. The API Gateway consumer can therefore create its integration and attempt to invoke the webhook Lambda before aws_lambda_permission.webhook (the required resource-based invoke permission) exists. The output should include aws_lambda_permission.webhook so module consumers wait for it.",
+      "node": ":output.webhook",
+      "target": ":resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the dispatcher Lambda is configured for VPC access, Lambda needs the AWSLambdaVPCAccessExecutionRole permissions to create network interfaces during function creation. The function currently depends only on the IAM role, not on aws_iam_role_policy_attachment.dispatcher_vpc_execution_role, so the attachment can race with Lambda creation.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the webhook Lambda is configured for VPC access, Lambda needs the AWSLambdaVPCAccessExecutionRole permissions to create network interfaces during function creation. The function currently depends only on the IAM role, not on aws_iam_role_policy_attachment.webhook_vpc_execution_role, so the attachment can race with Lambda creation.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

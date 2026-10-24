@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Output \"dataset\" exposes the dataset resource downstream but does not wait for the separate dataset-access resources to be applied (its sibling outputs dataset_id/id/self_link all do). When var.dataset_access is false, consumers using module.*.dataset can act before access grants exist; add google_bigquery_dataset_access.domain to the output's depends_on.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.domain",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Output \"dataset\" does not wait for google_bigquery_dataset_access.group_by_email to be applied, unlike the sibling outputs dataset_id/id/self_link, so downstream consumers can read the dataset before its group access grants exist.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.group_by_email",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Output \"dataset\" does not wait for google_bigquery_dataset_access.special_group to be applied, unlike the sibling outputs dataset_id/id/self_link, so downstream consumers can read the dataset before its special-group access grants exist.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.special_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Output \"dataset\" does not wait for google_bigquery_dataset_access.user_by_email to be applied, unlike the sibling outputs dataset_id/id/self_link, so downstream consumers can read the dataset before its user access grants exist.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.user_by_email",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Output \"dataset\" does not wait for google_bigquery_dataset_access.views to be applied, unlike the sibling outputs dataset_id/id/self_link. Downstream modules that authorize views from this dataset rely on these access entries existing first.",
+      "node": ":output.dataset",
+      "target": ":resource.google_bigquery_dataset_access.views",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

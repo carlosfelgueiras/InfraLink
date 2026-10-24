@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service associates this project as a Shared VPC service project, but has no dependency on google_project_service.project_services. Every other resource in the module that operates on project-level services (shared_vpc_host, google_compute_project_metadata_item, google_project_service_identity, the default service account data sources) waits on the API-enablement resource via depends_on; this one could attempt the association before services like compute.googleapis.com are enabled, especially on a fresh project creation.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

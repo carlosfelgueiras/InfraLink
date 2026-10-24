@@ -1,0 +1,139 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.wait_for_cluster already depends implicitly on aws_eks_cluster.this through the ENDPOINT environment variable in its local-exec provisioner. Its explicit depends_on entry for the cluster duplicates that ordering and can be removed.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.workers already depends on var.ng_depends_on transitively through random_pet.node_groups, which is referenced by node_group_name and explicitly depends on that variable. The node group's own depends_on entry for var.ng_depends_on duplicates this ordering.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": "module.node_groups:var.ng_depends_on",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch worker instances before workers_AmazonEKSWorkerNodePolicy is attached. Referencing the launch configuration and instance profile does not wait for the role's policy attachments. Order the ASG after this attachment so worker-node AWS permissions are available at bootstrap and remain attached until the ASG is destroyed.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch workers before workers_AmazonEKS_CNI_Policy is attached. The instance profile does not establish ordering on this separate attachment. When the module manages CNI permissions, create the attachment before launching workers so aws-node can initialize pod networking.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch workers before workers_AmazonEC2ContainerRegistryReadOnly is attached. The launch configuration's instance-profile reference does not wait for this attachment, allowing initial pulls of EKS system images from ECR to race with permission setup. Order the ASG after the attachment.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch worker instances before workers_AmazonEKSWorkerNodePolicy is attached. Its launch-template and instance-profile references do not wait for policy attachments. Order the ASG after this attachment so worker-node AWS permissions exist during bootstrap and remain until ASG destruction.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch workers before workers_AmazonEKS_CNI_Policy is attached. The instance profile does not establish ordering on this separate attachment. When the module manages CNI permissions, create the attachment before launching workers so aws-node can initialize pod networking.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch workers before workers_AmazonEC2ContainerRegistryReadOnly is attached. Its launch-template reference does not wait for this policy attachment, allowing initial pulls of EKS system images from ECR to race with permission setup. Order the ASG after the attachment.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers has no ordering dependency on kubernetes_config_map.aws_auth. When manage_aws_auth is enabled, instances can start bootstrapping before their IAM roles are authorized in aws-auth, causing initial node-registration failures. Order the ASG after the ConfigMap, as is already done for managed node groups through ng_depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template has no ordering dependency on kubernetes_config_map.aws_auth. When manage_aws_auth is enabled, instances can start bootstrapping before their IAM roles are authorized in aws-auth, causing initial node-registration failures. Order the ASG after the ConfigMap, as is already done for managed node groups through ng_depends_on.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch instances before aws_security_group_rule.workers_egress_internet permits outbound traffic. A security-group ID reference does not wait for separately managed rules. When the module creates the worker security group, order the ASG after this egress rule to avoid blocking bootstrap access to AWS APIs and container registries.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_security_group_rule.workers_egress_internet",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch instances before aws_security_group_rule.workers_egress_internet permits outbound traffic. A security-group ID reference does not wait for separately managed rules. When the module creates the worker security group, order the ASG after this egress rule to avoid blocking bootstrap access to AWS APIs and container registries.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_security_group_rule.workers_egress_internet",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers does not wait for aws_security_group_rule.cluster_https_worker_ingress, which permits worker-to-control-plane HTTPS traffic. When workers use the private endpoint and the module-managed cluster security group, they can begin registration before the required ingress exists. Order the ASG after this rule; references to the cluster and security-group IDs do not wait for rule creation.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_security_group_rule.cluster_https_worker_ingress",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template does not wait for aws_security_group_rule.cluster_https_worker_ingress, which permits worker-to-control-plane HTTPS traffic. When workers use the private endpoint and the module-managed cluster security group, they can begin registration before the required ingress exists. Order the ASG after this rule; references to the cluster and security-group IDs do not wait for rule creation.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_security_group_rule.cluster_https_worker_ingress",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

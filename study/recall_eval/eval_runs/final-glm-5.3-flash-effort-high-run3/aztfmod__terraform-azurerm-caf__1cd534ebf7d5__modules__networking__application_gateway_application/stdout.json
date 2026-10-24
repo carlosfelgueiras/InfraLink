@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_settings destroys HTTP settings that reference probes, but it has no dependency on delete_probe (it depends on set_probe instead, which has no destroy-time provisioner and imposes no destroy ordering). On destroy, HTTP settings must be deleted before the probes they reference; add delete_probe to delete_http_settings' depends_on.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "delete_http_listener destroys listeners bound to frontend ports, but it depends on set_frontend_port (a create-phase resource with no destroy provisioner) rather than delete_frontend_port, which has no depends_on and is otherwise unordered. On destroy, listeners must be deleted before the frontend ports they reference; add delete_frontend_port to delete_http_listener's depends_on.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

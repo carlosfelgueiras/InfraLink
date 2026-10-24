@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_http_listener does not depend on null_resource.delete_frontend_port; it only lists the create-time null_resource.set_frontend_port. HTTP listeners reference frontend ports, so at destroy time the frontend port must be deleted only after its listeners are gone. Terraform cannot infer this from the create-time set_frontend_port reference, so the two destroy provisioners may race and the Azure API can reject deleting a frontend port still in use. Add `depends_on = [null_resource.delete_frontend_port, ...]` to delete_http_listener so it is destroyed before the frontend port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_http_settings does not depend on null_resource.delete_probe; it only lists the create-time null_resource.set_probe. Backend HTTP settings reference a probe, so at destroy time the probe's delete provisioner must run only after the referencing HTTP settings are removed. Because the ordering is expressed against the create-time set_probe rather than delete_probe, the two destroy provisioners are unordered and the Azure API can reject deleting a probe still referenced by HTTP settings. Add null_resource.delete_probe to delete_http_settings' depends_on so delete_http_settings is destroyed before the probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

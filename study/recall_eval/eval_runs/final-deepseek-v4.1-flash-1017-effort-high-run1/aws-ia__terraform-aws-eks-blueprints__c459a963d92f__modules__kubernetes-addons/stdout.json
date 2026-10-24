@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.crossplane:resource.kubectl_manifest.aws_provider_config` lists `kubectl_manifest.aws_provider` in its `depends_on`, but it also depends on `time_sleep.wait_30_seconds`, which itself `depends_on = [kubectl_manifest.aws_provider]`. The direct edge to `aws_provider` is therefore already implied transitively and is redundant.",
+      "node": "module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

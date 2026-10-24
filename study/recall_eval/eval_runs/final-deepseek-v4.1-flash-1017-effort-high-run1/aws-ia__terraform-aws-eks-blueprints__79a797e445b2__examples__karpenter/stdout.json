@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubectl_manifest.karpenter_provisioner creates a Karpenter Provisioner whose spec.providerRef.name is the literal string \"default\", which refers to the AWSNodeTemplate named \"default\" created by kubectl_manifest.karpenter_node_template. Because that reference is just text inside the yaml_body heredoc, Terraform infers no ordering between the two resources \u2014 both only depend on module.eks_blueprints_kubernetes_addons and can be applied concurrently, so the Provisioner can be reconciled before its provider template exists. karpenter_provisioner should depend on karpenter_node_template (e.g. via an explicit depends_on, since no clean attribute on the node_template is available to reference).",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

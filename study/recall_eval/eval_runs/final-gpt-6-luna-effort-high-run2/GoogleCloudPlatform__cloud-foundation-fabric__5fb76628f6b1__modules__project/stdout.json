@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Compute default network tier resource calls the Compute API, but it has no ordering dependency on project service activation. If compute.googleapis.com is enabled by this module, activation should complete before this operation.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Attaching this project as a Shared VPC service project requires the Compute API, but the resource does not wait for this module's project service activation to complete.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Essential Contacts API calls can fail if the API is still being enabled. The contact resource waits for IAM bindings but does not wait for project service activation.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Log-scope creation uses the Cloud Logging API, but this resource does not wait for project service activation to finish.",
+      "node": ":resource.google_logging_log_scope.log-scopes",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Logs-based metric creation uses the Cloud Logging API, but this resource does not wait for project service activation to finish.",
+      "node": ":resource.google_logging_metric.metrics",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Project logging exclusion creation uses the Cloud Logging API, but this resource does not wait for project service activation to finish.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Notification-channel creation uses the Cloud Monitoring API, but this resource does not wait for project service activation to finish.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Alert-policy creation uses the Cloud Monitoring API, but it does not wait for project service activation to finish; a dependency on a notification channel, when present, does not ensure the API is enabled.",
+      "node": ":resource.google_monitoring_alert_policy.alerts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "These subnet IAM grants can target Google-managed service agents, whose identities may not exist until APIs are enabled. Unlike the parallel shared-VPC host robot grants, this resource does not wait for project service activation.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Subnet IAM grants to Google-managed service agents can race service-identity creation; this resource should wait for the service identities that the module provisions.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Subnet IAM grants can race creation or configuration of default service accounts used by service agents; the analogous shared-VPC host robot grants wait for this resource, but these do not.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_subnets_iam",
+      "target": ":resource.google_project_default_service_accounts.default_service_accounts",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

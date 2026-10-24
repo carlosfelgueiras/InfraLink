@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster explicitly depends on :resource.aws_eks_cluster.this, but its url and ca_certificate already reference that cluster. The dependency is also transitive through cluster_private_access.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":data.http.wait_for_cluster must wait for :resource.aws_security_group_rule.cluster_private_access_sg_source when access to the private API endpoint is granted through source security groups. Its existing dependency on cluster_private_access covers CIDR access only; the health check can otherwise run before the source-security-group ingress is installed.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access_sg_source",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.fargate:resource.aws_eks_fargate_profile.this should depend on module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod so the pod execution role has AmazonEKSFargatePodExecutionRolePolicy before the profile is provisioned and until it is deleted. Referencing the role ARN does not order the separate policy attachment, and var.eks_depends_on does not include it.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

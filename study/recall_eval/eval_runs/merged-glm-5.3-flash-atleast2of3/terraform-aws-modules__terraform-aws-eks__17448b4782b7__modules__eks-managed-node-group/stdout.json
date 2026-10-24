@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_launch_template.this explicitly depends on aws_iam_role_policy_attachment.this (with the comment \"Prevent premature access of policies by pods that require permissions on create/destroy that depend on nodes\"), but ignores the sibling attachment resource aws_iam_role_policy_attachment.additional, which attaches the user-supplied var.iam_role_additional_policies to the same node IAM role. Because no attribute reference links the launch template to that resource, the launch template (and consequently the node group whose nodes inherit these permissions) can be created before the additional policies are attached, so nodes may join the cluster without the intended extra permissions \u2014 the same race the existing depends_on was added to prevent.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_launch_template.this explicitly depends_on aws_iam_role_policy_attachment.this to \"prevent premature access of policies by pods that require permissions on create/destroy\", but omits aws_iam_role_policy_attachment.additional. When var.iam_role_additional_policies is set, instances launched from this template can start before those additional policies are attached to the node role. Add aws_iam_role_policy_attachment.additional alongside the existing depends_on entry.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_launch_template.this depends_on aws_iam_role_policy_attachment.this to prevent nodes from booting before the standard role policies are attached, but it does not wait for aws_iam_role_policy_attachment.additional (user-supplied `iam_role_additional_policies`). IAM policy attachment propagation is eventually consistent, so nodes launched from this template can join the cluster before the additional policies take effect, causing pods that rely on those permissions to fail. Add aws_iam_role_policy_attachment.additional to the existing depends_on list on aws_launch_template.this.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

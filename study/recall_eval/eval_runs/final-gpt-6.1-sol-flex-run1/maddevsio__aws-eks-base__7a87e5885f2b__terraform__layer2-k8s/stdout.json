@@ -1,0 +1,151 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "certificate already depends on cert_manager transitively through cluster_issuer; the direct depends_on is redundant.",
+      "node": ":resource.helm_release.certificate",
+      "target": ":resource.helm_release.cert_manager",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "kiali already depends on kube_prometheus_stack_operator_crds through istiod, so this explicit dependency duplicates that ordering.",
+      "node": ":resource.helm_release.kiali",
+      "target": ":resource.kubectl_manifest.kube_prometheus_stack_operator_crds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "access_key_id references this_user.id and therefore already depends on the access key.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "access_secret_key references this_user.secret and therefore already depends on the access key.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "elk mounts elastic-certificates by literal name but has no ordering dependency on elasticsearch_certificates; create the secret before installing its consumers.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": {
+        "field": "values",
+        "expression": "[for v in [local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values] : replace(v, \"elastic-certificates\", kubernetes_secret.elasticsearch_certificates[count.index].metadata[0].name)]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "elk references elastic-credentials by literal name in container environments, without depending on the secret supplying those credentials.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": {
+        "field": "values",
+        "expression": "[for v in [local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values] : replace(v, \"elastic-credentials\", kubernetes_secret.elasticsearch_credentials[count.index].metadata[0].name)]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "elk loads its Elasticsearch keystore from elasticsearch-s3-user-creds by literal name, without waiting for elasticsearch_s3_user_creds.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": {
+        "field": "values",
+        "expression": "[for v in [local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values] : replace(v, \"elasticsearch-s3-user-creds\", kubernetes_secret.elasticsearch_s3_user_creds[count.index].metadata[0].name)]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "elk's Kibana containers require kibana-encryption-key, but the literal secret name does not order the release after kibana_enc_key.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": {
+        "field": "values",
+        "expression": "[for v in [local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values] : replace(v, \"kibana-encryption-key\", kubernetes_secret.kibana_enc_key[count.index].metadata[0].name)]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "elk requests persistent storage using the literal StorageClass name advanced, without ordering installation after that StorageClass.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "[for v in [local.elk_elasticsearch_values, local.elk_kibana_values, local.elk_filebeat_values, local.elk_apm_values, local.elk_metricbeat_values] : replace(v, \"storageClassName: advanced\", \"storageClassName: ${kubernetes_storage_class.advanced.metadata[0].name}\")]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "loki_stack enables persistence with StorageClass advanced but does not depend on kubernetes_storage_class.advanced.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "[replace(local.loki_stack_values, \"storageClassName: advanced\", \"storageClassName: ${kubernetes_storage_class.advanced.metadata[0].name}\")]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "prometheus_operator configures persistent storage with the literal StorageClass advanced, with no dependency ensuring the class exists first.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": {
+        "field": "values",
+        "expression": "[for v in compact([local.kube_prometheus_stack_values, local.kube_prometheus_stack_grafana_values, local.istio.enabled ? local.kube_prometheus_stack_grafana_istio_values : null, local.kube_prometheus_stack_grafana_oauth_type == \"gitlab\" ? local.kube_prometheus_stack_grafana_gitlab_oauth_values : null, local.kube_prometheus_stack_grafana_oauth_type == \"github\" ? local.kube_prometheus_stack_grafana_github_oauth_values : null, local.kube_prometheus_stack_alertmanager_values, local.kube_prometheus_stack_alertmanager_slack_webhook != \"\" ? local.kube_prometheus_stack_alertmanager_slack_values : null]) : replace(v, \"storageClassName: advanced\", \"storageClassName: ${kubernetes_storage_class.advanced.metadata[0].name}\")]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "victoria_metrics_k8s_stack requests persistent storage with StorageClass advanced but does not wait for its creation.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

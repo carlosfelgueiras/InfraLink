@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_organization_security_policy_association.attachment sets policy_id from var.firewall_policy_attachments (policy_id = each.value) rather than from google_compute_organization_security_policy.policy, so Terraform cannot infer that the association must be created after the policy. When an attachment references a policy created by this module, the apply may fail because the policy does not yet exist. The association should depend on google_compute_organization_security_policy.policy (e.g. explicit depends_on), since no clean data reference is available (attachment keys don't correspond to the policy map keys).",
+      "node": ":resource.google_compute_organization_security_policy_association.attachment",
+      "target": ":resource.google_compute_organization_security_policy.policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

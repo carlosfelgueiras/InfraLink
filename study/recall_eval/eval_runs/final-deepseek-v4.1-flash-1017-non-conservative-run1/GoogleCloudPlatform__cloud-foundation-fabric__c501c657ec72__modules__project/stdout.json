@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_org_policy_policy.default` creates project-level org policies (name/parent derived from `local.project.project_id`) but has no dependency at all on `:resource.google_project_service.project_services`. Creating an org policy requires the Org Policy API (`orgpolicy.googleapis.com`) to be enabled on the project, and its name/parent are built from plain strings, so no reference establishes the ordering. During destroy, the API can also be disabled before the policies are deleted. Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_project_iam_audit_config.default` configures audit logging per service, but `service = each.key` comes straight from `var.logging_data_access` \u2014 no attribute reference and no `depends_on` links it to `:resource.google_project_service.project_services`. The audited service's API must already be enabled (and must not be disabled before the audit config is removed on destroy). Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_project_iam_audit_config.default",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_monitoring_monitored_project.primary` adds the project to external metrics scopes (`each.value` from `var.metric_scopes`), but nothing ties it to `:resource.google_project_service.project_services`. Registering a monitored project requires the Monitoring API enabled in the project and must not run concurrently with / after API teardown. Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

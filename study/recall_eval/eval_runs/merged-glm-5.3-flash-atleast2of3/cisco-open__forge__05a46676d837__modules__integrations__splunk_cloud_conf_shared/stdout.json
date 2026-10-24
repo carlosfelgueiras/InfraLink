@@ -1,0 +1,238 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs\" references transform \"forgecicd_cloudwatchlogs_lambda_tenant_fields\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_lambda_tenant_fields. No attribute reference or depends_on exists, so Terraform may create this props stanza before the transforms stanza exists, leaving the REPORT extraction broken.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_lambda_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_lambda_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs\" references transform \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_global_lambda_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_global_lambda_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs\" references transform \"forgecicd_extra_lambda_tenant_fields\" by name (variables[\"REPORT-forgecicd_extra_lambda_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs\" sets variables[\"REPORT-forgecicd_extra_lambda_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_extra_lambda_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs' declares REPORT references (e.g. \"REPORT-forgecicd_extra_lambda_tenant_fields\" = \"forgecicd_extra_lambda_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_extra_lambda_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs:forgecicd\" references transform \"forgecicd_cloudwatchlogs_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs:forgecicd\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs_forgecicd' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = \"forgecicd_cloudwatchlogs_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs:forgecicd\" references transform \"forgecicd_cloudwatchlogs_extract_log_time_message\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs:forgecicd\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_extract_log_time_message. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs_forgecicd' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = \"forgecicd_cloudwatchlogs_extract_log_time_message\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_extract_log_time_message'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs:forgecicd\" references transform \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs:forgecicd\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_runner_pages_github_repo_name. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs_forgecicd' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_runner_pages_github_repo_name'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs:forgecicd\" references transform \"forgecicd_cloudwatchlogs_runner_ci_result\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs:forgecicd\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_runner_ci_result. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs_forgecicd' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = \"forgecicd_cloudwatchlogs_runner_ci_result\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_runner_ci_result'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:cloudwatchlogs:forgecicd\" references transform \"forgecicd_cloudwatchlogs_runner_gh_runner_version\" by name (variables[\"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:cloudwatchlogs:forgecicd\" sets variables[\"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\"] to a string literal naming the transforms stanza forgecicd_cloudwatchlogs_runner_gh_runner_version. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_cloudwatchlogs_forgecicd' declares REPORT references (e.g. \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = \"forgecicd_cloudwatchlogs_runner_gh_runner_version\") that resolve to the transforms stanza managed by 'forgecicd_cloudwatchlogs_runner_gh_runner_version'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:metadata\" references transform \"forgecicd_metadata_tenant_fields\" by name (variables[\"REPORT-forgecicd_metadata_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:metadata\" sets variables[\"REPORT-forgecicd_metadata_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_metadata_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_metadata' declares REPORT references (e.g. \"REPORT-forgecicd_metadata_tenant_fields\" = \"forgecicd_metadata_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_metadata_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:metadata\" references transform \"forgecicd_metadata_instance_id\" by name (variables[\"REPORT-forgecicd_metadata_instance_id\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:metadata\" sets variables[\"REPORT-forgecicd_metadata_instance_id\"] to a string literal naming the transforms stanza forgecicd_metadata_instance_id. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_metadata' declares REPORT references (e.g. \"REPORT-forgecicd_metadata_instance_id\" = \"forgecicd_metadata_instance_id\") that resolve to the transforms stanza managed by 'forgecicd_metadata_instance_id'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_id",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:metadata\" references transform \"forgecicd_metadata_image_id\" by name (variables[\"REPORT-forgecicd_metadata_image_id\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:metadata\" sets variables[\"REPORT-forgecicd_metadata_image_id\"] to a string literal naming the transforms stanza forgecicd_metadata_image_id. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_metadata' declares REPORT references (e.g. \"REPORT-forgecicd_metadata_image_id\" = \"forgecicd_metadata_image_id\") that resolve to the transforms stanza managed by 'forgecicd_metadata_image_id'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_image_id",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/aws:metadata\" references transform \"forgecicd_metadata_instance_type\" by name (variables[\"REPORT-forgecicd_metadata_instance_type\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/aws:metadata\" sets variables[\"REPORT-forgecicd_metadata_instance_type\"] to a string literal naming the transforms stanza forgecicd_metadata_instance_type. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_metadata' declares REPORT references (e.g. \"REPORT-forgecicd_metadata_instance_type\" = \"forgecicd_metadata_instance_type\") that resolve to the transforms stanza managed by 'forgecicd_metadata_instance_type'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_type",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/forgecicd:aws:billing:cur\" references transform \"forgecicd_billing_cur_instance_id\" by name (variables[\"REPORT-forgecicd_billing_cur_instance_id\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/forgecicd:aws:billing:cur\" sets variables[\"REPORT-forgecicd_billing_cur_instance_id\"] to a string literal naming the transforms stanza forgecicd_billing_cur_instance_id. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_aws_billing_cur' declares REPORT references (e.g. \"REPORT-forgecicd_billing_cur_instance_id\" = \"forgecicd_billing_cur_instance_id\") that resolve to the transforms stanza managed by 'forgecicd_billing_cur_instance_id'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/forgecicd:aws:billing:cur\" references transform \"forgecicd_billing_cur_volume_id\" by name (variables[\"REPORT-forgecicd_billing_cur_volume_id\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/forgecicd:aws:billing:cur\" sets variables[\"REPORT-forgecicd_billing_cur_volume_id\"] to a string literal naming the transforms stanza forgecicd_billing_cur_volume_id. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_aws_billing_cur' declares REPORT references (e.g. \"REPORT-forgecicd_billing_cur_volume_id\" = \"forgecicd_billing_cur_volume_id\") that resolve to the transforms stanza managed by 'forgecicd_billing_cur_volume_id'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_volume_id",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:runner\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:runner\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_runner' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:init-docker-creds\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:init-docker-creds\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_init_docker_creds' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_docker_creds",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:init-dind-rootless\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:init-dind-rootless\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_init_dind_rootless' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_rootless",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:init-work\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:init-work\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_init_work' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_work",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:init-dind-externals\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:init-dind-externals\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_init_dind_externals' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_externals",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:dind\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:dind\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_dind' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_dind",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:listener\" references transform \"forgecicd_kube_container_listener_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_listener_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:listener\" sets variables[\"REPORT-forgecicd_kube_container_listener_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_listener_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_listener' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_listener_tenant_fields\" = \"forgecicd_kube_container_listener_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_listener_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_listener",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:manager\" references transform \"forgecicd_kube_container_manager_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_manager_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:manager\" sets variables[\"REPORT-forgecicd_kube_container_manager_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_manager_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_manager' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_manager_tenant_fields\" = \"forgecicd_kube_container_manager_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_manager_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_manager",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:worker\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:worker\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_log_worker' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_worker",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nProps stanza \"props/kube:container:hook\" references transform \"forgecicd_kube_container_runner_tenant_fields\" by name (variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"]). The transform must exist before the props stanza is applied, but no attribute reference or depends_on expresses this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:hook\" sets variables[\"REPORT-forgecicd_kube_container_runner_tenant_fields\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_tenant_fields. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_log_hook' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = \"forgecicd_kube_container_runner_tenant_fields\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_tenant_fields'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_hook",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:runner\" sets variables[\"REPORT-forgecicd_kube_container_runner_ci_result\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_ci_result. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_runner' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_ci_result\" = \"forgecicd_kube_container_runner_ci_result\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_ci_result'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_ci_result",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nprops stanza \"props/kube:container:runner\" sets variables[\"REPORT-forgecicd_kube_container_runner_gh_runner_version\"] to a string literal naming the transforms stanza forgecicd_kube_container_runner_gh_runner_version. No attribute reference or depends_on exists, so creation order is not guaranteed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe props stanza 'forgecicd_kube_container_runner' declares REPORT references (e.g. \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = \"forgecicd_kube_container_runner_gh_runner_version\") that resolve to the transforms stanza managed by 'forgecicd_kube_container_runner_gh_runner_version'. The coupling is only via a string literal, so no dependency exists; if the props stanza is created before the transform, search-time field extraction silently fails.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

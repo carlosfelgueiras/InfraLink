@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe organization configuration aggregator references the IAM role ARN, but that does not order it after the AWSConfigRoleForOrganizations policy attachment. AWS Config organization aggregation requires that policy to be attached before the aggregator is created; add an explicit dependency on the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe organization Config aggregator should wait for the AWSConfigRoleForOrganizations policy attachment on its role. The provider documentation's organization-aggregator example explicitly depends on the attachment; the current reference to the role ARN only orders the aggregator after role creation.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe CloudTrail resource needs the destination bucket policy to be installed before trail creation so AWS accepts the service's access to the bucket. The CloudTrail resource references the bucket name, but that does not order it after the bucket policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nCloudTrail creation should wait for the audit bucket policy that grants CloudTrail delivery access. The AWS provider documentation demonstrates an explicit dependency on the bucket policy to prevent a creation race; no such ordering is expressed here.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe CloudTrail resource should wait for the audit bucket policy to be installed. The AWS provider documentation's CloudTrail example explicitly orders trail creation after the S3 bucket policy; without this dependency, AWS may reject trail creation or validation before the policy permits CloudTrail delivery.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe trail references the CloudWatch delivery role ARN, but that does not order it after the role's inline permissions policy. Ensure the delivery policy is attached before creating the trail so CloudTrail can deliver events to the log group.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe CloudTrail trail should wait for its CloudWatch delivery role's inline policy. The trail is configured to deliver to CloudWatch Logs through this role, and the policy grants the Logs permissions needed for delivery; ordering only on the role itself can let the trail start before those permissions are attached.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook endpoint is registered with GitHub by `module.webhook-github-app:resource.null_resource.update_app`, but its current references only establish dependencies on the API object and other webhook outputs, not on the deployed `$default` stage. Ensure the stage is ready before registering the endpoint so GitHub is not configured to send events to an endpoint that is not yet live.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin invoking the syncer Lambda as soon as it is active, but it has no dependency on the Lambda resource-based permission that authorizes EventBridge invocation. Order target creation after the permission to avoid a delivery window where invocations are rejected.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can invoke the scale-down Lambda, but it does not wait for the Lambda permission granting EventBridge invocation. Add ordering so the target is not active before the permission is installed.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled pool target can invoke its Lambda, but it has no dependency on the corresponding Lambda permission for EventBridge. Ensure the permission is in place before activating the target.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "An SQS event source mapping can start polling and invoke the scale-up Lambda immediately. The mapping does not wait for the inline execution-role policy that grants the Lambda permission to consume the build queue, risking failed polling or invocations while the policy is absent or propagating.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App is configured with the webhook endpoint by this resource, but its references do not establish that the API route exists before that external registration runs. The route is needed for the endpoint to accept webhook requests.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App may be configured before the API Gateway default stage has been created. Wait for the stage so the registered endpoint is available before GitHub starts delivering webhook events.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App can begin delivering events as soon as its webhook endpoint is registered, but this resource does not wait for the Lambda permission allowing API Gateway to invoke the webhook function. Order registration after the permission to avoid initial invocation failures.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

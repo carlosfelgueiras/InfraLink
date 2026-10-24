@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is the TLS-only policy for the dead-letter queue, but it sets `queue_url = aws_sqs_queue.queued_builds.id`, so it never depends on (and never attaches to) `module.runners:resource.aws_sqs_queue.queued_builds_dlq`. When `redrive_build_queue.enabled` is true, the DLQ is created with no queue policy, while the main build queue ends up with two competing `aws_sqs_queue_policy` resources (this one and `build_queue_policy`), so the two policies overwrite each other depending on apply order. Point `queue_url` at the DLQ so the DLQ exists before its policy is attached and the redrive target is actually secured.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-insecure-transport policy to the dead-letter queue, but it sets `queue_url = aws_sqs_queue.queued_builds.id`, so it never references `aws_sqs_queue.queued_builds_dlq`. As a result it has no ordering dependency on the DLQ (the policy can be applied before/after the DLQ arbitrarily) and it silently manages the same queue policy as `build_queue_policy`, which the other resource overwrites. Point `queue_url` at the DLQ instead.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

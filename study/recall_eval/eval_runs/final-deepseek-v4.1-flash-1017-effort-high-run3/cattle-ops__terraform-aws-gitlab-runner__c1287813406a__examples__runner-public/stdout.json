@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:resource.local_file.public_ssh_key` explicitly depends on `:resource.tls_private_key.ssh`, but its `content` already references `tls_private_key.ssh.public_key_openssh`, which establishes the same dependency implicitly. The explicit `depends_on` is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:resource.local_file.private_ssh_key` explicitly depends on `:resource.tls_private_key.ssh`, but its `content` already references `tls_private_key.ssh.private_key_pem`, which establishes the same dependency implicitly. The explicit `depends_on` is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner:resource.aws_ssm_parameter.runner_registration_token`: the launch configuration's user_data writes the runner registration token into that SSM parameter, so the Terraform-managed parameter must exist before the ASG launches the runner instance.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner:resource.aws_iam_role_policy_attachment.ssm`: the runner instance's user_data needs the SSM policy on its instance role at boot to write the registration token.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy`: the runner agent needs its EC2/docker-machine permissions attached before the instance starts provisioning docker-machine runners.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance`: the runner agent's role must have the cache policy attached before instances launch and use the shared build cache.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner:resource.aws_iam_role_policy.instance`: the instance's CloudWatch logging setup starts at boot and requires the logging policy on its instance role to be attached first.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner:resource.aws_iam_role_policy_attachment.service_linked_role`: the runner agent may create AWS service-linked roles (e.g. for spot provisioning), so this policy must be attached before the runner instance begins operating.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner2:resource.aws_ssm_parameter.runner_registration_token`: the launch configuration's user_data writes the runner registration token into that SSM parameter, so the Terraform-managed parameter must exist before the ASG launches the runner instance.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner2:resource.aws_iam_role_policy_attachment.ssm`: the runner instance's user_data needs the SSM policy on its instance role at boot to write the registration token.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner2:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy`: the runner agent needs its EC2/docker-machine permissions attached before the instance starts provisioning docker-machine runners.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner2:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance`: the runner agent's role must have the cache policy attached before instances launch and use the shared build cache.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner2:resource.aws_iam_role_policy.instance`: the instance's CloudWatch logging setup starts at boot and requires the logging policy on its instance role to be attached first.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` should depend on `module.runner2:resource.aws_iam_role_policy_attachment.service_linked_role`: the runner agent may create AWS service-linked roles (e.g. for spot provisioning), so this policy must be attached before the runner instance begins operating.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

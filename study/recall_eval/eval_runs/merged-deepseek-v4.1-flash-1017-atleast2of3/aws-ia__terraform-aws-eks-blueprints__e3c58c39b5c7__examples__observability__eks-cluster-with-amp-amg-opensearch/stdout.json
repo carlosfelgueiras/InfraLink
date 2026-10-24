@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_elasticsearch_domain.opensearch uses vpc_options (subnets + security groups) but has no dependency on aws_iam_service_linked_role.opensearch. Per AWS provider docs, the Elasticsearch/OpenSearch service-linked role must exist before a VPC domain can be created; when both are created together a depends_on from the domain to the role is required to order creation. Add an explicit depends_on.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nThe VPC-based OpenSearch domain `:resource.aws_elasticsearch_domain.opensearch` uses vpc_options, which requires the AWS service-linked role for OpenSearch (`:resource.aws_iam_service_linked_role.opensearch`) to already exist. Per the provider docs, the domain must be ordered after the `aws_iam_service_linked_role` (typically via `depends_on = [aws_iam_service_linked_role.opensearch]`). No attribute reference or depends_on expresses this today, so on a fresh apply the domain can fail with \"service-linked role not found\".\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe VPC-based OpenSearch domain requires the AWSServiceRoleForAmazonElasticsearchService service-linked role to already exist, otherwise the first `terraform apply` fails with \"You must create the service-linked role for Amazon ES\". The example defines `aws_iam_service_linked_role.opensearch` (gated by `var.create_iam_service_linked_role`) precisely for this, but `aws_elasticsearch_domain.opensearch` never references it and has no `depends_on`, so nothing orders the role before the domain. Add `depends_on = [aws_iam_service_linked_role.opensearch]` on the domain.",
+      "node": ":resource.aws_elasticsearch_domain.opensearch",
+      "target": ":resource.aws_iam_service_linked_role.opensearch",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

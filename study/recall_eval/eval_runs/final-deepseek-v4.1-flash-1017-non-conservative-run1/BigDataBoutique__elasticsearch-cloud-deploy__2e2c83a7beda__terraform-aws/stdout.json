@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_iam_instance_profile.elasticsearch references only aws_iam_role.elasticsearch.name, so it is created in parallel with aws_iam_role_policy.elasticsearch. The node launch configurations/ASGs consume the instance profile, but nothing orders the ec2:DescribeInstances policy attachment before the instances boot; instances can come up without the permissions the Elasticsearch EC2-discovery plugin needs. Add depends_on on the profile (or the launch configurations) so the policy is attached first.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_iam_instance_profile.elasticsearch is not ordered after aws_iam_role_policy.asg_discover. Master/data nodes use the autoscaling:DescribeAutoScalingGroups permission for ASG-based node discovery, but the profile can be used by the launch configurations before this policy is attached, so new nodes may start without the ability to enumerate the ASG.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.master_nodes launches EC2 instances into the cluster subnets that rely on the EC2 interface endpoint (private_dns_enabled) for API calls during Elasticsearch node discovery, but the ASG has no dependency on aws_vpc_endpoint.ec2. Interface endpoints create their ENIs/private DNS asynchronously, so instances launched in parallel can boot before the endpoint is ready and fail to resolve/describe the EC2 API. Order the ASG after the endpoint.",
+      "node": ":resource.aws_autoscaling_group.master_nodes",
+      "target": ":resource.aws_vpc_endpoint.ec2",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_instance.bootstrap_node is the seed node that runs the cluster-bootstrap user data and immediately queries the EC2 API for discovery, yet it is not ordered after aws_vpc_endpoint.ec2. Since the interface endpoint's ENIs/private DNS are provisioned asynchronously, the bootstrap instance can start before the endpoint is available and fail to reach the EC2 API. Add a dependency on the endpoint.",
+      "node": ":resource.aws_instance.bootstrap_node",
+      "target": ":resource.aws_vpc_endpoint.ec2",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

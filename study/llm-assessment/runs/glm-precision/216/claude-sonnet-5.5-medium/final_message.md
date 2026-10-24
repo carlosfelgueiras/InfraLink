@@ -1,0 +1,5 @@
+The launch template only has `depends_on = [aws_iam_role_policy_attachment.this]`. The comment above it says its purpose is to stop pods from reaching the policies too early, before the node role has its permissions. The `additional` attachments attach to the same role and are not covered anywhere.
+
+A launch template doesn't start instances, so strictly the ordering matters at the autoscaling group level. The ASG references the launch template, so a dependency on the template carries through to the ASG. This is the only way the module orders the ASG after the policy attachments. Without a dependency on `additional`, Terraform can create the ASG and its instances before the additional policies are attached. The existing `depends_on` shows the module authors treat this ordering as required. The same reasoning applies to the additional policies, so the report is valid.
+
+Correct

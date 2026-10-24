@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.webhook must wait for aws_iam_role_policy_attachment.webhook_vpc_execution_role when VPC subnets are configured: Lambda needs the execution role's ENI permissions during VPC provisioning. Referencing the role alone does not order creation after the policy attachment. Add depends_on for the attachment (also ensuring the function is destroyed before the permissions are removed).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

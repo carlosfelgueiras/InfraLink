@@ -1,0 +1,37 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`aws_iam_instance_profile.instance` takes both `name` and `role` from `local.aws_iam_role_instance_name`, a plain string, so it has no dependency edge on `aws_iam_role.instance` even though the role is created by this module (`count = var.create_runner_iam_role ? 1 : 0`). Terraform therefore creates the profile and the role concurrently; because the AWS provider reads/attaches via `ListInstanceProfilesForRole`/`GetRole` by name, creation intermittently fails with `NoSuchEntity: The role with name <name> cannot be found`. The profile must be created after `aws_iam_role.instance`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name` (a name string built from variables), not a reference to aws_iam_role.instance. When create_runner_iam_role = true the profile and role are created in parallel, so the profile can be created before the role exists, failing with NoSuchEntity. Its docker-machine sibling correctly uses `role = aws_iam_role.docker_machine.name`, which is why that edge exists. Wire the role in as a real reference.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.aws_iam_instance_profile.instance` sets `role = local.aws_iam_role_instance_name`, a string computed from locals/vars rather than a reference to `:resource.aws_iam_role.instance`. Terraform can therefore create the instance profile before the role exists, and the IAM API fails with NoSuchEntity. The profile must be ordered after the role (both use the same `var.create_runner_iam_role` count, so a direct reference is safe).",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`aws_launch_template.gitlab_runner_instance` sets `iam_instance_profile { name = local.aws_iam_role_instance_name }` \u2014 a plain string \u2014 so it does not depend on `aws_iam_instance_profile.instance`, which this module creates (`count = var.create_runner_iam_role ? 1 : 0`). The ASG (`min_size = 1`) launches instances with that profile, so if the ASG runs before the instance profile exists, RunInstances fails with `Invalid IAM Instance Profile name`. The launch template must be created after `aws_iam_instance_profile.instance` (e.g. via `depends_on`, since the profile is only referenced by name inside a nested block and no flat attribute can carry the reference).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.aws_launch_template.gitlab_runner_instance` sets `iam_instance_profile { name = local.aws_iam_role_instance_name }` \u2014 a derived name string, not a reference to `:resource.aws_iam_instance_profile.instance`. Nothing orders the profile before the ASG launches its first instance, so the instance launch can fail because the IAM instance profile does not exist yet. No clean attribute-level fix exists here (the reference is inside a nested block and the profile is conditionally created), so an explicit `depends_on = [aws_iam_instance_profile.instance]` (a no-op when the profile count is 0) is the right closure.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_iam_role_policy_attachment.instance_docker_machine_policy attaches to the runner-agent role via `role = local.aws_iam_role_instance_name` (computed string) instead of a reference to aws_iam_role.instance. It is gated on the same `var.create_runner_iam_role` condition as the role, so it can run before the role is created and fail to attach.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy` attaches to the runner agent role by name only (`role = local.aws_iam_role_instance_name`); it has no reference to `:resource.aws_iam_role.instance`, so Terraform may attempt the attachment before the role exists and fail. Add a dependency on the role resource.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

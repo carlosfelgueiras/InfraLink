@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.cluster_bootstrap_state writes the cluster_bootstrap_state file (\"1\" on create, \"0\" on destroy) that gates whether the bootstrap node is created, so it must only run after aws_instance.bootstrap_node has been created. The source declares depends_on = [\"aws_instance.bootstrap_node\"], but no dependency is captured in the graph; without it the state file could be written before the bootstrap node exists, breaking the bootstrap-once logic on subsequent applies.",
+      "node": ":resource.null_resource.cluster_bootstrap_state",
+      "target": ":resource.aws_instance.bootstrap_node",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The data-node autoscaling group must be created after the master-node autoscaling group so that data nodes do not start before the master nodes have formed the Elasticsearch cluster. The source declares depends_on = [\"aws_autoscaling_group.master_nodes\"] on aws_autoscaling_group.data_nodes, but the graph records no dependency on the master ASG (no implicit path exists either), so the intended ordering is not enforced.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

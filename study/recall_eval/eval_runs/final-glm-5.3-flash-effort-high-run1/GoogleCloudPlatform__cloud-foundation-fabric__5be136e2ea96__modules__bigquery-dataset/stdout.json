@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_routine.default has no dependency on google_bigquery_table.default, but a routine's definition_body is free-form SQL that typically references tables in the same dataset by name. BigQuery validates the routine's SQL at creation time, so if the routine queries a table managed by this module that has not been created yet, the apply fails. The module already expresses this ordering for views and materialized views via depends_on, but omits it for routines; an explicit depends_on on google_bigquery_table.default is needed.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_routine.default has no dependency on google_bigquery_table.views, but a routine's definition_body can reference views in the same dataset by name in its SQL. BigQuery validates the routine's SQL at creation time, so if the routine queries a view managed by this module that has not been created yet, the apply fails. An explicit depends_on on google_bigquery_table.views is needed.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.views",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_bigquery_routine.default has no dependency on google_bigquery_table.materialized_view, but a routine's definition_body can reference materialized views in the same dataset by name in its SQL. BigQuery validates the routine's SQL at creation time, so if the routine queries a materialized view managed by this module that has not been created yet, the apply fails. An explicit depends_on on google_bigquery_table.materialized_view is needed.",
+      "node": ":resource.google_bigquery_routine.default",
+      "target": ":resource.google_bigquery_table.materialized_view",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

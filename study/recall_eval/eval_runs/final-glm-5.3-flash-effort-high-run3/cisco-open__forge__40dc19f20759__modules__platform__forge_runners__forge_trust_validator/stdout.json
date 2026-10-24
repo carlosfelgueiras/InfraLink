@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant: the module already depends on it via the attribute reference logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on on module.forge_trust_validator_lambda is redundant: aws_cloudwatch_event_target.forge_trust_validator_lambda already depends on the module via the attribute reference arn = module.forge_trust_validator_lambda.lambda_function_arn.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled EventBridge rule (cron every 10 minutes) will invoke the Lambda as soon as the target is attached, but nothing orders aws_cloudwatch_event_target.forge_trust_validator_lambda after aws_lambda_permission.forge_trust_validator_lambda. Without the lambda:InvokeFunction permission for events.amazonaws.com in place, the first scheduled invocations after an apply are rejected with AccessDenied. The target should wait for the permission (e.g. depends_on = [aws_lambda_permission.forge_trust_validator_lambda]); no attribute on the target references the permission, so a bare depends_on is needed.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

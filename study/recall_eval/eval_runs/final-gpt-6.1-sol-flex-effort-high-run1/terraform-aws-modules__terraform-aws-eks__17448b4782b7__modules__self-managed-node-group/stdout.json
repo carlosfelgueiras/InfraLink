@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.this can launch self-managed EKS nodes before aws_eks_access_entry.this authorizes their instance role. Neither sharing the IAM role nor referencing the cluster inputs orders these operations. When create_access_entry is enabled, make the Auto Scaling group depend on the access entry so node bootstrap does not race cluster authentication setup and the entry remains until the group is destroyed. This establishes ordering, not a guarantee of immediate authentication propagation.",
+      "node": ":resource.aws_autoscaling_group.this",
+      "target": ":resource.aws_eks_access_entry.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.this explicitly waits for aws_iam_role_policy_attachment.this to keep node-dependent permissions available during create/destroy, but omits aws_iam_role_policy_attachment.additional. The additional attachments and launch template can proceed independently after the role exists. When additional policies supply bootstrap or workload permissions, nodes can start before those permissions are attached, and the policies can be detached before nodes terminate. Extend the existing dependency guard to aws_iam_role_policy_attachment.additional.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

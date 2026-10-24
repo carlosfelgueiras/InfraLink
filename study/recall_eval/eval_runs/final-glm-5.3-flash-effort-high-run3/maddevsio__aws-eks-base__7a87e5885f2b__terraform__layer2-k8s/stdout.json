@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk references the secret \"elastic-credentials\" by name in its values (ELASTIC_PASSWORD / ELASTIC_USERNAME env vars via secretKeyRef), but has no dependency on :resource.kubernetes_secret.elasticsearch_credentials. On a fresh apply the helm release can be installed before the secret exists, causing Elasticsearch pods to fail with CreateContainerConfigError. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk mounts the secret \"elastic-certificates\" (secretMounts for TLS certs) referenced by name in its values, but has no dependency on :resource.kubernetes_secret.elasticsearch_certificates. Without ordering, Elasticsearch/Kibana/filebeat pods can start before the TLS certificates secret exists and crash. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk mounts the secret \"elasticsearch-s3-user-creds\" into the keystore (S3 snapshot repository credentials) referenced by name in its values, but has no dependency on :resource.kubernetes_secret.elasticsearch_s3_user_creds. On a fresh apply the S3 snapshot user credentials may not be in place when the release is installed, breaking snapshot/keystore setup. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk references the secret \"kibana-encryption-key\" via secretKeyRef (KIBANA_ENCRYPTION_KEY) in its kibana values, but has no dependency on :resource.kubernetes_secret.kibana_enc_key. Without ordering, the Kibana pod can start before the secret exists and fail. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id already depends on module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user through its value attribute (aws_iam_access_key.this_user.id); the explicit depends_on on the same resource is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key already depends on module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user through its value attribute (aws_iam_access_key.this_user.secret); the explicit depends_on on the same resource is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

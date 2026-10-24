@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `adot` add-on deployed by `module.eks-addons` requires cert-manager to be installed and ready, but cert-manager is created by `module.base`, not `module.ctl`. `module.eks-addons` only has `depends_on = [module.ctl]`; it has no direct dependency on `module.base`. The cert-manager ordering currently only holds indirectly because `module.ctl` happens to `depends_on module.base`, so the real requirement (adot \u2192 cert-manager from base) is not expressed directly. It should depend directly on `module.base` (a bare `depends_on` is appropriate here since adot consumes no output of the cert-manager module).",
+      "node": ":module.eks-addons",
+      "target": ":module.base",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

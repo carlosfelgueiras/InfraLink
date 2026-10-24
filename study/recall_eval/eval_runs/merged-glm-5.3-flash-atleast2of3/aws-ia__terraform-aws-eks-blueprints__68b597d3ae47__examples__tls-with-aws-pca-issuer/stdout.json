@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nkubectl_manifest.cluster_pca_issuer applies an AWSPCAClusterIssuer custom resource, whose CRD is installed by the aws-privateca-issuer add-on inside module.eks_blueprints_kubernetes_addons. The manifest only references aws_acmpca_certificate_authority.example.arn and the cluster id, so Terraform may attempt to apply it before cert-manager and the PCA issuer (and their CRDs) are deployed, failing the apply. It needs an explicit ordering dependency on the addons module (the sibling resource kubectl_manifest.example_pca_certificate already has this depends_on, but cluster_pca_issuer does not).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nresource.kubectl_manifest.cluster_pca_issuer applies a custom resource of kind AWSPCAClusterIssuer (awspca.cert-manager.io/v1beta1). That CRD is only installed by the aws-privateca-issuer Helm add-on deployed via module.eks_blueprints_kubernetes_addons (which also installs cert-manager). Without waiting for that module, a fresh apply can attempt to create the cluster issuer before its CRD exists, failing with \"no matches for kind AWSPCAClusterIssuer\". It currently depends only on aws_acmpca_certificate_authority.example and the EKS cluster ID.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`kubectl_manifest.cluster_pca_issuer` applies a custom resource of kind `AWSPCAClusterIssuer` (apiVersion `awspca.cert-manager.io/v1beta1`). This CRD is only defined once the cert-manager / aws-privateca-issuer add-ons from `module.eks_blueprints_kubernetes_addons` have been installed (the aws-privateca-issuer Helm chart ships the AWSPCAClusterIssuer CRD). Without an ordering link, this manifest can be applied before the add-on stack exists and fail (the provider's apply retry can mask the timing only incidentally). The sibling resource `kubectl_manifest.example_pca_certificate` correctly carries `depends_on = [module.eks_blueprints_kubernetes_addons, ...]`, but this issuer manifest does not.",
+      "node": ":resource.kubectl_manifest.cluster_pca_issuer",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

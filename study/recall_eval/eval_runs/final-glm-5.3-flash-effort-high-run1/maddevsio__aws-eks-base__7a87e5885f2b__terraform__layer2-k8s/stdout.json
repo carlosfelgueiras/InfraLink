@@ -1,0 +1,130 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk installs the ELK stack whose Elasticsearch, Kibana, Filebeat, APM and Metricbeat pods all pull username/password from the `elastic-credentials` Secret (extraEnvs secretKeyRef). That Secret is created by :resource.kubernetes_secret.elasticsearch_credentials, but the release has no dependency on it \u2014 on a fresh apply the pods will fail to start (CreateContainerConfigError) if the Secret isn't applied first. No attribute reference or depends_on expresses this ordering.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk mounts the `elastic-certificates` Secret (TLS key/cert) via secretMounts into Elasticsearch, Kibana, Filebeat, APM and Metricbeat containers. That Secret is created by :resource.kubernetes_secret.elasticsearch_certificates, but the release has no dependency on it, so pods can come up before the certificates exist. This ordering is not captured by any attribute reference or depends_on.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk's Elasticsearch keystore reads the `elasticsearch-s3-user-creds` Secret (S3 snapshot credentials) via secretName in the keystore values. That Secret is created by :resource.kubernetes_secret.elasticsearch_s3_user_creds, but the release has no dependency on it; if the keystore secret is missing when Elasticsearch initializes, snapshot repository setup breaks. No attribute reference or depends_on establishes this ordering.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.helm_release.elk's Kibana deployment reads the `kibana-encryption-key` Secret (KIBANA_ENCRYPTION_KEY) via secretKeyRef. That Secret is created by :resource.kubernetes_secret.kibana_enc_key, but the release has no dependency on it, so on a fresh apply Kibana can start before the encryption key exists and crash. This ordering is not expressed by any attribute reference or depends_on.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.elk deploys Elasticsearch with a PersistentVolumeClaim using `storageClassName: advanced`, which is provisioned by :resource.kubernetes_storage_class.advanced. The release has no dependency on the storage class, so on a first apply the PVC can be created before the class exists and pods remain Pending until it appears. No attribute reference or depends_on captures this ordering (the class name is only a string in the helm values).",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.prometheus_operator configures the Prometheus persistent volume with `storageClassName: advanced`, which is provisioned by :resource.kubernetes_storage_class.advanced. The release has no dependency on the storage class, so Prometheus's PVC may be created before the class exists and Prometheus stays Pending until it does. The class name is only a literal string in the helm values, so nothing else establishes this ordering.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.loki_stack configures Loki persistence with `storageClassName: advanced`, provisioned by :resource.kubernetes_storage_class.advanced. The release has no dependency on the storage class, so Loki's PVC may be created before the class exists and the pod stays Pending until it does. The class name is only a literal string in the helm values, so nothing else establishes this ordering.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.helm_release.victoria_metrics_k8s_stack configures VMSingle (and Alertmanager) storage with `storageClassName: advanced`, provisioned by :resource.kubernetes_storage_class.advanced. The release has no dependency on the storage class, so the PVCs may be created before the class exists and pods stay Pending until it does. The class name is only a literal string in the helm values, so nothing else establishes this ordering.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.kubectl_manifest.istio_prometheus_service_monitor_cp applies a ServiceMonitor manifest (monitoring.coreos.com/v1), which requires the Prometheus Operator CRDs (crd-servicemonitors.yaml) applied by :resource.kubectl_manifest.kube_prometheus_stack_operator_crds. The manifest depends on helm_release.istiod but not on the CRD resources, so it can be applied before the ServiceMonitor CRD exists (notably if kube-prometheus-stack is disabled but istio is enabled), failing the apply. No attribute reference or depends_on expresses this ordering.",
+      "node": ":resource.kubectl_manifest.istio_prometheus_service_monitor_cp",
+      "target": ":resource.kubectl_manifest.kube_prometheus_stack_operator_crds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.kubectl_manifest.istio_prometheus_service_monitor_dp applies a ServiceMonitor manifest (monitoring.coreos.com/v1), which requires the Prometheus Operator CRDs (crd-servicemonitors.yaml) applied by :resource.kubectl_manifest.kube_prometheus_stack_operator_crds. The manifest depends on helm_release.istiod but not on the CRD resources, so it can be applied before the ServiceMonitor CRD exists (notably if kube-prometheus-stack is disabled but istio is enabled), failing the apply. No attribute reference or depends_on expresses this ordering.",
+      "node": ":resource.kubectl_manifest.istio_prometheus_service_monitor_dp",
+      "target": ":resource.kubectl_manifest.kube_prometheus_stack_operator_crds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id declares an explicit depends_on on module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user, but its value already references aws_iam_access_key.this_user.id, which establishes the same dependency implicitly. The explicit depends_on is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key declares an explicit depends_on on module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user, but its value already references aws_iam_access_key.this_user.secret, which establishes the same dependency implicitly. The explicit depends_on is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

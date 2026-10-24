@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Splunk AWS integration can be created before its inline permissions policy is attached. Its metric-stream integration requires these AWS permissions, and the provider documentation recommends ordering the integration after role-related policy resources; no attribute reference can express this ordering cleanly.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Splunk AWS integration can be created before its metric-stream managed policy is attached. Its metric-stream integration requires these AWS permissions, and the provider documentation recommends ordering the integration after role-related policy resources; no attribute reference can express this ordering cleanly.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

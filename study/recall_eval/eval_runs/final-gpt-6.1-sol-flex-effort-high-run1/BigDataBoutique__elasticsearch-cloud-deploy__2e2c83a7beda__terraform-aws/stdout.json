@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "In the supplied graph, :resource.aws_autoscaling_group.data_nodes does not wait for :resource.aws_autoscaling_group.master_nodes. Restore the master-tier-first launch ordering expressed in datas.tf; otherwise both groups can launch concurrently during initial cluster deployment. This orders ASG provisioning, not Elasticsearch application readiness.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.cluster_bootstrap_state writes the persistent 'bootstrapped' marker but has no dependency on :resource.aws_instance.bootstrap_node in the supplied graph. It can therefore write '1' before bootstrap-node provisioning succeeds, causing later applies to skip the bootstrap instance. Restore the depends_on shown in masters.tf. Instance creation alone still does not verify completion of its user-data script.",
+      "node": ":resource.null_resource.cluster_bootstrap_state",
+      "target": ":resource.aws_instance.bootstrap_node",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_instance_profile.elasticsearch depends on the role but not on :resource.aws_iam_role_policy.elasticsearch, which supplies EC2 discovery permissions. Consequently, instances and Auto Scaling groups referencing the profile can start before the discovery policy is attached. Make the shared profile wait for this policy to gate all its consumers; this establishes attachment ordering, not a guarantee of IAM propagation.",
+      "node": ":resource.aws_iam_instance_profile.elasticsearch",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_instance.bootstrap_node uses the master Auto Scaling group name for bootstrap discovery, but it does not wait for :resource.aws_iam_role_policy.asg_discover. Depending on the instance profile and master group does not order attachment of this sibling role policy. When masters_count is nonzero, attach the ASG discovery permissions before launching the bootstrap instance.",
+      "node": ":resource.aws_instance.bootstrap_node",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

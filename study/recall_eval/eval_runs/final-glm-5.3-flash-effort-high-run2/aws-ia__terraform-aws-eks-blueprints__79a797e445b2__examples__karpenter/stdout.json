@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubectl_manifest.karpenter_provisioner references the AWSNodeTemplate named \"default\" via spec.providerRef.name, but that object is created by kubectl_manifest.karpenter_node_template. The two resources share no attribute reference or ordering (both only depend_on module.eks_blueprints_kubernetes_addons), so Terraform may apply the Provisioner before its referenced node template exists, and Karpenter will fail to resolve providerRef when provisioning nodes.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

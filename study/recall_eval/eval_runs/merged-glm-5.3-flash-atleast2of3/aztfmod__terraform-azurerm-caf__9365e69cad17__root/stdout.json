@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nazurerm_kubernetes_cluster.aks uses role_based_access_control.azure_active_directory with managed = true, which requires the Microsoft.ContainerService AAD-V2 feature to be registered on the subscription. The module's null_resource.register_aks_msi_preview_feature performs that registration (including a wait loop that can take ~30 minutes), but nothing links the cluster to it: the null_resource has no dependencies and the cluster does not depend on it, so Terraform may create the managed-AAD cluster before the feature registration completes. Add depends_on = [null_resource.register_aks_msi_preview_feature] on azurerm_kubernetes_cluster.aks.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nmodule.aks_clusters:resource.azurerm_kubernetes_cluster.aks has no dependency on module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature. The null_resource registers the Microsoft.ContainerService 'AAD-V2' preview feature via az CLI (which the module docs say can take up to 30 minutes) before the AKS cluster with managed Azure AD integration can be created. Nothing references the null_resource, so Terraform may create the cluster before the feature registration completes and the cluster creation can fail. module.aks_clusters:resource.azurerm_kubernetes_cluster.aks should depend on module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature (e.g. via depends_on).",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

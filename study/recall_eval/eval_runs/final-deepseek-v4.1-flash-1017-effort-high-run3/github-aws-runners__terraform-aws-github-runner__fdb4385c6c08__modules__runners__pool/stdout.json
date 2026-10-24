@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool has no ordering relative to the Terraform-managed log group. In fact the edge points the wrong way: aws_cloudwatch_log_group.pool is named \"/aws/lambda/${aws_lambda_function.pool.function_name}\", so the log group is created only *after* the function. Lambda implicitly creates /aws/lambda/<function_name> on first invocation, and an EventBridge schedule created in the same apply can invoke the function immediately, so the implicit group can race with (and pre-empt) the aws_cloudwatch_log_group resource, losing the configured retention_in_days / kms_key_id / log_group_class. The official aws_lambda_function docs show \"# Ensure log group exists before function\" with depends_on = [aws_cloudwatch_log_group.example]; the function here should be created after the log group (which requires naming the group from the prefix rather than from the function's function_name).",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool does not depend on aws_iam_role_policy.pool_logging, the inline policy that grants the function's execution role its CloudWatch Logs permissions. The policy is only ordered after aws_cloudwatch_log_group.pool (it references the group ARN), so it can be attached well after the function exists. Because aws_scheduler_schedule.pool is created ENABLED and can fire as soon as it is created, the first invocation(s) can run with an execution role that has no logs permissions, silently dropping the function's log output. The function should be created after its logging policy (the AWS provider's own aws_lambda_function example does depends_on = [aws_iam_role_policy_attachment.lambda_logs, aws_cloudwatch_log_group.example]).",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool and aws_iam_role_policy.pool (the function's main execution policy: SSM parameter access, EC2/ASG calls, KMS, iam:PassRole) only share aws_iam_role.pool as a dependency, so Terraform creates the function and the role policy in parallel. Nothing prevents the function from becoming live \u2014 and being invoked by aws_scheduler_schedule.pool, which is created enabled \u2014 before the policy has been attached to its execution role, producing AccessDenied failures on the first scheduled run. The function should depend on the policy that grants its runtime permissions.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool is created with a vpc_config block (when var.config.lambda.subnet_ids/security_group_ids are set), but it has no dependency on aws_iam_role_policy_attachment.pool_vpc_execution_role, which attaches AWSLambdaVPCAccessExecutionRole to its execution role. Both are gated on the same subnet_ids condition and both depend only on aws_iam_role.pool, so they are created concurrently. Lambda needs ec2:CreateNetworkInterface/DescribeNetworkInterfaces on the execution role while creating the function's VPC networking; without the attachment first, creation intermittently fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". The function should be created after the VPC access policy attachment.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool targets aws_lambda_function.pool with role_arn = aws_iam_role.scheduler.arn, but it does not depend on aws_iam_role_policy.scheduler, the inline policy that actually grants the scheduler role lambda:InvokeFunction. The policy is only ordered after data.aws_iam_policy_document.scheduler (which needs the function ARN), so it can be created after the schedule. Since aws_scheduler_schedule resources are created ENABLED and can fire immediately, the first invocation can fail with AccessDeniedException because the assumed role has no permission to invoke the target. The schedule should be created after the role policy that gives it invoke permission.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_alloydb_user.users only depends on google_alloydb_cluster.primary (via the cluster attribute), but creating database users in an AlloyDB cluster requires the cluster's primary instance to exist and be ready first. The provider documentation's own google_alloydb_user examples include depends_on = [google_alloydb_instance.default] for this reason. Without this ordering, user creation can race ahead of instance provisioning and fail.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

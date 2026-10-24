@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_alloydb_user.users is provisioned on google_alloydb_cluster.primary without any ordering guarantee relative to google_alloydb_instance.primary. Per the provider documentation, database users should only be created after the primary instance exists (the official examples attach depends_on = [google_alloydb_instance.default] to google_alloydb_user), since user provisioning requires the instance backing the cluster to be in place. Add a bare `depends_on = [google_alloydb_instance.primary]` to google_alloydb_user.users.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

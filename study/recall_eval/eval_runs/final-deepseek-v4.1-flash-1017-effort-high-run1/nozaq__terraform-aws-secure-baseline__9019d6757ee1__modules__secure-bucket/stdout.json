@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_s3_bucket_policy.access_log_policy and aws_s3_bucket_public_access_block.access_log both reference only aws_s3_bucket.access_log, so they are created concurrently even though S3 validates PutBucketPolicy against the bucket's Public Access Block settings (block_public_policy / restrict_public_buckets). If the policy is written first, it can be accepted while the block is not yet in place, and enabling block_public_policy afterwards does not retroactively affect an existing policy. Add `depends_on = [aws_s3_bucket_public_access_block.access_log]` to aws_s3_bucket_policy.access_log_policy so the public access block is applied first.",
+      "node": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "target": ":resource.aws_s3_bucket_public_access_block.access_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

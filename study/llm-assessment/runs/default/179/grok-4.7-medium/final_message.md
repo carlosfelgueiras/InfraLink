@@ -1,0 +1,9 @@
+The reported ordering gap is real. `aws_eks_node_group.this` only references the IAM role ARN, not the policy attachments, and the launch template workaround does not cover every supported path.
+
+`aws_eks_node_group.this` sets `node_role_arn` to `aws_iam_role.this[0].arn` when the module creates the role. That makes the role exist before the node group, but a role ARN is available before `aws_iam_role_policy_attachment.this` finishes attaching `AmazonEKSWorkerNodePolicy`, `AmazonEC2ContainerRegistryReadOnly`, and the CNI policy. The node group resource has no attribute reference to those attachments and no `depends_on`.
+
+The provider docs for `aws_eks_node_group` require that ordering explicitly: permissions must exist before the node group is created and must remain until after it is destroyed. Otherwise nodes cannot join, and on destroy EKS cannot delete instances and ENIs. `CreateNodegroup` only checks that the role exists; it does not wait for managed-policy attachments.
+
+The only `depends_on` for `aws_iam_role_policy_attachment.this` is on `aws_launch_template.this`. That resource is created only when `var.create && var.create_launch_template`. `create_launch_template = false` is supported (and used in the examples) while the module still creates the role, the attachments, and the node group. With the launch template at `count = 0`, that `depends_on` does not order the node group relative to the attachments. Terraform therefore can create the node group while the role is still permissionless, and can detach the policies before EKS has finished terminating instances and ENIs.
+
+Correct

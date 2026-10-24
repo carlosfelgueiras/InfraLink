@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main depends only on :resource.aws_iam_role.main and vars, so nothing orders its creation after :resource.aws_iam_role_policy_attachment.vpc_execution_role. When vpc_config is enabled (var.lambda.subnet_ids/security_group_ids set), the function can exist while the AWSLambdaVPCAccessExecutionRole policy is still unattached; any invocation before that lands (mid-apply or after a partial apply) fails because the execution role cannot create network interfaces. The provider docs show the function with depends_on the role policy attachment (\"Ensure IAM role and log group are ready\"). No attribute reference expresses this ordering, so a bare depends_on is required.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy.lambda_logging is only created after :resource.aws_cloudwatch_log_group.main, which is itself created after :resource.aws_lambda_function.main (the log group name references the function), so the function always exists before its inline logging policy is attached. Early invocations run with a role lacking logs:CreateLogStream/PutLogEvents permissions; the provider docs recommend the function depend on its logging policy/log group. No attribute reference on the function can express this, so a bare depends_on is needed - but see the missing function->log_group ordering: the log group's name must first be decoupled from aws_lambda_function.main.function_name to avoid a dependency cycle.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "When var.lambda.tracing_config.mode is set, :resource.aws_lambda_function.main is created with tracing mode Active, but nothing orders it after :resource.aws_iam_role_policy.xray, so the xray:PutTraceSegments/xray:PutTelemetryRecords permissions may be attached only once the function already exists and early invocations cannot deliver traces. This is the same operational readiness ordering the provider docs illustrate with depends_on on the role's policies; no attribute reference expresses it, so a bare depends_on is required.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Operationally :resource.aws_cloudwatch_log_group.main must exist before :resource.aws_lambda_function.main (the provider docs show the function with \"Ensure log group exists before function\" via depends_on), but the graph only has the reverse edge: the log group's name is derived from aws_lambda_function.main.function_name, forcing the function to be created first. In that window, an invocation (external trigger mid-apply, or after a partial apply) makes Lambda auto-creates the log group without the configured retention/KMS settings, and the subsequent aws_cloudwatch_log_group create then fails with ResourceAlreadyExistsException. The log group name is fully derivable from var.lambda.prefix/var.lambda.name, so that coupling should be dropped and the function should depend on the log group instead; a bare depends_on on the function expresses the ordering once the name reference is removed.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Provisioner manifest references the AWSNodeTemplate named `default` through `providerRef`, but Terraform has no dependency ordering it after the node-template manifest. Create the template before applying the Provisioner so the referenced provider object is available.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The node-template manifest already has an implicit dependency on the EKS module through its interpolation of `module.eks.cluster_name`; the explicit depends_on on the EKS module duplicates that ordering.",
+      "node": ":resource.kubectl_manifest.karpenter_node_template",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

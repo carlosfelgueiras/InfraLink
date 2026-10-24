@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_s3_bucket_public_access_block.access_log` sets `block_public_policy = true` (and `restrict_public_buckets = true`) on the access-log bucket, but it only depends on `:resource.aws_s3_bucket.access_log`, not on `:resource.aws_s3_bucket_policy.access_log_policy`. AWS S3 rejects `PutBucketPolicy` if the bucket's Public Access Block denies public policies, and Public Access Block settings are not retroactively safe for a policy applied concurrently \u2014 so the bucket policy must be written before the public access block is enabled. With no `depends_on` (and no attribute reference possible), Terraform may create the public access block first and the policy apply fails with AccessDenied. Add `depends_on = [aws_s3_bucket_policy.access_log_policy]` to `aws_s3_bucket_public_access_block.access_log`.",
+      "node": ":resource.aws_s3_bucket_public_access_block.access_log",
+      "target": ":resource.aws_s3_bucket_policy.access_log_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.fargate_profile:resource.aws_eks_fargate_profile.this only references the pod-execution IAM role (aws_iam_role.this[0].arn) and never the policy attachment. Unlike the node-group modules (which enforce this ordering through a launch template that carries depends_on = [aws_iam_role_policy_attachment.this]), the Fargate module has no such path, so the profile can be created before the pod-execution role has AmazonEKSFargatePodExecutionRolePolicy attached. IAM is eventually consistent, so Fargate pods scheduled right after will fail with authorization errors until the policy propagates. The profile should depend_on module.fargate_profile:resource.aws_iam_role_policy_attachment.this (a bare depends_on is required \u2014 no attribute on the profile can reference the attachment to infer it implicitly).",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

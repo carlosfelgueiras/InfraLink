@@ -1,0 +1,184 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin delivering scheduled events as soon as it is created, but the Lambda invoke permission is provisioned independently. Make the target wait for its invoke permission to avoid a window where scheduled invocations are denied.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled scale-down target can become active before EventBridge has permission to invoke the Lambda. Order target creation after its Lambda permission to avoid a period of failed scheduled invocations.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This scheduled pool target can be activated before its EventBridge invoke permission exists. The target should wait for the corresponding Lambda permission so scheduled invocations are authorized from the outset.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Creating this trigger object immediately generates an S3 event for the syncer Lambda. The syncer execution role's S3 policy is provisioned independently, so the first invocation could run before its required bucket access is granted.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The event source mapping can begin polling and invoking the scale-up Lambda when created. It should wait until the Lambda execution role policy granting the required queue and scale-up permissions has been applied.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook is configured using the API endpoint, but the app update can run before the API Gateway route is deployed. Waiting for the route (which depends on the integration) avoids registering an endpoint that is not yet functional.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App update can run before the default API Gateway stage exists, even though its endpoint requires that stage to be callable. Order the app update after stage creation.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App can be configured to send webhook calls before API Gateway has permission to invoke the Lambda. Make the app update wait for the API Gateway Lambda permission.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled syncer target may invoke Lambda as soon as the target is installed. The function's execution role needs this S3 policy to access the distribution bucket, but target creation is not ordered after that policy; wait for it to avoid early invocations failing authorization.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled scale-down target can invoke the function before its execution role's scale-down permissions have been applied. Order target creation after this inline policy so a scheduled run cannot race policy provisioning.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled pool target can invoke the Lambda before its role's pool policy is installed. Ensure the target waits for this policy so the first scheduled invocation has the required permissions.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, its VPC execution-role policy attachment is needed for Lambda to create and manage network interfaces. The attachment is created independently of the function, so order function creation after this prerequisite to avoid a function that cannot initialize networking until policy propagation completes.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, this execution-role policy attachment grants the permissions Lambda needs to manage network interfaces. The function can otherwise be created before those permissions are available and fail to initialize its VPC networking.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, this execution-role policy attachment grants the permissions Lambda needs to manage network interfaces. The function can otherwise be created before those permissions are available and fail to initialize its VPC networking.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, the function's execution role must have the VPC access policy so Lambda can manage network interfaces. The attachment is not currently ordered before this function, risking unavailable VPC networking until the policy propagates.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When Lambda VPC subnets are configured, this execution-role policy attachment grants the permissions Lambda needs to manage network interfaces. The function can otherwise be created before those permissions are available and fail to initialize its VPC networking.",
+      "node": "module.multi-runner.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Registering the GitHub App webhook can cause API Gateway to deliver events immediately. The webhook Lambda needs this role policy to publish events to the configured build queues, but the app update is not ordered after policy installation.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Once the GitHub App webhook is registered, the Lambda may receive an event immediately and needs this policy to read the webhook secret from SSM. The app update should wait until the policy is installed.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the optional workflow-job queue is enabled, the webhook Lambda needs this policy to publish to that queue. The app update can activate webhook delivery before the policy exists, so order the app update after it in that configuration.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_iam_role_policy.webhook_workflow_job_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When an external AMI SSM parameter is configured, the scale-up Lambda needs this role-policy attachment to read it. The SQS event source mapping can start delivering events independently, so it should wait for this permission as well as the main scale-up policy.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

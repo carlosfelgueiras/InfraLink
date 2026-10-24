@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The organization configuration aggregator references the IAM role ARN, but that does not order it after the AWSConfigRoleForOrganizations policy attachment. AWS Config organization aggregation requires that policy to be attached before the aggregator is created; add an explicit dependency on the attachment.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudTrail resource needs the destination bucket policy to be installed before trail creation so AWS accepts the service's access to the bucket. The CloudTrail resource references the bucket name, but that does not order it after the bucket policy.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The trail is created using the audit bucket, but only the bucket itself is an attribute dependency. The S3 bucket policy granting CloudTrail access is not ordered before trail creation; make the trail depend on that policy so CloudTrail can successfully validate/use the destination.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The trail references the CloudWatch delivery role ARN, but that does not order it after the role's inline permissions policy. Ensure the delivery policy is attached before creating the trail so CloudTrail can deliver events to the log group.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

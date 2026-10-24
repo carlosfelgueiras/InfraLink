@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_project_default_network_tier.default_network_tier configures the Compute Engine default network tier, so the Compute API must be enabled first. It has no dependency on google_project_service.project_services (unlike the sibling google_compute_project_metadata_item.default).",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, which requires the Compute API in the service project. It only depends on the VPC-SC perimeter resources, not on google_project_service.project_services.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_project_iam_member.service_agents explicitly depends on google_project_service.project_services, but it already depends on google_project_service_identity.default, which itself depends on google_project_service.project_services.",
+      "node": ":resource.google_project_iam_member.service_agents",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_logging_project_sink.sink explicitly depends on google_project_service.project_services, but the project IAM binding/member resources it already depends on also depend on google_project_service.project_services.",
+      "node": ":resource.google_logging_project_sink.sink",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_agent_cmek explicitly depends on google_project_service.project_services, but it already depends on google_project_service_identity.default and google_project_iam_member.service_agents, both of which depend on google_project_service.project_services.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_kms_crypto_key_iam_member.service_agent_cmek explicitly depends on google_project_service_identity.default, but it already depends on google_project_iam_member.service_agents, which depends on google_project_service_identity.default.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_project_iam_member.shared_vpc_host_robots explicitly depends on google_project_service.project_services, but its dependencies on google_project_service_identity.default, google_project_default_service_accounts.default_service_accounts, and the two service-account data sources all already depend on google_project_service.project_services.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "google_compute_subnetwork_iam_member.shared_vpc_host_robots explicitly depends on google_project_service.project_services, but its dependencies on google_project_service_identity.default, google_project_default_service_accounts.default_service_accounts, and the two service-account data sources all already depend on google_project_service.project_services.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

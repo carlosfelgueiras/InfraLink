@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is created before aws_cloudwatch_log_group.webhook (the log group actually waits on the lambda via its function_name reference). AWS Lambda asynchronously auto-creates the /aws/lambda/<function_name> log group when the function first logs, so the managed log group can hit ResourceAlreadyExistsException, or its retention_in_days/kms_key_id/log_group_class settings can be lost. Add depends_on = [aws_cloudwatch_log_group.webhook] (deriving the log group name from var.config.prefix instead of the lambda attribute avoids the resulting cycle).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook depends on the execution role ARN but is not ordered after aws_iam_role_policy.webhook_logging, which grants the CloudWatch Logs permissions (logs:CreateLogStream/PutLogEvents on the log group) the function needs to write logs. IAM policy propagation is eventually consistent, so the function's first invocation right after creation can fail with AccessDenied. Add depends_on = [aws_iam_role_policy.webhook_logging].",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is not ordered after aws_iam_role_policy.webhook_sqs, which grants the SQS publish permissions the webhook lambda needs at invocation time. Because IAM policy changes propagate with delay, the function can be invoked before the policy is effective. Add depends_on = [aws_iam_role_policy.webhook_sqs].",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is not ordered after aws_iam_role_policy.webhook_ssm, which grants access to the SSM parameters (github app webhook secret, runner matcher config) the function reads at runtime via its environment variables. IAM propagation delay means an immediate invocation may be denied. Add depends_on = [aws_iam_role_policy.webhook_ssm].",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is not ordered after aws_iam_role_policy.webhook_kms, which grants the KMS permissions needed for log/parameter decryption (when var.config.kms_key_arn is set). The provider docs explicitly call out KMSAccessDeniedException on functions whose role permissions are not yet propagated. Add depends_on = [aws_iam_role_policy.webhook_kms].",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is not ordered after aws_iam_role_policy.xray, which grants the X-Ray permissions required when tracing_config mode is Active. If the function is invoked before the policy propagates, trace segment submission fails. Add depends_on = [aws_iam_role_policy.xray] (use aws_iam_role_policy.xray[0] given the count).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook is not ordered after aws_iam_role_policy_attachment.webhook_vpc_execution_role, which attaches AWSLambdaVPCAccessExecutionRole needed for VPC-attached functions (ENI/network access at invocation). The official aws_lambda_function docs show this attachment in the function's depends_on to ensure the role is ready. Add depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role] (index [0] given the count).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default declares `depends_on = [aws_s3_bucket.origin]`, but it already depends on that bucket implicitly: origin.domain_name uses local.bucket_domain_name, which resolves through local.origin_bucket / local.origin_bucket_options to aws_s3_bucket.origin[0] (and the same local is referenced throughout the distribution). Terraform therefore already orders the distribution after the bucket, so the explicit depends_on is redundant.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

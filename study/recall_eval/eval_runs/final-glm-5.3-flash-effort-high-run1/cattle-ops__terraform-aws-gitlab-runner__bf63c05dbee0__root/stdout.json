@@ -1,0 +1,124 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name`, which is a plain string, so Terraform does not know it must be created after :resource.aws_iam_role.instance. When `create_runner_iam_role` is true the role is created by this module, and the instance profile could be created before the role exists, causing the profile creation to fail.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_launch_template.gitlab_runner_instance sets `iam_instance_profile.name = local.aws_iam_role_instance_name` (a plain string), so Terraform infers no dependency on :resource.aws_iam_instance_profile.instance. The launch template (and the ASG that consumes it) can be created before the instance profile exists, which makes launching the runner agent fail. A bare depends_on (guarded by var.create_runner_iam_role) is needed here.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy.instance sets `role = local.aws_iam_role_instance_name` (a string, not an attribute reference), so Terraform may create this inline policy before :resource.aws_iam_role.instance exists, and PutRolePolicy would fail. It should depend on the role.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy attaches to `role = local.aws_iam_role_instance_name` by name string only; there is no dependency on :resource.aws_iam_role.instance, so the attachment can race the role's creation and fail.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can be created before the role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.user_defined_policies attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.service_linked_role attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.ssm attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.eip attaches to `role = local.aws_iam_role_instance_name` by name string only; it lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance attaches to `role = local.aws_iam_role_instance_name` by name string only (its policy ARN comes via local.bucket_policy, which also only covers module.cache). It lacks a dependency on :resource.aws_iam_role.instance and can race the role's creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The runner agent's user-data (baked into :resource.aws_launch_template.gitlab_runner_instance) writes the registered runner token to SSM under the key in :resource.aws_ssm_parameter.runner_registration_token, which Terraform creates with value \"null\" and `ignore_changes = [value]`. If the ASG instance boots before :resource.aws_ssm_parameter.runner_registration_token exists, the user-data `aws ssm put-parameter --overwrite` fails (ParameterNotFound), and if the instance creates it instead, Terraform's subsequent create fails with ParameterAlreadyExists. The launch template must be ordered after the SSM parameter (nothing references it via an attribute, so a bare depends_on is required).",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner agent's user-data (baked into :resource.aws_launch_template.gitlab_runner_instance) stores the Sentry DSN in SSM under the key of :resource.aws_ssm_parameter.runner_sentry_dsn, which Terraform creates with value \"null\" and `ignore_changes = [value]`. There is no ordering between them, so the instance can boot before :resource.aws_ssm_parameter.runner_sentry_dsn exists and the user-data write fails (or Terraform's create later collides). A bare depends_on is required since no attribute reference exists.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_ssm_parameter.runner_sentry_dsn",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:data.aws_ecrpublic_authorization_token.token` explicitly depends on `:module.eks`, but it already depends on `:resource.time_sleep.wait_300_seconds`, which itself depends on `:module.eks`; the direct dependency adds no ordering.",
+      "node": ":data.aws_ecrpublic_authorization_token.token",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:data.aws_eks_cluster.cluster` explicitly depends on `:module.eks`, but its dependency on `:resource.time_sleep.wait_300_seconds` already orders it after `:module.eks`.",
+      "node": ":data.aws_eks_cluster.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:data.aws_eks_cluster_auth.cluster` explicitly depends on `:module.eks`, but its dependency on `:resource.time_sleep.wait_300_seconds` already orders it after `:module.eks`.",
+      "node": ":data.aws_eks_cluster_auth.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.helm_release.karpenter` explicitly depends on `:module.karpenter`, while its `values` also reference outputs from `:module.karpenter`, establishing that dependency implicitly.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.apply_ec2_node_class` explicitly depends on `:module.eks`, while its manifest and triggers reference outputs from `:module.eks`, establishing that dependency implicitly.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.apply_ec2_node_class` explicitly depends on `:module.karpenter`, while its manifest and triggers reference outputs from `:module.karpenter`, establishing that dependency implicitly.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.apply_node_pool` explicitly depends on `:module.eks`, but its dependencies on `:resource.helm_release.karpenter` and `:resource.null_resource.apply_ec2_node_class` already transitively order it after `:module.eks`.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.update_kubeconfig` explicitly depends on `:module.eks`, while its provisioner command also references `module.eks` outputs, establishing that dependency implicitly.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.delete_daemonset` explicitly depends on `:module.eks`, but its dependency on `:resource.null_resource.update_kubeconfig` already transitively orders it after `:module.eks`.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.null_resource.create_calico_installation` applies the Calico Installation that activates the Calico CNI, but it can run concurrently with `:resource.null_resource.delete_daemonset`, which removes the EKS `aws-node` DaemonSet. Ensure the AWS CNI DaemonSet removal completes before activating Calico.",
+      "node": ":resource.null_resource.create_calico_installation",
+      "target": ":resource.null_resource.delete_daemonset",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ delete_daemonset_id = null_resource.delete_daemonset.id }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.helm_release.karpenter` explicitly depends on `:data.aws_eks_cluster_auth.cluster`, but its dependency on `:module.karpenter` already transitively orders it after that data source.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.apply_ec2_node_class` explicitly depends on `:resource.null_resource.update_kubeconfig`, but it already depends on `:resource.helm_release.karpenter`, which itself depends on `:resource.null_resource.update_kubeconfig`.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.apply_node_pool` explicitly depends on `:resource.helm_release.karpenter`, but its dependency on `:resource.null_resource.apply_ec2_node_class` already transitively orders it after the Helm release.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.helm_release.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.apply_node_pool` explicitly depends on `:resource.null_resource.update_kubeconfig`, but its dependency on `:resource.null_resource.apply_ec2_node_class` already transitively orders it after kubeconfig configuration.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

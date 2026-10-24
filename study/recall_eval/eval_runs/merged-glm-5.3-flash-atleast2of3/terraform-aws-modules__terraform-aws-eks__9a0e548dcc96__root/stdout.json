@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\naws_autoscaling_group.workers launches EKS worker instances as soon as the ASG is created, but nothing orders it after the AmazonEKSWorkerNodePolicy attachment on the worker IAM role. Instances launched before the policy is attached will fail to authenticate/join the cluster (and slow or break cluster formation). The node_groups submodule guards this exact race via ng_depends_on; the legacy ASG path does not.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe EKS AMI bootstrap script authenticates with the node IAM role and calls aws eks describe-cluster, which requires the AmazonEKSWorkerNodePolicy attachment (and IAM changes propagate with delay). The ASG only transitively depends on the IAM role via the launch configuration's instance profile, not on the policy attachments, so instances can boot before the policy is attached and bootstrap then fails so the node never joins. The node_groups module waits for these attachments via ng_depends_on; the ASG does not. No implicit reference or data fix exists; a bare depends_on is needed.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\naws_autoscaling_group.workers_launch_template launches instances asynchronously during creation, but is not ordered after the AmazonEKSWorkerNodePolicy attachment on the worker IAM role. Instances launched before the policy is attached will fail to join the EKS cluster; the node_groups submodule guards this race while this launch-template ASG path does not.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nSame bootstrap race as aws_autoscaling_group.workers: launch-template instances can boot before the AmazonEKSWorkerNodePolicy attachment is applied (IAM propagation delay), causing the bootstrap script's aws eks describe-cluster call to fail so the node never joins. The node_groups module waits for these attachments via ng_depends_on, but this ASG has no equivalent dependency. No implicit reference or data fix exists; a bare depends_on is required.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

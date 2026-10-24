@@ -1,0 +1,136 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The instance profile is configured with a computed role name rather than a reference to the managed IAM role. It can therefore be created before the role exists, although AWS requires the role to exist before it can be added to the profile.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This inline role policy uses the computed role name, so Terraform can attempt to create it before the managed runner IAM role exists. Reference the role directly to establish the required creation order.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The attachment's role argument is a local name, not a reference to the managed runner IAM role. The attachment can therefore be attempted before the role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[count.index].name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The attachment uses a local role name, so it has no Terraform ordering dependency on the managed runner IAM role and may be attempted before that role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed-policy attachment uses a local role name rather than a reference to the managed runner IAM role. When the role is managed, Terraform may attempt the attachment before role creation completes.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This user-defined policy attachment targets the runner role by local name only, so it can be attempted before the managed role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cache policy attachment targets the runner role through a local name and does not wait for the managed role to be created.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The service-linked-role policy attachment uses only the computed runner role name, so Terraform may attempt it before the managed role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SSM policy attachment uses a local role name and does not establish ordering after the managed runner IAM role exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EIP policy attachment uses the computed role name rather than referencing the managed runner IAM role, so the attachment may be attempted before role creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch template names the runner instance profile using a local value, so Terraform can create it and the Auto Scaling group can launch instances before the managed instance profile exists. Reference the profile resource directly when it is managed.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": {
+        "field": "iam_instance_profile.name",
+        "expression": "var.create_runner_iam_role ? aws_iam_instance_profile.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudfront_distribution.default serves content from the S3 origin bucket created by aws_s3_bucket.origin (its origin domain_name resolves via local.bucket_domain_name to that bucket). The bucket must exist before the distribution is created \u2014 the source explicitly declares `depends_on = [\"aws_s3_bucket.origin\"]` for this reason, but no dependency (implicit or explicit) is recorded in the graph, so Terraform could create the distribution before its origin bucket exists.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_policy.default attaches its policy to the S3 bucket named by local.bucket, which is the bucket created by aws_s3_bucket.origin (when var.origin_bucket is empty). The graph only records a dependency on data.template_file.default, so the policy resource could be applied before the bucket exists, which fails. Wiring an actual reference to aws_s3_bucket.origin into the bucket argument (as local.bucket effectively does) establishes the ordering implicitly.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "element(concat(aws_s3_bucket.origin.*.id, list(var.origin_bucket)), 0)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

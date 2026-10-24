@@ -1,0 +1,57 @@
+{
+  "repo": "cloudposse__terraform-aws-cloudfront-s3-cdn",
+  "parent_sha": "b87a8bef885536e876830abe59ef2aebff2f0ecf^",
+  "resolved_sha": "8bab65c7244338712fb634618011f3742036642a",
+  "module_dir": ".",
+  "profile": "openrouter-gpt-6-luna",
+  "effort": null,
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "cloudposse__terraform-aws-cloudfront-s3-cdn",
+      "pr_number": 284,
+      "pr_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/pull/284",
+      "commit_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/commit/b87a8bef885536e876830abe59ef2aebff2f0ecf",
+      "commit_sha": "b87a8bef885536e876830abe59ef2aebff2f0ecf",
+      "parent_sha": "b87a8bef885536e876830abe59ef2aebff2f0ecf^",
+      "commit_subject": "Support AWS Provider V5 (#284)",
+      "commit_date": "2023-07-25T17:21:41+03:00",
+      "file": "main.tf",
+      "module_dir": ".",
+      "holder_address": "aws_s3_bucket_policy.default",
+      "added_targets": [
+        "aws_s3_bucket_public_access_block.origin"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_s3_bucket_public_access_block.origin": false
+      },
+      "verify_error": null
+    },
+    {
+      "repo": "cloudposse__terraform-aws-cloudfront-s3-cdn",
+      "pr_number": 284,
+      "pr_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/pull/284",
+      "commit_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/commit/b87a8bef885536e876830abe59ef2aebff2f0ecf",
+      "commit_sha": "b87a8bef885536e876830abe59ef2aebff2f0ecf",
+      "parent_sha": "b87a8bef885536e876830abe59ef2aebff2f0ecf^",
+      "commit_subject": "Support AWS Provider V5 (#284)",
+      "commit_date": "2023-07-25T17:21:41+03:00",
+      "file": "main.tf",
+      "module_dir": ".",
+      "holder_address": "aws_cloudfront_distribution.default",
+      "added_targets": [
+        "aws_s3_bucket_ownership_controls.origin",
+        "time_sleep.wait_for_aws_s3_bucket_settings"
+      ],
+      "pre_existing_targets": [
+        "aws_s3_bucket.origin"
+      ],
+      "already_implicit": {
+        "aws_s3_bucket_ownership_controls.origin": false,
+        "time_sleep.wait_for_aws_s3_bucket_settings": false
+      },
+      "verify_error": null
+    }
+  ]
+}

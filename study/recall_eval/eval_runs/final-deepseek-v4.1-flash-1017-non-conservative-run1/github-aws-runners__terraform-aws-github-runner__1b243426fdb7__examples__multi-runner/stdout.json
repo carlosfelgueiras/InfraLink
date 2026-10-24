@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app runs update-app.sh to point the GitHub App's webhook at the multi-runner endpoint. Its only ordering comes from var.webhook_endpoint -> module.multi-runner:output.webhook, which covers the API Gateway (aws_apigatewayv2_api.webhook) and the Lambda but NOT the aws_apigatewayv2_route.webhook that makes POST /webhook arriv at that URL. The App can therefore be reconfigured before the webhook route exists, so GitHub's initial ping hits an endpoint that 404s. Add an ordering dependency from update_app to the webhook route (a cross-module bare depends_on, since no clean data reference exists).",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "aws_cloudwatch_event_target.syncer schedules the syncer Lambda, but EventBridge can only invoke it once the resource-based policy created by aws_lambda_permission.syncer exists. The target currently depends only on the rule and the function (its arn/rule attributes), so the permission is not ordered before the target. Add depends_on = [aws_lambda_permission.syncer] on the event target. No clean data-reference fix exists because the permission exposes no resource attribute usable in the target.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "aws_cloudwatch_event_target.scale_down triggers the scale-down Lambda, but EventBridge cannot invoke it until the resource-based policy in aws_lambda_permission.scale_down exists. The target only references the rule and the function, so it can be created before the permission. Add depends_on = [aws_lambda_permission.scale_down] on the event target. No clean data-reference fix exists.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "aws_cloudwatch_event_target.pool schedules the pool Lambda, but EventBridge can only invoke it after aws_lambda_permission.pool has created the resource-based policy. The target depends only on the rule and the function, so the permission is not ordered before it. Add depends_on = [aws_lambda_permission.pool] on the event target. No clean data-reference fix exists.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "aws_apigatewayv2_integration.webhook proxies requests to the webhook Lambda, wich requires the API Gateway invoke permission created by aws_lambda_permission.webhook. The integration references only the API and the function's invoke_arn, so the permission is not ordered before the integration. Add depends_on = [aws_lambda_permission.webhook] on the integration (a bare depends_on is the only option; the permission exposes no attribute suitable for the integration's arguments).",
+      "node": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_integration.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

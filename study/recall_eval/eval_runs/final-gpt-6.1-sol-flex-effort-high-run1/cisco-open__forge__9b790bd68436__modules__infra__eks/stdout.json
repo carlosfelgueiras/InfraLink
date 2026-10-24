@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter explicitly depends on null_resource.wait_for_cluster, but that ordering is already established transitively: helm_release.karpenter references module.karpenter, which depends on null_resource.patch_calico_installation, which references data.external.update_kubeconfig, which explicitly depends on null_resource.wait_for_cluster. Remove the redundant depends_on entry.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.karpenter launches a controller whose service account uses the EKS Pod Identity association enabled in module.karpenter, but it has no dependency on aws_eks_addon.eks_pod_identity_agent. The release and agent add-on can therefore be installed concurrently, allowing the controller to start before its AWS credential agent is available. Make the release depend on aws_eks_addon.eks_pod_identity_agent to establish that operational prerequisite; this also orders it after the self-managed node group.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

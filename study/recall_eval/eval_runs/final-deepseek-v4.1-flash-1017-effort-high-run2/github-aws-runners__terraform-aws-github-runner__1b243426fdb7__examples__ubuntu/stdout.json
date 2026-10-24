@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_event_source_mapping.scale_up` only depends on `aws_lambda_function.scale_up` and the queue ARN, so Terraform is free to create the SQS mapping before `aws_iam_role_policy.scale_up` (the inline policy that grants the scale-up execution role sqs:ReceiveMessage/DeleteMessage/GetQueueAttributes) exists. Lambda validates the execution role's permission to poll the queue when the event source mapping is created, which fails with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\" on first apply. This ordering cannot be expressed as an attribute reference, so an explicit `depends_on` on `aws_iam_role_policy.scale_up` is needed.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-insecure-transport policy to the dead-letter queue, but its `queue_url` is `aws_sqs_queue.queued_builds.id` (the main build queue), so the graph shows a dependency on `aws_sqs_queue.queued_builds` only and none on `aws_sqs_queue.queued_builds_dlq`. As a result the DLQ is never protected by the policy and can even be created after its policy. It should reference the DLQ, which both fixes the policy target and establishes the missing ordering.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

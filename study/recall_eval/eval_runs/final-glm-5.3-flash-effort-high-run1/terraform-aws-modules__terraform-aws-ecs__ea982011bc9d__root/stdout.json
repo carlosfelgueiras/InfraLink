@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_cluster_capacity_providers.this associates capacity providers with the ECS cluster by name (capacity_providers is derived from var.autoscaling_capacity_providers / var.fargate_capacity_providers, not from the aws_ecs_capacity_provider.this resources themselves). AWS's UpdateClusterCapacityProviders API requires each capacity provider to already exist and be registered before it can be associated, and capacity provider creation is asynchronous on the AWS side. The graph shows no dependency from aws_ecs_cluster_capacity_providers.this on aws_ecs_capacity_provider.this (the only HCL reference is via the merge in the default_capacity_provider_strategy dynamic block, which does not guarantee the required operational ordering), so the association can be applied before the capacity providers are ready and fail. Add depends_on = [aws_ecs_capacity_provider.this] to aws_ecs_cluster_capacity_providers.this.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

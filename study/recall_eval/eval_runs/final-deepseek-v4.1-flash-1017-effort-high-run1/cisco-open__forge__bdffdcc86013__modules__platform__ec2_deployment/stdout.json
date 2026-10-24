@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda: explicit depends_on of module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.runners: explicit depends_on of :data.external.download_lambdas is redundant \u2014 already implied by attribute references",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:module.runners` declares `depends_on = [data.external.download_lambdas]`, but the module already consumes `data.external.download_lambdas.result.path` in three inputs (`webhook_lambda_zip`, `runner_binaries_syncer_lambda_zip`, `runners_lambda_zip`), which establishes the same ordering implicitly. The explicit `depends_on` is redundant and can be removed.",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda` passes `logging_log_group = aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda.name` (with `use_existing_cloudwatch_log_group = true`), which already orders the module after the log group. The extra `depends_on = [aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda]` duplicates an existing implicit dependency.",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda` sets `arn = module.ec2_update_runner_ssm_ami_lambda.lambda_function_arn`, which already creates the dependency on the Lambda module. Its `depends_on = [module.ec2_update_runner_ssm_ami_lambda]` is redundant.",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda` already references `aws_cloudwatch_log_group.ec2_update_runner_tags_lambda.name` via `logging_log_group` (with `use_existing_cloudwatch_log_group = true`), so ordering after the log group is implicit. The explicit `depends_on = [aws_cloudwatch_log_group.ec2_update_runner_tags_lambda]` is redundant.",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:module.ec2_update_runner_ssm_ami` deploys a Lambda that reads/updates the runner AMI SSM parameters at `/github-action-runners/${prefix}/<runner>/runners/config/ami_id`, i.e. parameters owned and created by `:module.runners`. It currently depends only on `var.runner_configs`/`var.tenant_configs` (the ARNs are hand-built strings), so nothing orders it after the runners module and the Lambda's first GetParameter/PutParameter calls can hit parameters that don't exist yet. Contrast with `:module.ec2_update_runner_tags`, which is ordered implicitly because it consumes `module.runners.webhook.eventbridge.event_bus.name`. There is no attribute of `module.runners` to wire in here, so an explicit `depends_on = [module.runners]` is the appropriate fix.",
+      "node": ":module.ec2_update_runner_ssm_ami",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

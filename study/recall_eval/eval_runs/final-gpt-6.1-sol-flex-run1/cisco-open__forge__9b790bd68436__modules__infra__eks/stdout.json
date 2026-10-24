@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter already depends transitively on null_resource.wait_for_cluster through module.karpenter \u2192 null_resource.patch_calico_installation \u2192 data.external.update_kubeconfig. Its explicit depends_on on null_resource.wait_for_cluster duplicates that ordering.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

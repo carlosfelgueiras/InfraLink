@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group can launch self-managed nodes before the EKS access entry for their IAM role is created. Since that entry enables the nodes to authenticate with the cluster, order the group after the access entry (for example, with an explicit depends_on).",
+      "node": ":resource.aws_autoscaling_group.this",
+      "target": ":resource.aws_eks_access_entry.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "delete_http_settings removes an HTTP settings object that can still be referenced by request routing rules; delete_request_routing_rule should run first. Its current depends_on list does not include delete_http_settings.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "delete_url_path_map removes a path map that may still contain URL path rules; delete_url_path_rule should run before deleting the map. The existing dependency is in the opposite direction (delete_url_path_rule depends on delete_url_path_map).",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_url_path_rule",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "delete_probe removes a probe that HTTP settings may reference, but delete_http_settings has no dependency on delete_probe. The set-side ordering already indicates HTTP settings are downstream of probes.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

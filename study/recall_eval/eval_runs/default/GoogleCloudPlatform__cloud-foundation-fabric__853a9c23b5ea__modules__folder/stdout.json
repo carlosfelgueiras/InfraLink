@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.google_logging_folder_sink.sink to :resource.google_folder_iam_binding.authoritative is redundant: the sink and IAM binding both refer to local.folder.name, which resolves to the same created folder resource when folder_create is enabled, already establishing the dependency transitively.",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

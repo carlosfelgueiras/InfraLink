@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this references only aws_iam_role.this[0].arn (node_role_arn) and has no ordering against aws_iam_role_policy_attachment.this. EKS managed node groups launch EC2 instances/ENIs that join the cluster using the node role's attached policies; IAM policy attachment is eventually consistent, so the node group can be created before the WorkerNode/ECR/CNI policies are actually attached and propagated, causing nodes to fail to join or EKS to be unable to clean up instances/ENIs on destroy. The AWS provider documentation for aws_eks_node_group explicitly prescribes depends_on over the role's policy attachments. Add a dependency from the node group on aws_iam_role_policy_attachment.this (a bare depends_on is the idiomatic fix here \u2014 there is no attribute on the node group that can reference a policy attachment).",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this has no ordering relation to aws_iam_role_policy_attachment.additional, which attaches the user-supplied additional policies to the same node IAM role. Those policies must also be attached and propagated before the node group's instances launch/join (and remain through destroy), otherwise pods/nodes relying on the additional permissions can get access-denied during provisioning. This ordering is not expressed anywhere in the graph (the launch template's depends_on only covers aws_iam_role_policy_attachment.this). Add aws_iam_role_policy_attachment.additional to the node group's depends_on.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

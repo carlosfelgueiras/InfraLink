@@ -1,0 +1,112 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_key_id: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_iam_elastic_stack:output.access_secret_key: explicit depends_on of module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "Output module.aws_iam_elastic_stack:output.access_key_id has an explicit depends_on on aws_iam_access_key.this_user, but its value already reads aws_iam_access_key.this_user.id, which establishes the same dependency implicitly. The depends_on is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_key_id",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "Output module.aws_iam_elastic_stack:output.access_secret_key has an explicit depends_on on aws_iam_access_key.this_user, but its value already reads aws_iam_access_key.this_user.secret (same resource), which establishes the dependency implicitly. The depends_on is redundant.",
+      "node": "module.aws_iam_elastic_stack:output.access_secret_key",
+      "target": "module.aws_iam_elastic_stack:resource.aws_iam_access_key.this_user",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.elk installs the ELK chart whose elasticsearch pods reference kubernetes_secret.elasticsearch_credentials by secretKeyRef name only; nothing creates a Terraform ordering edge. The release (helm --wait) can start before the secret exists, leaving pods in CreateContainerConfigError.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.elk mounts the \"elastic-certificates\" secret (secretMounts) created by kubernetes_secret.elasticsearch_certificates, but only by literal name, so no implicit dependency exists. The release can be applied before the TLS secret is created.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.elk's elasticsearch keystore references kubernetes_secret.elasticsearch_s3_user_creds by name only (keystore.secretName). No attribute reference or depends_on orders the release after the S3 credentials secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.elk's kibana pods read the \"kibana-encryption-key\" secret via secretKeyRef, created by kubernetes_secret.kibana_enc_key, but the reference is only a literal name with no dependency edge.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.elk provisions an Elasticsearch PVC with storageClassName \"advanced\", but nothing references kubernetes_storage_class.advanced. On a fresh apply the release can be created before the StorageClass exists, leaving the PVC unbound and the helm --wait install timing out.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.prometheus_operator creates a Prometheus PVC with storageClassName \"advanced\" but has no dependency on kubernetes_storage_class.advanced; the release can race ahead of the StorageClass existing.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.victoria_metrics_k8s_stack creates a vmsingle PVC with storageClassName \"advanced\" but does not depend on kubernetes_storage_class.advanced, so it may be applied before the StorageClass exists.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.loki_stack provisions Loki persistence with storageClassName \"advanced\" but has no dependency on kubernetes_storage_class.advanced, so the release can be created before the StorageClass exists.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

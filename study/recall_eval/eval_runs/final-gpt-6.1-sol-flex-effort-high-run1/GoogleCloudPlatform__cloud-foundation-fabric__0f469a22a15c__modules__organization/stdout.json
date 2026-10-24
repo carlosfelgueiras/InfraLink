@@ -1,0 +1,37 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When google_organization_iam_binding.authoritative grants a custom role created by google_organization_iam_custom_role.roles, the role must exist before the binding is applied. The role currently comes from a variable map key, so Terraform can create the binding before the custom role or delete the custom role before removing its binding. Resolve locally managed role names through the custom-role resources, preserving externally supplied role names as a fallback.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "lookup({ for role_id, role in google_organization_iam_custom_role.roles : \"organizations/${local.organization_id_numeric}/roles/${role_id}\" => role.name }, each.key, each.key)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When google_organization_iam_member.additive grants a custom role created by google_organization_iam_custom_role.roles, that role must exist before the membership is applied. Reading each.value.role from the input-derived map does not establish this ordering. Reference the managed role's name when it matches the requested role, retaining the input for external roles.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "lookup({ for role_id, role in google_organization_iam_custom_role.roles : \"organizations/${local.organization_id_numeric}/roles/${role_id}\" => role.name }, each.value.role, each.value.role)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When google_organization_iam_policy.authoritative includes roles created by google_organization_iam_custom_role.roles, applying the policy must wait for those custom roles to exist. Its dependency on data.google_iam_policy.authoritative only waits for policy JSON generation from input values; it does not order creation of the custom roles. Add an explicit dependency on the custom-role resources to prevent a role-not-found race and preserve reverse destroy ordering.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

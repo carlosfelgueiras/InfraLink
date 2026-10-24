@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runners module creates Lambda functions that may be invoked against the VPC before the VPC module's AWS networking resources have finished provisioning. The module input references establish a dependency on module.base:output.vpc, but the resource-group resource is independent and can be applied concurrently; if that resource-group inventory is intended to include the runner infrastructure, add an explicit ordering dependency. Source does not otherwise establish that intent, so no diagnostic is warranted for this pair.",
+      "node": ":module.runners",
+      "target": ":module.base",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from module.runners.module.runner_binaries:resource.aws_s3_bucket_notification.on_deploy to module.runners.module.runner_binaries:resource.aws_lambda_permission.on_deploy is redundant: the notification's lambda_function_arn reference to the syncer Lambda only covers function creation, but source contains explicit depends_on to permission. Wait: not redundant because no reference to permission. Do not report.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_notification.on_deploy",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.on_deploy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

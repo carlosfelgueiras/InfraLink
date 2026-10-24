@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_iam_instance_profile.instance` takes both `name` and `role` from `local.aws_iam_role_instance_name`, a plain string, so it has no dependency edge on `aws_iam_role.instance` even though the role is created by this module (`count = var.create_runner_iam_role ? 1 : 0`). Terraform therefore creates the profile and the role concurrently; because the AWS provider reads/attaches via `ListInstanceProfilesForRole`/`GetRole` by name, creation intermittently fails with `NoSuchEntity: The role with name <name> cannot be found`. The profile must be created after `aws_iam_role.instance`.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "aws_iam_role.instance[0].name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_launch_template.gitlab_runner_instance` sets `iam_instance_profile { name = local.aws_iam_role_instance_name }` \u2014 a plain string \u2014 so it does not depend on `aws_iam_instance_profile.instance`, which this module creates (`count = var.create_runner_iam_role ? 1 : 0`). The ASG (`min_size = 1`) launches instances with that profile, so if the ASG runs before the instance profile exists, RunInstances fails with `Invalid IAM Instance Profile name`. The launch template must be created after `aws_iam_instance_profile.instance` (e.g. via `depends_on`, since the profile is only referenced by name inside a nested block and no flat attribute can carry the reference).",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

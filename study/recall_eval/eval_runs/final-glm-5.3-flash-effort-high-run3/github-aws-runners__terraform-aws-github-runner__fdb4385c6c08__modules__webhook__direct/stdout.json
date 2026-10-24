@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook can be created with a vpc_config block (when var.config.lambda_subnet_ids is non-empty), but it has no dependency on aws_iam_role_policy_attachment.webhook_vpc_execution_role. AWS validates the execution role's EC2 networking permissions (AWSLambdaVPCAccessExecutionRole) at function-creation time; without ordering the count-gated policy attachment before the function, a fresh apply can fail with \"the provided execution role does not have permissions to call CreateNetworkInterface\" due to IAM propagation lag. Add `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]` to the function.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "The dependency between aws_lambda_function.webhook and aws_cloudwatch_log_group.webhook runs in the wrong direction: the log group's `name` references the function's `function_name`, so the log group is only created after the function. The provider documentation recommends the log group exist before the function (\"Ensure log group exists before function\"); otherwise, if the function is invoked before the managed log group is created (or if the log group is replaced/destroyed while the function persists), Lambda auto-creates an unmanaged log group and the configured retention_in_days/kms_key_id/log_group_class are silently not applied. Note that a bare `depends_on` on the function would create a cycle with the existing `function_name` reference; the fix is to compute the log-group name from a local (e.g. \"/aws/lambda/${var.config.prefix}-webhook\") instead of referencing the function, then add `depends_on = [aws_cloudwatch_log_group.webhook]` to aws_lambda_function.webhook.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

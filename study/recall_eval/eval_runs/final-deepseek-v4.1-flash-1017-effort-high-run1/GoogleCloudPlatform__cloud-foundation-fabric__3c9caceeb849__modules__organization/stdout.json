@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_privileged_access_manager_entitlement.default` grants IAM roles resolved from `local.ctx.custom_roles` (via `lookup(local.ctx.custom_roles, binding.value.role, binding.value.role)`), and users can point those at custom roles created in this same module by `google_organization_iam_custom_role.roles` (whose IDs are the plan-known `organizations/<id>/roles/<name>` strings that go into `var.context.custom_roles`). The entitlement has no ordering edge to the custom-role resource, so it can be created before the referenced role exists and fail. `google_org_policy_policy.default` guards this exact scenario with an explicit `depends_on = [google_organization_iam_custom_role.roles, ...]`, but the entitlement does not. Add `google_organization_iam_custom_role.roles` to the entitlement's `depends_on`. No clean data-reference fix exists because the role is nested inside a dynamic `privileged_access.gcp_iam_access.role_bindings` block.",
+      "node": ":resource.google_privileged_access_manager_entitlement.default",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

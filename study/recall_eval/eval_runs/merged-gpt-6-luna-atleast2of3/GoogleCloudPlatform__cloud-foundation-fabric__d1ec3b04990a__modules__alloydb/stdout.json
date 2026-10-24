@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\n`:resource.google_alloydb_user.users` references the cluster but not the primary instance. AlloyDB user creation requires the primary instance to be created first; the provider documentation's user examples explicitly depend on the instance.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe AlloyDB user resource should wait for the primary instance to be created before creating database users. The provider's documented user examples explicitly depend on the instance; depending only on the cluster does not ensure the instance is ready.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

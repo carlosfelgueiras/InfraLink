@@ -1,0 +1,193 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC service-project association requires the Compute Engine API to be enabled for the service project first. Unlike the host-project association, this resource has no dependency on `google_project_service.project_services`; add an explicit dependency so the association is not attempted before API activation completes.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_service.project_services` already depends on `google_org_policy_policy.default`, so this output's explicit dependency on the policy is transitively duplicated.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This output also depends on `google_compute_shared_vpc_host_project.shared_vpc_host`, which depends on `google_project_service.project_services`; the explicit service dependency is therefore transitively duplicated.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_service.project_services` already depends on `google_org_policy_policy.default`, so this output's explicit dependency on the policy is transitively duplicated.",
+      "node": ":output.name",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This output also depends on `google_compute_shared_vpc_service_project.service_projects`, which depends on the host-project resource, which in turn depends on `google_project_service.project_services`; the explicit service dependency is transitively duplicated.",
+      "node": ":output.name",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_service.project_services` already depends on `google_org_policy_policy.default`, so this output's explicit dependency on the policy is transitively duplicated.",
+      "node": ":output.number",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This output also depends on `google_compute_shared_vpc_host_project.shared_vpc_host`, which depends on `google_project_service.project_services`; the explicit service dependency is therefore transitively duplicated.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_service.project_services` already depends on `google_org_policy_policy.default`, so this output's explicit dependency on the policy is transitively duplicated.",
+      "node": ":output.project_id",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This output also depends on `google_compute_shared_vpc_host_project.shared_vpc_host`, which depends on `google_project_service.project_services`; the explicit service dependency is therefore transitively duplicated.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This output depends on `google_project_service_identity.jit_si`, which itself depends on `google_project_service.project_services`; the explicit service dependency is transitively duplicated.",
+      "node": ":output.service_accounts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "This output depends on `google_project_service_identity.jit_si`, which itself depends on `google_project_service.project_services`; the explicit service dependency is transitively duplicated.",
+      "node": ":output.services",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_iam_binding.authoritative`, which this sink explicitly depends on, itself depends on `google_project_service.project_services`; the sink's direct service dependency is transitively duplicated.",
+      "node": ":resource.google_logging_project_sink.sink",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_service_identity.jit_si`, which this resource explicitly depends on, itself depends on `google_project_service.project_services`; the direct service dependency is transitively duplicated.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on `google_project_service.project_services` is transitively covered by this resource's dependencies on `google_project_default_service_accounts.default_service_accounts`, `google_project_service_identity.jit_si`, and the service-account data sources; each depends on the service resources.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on `google_project_service.project_services` is transitively covered by this resource's dependencies on `google_project_default_service_accounts.default_service_accounts`, `google_project_service_identity.jit_si`, and the service-account data sources; each depends on the service resources.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_compute_shared_vpc_service_project.service_projects` depends on `google_compute_shared_vpc_host_project.shared_vpc_host`; the output's direct host-project dependency is therefore transitively duplicated.",
+      "node": ":output.id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_compute_shared_vpc_service_project.service_projects` depends on `google_compute_shared_vpc_host_project.shared_vpc_host`; the output's direct host-project dependency is therefore transitively duplicated.",
+      "node": ":output.project_id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_compute_shared_vpc_service_project.service_projects` depends on `google_compute_shared_vpc_host_project.shared_vpc_host`; the output's direct host-project dependency is therefore transitively duplicated.",
+      "node": ":output.number",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_iam_member.servicenetworking` depends on `google_project_service_identity.servicenetworking`; the output's direct service-identity dependency is transitively duplicated.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service_identity.servicenetworking",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_iam_member.servicenetworking` depends on `google_project_service_identity.servicenetworking`; the output's direct service-identity dependency is transitively duplicated.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service_identity.servicenetworking",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_project_iam_member.servicenetworking` depends on `google_project_service_identity.servicenetworking`; the output's direct service-identity dependency is transitively duplicated.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service_identity.servicenetworking",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

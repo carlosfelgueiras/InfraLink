@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe module defines a null_resource that registers the AKS MSI preview feature and notes registration can take around 30 minutes, but the AKS cluster has no dependency on it. The cluster can therefore be created before the required feature registration completes.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe AKS cluster resource should wait for the null_resource that registers the required AKS MSI preview feature; otherwise cluster creation can race feature registration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe AKS cluster resource should wait for the preview-feature registration provisioner to complete; the source registers the required AKS feature, but the cluster has no dependency on that registration resource.",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

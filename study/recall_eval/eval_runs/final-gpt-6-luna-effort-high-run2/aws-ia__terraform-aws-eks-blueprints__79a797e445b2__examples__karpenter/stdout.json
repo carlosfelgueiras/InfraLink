@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Karpenter Provisioner names the AWSNodeTemplate `default` in `providerRef`, but its `yaml_body` has no reference to the node-template resource. Terraform can therefore create the Provisioner before the referenced template exists; make the Provisioner depend on the node-template resource.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Provisioner references the AWSNodeTemplate named `default` via `providerRef`, but its manifest does not reference the Terraform resource that creates that template. Without an ordering edge, Terraform may apply the Provisioner before the referenced AWSNodeTemplate exists.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": {
+        "field": "yaml_body",
+        "expression": "<<-YAML\napiVersion: karpenter.sh/v1alpha5\nkind: Provisioner\nmetadata:\n  name: default\nspec:\n  requirements:\n    - key: \"karpenter.k8s.aws/instance-category\"\n      operator: In\n      values: [\"c\", \"m\"]\n    - key: \"karpenter.k8s.aws/instance-cpu\"\n      operator: In\n      values: [\"8\", \"16\", \"32\"]\n    - key: \"karpenter.k8s.aws/instance-hypervisor\"\n      operator: In\n      values: [\"nitro\"]\n    - key: \"topology.kubernetes.io/zone\"\n      operator: In\n      values: ${jsonencode(local.azs)}\n    - key: \"kubernetes.io/arch\"\n      operator: In\n      values: [\"arm64\", \"amd64\"]\n    - key: \"karpenter.sh/capacity-type\"\n      operator: In\n      values: [\"spot\", \"on-demand\"]\n  kubeletConfiguration:\n    containerRuntime: containerd\n    maxPods: 110\n  limits:\n    resources:\n      cpu: 1000\n  consolidation:\n    enabled: true\n  providerRef:\n    name: ${kubectl_manifest.karpenter_node_template.name}\n  ttlSecondsUntilExpired: 604800\nYAML"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

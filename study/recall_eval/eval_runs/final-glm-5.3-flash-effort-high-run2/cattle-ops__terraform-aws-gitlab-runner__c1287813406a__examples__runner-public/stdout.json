@@ -1,0 +1,70 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`resource.null_resource.file_permission` runs a `chmod 600` provisioner against the private key file, but has no dependency on `resource.local_file.private_ssh_key`. The provisioner references only `var.private_ssh_key_filename` (a plain string), so Terraform may run the local-exec provisioner before the key file has been written, causing `chmod` to fail.",
+      "node": ":resource.null_resource.file_permission",
+      "target": ":resource.local_file.private_ssh_key",
+      "fix": {
+        "field": "triggers",
+        "expression": "md5(local_file.private_ssh_key.content)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_autoscaling_group.gitlab_runner_instance` boots the runner agent instance whose user-data script manages the value of `module.runner:resource.aws_ssm_parameter.runner_registration_token` (writing the registered runner token into it at boot). The ASG has no dependency on the SSM parameter (the user_data template only embeds the parameter *name* as a string), so the instance can launch and its user-data script can run before the parameter exists.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance` boots the runner agent instance whose user-data script manages the value of `module.runner2:resource.aws_ssm_parameter.runner_registration_token` (writing the registered runner token into it at boot). The ASG has no dependency on the SSM parameter (the user_data template only embeds the parameter *name* as a string), so the instance can launch and its user-data script can run before the parameter exists.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner:resource.aws_autoscaling_group.gitlab_runner_instance` launches the runner agent instance, whose user-data script needs the SSM permissions granted by `module.runner:resource.aws_iam_role_policy_attachment.ssm` at boot time (to store the runner token). The attachment and the launch-configuration chain only share the IAM role in common \u2014 there is no edge from the attachment to the instance profile, launch configuration, or ASG \u2014 so the instance can boot before the SSM policy is attached and propagated.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance` launches the runner agent instance, whose user-data script needs the SSM permissions granted by `module.runner2:resource.aws_iam_role_policy_attachment.ssm` at boot time (to store the runner token). The attachment and the launch-configuration chain only share the IAM role in common \u2014 there is no edge from the attachment to the instance profile, launch configuration, or ASG \u2014 so the instance can boot before the SSM policy is attached and propagated.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`resource.local_file.public_ssh_key` has an explicit `depends_on` on `resource.tls_private_key.ssh`, but this dependency is already established by the implicit reference in its `content` attribute (`tls_private_key.ssh.public_key_openssh`). The explicit `depends_on` is redundant and can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`resource.local_file.private_ssh_key` has an explicit `depends_on` on `resource.tls_private_key.ssh`, but this dependency is already established by the implicit reference in its `content` attribute (`tls_private_key.ssh.private_key_pem`). The explicit `depends_on` is redundant and can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

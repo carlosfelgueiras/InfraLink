@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_apigatewayv2_stage.webhook` ($default stage, auto_deploy=true) has no dependency on `aws_apigatewayv2_route.webhook` (or the integration it targets). Terraform may create the stage before the `POST /webhook` route and its Lambda proxy integration exist, so the deployed endpoint is not functional until an eventual auto-deployment lands; `deployment_id` is ignore_changes-ed here, so nothing else enforces the ordering. The stage should be created after the route/integration are in place (e.g. via depends_on).",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`null_resource.update_app` runs a local-exec provisioner that registers the webhook endpoint (and secret) with the GitHub App. It depends on the endpoint URL string (`module.runners:output.webhook`, which only references the API object and a static local), but not on the resources that make that endpoint actually able to receive events: `aws_apigatewayv2_route.webhook`, `aws_apigatewayv2_integration.webhook`, and the `$default` stage `aws_apigatewayv2_stage.webhook`. The script can therefore point GitHub at an endpoint that has not been deployed yet, so webhook deliveries fail until the stage auto-deploys. It should depend on `aws_apigatewayv2_stage.webhook` (which in turn should depend on the route/integration). No clean data-reference fix exists since the stage/route are not exposed through the module's outputs, so a bare `depends_on` is the appropriate fix.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

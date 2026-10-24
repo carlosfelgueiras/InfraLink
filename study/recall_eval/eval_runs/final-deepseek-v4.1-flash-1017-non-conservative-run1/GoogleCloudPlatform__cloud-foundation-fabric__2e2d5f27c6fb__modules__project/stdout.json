@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "output.iam_project_id advertises that it is only usable after the project's IAM bindings are applied (its description is \"depends on services and IAM bindings\"), and the source's depends_on lists google_project_iam_binding.authoritative plus google_project_iam_member.non_authoritative. But the non-authoritative resource is actually named google_project_iam_member.additive, so that reference resolves to nothing and the dependency is silently dropped: the graph shows iam_project_id depending only on the authoritative binding and project_services. As a result, consumers of this output will not wait for the additive (non-authoritative) IAM members, so the output's contract is violated. The output should also depend on google_project_iam_member.additive.",
+      "node": ":output.iam_project_id",
+      "target": ":resource.google_project_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The authoritative IAM binding assigns roles taken from var.iam_roles, which may name custom roles created by google_project_iam_custom_role.roles in this same module (their ids are assembled from strings, so Terraform sees no relationship between them). Custom roles have eventual consistency after creation, and GCP rejects bindings for a role that doesn't exist yet, so this binding can fail with \"role does not exist\" when a custom role is bound. It should wait for google_project_iam_custom_role.roles (e.g. via depends_on = [google_project_iam_custom_role.roles]); attribute references cannot express this because the role is an opaque string.",
+      "node": ":resource.google_project_iam_binding.authoritative",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The non-authoritative (additive) IAM members assign roles taken from var.iam_additive_roles, which may name custom roles created by google_project_iam_custom_role.roles in this same module. The role id is an opaque string, so Terraform cannot infer any ordering, and because newly created custom roles are eventually consistent this member can fail with \"role does not exist\" when a custom role is granted. It should depend on google_project_iam_custom_role.roles (e.g. via depends_on = [google_project_iam_custom_role.roles]).",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

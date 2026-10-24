@@ -1,0 +1,61 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\n`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` targets the syncer Lambda but does not wait for its EventBridge invoke permission. The target can be active before EventBridge is authorized to invoke the function.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` can become active before EventBridge has permission to invoke the syncer Lambda; an event arriving in that interval can fail. Wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the syncer Lambda, but this target has no ordering dependency on the Lambda permission that grants EventBridge invocation access. Ensure the permission exists before registering the target to avoid an invocation failure.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\n`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` targets the scale-down Lambda but does not wait for its EventBridge invoke permission. Add an ordering dependency so a scheduled event cannot be delivered before invocation is authorized.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` can become active before EventBridge has permission to invoke the scale-down Lambda; an event arriving in that interval can fail. Wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the scale-down Lambda, but this target has no ordering dependency on the permission granting EventBridge access. Ensure the permission exists before registering the target.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\n`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` targets the pool Lambda but does not wait for its EventBridge invoke permission. The target should be installed only after EventBridge is authorized to invoke the function.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` can become active before EventBridge has permission to invoke the pool Lambda; a scheduled event in that interval can fail. Wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the pool Lambda, but this target has no ordering dependency on the Lambda permission granting EventBridge access. Ensure the permission exists before registering the target.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\n`module.webhook-github-app:resource.null_resource.update_app` can register the webhook before the API Gateway `$default` stage exists. The module output feeding `webhook_endpoint` references the API endpoint, but not this stage; wait for stage readiness before configuring the external GitHub app.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.webhook-github-app:resource.null_resource.update_app` registers the webhook endpoint with GitHub, but its endpoint value only depends on the API object and path, not the API Gateway stage that makes the endpoint available. Waiting for the stage avoids registering a webhook URL before the endpoint is ready.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nmodule.webhook-github-app:resource.null_resource.update_app configures the GitHub App's webhook URL via local-exec, but it only references the API Gateway's endpoint string. The endpoint only serves requests once the `$default` stage (which auto-deploys the route and Lambda integration) has been created; on a first apply the provisioner can run before the stage/route/integration exist, registering a webhook URL that isn't live yet. It should be ordered after the API Gateway stage.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.webhook-github-app:resource.null_resource.update_app runs a local-exec provisioner that registers the GitHub App webhook at var.webhook_endpoint, but its only dependency on the API Gateway is through the endpoint URL, which references aws_apigatewayv2_api.webhook \u2014 not aws_apigatewayv2_stage.webhook. The $default stage is what deploys the route/integration so the endpoint actually serves requests (and accepts GitHub's validation ping); nothing in the graph orders the stage before the webhook registration. Add depends_on = [aws_apigatewayv2_stage.webhook] (via the runners module webhook output) so the stage is deployed before the GitHub App webhook is (re)configured.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\n`module.webhook-github-app:resource.null_resource.update_app` can configure the external GitHub webhook before API Gateway has permission to invoke the webhook Lambda. It should wait for the Lambda permission so any immediate delivery after registration is authorized.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`module.webhook-github-app:resource.null_resource.update_app` can register the endpoint before API Gateway has permission to invoke the webhook Lambda. Wait for the Lambda permission so requests sent to the newly registered endpoint can invoke the function.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_sqs_queue_policy.build_queue_dlq_policy` is meant to attach the deny-insecure-transport policy to the dead-letter queue, but its `queue_url` is `aws_sqs_queue.queued_builds.id` (the main build queue), so the graph shows a dependency on `aws_sqs_queue.queued_builds` only and none on `aws_sqs_queue.queued_builds_dlq`. As a result the DLQ is never protected by the policy and can even be created after its policy. It should reference the DLQ, which both fixes the policy target and establishes the missing ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is the TLS-only policy intended for the dead-letter queue, but its `queue_url` points at `aws_sqs_queue.queued_builds` (the main build queue) instead of `aws_sqs_queue.queued_builds_dlq`. It therefore has no dependency on the DLQ at all: the DLQ is created with no queue policy (nothing in the config ever references it except the outputs), and this resource plus `aws_sqs_queue_policy.build_queue_policy` both manage the same queue's single policy, so they overwrite each other and drift on every apply. The resource should be ordered against (and wired to) the dead-letter queue.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

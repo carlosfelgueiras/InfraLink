@@ -1,0 +1,229 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The default network tier is configured through Compute Engine, but this resource has no ordering dependency on enabling the Compute API via `google_project_service.project_services`. Ensure the API activation completes before this operation.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This shared-VPC service-project association uses Compute Engine but is ordered only after VPC Service Controls resources; it should also wait for this project's Compute API activation.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_compute_shared_vpc_service_project.service_projects`, which depends on the host-project resource; the direct dependency on the host-project resource is therefore transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on resources that depend on `:resource.google_project_service.project_services`, including the Shared VPC host, service-project IAM, and CMEK IAM resources; the direct service dependency is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_project_service.project_services`, which itself depends on the organization policy resource; the direct organization-policy dependency is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the project resource; the direct project-resource dependency is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on this project data source; the direct data-source dependency is transitively redundant.",
+      "node": ":output.id",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the service-identity resource; the direct service-identity dependency is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the service-agent IAM resource; the direct service-agent dependency is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_project_iam_member.shared_vpc_host_robots`, which depends on service activation; the direct service dependency is transitively redundant.",
+      "node": ":output.name",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_project_service.project_services`, which itself depends on the organization policy resource; the direct organization-policy dependency is transitively redundant.",
+      "node": ":output.name",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the Shared VPC service-project resource, which depends on the host-project resource; the direct host-project dependency is transitively redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on downstream resources that depend on service activation, including Shared VPC configuration and CMEK IAM; the direct service dependency is transitively redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_project_service.project_services`, which itself depends on the organization policy resource; the direct organization-policy dependency is transitively redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the service-identity resource; the direct service-identity dependency is transitively redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the service-agent IAM resource; the direct service-agent dependency is transitively redundant.",
+      "node": ":output.number",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_compute_shared_vpc_service_project.service_projects`, which depends on the host-project resource; the direct host-project dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on downstream resources that depend on service activation, including Shared VPC configuration and CMEK IAM; the direct service dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_project_service.project_services`, which itself depends on the organization policy resource; the direct organization-policy dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the project resource; the direct project-resource dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on this project data source; the direct data-source dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the service-identity resource; the direct service-identity dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the CMEK IAM resource, which depends on the service-agent IAM resource; the direct service-agent dependency is transitively redundant.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on `:resource.google_project_service_identity.default`, which depends on service activation; the direct dependency on service activation is transitively redundant.",
+      "node": ":output.services",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The output already depends on the service-agent IAM resource, which itself depends on the service-identity resource; the direct service-identity dependency is transitively redundant.",
+      "node": ":output.service_agents",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

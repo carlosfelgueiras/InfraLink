@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_eks_node_group.this must wait for aws_iam_role_policy_attachment.this, not merely for the IAM role. These attachments supply the worker-node, ECR, and optional CNI permissions needed by the nodes. The supplied graph has no dependency path enforcing this ordering. Add depends_on so permissions exist before node-group creation and remain attached until node-group deletion completes, as required by the provider's documented example.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this has no dependency on aws_iam_role_policy_attachment.additional. When additional node-role policies are configured, nodes and their workloads can start before those permissions are attached, and the policies can be detached before the nodes and workloads finish shutting down. Add depends_on on aws_iam_role_policy_attachment.additional to preserve these permissions throughout the node-group lifecycle; the launch template's existing dependency covers only aws_iam_role_policy_attachment.this.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

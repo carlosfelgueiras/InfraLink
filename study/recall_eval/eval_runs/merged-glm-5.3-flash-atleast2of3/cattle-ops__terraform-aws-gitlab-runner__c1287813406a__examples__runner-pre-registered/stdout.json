@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nThe `policy_arn` of aws_iam_role_policy_attachment.docker_machine_cache_instance comes from `local.bucket_policy`, which resolves to `module.cache.policy_arn` when `cache_bucket.create` is true. The dependency on module.cache (and the S3 cache bucket policy it creates) is not captured anywhere in the graph, so the role policy attachment (or worse, the bucket policy resource inside the cache module) could be planned before the cache bucket exists. The attachment should be ordered after module.cache completes.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe policy_arn of this attachment comes from local.bucket_policy, which resolves to module.cache.policy_arn when the cache bucket is created by this module. The graph shows no dependency on the cache module, so the attachment (needing the bucket policy ARN) could be planned/applied before the cache bucket and its policy exist.",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

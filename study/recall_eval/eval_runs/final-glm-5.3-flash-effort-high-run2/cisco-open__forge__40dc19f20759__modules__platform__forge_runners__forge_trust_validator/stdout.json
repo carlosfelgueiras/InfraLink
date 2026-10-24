@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_forge_role_trust updates the forge roles' assume-role policy to trust the Lambda execution role \"${var.prefix}-forge-trust-validator\", which is created inside module.forge_trust_validator_lambda. Because the principal is built from var.prefix as a plain string (not a module attribute reference), Terraform cannot infer that the Lambda (and its IAM role) must exist before the trust policy is updated. On a fresh apply, the null_resource could run before the module and write a trust policy referencing a nonexistent role.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": {
+        "field": "triggers.lambda_function_arn",
+        "expression": "module.forge_trust_validator_lambda.lambda_function_arn"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_cloudwatch_event_target.forge_trust_validator_lambda has an explicit depends_on on module.forge_trust_validator_lambda, but the dependency is already implied by the attribute reference in arn = module.forge_trust_validator_lambda.lambda_function_arn.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.forge_trust_validator_lambda has an explicit depends_on on aws_cloudwatch_log_group.forge_trust_validator_lambda, but the dependency is already implied by logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name in the module's arguments.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

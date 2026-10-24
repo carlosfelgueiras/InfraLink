@@ -1,0 +1,481 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda: explicit depends_on of module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:module.register_github_app_runner_group_lambda: explicit depends_on of module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda: explicit depends_on of module.github_app_runner_group:module.register_github_app_runner_group_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:module.clean_global_lock_lambda: explicit depends_on of module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_global_lock:module.clean_global_lock_lambda",
+      "target": "module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda: explicit depends_on of module.github_global_lock:module.clean_global_lock_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda",
+      "target": "module.github_global_lock:module.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:module.update_ec2_tags: explicit depends_on of module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:module.update_ec2_tags",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:data.aws_ssm_parameter.ami_id: explicit depends_on of module.ec2_runners:module.runners is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:data.aws_ssm_parameter.ami_id",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:data.aws_ami.runner_ami: explicit depends_on of module.ec2_runners:module.runners is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:data.aws_ami.runner_ami",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:module.update_runner_ami_lambda: explicit depends_on of module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:module.update_runner_ami_lambda",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda: explicit depends_on of module.ec2_runners:module.update_runner_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda",
+      "target": "module.ec2_runners:module.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:module.job_log_archiver: explicit depends_on of module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver is redundant \u2014 already implied by attribute references",
+      "node": "module.github_actions_job_logs:module.job_log_archiver",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:module.job_log_dispatcher: explicit depends_on of module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher is redundant \u2014 already implied by attribute references",
+      "node": "module.github_actions_job_logs:module.job_log_dispatcher",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_github_app_webhook: explicit depends_on of :data.aws_secretsmanager_secret_version.data_cicd_secrets is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_github_app_webhook",
+      "target": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_secretsmanager_secret_version.data_cicd_secrets: explicit depends_on of :data.aws_secretsmanager_secret.data_cicd_secrets is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "target": ":data.aws_secretsmanager_secret.data_cicd_secrets",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_secretsmanager_secret_version.data_cicd_secrets already depends on :data.aws_secretsmanager_secret.data_cicd_secrets through secret_id; remove the duplicate explicit depends_on entry, retaining the dependency on the managed secret version.",
+      "node": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "target": ":data.aws_secretsmanager_secret.data_cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_github_app_webhook already references :data.aws_secretsmanager_secret_version.data_cicd_secrets in its triggers and provisioner environment, so its explicit depends_on duplicates inferred ordering.",
+      "node": ":resource.null_resource.update_github_app_webhook",
+      "target": ":data.aws_secretsmanager_secret_version.data_cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.arc_runners.module.arc:resource.null_resource.apply_ec2_node_class already depends on module.arc_runners.module.arc:data.external.update_kubeconfig transitively through data.external.karpenter_ec2nodeclass, which it references in its triggers and command.",
+      "node": "module.arc_runners.module.arc:resource.null_resource.apply_ec2_node_class",
+      "target": "module.arc_runners.module.arc:data.external.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.arc_runners.module.arc:resource.null_resource.apply_node_pool already waits for module.arc_runners.module.arc:data.external.update_kubeconfig through null_resource.apply_ec2_node_class. Its direct depends_on entry on update_kubeconfig is redundant.",
+      "node": "module.arc_runners.module.arc:resource.null_resource.apply_node_pool",
+      "target": "module.arc_runners.module.arc:data.external.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:data.aws_ssm_parameter.ami_id already references module.ec2_runners:module.runners in its for_each expression; the explicit depends_on duplicates that dependency.",
+      "node": "module.ec2_runners:data.aws_ssm_parameter.ami_id",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:data.aws_ami.runner_ami already references module.ec2_runners:module.runners in for_each and also depends on it through data.aws_ssm_parameter.ami_id; the explicit depends_on is redundant.",
+      "node": "module.ec2_runners:data.aws_ami.runner_ami",
+      "target": "module.ec2_runners:module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:module.update_ec2_tags already references module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags through logging_log_group, duplicating its explicit depends_on.",
+      "node": "module.ec2_runners:module.update_ec2_tags",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_ec2_tags",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:module.update_runner_ami_lambda already references module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda through logging_log_group, so the explicit depends_on duplicates inferred ordering.",
+      "node": "module.ec2_runners:module.update_runner_ami_lambda",
+      "target": "module.ec2_runners:resource.aws_cloudwatch_log_group.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda already references module.ec2_runners:module.update_runner_ami_lambda through arn; its explicit depends_on is redundant.",
+      "node": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda",
+      "target": "module.ec2_runners:module.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_runners:resource.aws_lambda_permission.update_runner_ami_lambda already depends on module.ec2_runners:module.update_runner_ami_lambda through its source_arn reference to the event rule, which explicitly depends on that module.",
+      "node": "module.ec2_runners:resource.aws_lambda_permission.update_runner_ami_lambda",
+      "target": "module.ec2_runners:module.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:module.job_log_archiver already references module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver through logging_log_group; the explicit depends_on duplicates that dependency.",
+      "node": "module.github_actions_job_logs:module.job_log_archiver",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_archiver",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:module.job_log_dispatcher already references module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher through logging_log_group; the explicit depends_on is redundant.",
+      "node": "module.github_actions_job_logs:module.job_log_dispatcher",
+      "target": "module.github_actions_job_logs:resource.aws_cloudwatch_log_group.job_log_dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:module.register_github_app_runner_group_lambda already references module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda through logging_log_group, duplicating the explicit depends_on.",
+      "node": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:resource.aws_cloudwatch_log_group.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda already references module.github_app_runner_group:module.register_github_app_runner_group_lambda through arn; its explicit depends_on duplicates inferred ordering.",
+      "node": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:resource.aws_lambda_permission.register_github_app_runner_group_lambda already depends on module.github_app_runner_group:module.register_github_app_runner_group_lambda through source_arn and the event rule's explicit module dependency.",
+      "node": "module.github_app_runner_group:resource.aws_lambda_permission.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:module.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:module.clean_global_lock_lambda already references module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda through logging_log_group; its explicit depends_on is redundant.",
+      "node": "module.github_global_lock:module.clean_global_lock_lambda",
+      "target": "module.github_global_lock:resource.aws_cloudwatch_log_group.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda already references module.github_global_lock:module.clean_global_lock_lambda through arn; the explicit depends_on duplicates inferred ordering.",
+      "node": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda",
+      "target": "module.github_global_lock:module.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_global_lock:resource.aws_lambda_permission.clean_global_lock_lambda already depends on module.github_global_lock:module.clean_global_lock_lambda through its source_arn reference to the event rule, which explicitly depends on the module.",
+      "node": "module.github_global_lock:resource.aws_lambda_permission.clean_global_lock_lambda",
+      "target": "module.github_global_lock:module.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda already references module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda through logging_log_group, duplicating the explicit depends_on.",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:module.validate_signature_lambda",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_group.validate_signature_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_app_runner_group:data.aws_secretsmanager_secret.secrets looks up the same secrets created by :resource.aws_secretsmanager_secret.cicd_secrets using reconstructed names. No dependency connects the lookup to creation, so a fresh plan/apply can read before the secrets exist. Pass managed secret identifiers into the child module or explicitly order the lookup after creation.",
+      "node": "module.github_app_runner_group:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_app_runner_group:data.aws_secretsmanager_secret_version.secrets waits only for secret metadata, not :resource.aws_secretsmanager_secret_version.cicd_secrets. On initial provisioning, the current version does not exist until seeding finishes, including the configured 60-second delay; order the version lookup after seeding.",
+      "node": "module.github_app_runner_group:data.aws_secretsmanager_secret_version.secrets",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_global_lock:data.aws_secretsmanager_secret.secrets reconstructs names of the secrets managed by :resource.aws_secretsmanager_secret.cicd_secrets without referencing them. The data lookup can run during planning before those secrets have been created; wire managed identifiers through module inputs or add explicit ordering.",
+      "node": "module.github_global_lock:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_global_lock:data.aws_secretsmanager_secret_version.secrets has no ordering dependency on :resource.aws_secretsmanager_secret_version.cicd_secrets. Secret metadata alone is insufficient: the AWSCURRENT value is unavailable until the delayed seeding resource completes.",
+      "node": "module.github_global_lock:data.aws_secretsmanager_secret_version.secrets",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_actions_job_logs:data.aws_secretsmanager_secret.secrets uses reconstructed names for secrets created by :resource.aws_secretsmanager_secret.cicd_secrets, with no dependency on their creation. Its lookup can run before the managed secrets exist; references elsewhere in the job-logs module do not order this independent data source.",
+      "node": "module.github_actions_job_logs:data.aws_secretsmanager_secret.secrets",
+      "target": ":resource.aws_secretsmanager_secret.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.github_actions_job_logs:data.aws_secretsmanager_secret_version.secrets must wait for :resource.aws_secretsmanager_secret_version.cicd_secrets to seed the current values. Its existing metadata reference does not wait for initial version creation or the preceding sleep, so a fresh deployment can fail to read AWSCURRENT.",
+      "node": "module.github_actions_job_logs:data.aws_secretsmanager_secret_version.secrets",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set passes var.service_account to the runner chart but has no dependency on module.arc_runners.module.arc.module.scale_sets:resource.kubernetes_service_account_v1.runner_sa, which creates that account. The controller can create runner pods before their account exists. Reference the managed account name in the template inputs.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "values",
+        "expression": "[templatefile(\"${path.module}/template_files/${var.scale_set_type}.yml.tftpl\", { config_secret = var.secret_name, max_runners = var.runner_size.max_runners, min_runners = var.runner_size.min_runners, runner_group_name = var.runner_group_name, scale_set_name = var.scale_set_name, container_limits_cpu = var.container_limits_cpu, container_limits_memory = var.container_limits_memory, container_requests_cpu = var.container_requests_cpu, container_requests_memory = var.container_requests_memory, volume_requests_storage_size = var.volume_requests_storage_size, volume_requests_storage_type = var.volume_requests_storage_type, container_ecr_registries = var.container_ecr_registries, service_account = kubernetes_service_account_v1.runner_sa[0].metadata[0].name, github_config_url = local.github_config_url, controller_namespace = var.controller.namespace, controller_service_account = var.controller.service_account, container_actions_runner = var.container_actions_runner, runner_role = aws_iam_role.runner_role.arn, tenant = var.controller.namespace })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set can start runner pods before module.arc_runners.module.arc.module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity exists. EKS injects Pod Identity credential configuration when pods are created, so pods launched before the association can lack credentials even after it is created. Order the release after the association by sourcing its associated role ARN.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": {
+        "field": "values",
+        "expression": "[templatefile(\"${path.module}/template_files/${var.scale_set_type}.yml.tftpl\", { config_secret = var.secret_name, max_runners = var.runner_size.max_runners, min_runners = var.runner_size.min_runners, runner_group_name = var.runner_group_name, scale_set_name = var.scale_set_name, container_limits_cpu = var.container_limits_cpu, container_limits_memory = var.container_limits_memory, container_requests_cpu = var.container_requests_cpu, container_requests_memory = var.container_requests_memory, volume_requests_storage_size = var.volume_requests_storage_size, volume_requests_storage_type = var.volume_requests_storage_type, container_ecr_registries = var.container_ecr_registries, service_account = var.service_account, github_config_url = local.github_config_url, controller_namespace = var.controller.namespace, controller_service_account = var.controller.service_account, container_actions_runner = var.container_actions_runner, runner_role = aws_eks_pod_identity_association.eks_pod_identity[0].role_arn, tenant = var.controller.namespace })]"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set references the runner role, but not module.arc_runners.module.arc.module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment. Runner pods can start using AWS APIs before their required ECR, role-assumption, and DynamoDB permissions are attached. Wait for all attachments before installing the scale set.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.aws_iam_role_policy_attachment.runner_role_policy_attachment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For k8s scale sets, module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set can launch runners before module.arc_runners.module.arc.module.scale_sets:resource.kubernetes_role_binding.k8s grants their service account permissions to create job pods and access job resources. Order release creation after the role binding; its role reference already orders the Role.",
+      "node": "module.arc_runners.module.arc.module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.arc_runners.module.arc.module.scale_sets:resource.kubernetes_role_binding.k8s",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.arc_runners.module.arc:module.scale_sets constructs a StorageClass name as a string rather than referencing module.arc_runners.module.arc:resource.kubernetes_manifest.storage_class, which creates that class. Runner PVCs can be submitted while their storage class is absent. Supply the managed manifest's class name so scale-set installation is ordered after it.",
+      "node": "module.arc_runners.module.arc:module.scale_sets",
+      "target": "module.arc_runners.module.arc:resource.kubernetes_manifest.storage_class",
+      "fix": {
+        "field": "volume_requests_storage_type",
+        "expression": "kubernetes_manifest.storage_class[\"${each.value.runner_set_configs.namespace}-${each.value.runner_config.volume_requests_storage_type}\"].manifest.metadata.name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_ec2_tags can activate EventBridge delivery before module.ec2_runners:resource.aws_lambda_permission.update_ec2_tags authorizes invocation. Both depend on the rule, but neither waits for the other. Order target registration after the permission to avoid initial AccessDenied deliveries.",
+      "node": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_ec2_tags",
+      "target": "module.ec2_runners:resource.aws_lambda_permission.update_ec2_tags",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda and module.ec2_runners:resource.aws_lambda_permission.update_runner_ami_lambda can be created concurrently after the rule and function. Registering the scheduled target before invocation permission is installed exposes initial scheduled events to AccessDenied; order the target after the permission.",
+      "node": "module.ec2_runners:resource.aws_cloudwatch_event_target.update_runner_ami_lambda",
+      "target": "module.ec2_runners:resource.aws_lambda_permission.update_runner_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.github_actions_job_logs:resource.aws_cloudwatch_event_target.job_log_dispatcher can start forwarding workflow_job events before module.github_actions_job_logs:resource.aws_lambda_permission.job_log_dispatcher grants EventBridge invocation rights. The rule/function references do not establish this ordering; register the target after permission creation.",
+      "node": "module.github_actions_job_logs:resource.aws_cloudwatch_event_target.job_log_dispatcher",
+      "target": "module.github_actions_job_logs:resource.aws_lambda_permission.job_log_dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda does not wait for module.github_app_runner_group:resource.aws_lambda_permission.register_github_app_runner_group_lambda. The schedule can become active for this target before EventBridge is allowed to invoke it; order target registration after the permission.",
+      "node": "module.github_app_runner_group:resource.aws_cloudwatch_event_target.register_github_app_runner_group_lambda",
+      "target": "module.github_app_runner_group:resource.aws_lambda_permission.register_github_app_runner_group_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda can register an active scheduled target before module.github_global_lock:resource.aws_lambda_permission.clean_global_lock_lambda authorizes EventBridge invocation. Add ordering from the target to the permission to avoid an initial unauthorized invocation window.",
+      "node": "module.github_global_lock:resource.aws_cloudwatch_event_target.clean_global_lock_lambda",
+      "target": "module.github_global_lock:resource.aws_lambda_permission.clean_global_lock_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_event_target.dest references the forwarding role but not module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_iam_role_policy.events_forward_put, which grants events:PutEvents on the destination bus. Forwarding can begin before that permission is attached; order target registration after the policy.",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_event_target.dest",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_iam_role_policy.events_forward_put",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_delivery.cwlogs_info_logs has no dependency on module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_resource_policy.source, which authorizes delivery.logs.amazonaws.com to write the destination streams. Create the policy before connecting the delivery to avoid an authorization race. The ERROR delivery already waits for this INFO delivery and can inherit the ordering.",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_delivery.cwlogs_info_logs",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_cloudwatch_log_resource_policy.source",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_apigatewayv2_route.post_hook can expose the Lambda-backed webhook route before module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_lambda_permission.apigw_invoke grants API Gateway invocation rights. With auto-deployment enabled, early requests can fail with integration authorization errors. Order route creation after the permission.",
+      "node": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_apigatewayv2_route.post_hook",
+      "target": "module.github_webhook_relay.module.github_webhook_relay_source:resource.aws_lambda_permission.apigw_invoke",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

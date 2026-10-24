@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_cloudwatch_event_target.dispatcher wires the workflow_job rule to the dispatcher Lambda, but does not depend on aws_lambda_permission.allow_cloudwatch_to_call_lambda. The rule/target can be created and events can fire before EventBridge is granted lambda:InvokeFunction, so early invocations fail. The target should be created only after the permission exists (e.g. a bare depends_on). The provider docs note that a Lambda permission must be set up for EventBridge to invoke the function.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_cloudwatch_event_target.dispatcher routes `workflow_job` events to the dispatcher Lambda, but it has no ordering dependency on aws_lambda_permission.allow_cloudwatch_to_call_lambda, which grants `events.amazonaws.com` permission to invoke the function. Until that resource-based policy exists on the function, EventBridge invocations are denied. Both resources only reference the function/rule independently, so Terraform may create the target before the permission. Order the target after the permission (e.g. via depends_on).",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

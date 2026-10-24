@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.data_nodes depends on aws_autoscaling_group.master_nodes operationally: data nodes must launch only after the master nodes exist so they can join an already-formed Elasticsearch cluster. The graph contains no implicit path (data_nodes' launch config/template and subnet lookups never reference the master ASG) and no depends_on edge, so current ordering does not enforce master-before-data. Add an explicit depends_on on master_nodes (no clean attribute-reference substitute exists).",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.cluster_bootstrap_state writes the bootstrap-state file and is meaningful only once aws_instance.bootstrap_node exists; without an ordering edge it can run before the bootstrap node is created, recording state prematurely so later applies skip re-bootstrapping. The graph has no dependency from the null_resource to the bootstrap instance. Wire it as an implicit dependency via the null_resource's triggers referencing the bootstrap node (count-safe splat) instead of a bare depends_on.",
+      "node": ":resource.null_resource.cluster_bootstrap_state",
+      "target": ":resource.aws_instance.bootstrap_node",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ bootstrap_node_id = join(\",\", aws_instance.bootstrap_node.*.id) }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

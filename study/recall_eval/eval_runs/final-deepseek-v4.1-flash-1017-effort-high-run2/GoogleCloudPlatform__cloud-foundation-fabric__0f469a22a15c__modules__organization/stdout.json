@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_organization_iam_binding.authoritative` binds roles taken verbatim from `var.iam` (e.g. `organizations/123/roles/myRole`). The same module can create those roles via `google_organization_iam_custom_role.roles`, but because the role id arrives as a plain string there is no edge, so the binding can be applied before the custom role exists (custom roles are also eventually consistent right after creation), making the org setIamPolicy call fail with \"role does not exist\". Add `depends_on = [google_organization_iam_custom_role.roles]` (or otherwise order the binding after the role creation).",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_organization_iam_member.additive` binds roles supplied as plain strings through `var.iam_additive`/`var.iam_additive_members`, so nothing orders it after the org custom roles created by `google_organization_iam_custom_role.roles` in the same module. If a member is granted a custom role defined in `var.custom_roles`, the binding may run first and be rejected because the role does not exist yet. Add an explicit ordering (e.g. `depends_on = [google_organization_iam_custom_role.roles]`).",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_organization_iam_policy.authoritative` writes the whole org IAM policy from `var.iam_bindings_authoritative`, whose role keys are plain strings, and `data.google_iam_policy.authoritative` only depends on variables. Nothing ensures the custom roles created by `google_organization_iam_custom_role.roles` exist first, so setting an authoritative policy that references a custom role from `var.custom_roles` can fail on first apply. Order the policy after the custom roles (e.g. `depends_on = [google_organization_iam_custom_role.roles]`).",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,316 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs names forgecicd_cloudwatchlogs_lambda_tenant_fields in a literal REPORT value, but has no dependency on splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields. Install the referenced transform before activating the props stanza so its field extraction is available; retain the reverse ordering on destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_extra_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs names forgecicd_cloudwatchlogs_global_lambda_tenant_fields in a literal REPORT value, but has no dependency on splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields. The referenced transform should be installed before the props stanza activates its extraction, and removed after that reference is removed.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_extra_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references splunk_configs_conf.forgecicd_extra_lambda_tenant_fields only through a literal REPORT value. There is no ordering to ensure this transform exists before its field extraction is activated by the props stanza, or that the reference is removed before the transform on destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_extra_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd uses splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields as a REPORT transform by literal name. Without a dependency the props stanza can activate before this extraction exists, and destruction need not remove the reference first.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd references splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message through a literal REPORT value. Install the transform before activating its extraction in the props stanza, and remove the reference before destroying the transform; neither ordering is represented in the graph.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd names splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name as a REPORT transform using a literal. It should depend on that transform so the extraction exists when the props stanza is activated and the transform outlives its reference on destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd uses a literal REPORT value for splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result. The graph does not ensure this transform is installed before the props stanza activates its extraction, or retained until its reference is removed during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd references splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version only by literal REPORT name. The props stanza should depend on the transform so the extraction exists before activation and its reference is removed first during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_metadata references splunk_configs_conf.forgecicd_metadata_tenant_fields through a literal REPORT name without a dependency. The transform should exist before its extraction is activated in the props stanza, and remain until that reference is removed on destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_metadata uses splunk_configs_conf.forgecicd_metadata_instance_id as a REPORT transform by literal name. There is no dependency to install the transform before activating this extraction or to remove its reference first during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_metadata names splunk_configs_conf.forgecicd_metadata_image_id in a literal REPORT value. Add the dependency so this transform exists before its field extraction is activated, and outlives the referencing props stanza during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_image_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_metadata references splunk_configs_conf.forgecicd_metadata_instance_type only by literal REPORT name. Its extraction requires that transform, but the graph does not order transform installation before props activation or reference removal before transform destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_type",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\")\n  \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_aws_billing_cur names splunk_configs_conf.forgecicd_billing_cur_instance_id in a literal REPORT value without a dependency. Install that transform before activating the props extraction, and remove the reference before destroying the transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_billing_cur_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_instance_id.name, \"transforms/\")\n  \"REPORT-forgecicd_billing_cur_volume_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_volume_id.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_aws_billing_cur references splunk_configs_conf.forgecicd_billing_cur_volume_id only through a literal REPORT name. A dependency is needed to ensure that transform exists when its extraction is activated and remains until the reference is removed on destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_volume_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_billing_cur_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_instance_id.name, \"transforms/\")\n  \"REPORT-forgecicd_billing_cur_volume_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_volume_id.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_runner references splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields through a literal REPORT value. Install this transform before activating the props extraction, and remove its reference before destroying it; the graph currently expresses neither ordering.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_kube_container_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_runner names splunk_configs_conf.forgecicd_kube_container_runner_ci_result in a literal REPORT value without a dependency. The referenced transform should exist before its extraction is activated in props and remain until the reference is removed during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_ci_result",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_kube_container_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_runner references splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version only by literal REPORT name. Without a dependency, props can activate the extraction before its transform exists, and destruction can remove the transform before its reference.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n  \"REPORT-forgecicd_kube_container_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\")\n  \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_init_docker_creds uses splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields as a REPORT transform by literal name. Add a dependency so the transform exists before the props extraction is activated and outlives its reference during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_docker_creds",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_init_dind_rootless references splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields through a literal REPORT value. Its extraction needs that transform, but there is no dependency to install the transform before props activation or remove the reference first during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_rootless",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_init_work names splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields in a literal REPORT value. The referenced transform should exist before props activates the extraction and remain until that reference is removed on destruction; no dependency expresses this ordering.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_work",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_init_dind_externals references splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields only by literal REPORT name. A dependency should ensure the transform exists before its extraction is activated, with reverse ordering when removing the props stanza and transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_externals",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_dind references splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields using a literal REPORT value. The graph does not order installation of this transform before activation of the props extraction, or removal of the reference before transform destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_dind",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_listener uses splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields as a REPORT transform by literal name. Add a dependency so the transform exists when props activates the extraction and is not destroyed before the reference is removed.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_listener",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_listener_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_manager names splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields in a literal REPORT value without a dependency. Install the transform before activating its props extraction, and remove the reference before destroying the transform.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_manager",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_manager_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_log_worker references splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields only through a literal REPORT value. The transform should exist before the props stanza activates its extraction and outlive that reference during destruction; the graph has no such dependency.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_worker",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_kube_container_log_hook uses splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields as a REPORT transform by literal name. There is no dependency to ensure the transform exists before the props extraction is activated or that its reference is removed first during destruction.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_hook",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

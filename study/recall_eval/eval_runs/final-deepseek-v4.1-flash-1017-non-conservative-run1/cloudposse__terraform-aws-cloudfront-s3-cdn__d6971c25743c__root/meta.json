@@ -1,0 +1,58 @@
+{
+  "repo": "cloudposse__terraform-aws-cloudfront-s3-cdn",
+  "parent_sha": "c44dbde7c92ff8b15752e2903c6e1c5efbe318d4^",
+  "resolved_sha": "d6971c25743c46c8e3858f4c9161b60fce8f6930",
+  "module_dir": ".",
+  "profile": "openrouter-deepseek-v4.1-flash-1017",
+  "effort": "high",
+  "temperature": null,
+  "system_prompt": "non-conservative",
+  "cases": [
+    {
+      "repo": "cloudposse__terraform-aws-cloudfront-s3-cdn",
+      "pr_number": 319,
+      "pr_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/pull/319",
+      "commit_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/commit/c44dbde7c92ff8b15752e2903c6e1c5efbe318d4",
+      "commit_sha": "c44dbde7c92ff8b15752e2903c6e1c5efbe318d4",
+      "parent_sha": "c44dbde7c92ff8b15752e2903c6e1c5efbe318d4^",
+      "commit_subject": "Add support for origin-access-control (#319)",
+      "commit_date": "2024-10-02T12:56:24-07:00",
+      "file": "main.tf",
+      "module_dir": ".",
+      "holder_address": "aws_s3_bucket_cors_configuration.origin",
+      "added_targets": [
+        "time_sleep.wait_for_aws_s3_bucket_settings"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "time_sleep.wait_for_aws_s3_bucket_settings": false
+      },
+      "verify_error": null
+    },
+    {
+      "repo": "cloudposse__terraform-aws-cloudfront-s3-cdn",
+      "pr_number": 319,
+      "pr_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/pull/319",
+      "commit_url": "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn/commit/c44dbde7c92ff8b15752e2903c6e1c5efbe318d4",
+      "commit_sha": "c44dbde7c92ff8b15752e2903c6e1c5efbe318d4",
+      "parent_sha": "c44dbde7c92ff8b15752e2903c6e1c5efbe318d4^",
+      "commit_subject": "Add support for origin-access-control (#319)",
+      "commit_date": "2024-10-02T12:56:24-07:00",
+      "file": "main.tf",
+      "module_dir": ".",
+      "holder_address": "aws_cloudfront_distribution.default",
+      "added_targets": [
+        "module.logs"
+      ],
+      "pre_existing_targets": [
+        "aws_s3_bucket.origin",
+        "aws_s3_bucket_ownership_controls.origin",
+        "time_sleep.wait_for_aws_s3_bucket_settings"
+      ],
+      "already_implicit": {
+        "module.logs": false
+      },
+      "verify_error": null
+    }
+  ]
+}

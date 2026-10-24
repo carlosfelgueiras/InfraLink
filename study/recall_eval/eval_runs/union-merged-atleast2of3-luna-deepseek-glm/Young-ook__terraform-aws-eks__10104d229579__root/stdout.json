@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen enable_ssm is true, this self-managed node group installs and starts the SSM agent, but its autoscaling group does not wait for the SSM managed-instance policy attachment. Instances can start before the role has the permissions needed for SSM registration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen SSM is enabled, the self-managed node instances install the SSM agent and require the SSM managed-instance policy to be attached before they launch. :resource.aws_autoscaling_group.ng does not currently depend on :resource.aws_iam_role_policy_attachment.ssm-managed.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.aws_autoscaling_group.ng` (self-managed nodes) launches instances assuming the `aws_iam_role.ng` role, but does not depend on `:resource.aws_iam_role_policy_attachment.ssm-managed`. When `enable_ssm` is set, the SSM policy must be attached to the role before instances launch so the SSM agent registers; the Worker/CNI/ECR attachments are already in `depends_on`, but this one is omitted.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.aws_autoscaling_group.ng` launches self-managed nodes whose user-data installs and starts the SSM agent when `var.enable_ssm` is true, but it only depends on `eks-ng`, `eks-cni` and `ecr-read` policy attachments. Nothing orders it after `:resource.aws_iam_role_policy_attachment.ssm-managed`, so instances can boot (and go live without SSM access) before the AmazonSSMManagedInstanceCore policy is attached to the node role. Add this attachment to the existing depends_on list (no attribute reference exists to create it implicitly).",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen enable_ssm is true, the managed node group's launch template installs and starts the SSM agent, but the node group does not wait for the SSM managed-instance policy attachment. Nodes can start before their role has the permissions needed for SSM registration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen SSM is enabled, the managed node instances install the SSM agent and require the SSM managed-instance policy to be attached before they launch. :resource.aws_eks_node_group.ng does not currently depend on :resource.aws_iam_role_policy_attachment.ssm-managed.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.aws_eks_node_group.ng` uses `aws_iam_role.ng` for its nodes but does not depend on `:resource.aws_iam_role_policy_attachment.ssm-managed`. When `enable_ssm` is set, the SSM policy must be attached to the node role before instances boot so the SSM agent can register; the sibling Worker/CNI/ECR attachments are already in `depends_on`, but this one is omitted.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`:resource.aws_eks_node_group.ng` reuses the node role and its launch template (`aws_launch_template.mng`) enables the SSM agent when `var.enable_ssm` is true, yet its depends_on only covers `eks-ng`, `eks-cni` and `ecr-read`. It should also wait for `:resource.aws_iam_role_policy_attachment.ssm-managed` so managed node instances never launch without SSM permissions attached to the role. No attribute reference can express this, so extend the existing depends_on list.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

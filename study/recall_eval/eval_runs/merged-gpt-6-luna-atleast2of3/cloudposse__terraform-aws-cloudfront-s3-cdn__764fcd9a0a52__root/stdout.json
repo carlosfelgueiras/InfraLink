@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe CloudFront distribution should wait for the origin bucket policy to be attached before it is created/deployed; otherwise it can become available while CloudFront's origin access identity still lacks the intended S3 access policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe CloudFront distribution uses the S3 bucket as its origin, but it has no dependency on :resource.aws_s3_bucket_policy.default. Ordering policy attachment before distribution creation avoids the distribution becoming active before the origin access policy is in place.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe distribution can become active while its origin bucket policy is not yet attached. Since the policy grants the access CloudFront needs to retrieve origin objects, make the distribution wait for aws_s3_bucket_policy.default so it is ready when the distribution is deployed; CloudFront provisioning can take time to reach its deployed state.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

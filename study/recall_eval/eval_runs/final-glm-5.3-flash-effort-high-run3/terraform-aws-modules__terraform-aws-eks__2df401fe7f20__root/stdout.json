@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS Fargate profile starts launching pods on Fargate as soon as it is created, and those pods assume the pod execution role. The role's policy attachment (AmazonEKSFargatePodExecutionRolePolicy) is not waited for: `module.fargate:resource.aws_eks_fargate_profile.this` references `pod_execution_role_arn` (the role), but nothing orders it after `module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod`. Without this ordering, Fargate pods may start before the role policy is attached/propagated. Note that the root module's worker launch configurations and launch templates explicitly `depends_on` their role policy attachments for exactly this reason, but the fargate module does not.",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`data.http.wait_for_cluster` polls the cluster's /healthz endpoint to gate `kubernetes_config_map.aws_auth`, and it explicitly `depends_on` the private-access ingress rule `cluster_private_access`. However, when `cluster_endpoint_private_access_sg` is configured, private API access is granted by the alternative rule `cluster_private_access_sg_source` instead, which is not in the depends_on list \u2014 the healthz check can race against (or fail because of) that rule not yet being applied.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access_sg_source",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on` of `data.http.wait_for_cluster` on `resource.aws_eks_cluster.this` is redundant: the data source already references the cluster through its `url` (cluster endpoint) and `ca_certificate` (cluster certificate authority) attributes, so Terraform already infers the cluster\u2192wait ordering implicitly.",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

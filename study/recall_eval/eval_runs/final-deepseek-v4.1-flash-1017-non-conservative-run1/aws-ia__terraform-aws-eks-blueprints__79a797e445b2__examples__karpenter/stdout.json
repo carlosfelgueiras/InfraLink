@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "kubectl_manifest.karpenter_provisioner creates a Karpenter Provisioner whose `spec.providerRef.name: default` refers to the AWSNodeTemplate named \"default\" created by kubectl_manifest.karpenter_node_template. Because that reference is a literal string inside yaml_body, Terraform infers no dependency, so the Provisioner can be applied before the AWSNodeTemplate exists and Karpenter has no provider to resolve. Add `depends_on = [kubectl_manifest.karpenter_node_template]` (in addition to the existing dependency on module.eks_blueprints_kubernetes_addons, which only guarantees the CRDs are installed).",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

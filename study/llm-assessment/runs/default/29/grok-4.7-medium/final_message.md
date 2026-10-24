@@ -1,0 +1,1 @@
+The host resource already waits on API enablement; I'll check whether attaching a service project has the same Compute API ordering requirement.

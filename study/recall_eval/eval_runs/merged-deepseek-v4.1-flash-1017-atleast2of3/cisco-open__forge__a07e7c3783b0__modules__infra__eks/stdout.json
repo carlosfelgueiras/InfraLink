@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.null_resource.delete_daemonset` removes the AWS VPC CNI `aws-node` DaemonSet, which must only happen once Calico has been installed and is providing pod networking. It currently depends only on `null_resource.update_kubeconfig`/`module.eks`, so nothing orders it after `:resource.null_resource.create_calico_installation`; Terraform may delete `aws-node` before the Calico `Installation` exists, leaving the cluster without a working CNI. Add an explicit `depends_on = [null_resource.create_calico_installation]` (there is no clean attribute reference on a `null_resource` to express this).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nnull_resource.delete_daemonset deletes the aws-node (VPC CNI) DaemonSet, which should only happen once Calico has been installed so a new CNI is in place. It currently depends only on module.eks and null_resource.update_kubeconfig, so nothing guarantees null_resource.create_calico_installation has run first \u2014 deleting the CNI beforehand leaves nodes without pod networking. Add a dependency on null_resource.create_calico_installation.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nnull_resource.delete_daemonset deletes the aws-node (VPC CNI) daemonset, but it only depends on module.eks and null_resource.update_kubeconfig. It must be ordered after null_resource.create_calico_installation so the Calico CNI Installation exists before the previous CNI is torn down; otherwise nodes are left with no working network plugin and pods scheduled by later steps (Karpenter, node pools) will fail. No attribute of a null_resource gives a clean data reference, so an explicit depends_on = [null_resource.create_calico_installation] is the appropriate fix.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The BCM Data Exports export writes to this S3 bucket, whose policy grants the bcm-data-exports.amazonaws.com service access. Ensure the bucket policy is installed before creating the export; the bucket reference alone does not establish that ordering.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The BCM Data Exports export writes to this S3 bucket, whose policy grants the bcm-data-exports.amazonaws.com service access. Ensure the bucket policy is installed before creating the export; the bucket reference alone does not establish that ordering.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The S3 bucket notification configures an invocation for the per-resource-process Lambda, but it does not wait for that function's S3 invoke permission. AWS validates Lambda permissions when installing bucket notifications, so this permission must be created first.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "This permission uses a locally constructed function name that matches the function created by this module, but it does not reference the module output. It can therefore be created before the Lambda function exists, causing the permission API call to fail; wire the function name to the module output to establish ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "This permission uses a locally constructed function name that matches the function created by this module, but it does not reference the module output. It can therefore be created before the Lambda function exists, causing the permission API call to fail; wire the function name to the module output to establish ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "This permission uses a locally constructed function name that matches the function created by this module, but it does not reference the module output. It can therefore be created before the Lambda function exists, causing the permission API call to fail; wire the function name to the module output to establish ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

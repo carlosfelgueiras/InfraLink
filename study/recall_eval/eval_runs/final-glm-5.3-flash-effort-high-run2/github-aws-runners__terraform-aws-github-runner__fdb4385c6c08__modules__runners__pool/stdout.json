@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.pool should depend on aws_cloudwatch_log_group.pool: the log group is named \"/aws/lambda/${aws_lambda_function.pool.function_name}\", which makes Terraform create the function first, but AWS then auto-creates that same log group with default settings when the function is created. Terraform's subsequent aws_cloudwatch_log_group.pool creation then fails with ResourceAlreadyExistsException (or, if it lands first, the retention/kms_key_id/log_class settings are silently lost to the auto-created group). The aws_lambda_function documentation explicitly recommends depends_on = [aws_cloudwatch_log_group.example] for this pattern. Note a bare depends_on cannot be added as-is because the log group's name already references the function (creating a cycle) \u2014 derive the log group name independently (e.g. from var.config.prefix, which equals the function name) and then order the function after the log group.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

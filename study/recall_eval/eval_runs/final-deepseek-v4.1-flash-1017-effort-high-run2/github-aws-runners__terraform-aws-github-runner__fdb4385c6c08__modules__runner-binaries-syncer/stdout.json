@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.syncer is configured with a vpc_config (when lambda_subnet_ids/lambda_security_group_ids are non-empty), which requires the execution role to hold ENI permissions from AWSLambdaVPCAccessExecutionRole at creation time. That policy is attached by aws_iam_role_policy_attachment.syncer_vpc_execution_role, but nothing orders the function after it \u2014 both only depend on the IAM role. Terraform can therefore create the function first and CreateFunction fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". aws_lambda_function.syncer should depend on aws_iam_role_policy_attachment.syncer_vpc_execution_role (e.g. an explicit depends_on).",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer registers aws_lambda_function.syncer as the target of the EventBridge rule, but does not ensure that aws_lambda_permission.syncer (the events.amazonaws.com lambda:InvokeFunction permission) exists first. The AWS docs state that to have a Lambda invoked by an EventBridge rule you must set up the permission via aws_lambda_permission. The S3 path in this same module already handles the equivalent case with depends_on on aws_lambda_permission.on_deploy; the EventBridge target needs the analogous ordering to aws_lambda_permission.syncer.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

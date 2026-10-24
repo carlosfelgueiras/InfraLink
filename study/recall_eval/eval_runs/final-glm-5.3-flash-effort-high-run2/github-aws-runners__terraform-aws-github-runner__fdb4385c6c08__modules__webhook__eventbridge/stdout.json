@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook should be created after aws_cloudwatch_log_group.webhook: the log group defines retention/KMS/class settings for the function's /aws/lambda/${function_name} group, and if Lambda is invoked before it exists, Lambda auto-creates the default log group, defeating those settings and causing ResourceAlreadyExists errors on later applies. Note the dependency currently points the wrong way (the log group's name references the function's function_name, and a plain depends_on would form a cycle) \u2014 the log group name should be decoupled (e.g. \"/aws/lambda/${var.config.prefix}-webhook\", matching the function name) so the function can wait on the log group.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher should be created after aws_cloudwatch_log_group.dispatcher: the log group defines retention/KMS/class settings for the function's /aws/lambda/${function_name} group, and if Lambda is invoked before it exists, Lambda auto-creates the default log group, defeating those settings and causing ResourceAlreadyExists errors on later applies. Note the dependency currently points the wrong way (the log group's name references the function's function_name, and a plain depends_on would form a cycle) \u2014 the log group name should be decoupled (e.g. \"/aws/lambda/${var.config.prefix}-dispatch-to-runner\", matching the function name) so the function can wait on the log group.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_cloudwatch_log_group.dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.dispatcher registers aws_lambda_function.dispatcher as a target of aws_cloudwatch_event_rule.workflow_job, but EventBridge can only invoke the function once the resource-based policy from aws_lambda_permission.allow_cloudwatch_to_call_lambda is in place. Since the target and the permission share no data reference, they can be created in parallel, leaving a window where matching workflow_job events are delivered and denied. The target should depend on the permission (no attribute on the target can reference it, so a bare depends_on is the appropriate fix).",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook should wait for aws_iam_role_policy_attachment.webhook_vpc_execution_role. When var.config.lambda_subnet_ids/lambda_security_group_ids are set, the function is created with vpc_config, and Lambda creates/attaches ENIs on the function's behalf using the execution role \u2014 which only has EC2 network-interface permissions once AWSLambdaVPCAccessExecutionRole is attached and propagated. The function and attachment share no data reference, so they can be created in parallel.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher should wait for aws_iam_role_policy_attachment.dispatcher_vpc_execution_role. When var.config.lambda_subnet_ids/lambda_security_group_ids are set, the function is created with vpc_config, and Lambda creates/attaches ENIs on the function's behalf using the execution role \u2014 which only has EC2 network-interface permissions once AWSLambdaVPCAccessExecutionRole is attached and propagated. The function and attachment share no data reference, so they can be created in parallel.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

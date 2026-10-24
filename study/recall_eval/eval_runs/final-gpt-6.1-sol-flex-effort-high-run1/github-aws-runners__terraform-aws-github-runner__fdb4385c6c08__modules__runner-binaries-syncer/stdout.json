@@ -1,0 +1,79 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.syncer must wait for :resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role when VPC subnets are configured. Referencing the execution role does not wait for its managed-policy attachment; Lambda can attempt VPC provisioning without the required EC2 network-interface permissions. The dependency also keeps the policy attached until the function has been destroyed.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.syncer does not wait for :resource.aws_iam_role_policy.syncer, which grants its runner-distribution S3 access. Both resources depend on the role, but neither is ordered after the other. Because the deployment trigger can invoke the function immediately after creation, make the function wait for this policy so the initial sync cannot race policy installation.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When a customer-managed S3 KMS key is configured, :resource.aws_lambda_function.syncer should wait for :resource.aws_iam_role_policy.lambda_kms. The function's role reference does not order this separate policy, so the immediate deployment invocation can attempt encrypted S3 operations before the required KMS permissions are installed.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is configured, :resource.aws_lambda_function.syncer should wait for :resource.aws_iam_role_policy.syncer_lambda_xray before becoming available to the deployment and scheduled triggers. Currently those triggers can invoke the function before its X-Ray permissions are installed, losing initial tracing data.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy.syncer_lambda_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_s3_object.trigger immediately invokes the syncer through its S3 notification, but does not wait for :resource.aws_iam_role_policy.lambda_logging. That policy and the trigger can be created concurrently after the function exists, so the first invocation can run without logging permissions or the managed log group. Make the trigger wait for the logging policy, which already depends on the log group. Adding this dependency to the function instead would create a cycle with the current log-group configuration.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.syncer can activate scheduled invocations before :resource.aws_iam_role_policy.lambda_logging and its prerequisite log group are ready. Make the target wait for the logging policy so a schedule firing during apply cannot invoke the function without logging readiness. The existing function reference does not establish this ordering.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.syncer should wait for :resource.aws_lambda_permission.syncer before attaching the function to the enabled scheduled rule. Both resources reference the rule and function, but can be created concurrently; a schedule firing before the permission is installed can fail with an invocation authorization error.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When var.s3_versioning is Enabled, :resource.aws_s3_object.trigger can upload before :resource.aws_s3_bucket_versioning.action_dist has enabled versioning, and its notification can start the syncer's writes too early as well. Reference the versioning resource's bucket attribute to order the upload after versioning configuration. The provider documentation also recommends allowing 15 minutes after first enabling versioning before object writes; this ordering alone does not provide that propagation delay.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_s3_bucket_versioning.action_dist",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket_versioning.action_dist.bucket"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

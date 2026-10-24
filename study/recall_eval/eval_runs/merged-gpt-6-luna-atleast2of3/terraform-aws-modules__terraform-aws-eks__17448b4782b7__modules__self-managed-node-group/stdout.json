@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Auto Scaling group can launch self-managed EKS nodes before the configured EKS access entry for their IAM role has been created. Make the group wait for the access entry so nodes do not attempt to join before their cluster authentication entry is available.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Auto Scaling group can launch self-managed nodes before the EKS access entry for their IAM role is created. Since that entry enables the nodes to authenticate with the cluster, order the group after the access entry (for example, with an explicit depends_on).\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Auto Scaling group can launch self-managed nodes before the EKS access entry for their IAM role exists. Make the ASG wait for the access entry so nodes can authenticate when they join the cluster.",
+      "node": ":resource.aws_autoscaling_group.this",
+      "target": ":resource.aws_eks_access_entry.this",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

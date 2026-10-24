@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.csi: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :module.csi to :module.eks is redundant: module.csi already has an implicit dependency on module.eks through attribute references such as module.eks.cluster.name and module.eks.oidc.",
+      "node": ":module.csi",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Kubeflow Helm releases in :module.kubeflow use a local chart repository cloned by :resource.null_resource.clone, but the clone is outside Terraform's data-reference graph. :module.kubeflow should wait for the clone before reading that repository.",
+      "node": ":module.kubeflow",
+      "target": ":resource.null_resource.clone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cleanup provisioner in :resource.null_resource.clear removes kubeflow-manifests, while :resource.null_resource.clone creates that directory's contents. :resource.null_resource.clear should depend on :resource.null_resource.clone so cleanup cannot run before the clone.",
+      "node": ":resource.null_resource.clear",
+      "target": ":resource.null_resource.clone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

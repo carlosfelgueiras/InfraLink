@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale_down event target is only ordered after the rule and the Lambda function, but EventBridge can only invoke the function once aws_lambda_permission.scale_down (AllowExecutionFromCloudWatch) exists. Nothing expresses target-after-permission ordering, so the rule's first firing (every 5 minutes) can happen before the permission is in place and fail with AccessDenied.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The syncer event target is only ordered after the syncer rule and Lambda function; per the provider docs the rule can only invoke the Lambda once aws_lambda_permission.syncer exists. No reference or depends_on orders the target after that permission, so an invocation around the schedule (cron(27 * * * ? *)) can be rejected before the permission is created.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool event target is only ordered after the pool rule, the pool Lambda and var.config; nothing orders it after aws_lambda_permission.pool, which is the resource-based policy EventBridge needs to invoke the function. The target and permission are created in parallel, so a scheduled pool firing can occur before the permission exists and be denied.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app registers the webhook endpoint with the GitHub App via local-exec, but its ordering comes only from module.runners' webhook outputs (gateway API, lambda, role, log group, endpoint path). Nothing orders it after the API Gateway route POST /webhook, so GitHub can start delivering events (it sends a ping on registration) before the route exists and receive 404s.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app points the GitHub App at the execute-api endpoint, but nothing orders it after the $default stage (aws_apigatewayv2_stage.webhook). The update-app provisioner can run as soon as the API resource exists, in parallel with stage creation, so early webhook deliveries hit an endpoint with no stage attached and fail until the stage is created.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app registers the webhook endpoint with the GitHub App, but no reference or depends_on orders it after aws_lambda_permission.webhook (AllowExecutionFromAPIGateway). Without that resource policy API Gateway cannot invoke the webhook Lambda, so deliveries arriving right after registration return 500 until the permission is created.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

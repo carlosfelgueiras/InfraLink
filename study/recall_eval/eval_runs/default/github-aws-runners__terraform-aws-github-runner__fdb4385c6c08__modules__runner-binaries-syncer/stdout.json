@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be invoked as soon as it is created, but its execution role's policies/attachments are separate resources. Make the function depend on the role policy resources so it is not invoked before permissions are attached; the S3 trigger may run immediately after notification setup.",
+      "node": ":resource.aws_s3_bucket_notification.on_deploy",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Creating the trigger object causes the S3 notification to invoke the Lambda, but this object only waits for the notification resource and Lambda function\u2014not for the execution role's S3 permissions. Ensure the syncer policy is attached before the trigger object is uploaded.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The initial S3 trigger object can invoke the Lambda before its logging policy has been created. Add ordering from the trigger upload to the Lambda logging policy so the first invocation can write logs.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

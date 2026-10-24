@@ -1,0 +1,181 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":output.custom_role_id: explicit depends_on of :resource.google_organization_iam_custom_role.roles is redundant \u2014 already implied by attribute references",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_organization_iam_binding.authoritative assigns role = each.key from input strings, so grants of custom roles created by google_organization_iam_custom_role.roles can run before those roles exist. Resolve locally managed role names through the custom-role resources, falling back to the supplied name for other roles.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "try(google_organization_iam_custom_role.roles[trimprefix(each.key, \"${var.organization_id}/roles/\")].name, each.key)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_organization_iam_member.additive takes its role from string-valued inputs without depending on google_organization_iam_custom_role.roles. If an additive grant uses a custom role created here, Terraform can attempt the grant before creating the role. Reference the managed role name when available.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": {
+        "field": "role",
+        "expression": "try(google_organization_iam_custom_role.roles[trimprefix(each.value.role, \"${var.organization_id}/roles/\")].name, each.value.role)"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_organization_iam_policy.authoritative obtains policy_data from input-derived JSON, which does not establish an ordering dependency on google_organization_iam_custom_role.roles. When its bindings include custom roles created here, policy application must wait for those roles to exist; add a dependency on the custom-role resources.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.custom_role_id already references google_organization_iam_custom_role.roles in its value comprehension, so its explicit depends_on on the same resources duplicates the implicit dependency.",
+      "node": ":output.custom_role_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_audit_config.config. The direct depends_on on the audit configuration is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_audit_config.config",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_binding.authoritative. The direct depends_on on the IAM bindings is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_custom_role.roles. The direct depends_on on the custom roles is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_member.additive. The direct depends_on on the additive IAM grants is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_policy.authoritative. The direct depends_on on the IAM policy is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_organization_iam_policy.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_tags_tag_key_iam_binding.default, whose tag_key attribute references google_tags_tag_key.default. The direct depends_on on the tag keys is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.id already depends on google_tags_tag_value_iam_binding.default, whose tag_value attribute references google_tags_tag_value.default. The direct depends_on on the tag values is transitively redundant.",
+      "node": ":output.id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_audit_config.config. The direct depends_on on the audit configuration is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_audit_config.config",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_binding.authoritative. The direct depends_on on the IAM bindings is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_custom_role.roles. The direct depends_on on the custom roles is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_member.additive. The direct depends_on on the additive IAM grants is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_org_policy_policy.default, which explicitly depends on google_organization_iam_policy.authoritative. The direct depends_on on the IAM policy is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_organization_iam_policy.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_tags_tag_key_iam_binding.default, whose tag_key attribute references google_tags_tag_key.default. The direct depends_on on the tag keys is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "output.organization_id already depends on google_tags_tag_value_iam_binding.default, whose tag_value attribute references google_tags_tag_value.default. The direct depends_on on the tag values is transitively redundant.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

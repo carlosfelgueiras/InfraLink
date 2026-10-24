@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner launch template uses subnet IDs from the VPC created by module.base, but that input dependency alone does not ensure the VPC module's networking resources have finished provisioning before dependent runner resources are created. Add an explicit dependency on module.base; no suitable node-level data reference to the module itself is available.",
+      "node": ":module.runners",
+      "target": ":module.base",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

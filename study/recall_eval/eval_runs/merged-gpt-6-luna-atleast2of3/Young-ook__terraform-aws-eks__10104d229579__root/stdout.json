@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen enable_ssm is true, this self-managed node group installs and starts the SSM agent, but its autoscaling group does not wait for the SSM managed-instance policy attachment. Instances can start before the role has the permissions needed for SSM registration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen SSM is enabled, the self-managed node instances install the SSM agent and require the SSM managed-instance policy to be attached before they launch. :resource.aws_autoscaling_group.ng does not currently depend on :resource.aws_iam_role_policy_attachment.ssm-managed.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen enable_ssm is true, the managed node group's launch template installs and starts the SSM agent, but the node group does not wait for the SSM managed-instance policy attachment. Nodes can start before their role has the permissions needed for SSM registration.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen SSM is enabled, the managed node instances install the SSM agent and require the SSM managed-instance policy to be attached before they launch. :resource.aws_eks_node_group.ng does not currently depend on :resource.aws_iam_role_policy_attachment.ssm-managed.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm-managed",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

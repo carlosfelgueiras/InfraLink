@@ -1,0 +1,46 @@
+{
+  "id": "36",
+  "config": "glm-5.3-high",
+  "model": "openrouter/z-ai/glm-5.3#high",
+  "agent": null,
+  "repo": "GoogleCloudPlatform__cloud-foundation-fabric",
+  "commit": "853a9c23b5ea9d2fd662692c8a37a3ff7c8b0237",
+  "module_dir": "modules/folder",
+  "node": ":resource.google_tags_tag_binding.binding",
+  "target": ":resource.google_folder.folder",
+  "verdict": "Incorrect",
+  "ambiguous": false,
+  "matches": [
+    "Incorrect"
+  ],
+  "session_id": "ses_e9638043effeW03pQQXu9LtuN9",
+  "exit_code": 1,
+  "duration_seconds": 119.6843655409757,
+  "cost": 0.03516071999999999,
+  "tokens": {
+    "input": 29856,
+    "output": 1027,
+    "reasoning": 7559,
+    "cache_read": 266432,
+    "cache_write": 0
+  },
+  "tool_calls": 19,
+  "errors": [
+    {
+      "type": "provider.internal",
+      "message": "Upstream error from InferenceNet: Inference request failed, please try again. You will not be charged for this request. (generation ID = gv2_S8nH53jIZWLr46P5Cnqua)",
+      "status": 200,
+      "response": {
+        "body": "{\"id\":\"gen-1792776078-xlaHxBhiemG5f2341V8j\",\"object\":\"chat.completion.chunk\",\"created\":1792776078,\"model\":\"z-ai/glm-5.3\",\"provider\":\"InferenceNet\",\"choices\":[],\"error\":{\"code\":502,\"message\":\"Upstream error from InferenceNet: Inference request failed, please try again. You will not be charged for this request. (generation ID = gv2_S8nH53jIZWLr46P5Cnqua)\",\"metadata\":{\"error_type\":\"provider_unavailable\"}}}"
+      }
+    },
+    {
+      "type": "provider.internal",
+      "message": "Upstream error from InferenceNet: Inference request failed, please try again. You will not be charged for this request. (generation ID = gv2_1VXF0kCJQ3bGaOzyq2m3v)",
+      "status": 200,
+      "response": {
+        "body": "{\"id\":\"gen-1792776093-0RE1qjRps0RXH8fC3coj\",\"object\":\"chat.completion.chunk\",\"created\":1792776093,\"model\":\"z-ai/glm-5.3\",\"provider\":\"InferenceNet\",\"choices\":[],\"error\":{\"code\":502,\"message\":\"Upstream error from InferenceNet: Inference request failed, please try again. You will not be charged for this request. (generation ID = gv2_1VXF0kCJQ3bGaOzyq2m3v)\",\"metadata\":{\"error_type\":\"provider_unavailable\"}}}"
+      }
+    }
+  ]
+}

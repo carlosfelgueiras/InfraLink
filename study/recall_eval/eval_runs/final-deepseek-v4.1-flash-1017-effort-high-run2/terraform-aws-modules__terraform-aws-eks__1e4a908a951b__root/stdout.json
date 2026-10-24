@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.wait_for_cluster` lists `aws_eks_cluster.this[0]` in `depends_on`, but the same resource already references the cluster implicitly: its `local-exec` provisioner sets `ENDPOINT = aws_eks_cluster.this[0].endpoint`. Terraform already orders `wait_for_cluster` after the cluster, so this entry in `depends_on` is redundant and can be dropped (the `aws_security_group_rule.cluster_private_access` entry is still needed because nothing references it by attribute).",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.workers` has no dependency on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy`. The ASG's instances launch as soon as the launch configuration (which only references `aws_iam_role.workers` transitively through the instance profile) exists, but the worker role only gains the permissions it needs to reach the EKS control plane and join the cluster once the AmazonEKSWorkerNodePolicy attachment is created. Terraform will happily create the ASG in parallel with the attachment, so nodes can come up and fail to bootstrap/join. Ordering is only guaranteed if the ASG waits for the policy attachments (this is exactly the race the `data.null_data_source.node_groups` hack guards against for managed node groups).",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.workers_launch_template` does not depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy`, so its instances may be launched before the worker IAM role has the policy attached, leaving them unable to authenticate to the EKS cluster and join. The launch template only reaches `aws_iam_role.workers` via the instance profile name, which does not imply ordering with the separate policy-attachment resource.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

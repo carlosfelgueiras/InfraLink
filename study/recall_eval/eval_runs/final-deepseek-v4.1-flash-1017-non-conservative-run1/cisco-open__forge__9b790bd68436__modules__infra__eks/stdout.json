@@ -1,0 +1,70 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.karpenter creates EKS cluster-scoped objects (aws_eks_access_entry because create_access_entry = true, the pod identity association, and the interruption queue wiring) that can only be created against an existing/ACTIVE EKS cluster (aws_eks_access_entry requires cluster_name to resolve to a real cluster). The module never references module.eks \u2014 it passes `cluster_name = var.cluster_name` (a plain string), so there is no implicit dependency. Ordering currently happens only incidentally, because the module was given `depends_on = [null_resource.patch_calico_installation]`, an unrelated CNI-patching step that happens to run after the cluster. Wire the cluster reference (or an explicit depends_on on module.eks) so the access entry/pod identity association cannot be planned before the cluster exists.",
+      "node": ":module.karpenter",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.aws_ebs_csi_driver is created with `cluster_name = var.cluster_name` (a plain string), so it has no implicit dependency on the cluster. aws_eks_addon creates the add-on via the EKS API against an existing cluster, so it must be ordered after module.eks; today that ordering only comes indirectly through `depends_on = [module.self_managed_node_group]`. Reference module.eks.cluster_name instead (and the depends_on on the node group can remain for scheduling reasons).",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.coredns uses `cluster_name = var.cluster_name`, so nothing in the resource expression forces the EKS cluster to exist first; add-on installation goes through the EKS API and requires the cluster. The only ordering is the indirect `depends_on = [module.self_managed_node_group]`. Prefer referencing module.eks.cluster_name so the ordering is implied by the cluster itself.",
+      "node": ":resource.aws_eks_addon.coredns",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_addon.eks_pod_identity_agent uses `cluster_name = var.cluster_name` and therefore has no implicit dependency on the EKS cluster; installing the pod identity agent requires the cluster to exist and be reachable through the EKS API. Ordering is only implied today through `depends_on = [module.self_managed_node_group]`. Reference module.eks.cluster_name to make the dependency real.",
+      "node": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "target": ":module.eks",
+      "fix": {
+        "field": "cluster_name",
+        "expression": "module.eks.cluster_name"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Karpenter controller installed by helm_release.karpenter authenticates to AWS via EKS Pod Identity (module.karpenter sets create_pod_identity_association = true and the chart's service account is bound to that role), so the pods can only obtain credentials once the aws-eks-pod-identity-agent add-on is running on the nodes. helm_release.karpenter only depends on null_resource.wait_for_cluster / module.eks / module.karpenter, so it can be installed before aws_eks_addon.eks_pod_identity_agent exists, leaving the controller crash-looping on credential retrieval until the agent DaemonSet is rolled out.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.aws_eks_addon.eks_pod_identity_agent",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter already waits for null_resource.wait_for_cluster implicitly: its provider (`provider.helm`) is configured from data.aws_eks_cluster.cluster / data.aws_eks_cluster_auth.cluster, and both of those data sources carry `depends_on = [null_resource.wait_for_cluster]`. Terraform orders resources after the dependencies of their provider configuration, so the explicit `depends_on = [null_resource.wait_for_cluster]` on the helm release duplicates an ordering that is already established through the helm provider.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

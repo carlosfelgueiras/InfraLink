@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`aws_lambda_function.webhook` attaches a VPC configuration (`vpc_config` from `var.config.lambda_subnet_ids`/`lambda_security_group_ids`), and Lambda needs the `AWSLambdaVPCAccessExecutionRole` managed policy on its execution role *at creation time* to create the ENIs (else creation fails with \"The provided execution role does not have permissions to call CreateNetworkInterface\"). Nothing in the function references `aws_iam_role_policy_attachment.webhook_vpc_execution_role`, so Terraform may create the function in parallel with/before the attachment, making applies order-dependent. Add `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]` to the function.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_lambda_function.webhook` only references `aws_iam_role.webhook_lambda.arn`, so Terraform creates the function and `aws_iam_role_policy_attachment.webhook_vpc_execution_role` concurrently (both only depend on the role). When `var.config.lambda_subnet_ids` is set the function gets a `vpc_config`, and Lambda creates the ENIs at function-creation time using the execution role; if the `AWSLambdaVPCAccessExecutionRole` policy has not been attached yet (and propagated), the apply fails with \"The provided execution role does not have permissions to call CreateNetworkInterface\". The provider documentation's own Lambda example wires this ordering explicitly (`depends_on = [aws_iam_role_policy_attachment.lambda_logs, ...]`). `aws_lambda_function.webhook` needs an explicit `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]`; there is no attribute on the function that can carry this ordering implicitly.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_privileged_access_manager_entitlement.default resolves its privileged_access role_bindings[].role through lookup(local.ctx.custom_roles, ...), so an entitlement can reference a custom role created by google_organization_iam_custom_role.roles in this same module. Nothing currently orders the entitlement after the custom role's creation (its only depends_on entries are the organization IAM bindings, for service-agent permissions). google_org_policy_policy.default already guards this exact context-indirected reference with a depends_on on google_organization_iam_custom_role.roles, so the entitlement should too; otherwise the referenced custom role may not exist yet when the entitlement is created.",
+      "node": ":resource.google_privileged_access_manager_entitlement.default",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

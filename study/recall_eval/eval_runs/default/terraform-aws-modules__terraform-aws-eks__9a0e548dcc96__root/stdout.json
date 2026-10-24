@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.null_resource.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the existing implicit dependency: the provisioner environment references the cluster endpoint, and the null resource's depends_on also lists the cluster.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_eks_cluster.this to :resource.aws_cloudwatch_log_group.this duplicates an implicit reference because the cluster's enabled_cluster_log_types uses the same log types configured for the log group, making the log group a direct prerequisite.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_cloudwatch_log_group.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker Auto Scaling group :resource.aws_autoscaling_group.workers can launch instances before the worker IAM policies are attached; it has no dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy, which is required for nodes to bootstrap correctly.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker Auto Scaling group :resource.aws_autoscaling_group.workers can launch instances before the CNI policy is attached, potentially leaving nodes without required networking permissions; it has no dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker Auto Scaling group :resource.aws_autoscaling_group.workers_launch_template can launch instances before the worker node policy is attached; it has no dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy, needed for node bootstrap.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The worker Auto Scaling group :resource.aws_autoscaling_group.workers_launch_template can launch instances before the CNI policy is attached, potentially leaving nodes without required networking permissions; it has no dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

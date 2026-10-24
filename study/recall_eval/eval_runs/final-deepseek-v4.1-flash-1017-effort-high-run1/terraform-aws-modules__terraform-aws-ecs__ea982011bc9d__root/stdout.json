@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_ecs_cluster_capacity_providers.this` registers the autoscaling capacity providers on the ECS cluster, but it has no dependency on `:resource.aws_ecs_capacity_provider.this`. ECS only accepts a capacity provider association once the capacity provider exists and is ACTIVE, so on a fresh apply the cluster-capacity-provider association can race ahead of capacity provider creation and fail with \"The specified capacity provider does not exist\". Although `local.cluster_capacity_providers` merges in `aws_ecs_capacity_provider.this`, the graph shows no edge, so the ordering isn't guaranteed. Wire the capacity providers into `capacity_providers` (deriving the names from the resource rather than from the input variable) so Terraform infers the ordering.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat(\n    [for k, v in var.fargate_capacity_providers : try(v.name, k)],\n    [for k, v in aws_ecs_capacity_provider.this : try(v.name, k)]\n  ))"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nWhen this Lambda is configured with VPC subnets, it must not be created until the execution role has the VPC network-interface permissions attached. The source configures VPC settings on the function but has no dependency on this conditional attachment, so Terraform can race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function can be created with VPC configuration before its VPC execution policy attachment is ready. When Lambda subnets are configured, wait for the VPC access execution role attachment so Lambda can create and manage network interfaces.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe scheduled EventBridge target may become active before Lambda grants EventBridge permission to invoke the function; order target creation after the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can become active before the Lambda permission is installed, so scheduled invocations may fail until `aws_lambda_permission.syncer` is available.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe scheduled EventBridge target may become active before Lambda grants EventBridge permission to invoke the function; order target creation after the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can become active before the Lambda permission is installed, so scheduled invocations may fail until `aws_lambda_permission.scale_down` is available.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe scheduled EventBridge target may become active before Lambda grants EventBridge permission to invoke the function; order target creation after the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can become active before the Lambda permission is installed, so scheduled invocations may fail until `aws_lambda_permission.pool` is available.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe GitHub App webhook can be updated to the API URL before the route is configured, so initial webhook deliveries may fail. Ensure the app update runs after the API Gateway route is created.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe GitHub App update can register the endpoint before the API route exists, leaving the configured webhook endpoint unavailable; it should wait for the route.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe GitHub App webhook can be updated to the API URL before the API Gateway stage is ready, so initial deliveries may fail. Ensure the app update runs after the stage is deployed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe GitHub App update can register the endpoint before the API Gateway default stage is created and deployed; it should wait for the stage to be ready.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.webhook-github-app:resource.null_resource.update_app registers the webhook URL in the GitHub App via a local-exec provisioner using module.runners.webhook.endpoint, which resolves to \"${aws_apigatewayv2_api.webhook.api_endpoint}/webhook\". That path only traces back to the API object (and the lambda), not to module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook (the \"$default\" stage), so on a fresh apply the GitHub App can be pointed at a URL that is not yet served, and GitHub's verification ping will 404. The registration step should be ordered after the API stage is deployed (e.g. by exporting an endpoint that references the stage and depending on it). No idiomatic data-reference fix exists here because null_resource has no attribute that can reference the other module's stage.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`module.webhook-github-app:resource.null_resource.update_app` registers the runners webhook endpoint with the GitHub App via a local-exec script as soon as `module.runners:output.webhook` is known, but that output is derived from `aws_apigatewayv2_api.webhook.api_endpoint` plus the static local `webhook_endpoint` (\"webhook\"), so the address string is known before the `$default` stage, the `POST /webhook` integration/route and `aws_lambda_permission.webhook` exist. In that window `https://<api-id>.execute-api.<region>.amazonaws.com/webhook` returns 403/404, so GitHub's webhook validation ping fails and, because the provisioner is `on_failure = continue`, the failure is silent and the App keeps an endpoint that only starts working later. The null_resource should depend on `module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook` (which deploys the API) \u2014 and ideally transitively on `aws_apigatewayv2_route.webhook` / `aws_lambda_permission.webhook`. No data-reference fix is available because `modules/webhook/outputs.tf` does not export the stage, so a bare `depends_on` (or a new module output) is required.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe GitHub App webhook can be activated before API Gateway has permission to invoke its Lambda integration. Ensure the app update runs after this Lambda permission is installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe GitHub App update can enable webhook deliveries before API Gateway has permission to invoke the Lambda, causing deliveries to fail; it should wait for the Lambda permission.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

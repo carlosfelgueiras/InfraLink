@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default explicitly depends_on aws_s3_bucket.origin, but it already has an implicit dependency on that bucket: its origin.domain_name is derived from local.bucket_domain_name, and local.bucket is built from aws_s3_bucket.origin.*.id (also indirectly through data.aws_s3_bucket.selected). The explicit depends_on is therefore redundant.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,1003 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_config_configuration_aggregator.organization references the organization role but does not wait for :resource.aws_iam_role_policy_attachment.config_organization. Attach AWSConfigRoleForOrganizations before creating the organization aggregator so Config can retrieve organization details; the provider's official example explicitly orders these resources.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global must wait for module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy when CloudWatch delivery is enabled. Referencing the role ARN orders role creation, not installation of the logs:CreateLogStream and logs:PutLogEvents permissions CloudTrail needs when configuring delivery.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global references the SNS topic but does not wait for module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail. When SNS notifications are enabled, install the policy granting cloudtrail.amazonaws.com sns:Publish before configuring the trail, otherwise creation can fail with insufficient SNS topic permissions.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": {
+        "field": "sns_topic_name",
+        "expression": "var.cloudtrail_sns_topic_enabled ? aws_sns_topic_policy.local-account-cloudtrail[0].arn : null"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-northeast-1, aws_default_subnet.default must wait for aws_default_vpc.default. The default subnet resource adopts or creates a subnet in the default VPC, but cannot create that VPC itself. Without ordering, an account whose default VPC was deleted can fail during subnet creation.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-northeast-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-northeast-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy when CloudWatch delivery is selected. Its role ARN reference waits only for role creation, allowing logging to start before the role has permission to create streams and publish events. Establish this ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-northeast-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy, which grants its recorder role S3 delivery and SNS publishing permissions. Waiting for the recorder and role does not wait for that policy. Pass a dependency into the delivery channel; a whole-module dependency on this policy would cycle through the module's SNS topic output.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-northeast-1 recorder status enables AWS Config without waiting for aws_iam_role_policy_attachment.recorder_read_policy. Role creation alone does not install AWS_ConfigRole; order recorder startup after this attachment so recording starts with resource-discovery permissions.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-northeast-2, aws_default_subnet.default must wait for aws_default_vpc.default. The subnet resource adopts or creates a subnet in the default VPC but cannot create the VPC; parallel execution can fail when the default VPC is initially absent.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-northeast-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-northeast-2 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Referencing the role ARN does not wait for the policy granting stream creation and event publishing. Establish ordering through the root VPC module call to avoid starting delivery with an unprivileged role.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-northeast-2 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to grant the recorder role S3 and SNS delivery permissions. The recorder reference does not order this policy. Pass a dependency to the delivery channel rather than adding a whole-module dependency that would cycle through the SNS topic output.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-northeast-2 recorder status should wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording. Its dependency on the recorder only waits for role creation, not the AWS_ConfigRole attachment supplying resource-discovery permissions.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-northeast-3, aws_default_subnet.default must wait for aws_default_vpc.default. The subnet resource cannot create its required default VPC, so it can fail if scheduled before VPC recreation in an account with no default VPC.",
+      "node": "module.vpc_baseline_ap-northeast-3:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-northeast-3:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-northeast-3 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy when using CloudWatch Logs. Role creation does not install the permissions to create streams and publish events. Establish ordering through the root VPC module call before delivery starts.",
+      "node": "module.vpc_baseline_ap-northeast-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-northeast-3 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install the recorder role's S3 and SNS permissions. Its recorder dependency does not order that policy. Pass a dependency into the delivery channel, not a whole-module dependency that would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-northeast-3 recorder status enables recording without waiting for aws_iam_role_policy_attachment.recorder_read_policy. Wait for this AWS_ConfigRole attachment so resource-discovery permissions are installed before startup; the role ARN reference does not provide that ordering.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-south-1, aws_default_subnet.default must wait for aws_default_vpc.default. Default subnet creation requires the default VPC to exist; referencing only an availability zone leaves a race when Terraform must recreate the VPC.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-south-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-south-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. The role ARN establishes role creation ordering but not installation of its log publishing permissions. Add the ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-south-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy before validating and using its S3/SNS destinations. Its recorder dependency does not wait for the role's publishing policy. Pass this dependency into the delivery channel; whole-module depends_on would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-south-1 recorder status should wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording. Waiting for the recorder and its role does not wait for the AWS_ConfigRole attachment supplying resource-discovery permissions.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-southeast-1, aws_default_subnet.default must wait for aws_default_vpc.default. Subnet adoption/creation requires the default VPC to exist; the availability-zone reference does not prevent a race when the VPC must be recreated.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-southeast-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-southeast-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Its role ARN reference orders role creation but not installation of stream-creation/event-publishing permissions. Establish ordering through the root VPC module call before delivery starts.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-southeast-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install its recorder role's S3 and SNS publishing permissions. The recorder dependency does not order this policy. Pass a dependency into the delivery channel; a whole-module dependency on the policy would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-southeast-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording with resource-discovery permissions. Waiting for the recorder's role does not wait for the AWS_ConfigRole policy attachment.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-southeast-2, aws_default_subnet.default must wait for aws_default_vpc.default. Default subnet adoption/creation cannot succeed without an existing default VPC, and both resources can currently run concurrently when the VPC is absent.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ap-southeast-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-southeast-2 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy when delivering to CloudWatch Logs. Role creation does not install log publishing permissions; establish ordering through the root VPC module call to avoid starting delivery before permissions exist.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-southeast-2 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy, which installs its recorder role's S3 and SNS permissions. Waiting for the recorder does not order that policy. Pass the dependency into the delivery channel rather than adding a whole-module dependency that would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ap-southeast-2 recorder status enables AWS Config without waiting for aws_iam_role_policy_attachment.recorder_read_policy. Wait for the AWS_ConfigRole attachment so resource-discovery permissions are installed before recording starts; a role ARN reference does not order the attachment.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ca-central-1, aws_default_subnet.default must wait for aws_default_vpc.default. The subnet resource requires an existing default VPC and cannot create it, leaving a race when Terraform must recreate the default VPC.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_ca-central-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ca-central-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Its role reference waits for role creation only, not the policy granting log stream creation and event publishing. Establish ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ca-central-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy before using its recorder role's S3 and SNS permissions. The recorder reference does not order that policy. Pass the dependency into the channel, not onto the entire module, to avoid a cycle through SNS topic outputs.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ca-central-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy so recording starts after AWS_ConfigRole supplies resource-discovery permissions. The recorder/role reference does not wait for this attachment.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-central-1, aws_default_subnet.default must wait for aws_default_vpc.default. Its availability-zone reference does not order the default VPC, which must exist before default subnet adoption/creation can succeed.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-central-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-central-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Referencing the role ARN does not wait for the permissions to create log streams and publish events. Establish this ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-central-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install the recorder role's S3 and SNS delivery permissions. Its recorder dependency does not order the policy. Pass a channel-specific dependency; whole-module depends_on would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-central-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording. Waiting for the recorder's role does not wait for AWS_ConfigRole to be attached, allowing startup without resource-discovery permissions.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-north-1, aws_default_subnet.default must wait for aws_default_vpc.default: default subnet adoption/creation requires an existing default VPC. Without ordering, subnet creation can fail when the default VPC must be recreated.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-north-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-north-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Referencing the role ARN does not order installation of log publishing permissions. Establish this ordering through the root VPC module call before delivery starts.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-north-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install the recorder role's S3/SNS delivery permissions. Its recorder dependency does not wait for this policy. Pass a channel-specific dependency; a whole-module dependency would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-north-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy. The recorder reference orders role creation but not attachment of AWS_ConfigRole, allowing recording to start without resource-discovery permissions.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-west-1, aws_default_subnet.default must wait for aws_default_vpc.default. Subnet adoption/creation needs an existing default VPC, which the subnet resource cannot create; concurrent VPC recreation can therefore fail.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-west-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-west-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy when delivering to CloudWatch Logs. The role ARN reference does not wait for its log publishing permissions. Establish ordering through the root VPC module call before delivery starts.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-west-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3/SNS publishing permissions. Its recorder dependency does not order that policy. Pass a channel-specific dependency rather than whole-module depends_on, which would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-west-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording. Waiting for the recorder's role does not wait for AWS_ConfigRole to supply resource-discovery permissions.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-west-2, aws_default_subnet.default must wait for aws_default_vpc.default. Default subnet adoption/creation requires a default VPC and can race with VPC recreation when that VPC is initially absent.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-west-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-west-2 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Role creation is ordered, but installation of stream-creation/event-publishing permissions is not. Establish this ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-west-2 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy before using the recorder role for S3/SNS delivery. The recorder dependency does not order the publishing policy. Pass a channel-specific dependency; whole-module depends_on would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-west-2 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy. Its recorder/role references do not order the AWS_ConfigRole attachment, allowing recording to start without resource-discovery permissions.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-west-3, aws_default_subnet.default must wait for aws_default_vpc.default. The subnet resource requires the default VPC but cannot create it, leaving a creation race if the account's default VPC was deleted.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_eu-west-3:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-west-3 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. The role ARN does not order installation of the permissions required to publish logs. Establish this ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-west-3 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install its recorder role's S3/SNS permissions. Waiting for the recorder does not wait for that policy. Pass a channel-specific dependency, not whole-module depends_on which would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The eu-west-3 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before starting recording. The recorder reference orders role creation, not the AWS_ConfigRole attachment granting resource-discovery permissions.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In sa-east-1, aws_default_subnet.default must wait for aws_default_vpc.default. Default subnet adoption/creation requires the default VPC to exist and can race with its recreation when the VPC was previously deleted.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_sa-east-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The sa-east-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. The role ARN reference does not order installation of permissions to create streams and publish events. Establish this ordering through the root VPC module call before delivery starts.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The sa-east-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install its recorder role's S3 and SNS delivery permissions. The recorder dependency does not wait for this policy. Pass a channel-specific dependency; whole-module depends_on would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The sa-east-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before starting recording. Waiting for the recorder and role does not order attachment of AWS_ConfigRole, which grants resource-discovery permissions.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-east-1, aws_default_subnet.default must wait for aws_default_vpc.default. The subnet resource adopts or creates a subnet in an existing default VPC, but cannot create the VPC; concurrent VPC recreation can therefore fail.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-east-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-east-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Waiting for the role does not wait for its stream-creation/event-publishing permissions. Establish this ordering through the root VPC module call before starting delivery.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-east-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy, which supplies its recorder role's S3/SNS delivery permissions. The recorder dependency does not wait for that policy. Pass a channel-specific dependency rather than whole-module depends_on, which would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-east-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy. Its recorder/role reference does not order attachment of AWS_ConfigRole, allowing recording to start without resource-discovery permissions.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-east-2, aws_default_subnet.default must wait for aws_default_vpc.default. Default subnet adoption/creation requires an existing default VPC and can fail if scheduled before recreation of an initially absent default VPC.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-east-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-east-2 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy when delivering to CloudWatch Logs. The role ARN reference does not order the policy granting log publishing permissions. Establish this ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-east-2 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy before using its recorder role's S3/SNS delivery permissions. The recorder reference does not wait for that policy. Pass a channel-specific dependency; whole-module depends_on would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-east-2 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording. Waiting for the recorder's role does not wait for AWS_ConfigRole to be attached and supply resource-discovery permissions.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-west-1, aws_default_subnet.default must wait for aws_default_vpc.default. Subnet adoption/creation cannot create its required default VPC and can race with VPC recreation when the default VPC is initially absent.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-west-1:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-west-1 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Its role ARN reference only orders role creation, not the policy granting stream creation and event publishing. Establish this ordering through the root VPC module call.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-west-1 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install its recorder role's S3/SNS delivery permissions. The recorder dependency does not order the publishing policy. Pass a channel-specific dependency; a whole-module dependency would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-west-1 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy before enabling recording. Waiting for the recorder/role does not wait for AWS_ConfigRole to supply resource-discovery permissions.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-west-2, aws_default_subnet.default must wait for aws_default_vpc.default. Default subnet adoption/creation requires the default VPC and can fail if scheduled before recreation of an initially absent default VPC.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_default_subnet.default",
+      "target": "module.vpc_baseline_us-west-2:resource.aws_default_vpc.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-west-2 flow log must wait for aws_iam_role_policy.flow_logs_publish_policy for CloudWatch delivery. Referencing the role ARN does not wait for the policy granting stream creation and event publishing. Establish this ordering through the root VPC module call before delivery starts.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-west-2 Config delivery channel must wait for aws_iam_role_policy.recorder_publish_policy to install its recorder role's S3/SNS delivery permissions. The recorder reference does not order this policy. Pass a channel-specific dependency rather than whole-module depends_on, which would cycle through SNS topic outputs.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The us-west-2 recorder status must wait for aws_iam_role_policy_attachment.recorder_read_policy. Its recorder reference orders role creation but not the AWS_ConfigRole attachment granting resource-discovery permissions, allowing recording to start before the role is ready.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-northeast-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Referencing the bucket does not wait for the policy granting Config delivery access, so destination validation can race with policy installation. Pass this ordering into the channel or through its root module call.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-northeast-2 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Its bucket reference does not wait for the Config delivery permissions in the bucket policy; destination validation can run before access is granted. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-northeast-3 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Bucket existence does not imply that its Config delivery policy is installed, leaving destination validation subject to an access-permission race. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-south-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Its bucket reference does not wait for installation of Config delivery permissions, allowing destination validation before access is granted. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-southeast-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Bucket creation does not install the separate policy granting Config delivery access, so destination validation can race with that policy. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ap-southeast-2 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. The bucket reference does not order its Config delivery permissions; validation can run before the bucket policy is installed. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The ca-central-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Referencing the bucket does not wait for the policy granting Config access, so destination validation can race with permission installation. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-central-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Its bucket reference does not wait for Config delivery permissions in the separate bucket policy, allowing destination validation to run too early. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-north-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Bucket existence does not imply that its Config delivery permissions are ready; channel validation can race with installation of that policy. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-west-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Referencing the bucket does not wait for the policy granting Config delivery access, leaving a permission race during channel validation. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-west-2 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Its bucket reference orders bucket existence but not Config delivery permissions, allowing channel validation before the policy is installed. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The eu-west-3 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. The bucket reference does not order the Config delivery permissions in its separate policy, so destination validation can run before access is granted. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The sa-east-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Bucket creation does not wait for its separate Config access policy, leaving destination validation subject to a permission race. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-east-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Its bucket reference does not wait for installation of Config delivery permissions, allowing destination validation before the access policy is ready. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-east-2 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Waiting for the bucket does not wait for the policy granting Config delivery access, so channel validation can race with policy installation. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-west-1 Config delivery channel must wait for aws_s3_bucket_policy.audit_log when using the managed audit bucket. Its bucket reference does not order the Config permissions in the separate bucket policy, permitting premature destination validation. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The us-west-2 Config delivery channel must wait for aws_s3_bucket_policy.audit_log for the managed audit bucket. Bucket existence alone does not ensure the Config delivery policy is installed, leaving a permission race during destination validation. Establish ordering through the root module call or a channel-specific dependency input.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-northeast-1, aws_config_delivery_channel.bucket references the SNS topic but does not wait for aws_sns_topic_policy.config. Install the policy granting config.amazonaws.com sns:Publish before configuring notifications to avoid an insufficient-delivery-policy race. Reference the policy resource's topic ARN to infer this ordering.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ap-northeast-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-northeast-2, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config to grant config.amazonaws.com sns:Publish before configuring notifications. The SNS topic reference only waits for topic creation, not installation of this delivery permission.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ap-northeast-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-northeast-3, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. Topic existence does not imply the config.amazonaws.com sns:Publish permission is installed, leaving a notification-configuration permission race.",
+      "node": "module.config_baseline_ap-northeast-3:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ap-northeast-3:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-south-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring SNS notifications. Referencing the topic does not wait for the policy granting config.amazonaws.com sns:Publish.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ap-south-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-southeast-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. The channel's topic reference does not order installation of config.amazonaws.com sns:Publish permissions, so notification setup can race with the topic policy.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ap-southeast-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ap-southeast-2, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring notifications. Topic creation alone does not install the sns:Publish permission for config.amazonaws.com.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ap-southeast-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In ca-central-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. Its topic reference orders topic creation, not the policy granting config.amazonaws.com permission to publish notifications.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_ca-central-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-central-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring SNS notifications. Referencing the topic does not wait for installation of the config.amazonaws.com sns:Publish grant.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_eu-central-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-north-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. The channel can otherwise configure notifications before the policy grants config.amazonaws.com sns:Publish; the topic ARN reference does not order that grant.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_eu-north-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-west-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring SNS notifications. Waiting for the topic itself does not wait for the config.amazonaws.com sns:Publish permission.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_eu-west-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-west-2, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. Its topic reference does not order the policy granting config.amazonaws.com sns:Publish, allowing notification configuration before delivery permissions are ready.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_eu-west-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In eu-west-3, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring notifications. Topic existence does not ensure that config.amazonaws.com has the sns:Publish grant in the separate topic policy.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_eu-west-3:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In sa-east-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. Referencing the topic does not wait for its policy granting config.amazonaws.com sns:Publish, leaving a permission race during notification setup.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_sa-east-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-east-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring notifications. The topic ARN reference only orders topic creation, not installation of config.amazonaws.com sns:Publish permissions.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_us-east-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-east-2, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. Topic creation does not imply that the policy granting config.amazonaws.com sns:Publish is installed, allowing premature notification configuration.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_us-east-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-west-1, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config before configuring SNS notifications. Referencing the topic does not order installation of the config.amazonaws.com sns:Publish grant.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_us-west-1:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "In us-west-2, aws_config_delivery_channel.bucket must wait for aws_sns_topic_policy.config. The channel's topic reference orders topic creation but not the policy granting config.amazonaws.com permission to publish notifications.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": "module.config_baseline_us-west-2:resource.aws_sns_topic_policy.config",
+      "fix": {
+        "field": "sns_topic_arn",
+        "expression": "aws_sns_topic_policy.config[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

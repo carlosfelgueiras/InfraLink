@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nmodule.github_app_runner_group reads the tenant's CI/CD secrets (app key, app id, installation id) by name via data \"aws_secretsmanager_secret\"/\"aws_secretsmanager_secret_version\" inside the submodule, but nothing orders those reads after aws_secretsmanager_secret_version.cicd_secrets, which creates the seed (AWSCURRENT) versions in this same configuration. On a first apply the submodule's data sources will be read before the secrets/versions exist and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.github_app_runner_group reads the CI/CD secrets (data.aws_secretsmanager_secret.secrets / data.aws_secretsmanager_secret_version.secrets) by name only; those secrets are created and seeded in this same module tree by aws_secretsmanager_secret.cicd_secrets / aws_secretsmanager_secret_version.cicd_secrets. Nothing orders the submodule's data reads after secret creation/seeding, so on a first apply the reads can race and fail. Add `depends_on = [aws_secretsmanager_secret.cicd_secrets, aws_secretsmanager_secret_version.cicd_secrets]` on the `module \"github_app_runner_group\"` block.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`module.github_app_runner_group` reads its secrets via `data \"aws_secretsmanager_secret\" \"secrets\"` looked up by name (`${var.secrets_prefix}...`), where `var.secrets_prefix` is built only from `var.tenant`/`var.deployment_config`. No attribute reference or depends_on ties the module to the secrets created and seeded by this configuration (`aws_secretsmanager_secret.cicd_secrets` / `aws_secretsmanager_secret_version.cicd_secrets`), so on a fresh apply the data reads execute before the secrets and their seed versions exist and the plan fails. The root module's own `data_cicd_secrets` data sources carry exactly this depends_on, but this module does not.",
+      "node": ":module.github_app_runner_group",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nmodule.github_global_lock reads the tenant's CI/CD secrets (app key, app id, installation id) by name via data \"aws_secretsmanager_secret\"/\"aws_secretsmanager_secret_version\" inside the submodule, but nothing orders those reads after aws_secretsmanager_secret_version.cicd_secrets, which creates the seed (AWSCURRENT) versions in this same configuration. On a first apply the submodule's data sources will be read before the secrets/versions exist and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.github_global_lock reads the CI/CD secrets (data.aws_secretsmanager_secret.secrets / data.aws_secretsmanager_secret_version.secrets) by name only; those secrets are created and seeded in this same module tree by aws_secretsmanager_secret.cicd_secrets / aws_secretsmanager_secret_version.cicd_secrets. Nothing orders the submodule's data reads after secret creation/seeding, so on a first apply the reads can race and fail. Add `depends_on` referencing those resources on the `module \"github_global_lock\"` block.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`module.github_global_lock` reads its secrets via `data \"aws_secretsmanager_secret\" \"secrets\"` looked up by name (`${var.secrets_prefix}...`), with no dependency on the secrets created and seeded in this configuration (`aws_secretsmanager_secret.cicd_secrets` / `aws_secretsmanager_secret_version.cicd_secrets`). On a fresh apply the by-name data lookups run before the secrets exist, causing a plan failure; the clean-global-lock lambda's IAM policy also references these data versions.",
+      "node": ":module.github_global_lock",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nmodule.github_actions_job_logs reads the CI/CD secrets (data.aws_secretsmanager_secret.secrets / data.aws_secretsmanager_secret_version.secrets) by name only; those secrets are created and seeded in this same module tree by aws_secretsmanager_secret.cicd_secrets / aws_secretsmanager_secret_version.cicd_secrets. Nothing orders the submodule's data reads after secret creation/seeding, so on a first apply the reads can race and fail. Add `depends_on` referencing those resources on the `module \"github_actions_job_logs\"` block.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`module.github_actions_job_logs` reads its secrets via `data \"aws_secretsmanager_secret\" \"secrets\"` looked up by name (`${var.secrets_prefix}...`), with no dependency on the secrets created and seeded in this configuration (`aws_secretsmanager_secret.cicd_secrets` / `aws_secretsmanager_secret_version.cicd_secrets`). On a fresh apply the by-name data lookups run before the secrets exist, causing a plan failure; the lambdas' IAM policy documents also reference these data versions, so the whole module needs to be ordered after seeding.",
+      "node": ":module.github_actions_job_logs",
+      "target": ":resource.aws_secretsmanager_secret_version.cicd_secrets",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

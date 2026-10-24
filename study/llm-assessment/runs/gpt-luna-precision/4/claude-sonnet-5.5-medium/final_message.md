@@ -1,0 +1,3 @@
+The instance depends on the instance profile, which depends on the role. It doesn't depend on the inline policy. The policy attaches to the role, and nothing in the profile's chain references it. The bootstrap node uses EC2 discovery (the describe-instances permission) at startup, so a race is plausible. The policy is a separate resource, so Terraform has no ordering between it and the instance. IAM is eventually consistent, but the ordering matters in practice: without it, the instance can boot before the policy exists and discovery would fail.
+
+Correct

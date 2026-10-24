@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Splunk AWS integration is enabled with metric-stream synchronization but does not wait for the inline role policy granting CloudWatch metric-stream and iam:PassRole permissions to be attached. The delay after role creation does not establish ordering on this policy attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Splunk AWS integration can be created before its metric-stream managed policy is attached. Its metric-stream integration requires these AWS permissions, and the provider documentation recommends ordering the integration after role-related policy resources; no attribute reference can express this ordering cleanly.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Splunk AWS integration enables CloudWatch metric-stream synchronization and relies on permissions granted by this inline policy, but it depends only on the IAM role and the delay. Ensure this policy is attached before creating the integration.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Splunk AWS integration can be created before the inline role policy granting its AWS inventory and data-collection permissions is attached. Add an ordering dependency so the remote integration is not provisioned before this policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Splunk AWS integration can be created before its inline permissions policy is attached. Its metric-stream integration requires these AWS permissions, and the provider documentation recommends ordering the integration after role-related policy resources; no attribute reference can express this ordering cleanly.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Splunk AWS integration's role must have its inventory and service-read permissions attached before the integration is enabled. The existing dependency on the role does not guarantee that this inline policy has been created.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

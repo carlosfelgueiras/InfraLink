@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe ECS service's VPC Lattice configuration uses the infrastructure IAM role, but the service does not wait for the VPC Lattice policy attachment. The existing dependency on the EBS policy attachment does not ensure this separate policy is attached before ECS configures the service.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service can be created before the infrastructure role's VPC Lattice managed policy is attached; add an explicit dependency so ECS does not use the role before it has the required VPC Lattice permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe ECS service uses the infrastructure role for VPC Lattice, but it can be created before the VPC Lattice permissions are attached. Add an ordering dependency so ECS does not configure the service with a role that is not yet authorized for VPC Lattice.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen VPC Lattice is configured, this ECS service uses the infrastructure IAM role but does not wait for its VPC Lattice policy attachment. The service's current explicit dependencies cover the EBS policy attachment only.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe ECS service variant can be created before the infrastructure role's VPC Lattice managed policy is attached, even though it configures VPC Lattice; it should wait for the required permissions to be attached.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

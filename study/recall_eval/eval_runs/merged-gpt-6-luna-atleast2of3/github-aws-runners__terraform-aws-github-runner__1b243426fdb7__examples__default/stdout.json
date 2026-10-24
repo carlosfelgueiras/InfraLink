@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EventBridge target can become active before the Lambda invoke permission is installed, so a scheduled invocation may be rejected. Make this target depend on the permission resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can be installed before the Lambda resource policy grants EventBridge invocation rights. Order target creation after this permission so scheduled invocations are authorized from the outset.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer can begin invoking the syncer as soon as it is installed, but it does not wait for module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer. Ensure the Lambda invoke permission is established before registering the target to avoid an invocation race.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EventBridge target can become active before the Lambda invoke permission is installed, so a scheduled invocation may be rejected. Make this target depend on the permission resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can be installed before the Lambda resource policy grants EventBridge invocation rights. Order target creation after this permission so scheduled invocations are authorized from the outset.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down can begin invoking the scale-down Lambda as soon as it is installed, but it does not wait for module.runners.module.runners:resource.aws_lambda_permission.scale_down. Ensure the Lambda invoke permission is established before registering the target to avoid an invocation race.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EventBridge target can become active before the Lambda invoke permission is installed, so a scheduled invocation may be rejected. Make this target depend on the permission resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can be installed before the Lambda resource policy grants EventBridge invocation rights. Order target creation after this permission so scheduled invocations are authorized from the outset.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool can begin invoking the pool Lambda as soon as it is installed, but it does not wait for module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool. Ensure the Lambda invoke permission is established before registering the target to avoid an invocation race.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe GitHub App is updated with the webhook URL as soon as the module output is available, but the output only ties to the API/Lambda resources and not this route. The app update can therefore advertise the URL before the API route exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe app registration resource module.webhook-github-app:resource.null_resource.update_app can publish the webhook URL before the API Gateway route module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook exists. GitHub may deliver a test or webhook event as soon as the URL is registered; wait for the route (which transitively waits for its integration) to be configured.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe GitHub App webhook URL can be published before the API Gateway stage is provisioned for the endpoint; wait for the stage before updating the external app.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe app registration resource module.webhook-github-app:resource.null_resource.update_app can publish the webhook URL before the API Gateway stage module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook is available. Ensure the endpoint's stage is ready before registering it with GitHub.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe API Gateway endpoint may be configured with GitHub before API Gateway has permission to invoke its Lambda backend; wait for the Lambda permission before updating the external app.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe null_resource module.webhook-github-app:resource.null_resource.update_app registers the webhook endpoint with GitHub after the runners module endpoint is available, but it does not wait for module.runners.module.webhook:resource.aws_lambda_permission.webhook. GitHub can deliver an event as soon as registration completes, so ensure API Gateway's invoke permission is established before registering the endpoint.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nAn enabled SQS event source mapping can begin polling as soon as it is created, before the scale-up Lambda execution role's SQS permissions are installed. Make mapping creation wait for the policy that grants those permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe SQS event source mapping module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up can become active and deliver queued messages before the scale-up execution role policy module.runners.module.runners:resource.aws_iam_role_policy.scale_up is installed. This can cause initial invocations to fail for missing SQS/SSM/EC2 permissions; order the mapping after that policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThis S3 object is deliberately uploaded after the bucket notification is configured, which can invoke the syncer immediately. Ensure the syncer's S3 access policy is installed before that trigger object is uploaded, or the initial sync can run without the permissions it needs.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe S3 trigger object module.runners.module.runner_binaries:resource.aws_s3_object.trigger is deliberately uploaded to invoke the syncer immediately, but it only waits for bucket notification setup and not for module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer. The initial sync can run before its S3 execution permissions are installed.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThe scheduled syncer can be invoked as soon as EventBridge has the target, but its execution role's S3 policy is installed separately. Make the target wait for that policy so an early scheduled invocation can access the distribution object.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nEventBridge can invoke the syncer from module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer before its execution role has the S3 permissions configured by module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer. Order target registration after the policy to avoid an initial invocation failing for lack of S3 access.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nOnce the scheduled target is active, the scale-down Lambda may run before its execution role policy is installed. Order target creation after the policy that grants its runtime permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe scheduled target module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down can invoke the Lambda before module.runners.module.runners:resource.aws_iam_role_policy.scale_down grants its execution permissions. Ensure the scale-down execution policy is installed before registering the event target.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThe pool schedule may invoke the Lambda as soon as the target is configured, before its execution role policy is installed. Order target creation after the policy that grants the function its runtime permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nPool schedule events can invoke the Lambda before module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool grants its execution permissions. Ensure the pool execution policy is installed before registering the target.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

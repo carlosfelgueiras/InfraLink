@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_service_account_v1.zombie_runner_cleanup is created in namespace var.controller_config.namespace, but that namespace is only created by the scale_set_controller module (resource.kubernetes_namespace.controller_namespace, under the same migrate_arc_cluster == false condition). On a fresh apply the ServiceAccount can be applied before the namespace exists, failing the apply with a 404. It should depend on the namespace resource.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_role_v1.zombie_runner_cleanup is created in namespace var.controller_config.namespace, but that namespace is only created by the scale_set_controller module (resource.kubernetes_namespace.controller_namespace). On a fresh apply the Role can be applied before the namespace exists, failing the apply. It should depend on the namespace resource.",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_role_binding_v1.zombie_runner_cleanup is created in namespace var.controller_config.namespace, but that namespace is only created by the scale_set_controller module (resource.kubernetes_namespace.controller_namespace). On a fresh apply the RoleBinding can be applied before the namespace exists, failing the apply. It should depend on the namespace resource.",
+      "node": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "kubernetes_cron_job_v1.zombie_runner_cleanup is created in namespace var.controller_config.namespace, but that namespace is only created by the scale_set_controller module (resource.kubernetes_namespace.controller_namespace). On a fresh apply the CronJob can be applied before the namespace exists, failing the apply. It should depend on the namespace resource.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.gha_runner_scale_set deploys the runner scale set whose listener consumes the hook-extension ConfigMap (hook-extension-<scale_set_name>, provided by the chart's listener hook mechanism by naming convention). If the release is installed before kubernetes_config_map.hook_extension exists, the listener starts without the hook extension and the container-podspec overrides are silently not applied until a later listener restart. The release should depend on the ConfigMap.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_config_map.hook_extension",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.gha_runner_scale_set deploys the runner scale set whose listener consumes the pre/post-job hook scripts from the ConfigMap named hook-pre-post-job-<scale_set_name> by convention. If the release is installed before kubernetes_config_map.hook_pre_post_job exists, the job-started/job-completed hooks are not picked up when the listener is created. The release should depend on the ConfigMap.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_config_map.hook_pre_post_job",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.gha_runner_scale_set creates runner pods that run under the service account pre-created by kubernetes_service_account_v1.runner_sa (referenced only by name via the service_account variable in the chart values, so Terraform cannot infer ordering). On a fresh apply the scale set could be installed before the ServiceAccount exists, causing the runner/listener pods to fail to schedule. The release should depend on the ServiceAccount.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.gha_runner_scale_set creates runner pods that assume the runner IAM role via EKS Pod Identity. aws_eks_pod_identity_association.eks_pod_identity must exist before the scale set's pods start, otherwise runners launch without IAM credentials and fail AWS API calls (e.g. pulling from ECR). There is no attribute reference between the release and the association (the values only reference the role ARN), so the release should depend on the association.",
+      "node": "module.scale_sets:resource.helm_release.gha_runner_scale_set",
+      "target": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

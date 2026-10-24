@@ -1,0 +1,3 @@
+The report is correct. `aws_elasticsearch_domain.opensearch` sets `vpc_options`, and the AWS provider requires the `es.amazonaws.com` service-linked role to exist before a VPC domain can be created. The example creates that role in `aws_iam_service_linked_role.opensearch` (default `count = 1`), but the domain never references it and has no `depends_on`, so Terraform can create them in parallel and the domain create fails if the role is not already present.
+
+Correct

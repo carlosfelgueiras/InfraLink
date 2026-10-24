@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_alloydb_user.users must wait for google_alloydb_instance.primary: AlloyDB user creation requires a provisioned primary instance, not just the cluster. The current cluster reference allows user and primary-instance creation to run concurrently. The provider's user examples explicitly order users after the primary instance. Referencing the primary instance's cluster attribute establishes this ordering and also ensures users are deleted before the instance.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": {
+        "field": "cluster",
+        "expression": "google_alloydb_instance.primary.cluster"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

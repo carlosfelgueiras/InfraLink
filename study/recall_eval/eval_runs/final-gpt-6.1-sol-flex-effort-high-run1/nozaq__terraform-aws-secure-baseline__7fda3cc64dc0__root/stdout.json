@@ -1,0 +1,475 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global can be created before :resource.aws_s3_bucket_policy.audit_log authorizes CloudTrail to check the bucket ACL and write logs, causing an insufficient S3 bucket policy error when using the managed audit bucket. The bucket name reference does not wait for its policy. Establish this ordering at the parent module boundary (or pass the policy's bucket attribute through the s3_bucket_name input).",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global references the CloudWatch delivery role but does not wait for module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy to grant logs:CreateLogStream and logs:PutLogEvents. Creating the trail before these permissions are installed can fail CloudWatch Logs role validation. Add an explicit dependency on the role policy.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_iam_role_policy.cloudwatch_delivery_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.cloudtrail_baseline:resource.aws_cloudtrail.global waits for the SNS topic, but not module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail, which authorizes cloudtrail.amazonaws.com to publish. The trail can therefore fail SNS policy validation. Use the topic policy's arn attribute so the trail waits for that authorization.",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": {
+        "field": "sns_topic_name",
+        "expression": "aws_sns_topic_policy.local-account-cloudtrail[0].arn"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_config_configuration_aggregator.organization waits for its IAM role but not :resource.aws_iam_role_policy_attachment.config_organization. AWS Config needs the attached AWSConfigRoleForOrganizations permissions to retrieve organization details and enable service integration. Add depends_on = [aws_iam_role_policy_attachment.config_organization] to prevent creation before these permissions are attached.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_ap-northeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_ap-northeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_ap-south-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_ap-southeast-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_ap-southeast-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_ca-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_eu-central-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_eu-north-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_eu-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_eu-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_eu-west-3:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_sa-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_us-east-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_us-east-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_us-west-1:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs depends on the publisher role but not :resource.aws_iam_role_policy.vpc_flow_logs_publish_policy. The flow log can start before the role has CloudWatch Logs publishing permissions, causing initial log delivery failures. Order flow-log creation after installation of this policy, through the parent module boundary.",
+      "node": "module.vpc_baseline_us-west-2:resource.aws_flow_log.default_vpc_flow_logs",
+      "target": ":resource.aws_iam_role_policy.vpc_flow_logs_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket does not wait for :resource.aws_iam_role_policy.recorder_publish_policy, which grants the recorder role S3 delivery and SNS publishing permissions. Referencing the recorder role and SNS topic does not order policy installation; delivery-channel creation can fail permission checks. Add a dependency specifically to the delivery channel, using a readiness input if needed; depending the entire module on this policy would cycle through the module's SNS topic.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_delivery_channel.bucket",
+      "target": ":resource.aws_iam_role_policy.recorder_publish_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_ap-northeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_ap-northeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_ap-south-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_ap-southeast-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_ap-southeast-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_ca-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_eu-central-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_eu-north-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_eu-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_eu-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_eu-west-3:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_sa-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_us-east-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_us-east-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_us-west-1:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder can start recording before :resource.aws_iam_role_policy_attachment.recorder_read_policy attaches AWSConfigRole. The role ARN reference only waits for the role, not its resource-discovery permissions, so recording may start without permission to inventory resources. Order recorder enablement after this attachment through an appropriate module input or parent-level dependency.",
+      "node": "module.config_baseline_us-west-2:resource.aws_config_configuration_recorder_status.recorder",
+      "target": ":resource.aws_iam_role_policy_attachment.recorder_read_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

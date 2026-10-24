@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:resource.time_sleep.wait_for_aws_s3_bucket_settings` has an explicit `depends_on` on `:resource.aws_s3_bucket_public_access_block.origin`, but `:resource.aws_s3_bucket_policy.default` is already in the same `depends_on` list and itself declares `depends_on = [aws_s3_bucket_public_access_block.origin]`. Terraform dependencies are transitive, so the sleep already waits for the public access block; the direct entry (and the comment rationale) duplicates an existing edge and can be dropped.",
+      "node": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "target": ":resource.aws_s3_bucket_public_access_block.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.aws_cloudfront_distribution.default` lists `:resource.aws_s3_bucket.origin` in `depends_on`, but the distribution's origin already reads the bucket through `local.bucket_domain_name` -> `local.origin_bucket` -> `aws_s3_bucket.origin[0]` (`bucket_regional_domain_name` / `website_endpoint`), so the ordering is established implicitly by that attribute reference and the explicit `depends_on` entry is redundant (the bucket's readiness is additionally covered by the `aws_s3_bucket_ownership_controls.origin` / `time_sleep` entries, which are in turn created after the bucket).",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

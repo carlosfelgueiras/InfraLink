@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When VPC subnets are configured, :resource.aws_lambda_function.ami_housekeeper must wait for :resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role so its execution role has the EC2 network-interface permissions required for VPC provisioning. Referencing the role alone does not order the policy attachment.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ami_housekeeper can activate scheduled invocations before :resource.aws_lambda_permission.ami_housekeeper grants EventBridge invoke access. Order target creation after the permission to avoid failed initial deliveries.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ami_housekeeper should wait for :resource.aws_iam_role_policy.ami_housekeeper before enabling scheduled execution; otherwise the first cleanup invocation can run before its AMI-management permissions are installed.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.ami_housekeeper should wait for :resource.aws_iam_role_policy.lambda_logging so scheduled invocations cannot start before the managed log group and logging permissions exist. The current dependencies allow target creation concurrently with logging setup.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is configured, :resource.aws_cloudwatch_event_target.ami_housekeeper should wait for :resource.aws_iam_role_policy.ami_housekeeper_xray so initial scheduled invocations have the configured X-Ray permissions.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

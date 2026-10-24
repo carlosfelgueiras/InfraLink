@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project to var.shared_vpc_service_config.host_project, but has no ordering relationship with google_project_service.project_services. Attaching a service project requires the Compute Engine API (and any other requested services) to already be enabled in the service project; if the API activation in project_services is still in flight, the attachment fails or the project is attached before it is usable. Every other resource in shared-vpc.tf (shared_vpc_host, service_projects, and the shared_vpc_host_robots IAM members) guards on project_services \u2014 this resource should too, since its only implicit dependency is var.shared_vpc_service_config.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

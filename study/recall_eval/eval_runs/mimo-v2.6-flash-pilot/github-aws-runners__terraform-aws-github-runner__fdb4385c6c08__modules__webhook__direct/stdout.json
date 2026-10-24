@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The lambda function's vpc_config is only guarded by an implicit dependency on the role; when lambda_subnet_ids are set, CreateFunction requires the execution role to already have EC2 ENI permissions (AWSLambdaVPCAccessExecutionRole). Without an explicit dependency, the function can be created before the VPC policy attachment is applied and creation fails with \"cannot call CreateNetworkInterface on EC2\".",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The function only depends on the role itself, not on its inline SSM policy. aws_lambda_permission can be granted (making the function invocable via API Gateway) before webhook_ssm is attached, and the function reads the SSM parameters (webhook secret, runner matcher config) at cold start, so early invocations would fail with AccessDenied.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The function only depends on the role itself, not on its inline SQS publish policy. Nothing orders webhook_sqs before the function (or before aws_lambda_permission), so the webhook can become invocable before it is allowed to publish to the job queues, causing first-invocation failures.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The function only depends on the role itself, not on the inline logging policy that grants logs:PutLogStream/PutLogEvents for its log group. The provider documentation explicitly recommends depending on the role's policy attachments and the log group so the function is fully ready before it is exposed; otherwise early executions silently lose their logs.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The function only depends on the role itself, not on the inline KMS policy. When a CMK is configured (e.g. for SSE-KMS queues or encrypted parameters the function touches), the function can be invoked before kms:Encrypt/Decrypt is attached, producing access-denied errors on first use.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "The function only depends on the role itself, not on the conditional X-Ray policy. When tracing_config.mode is set, the function can be created and invoked before xray:PutTraceSegments etc. are attached, so traces are dropped until the policy lands.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

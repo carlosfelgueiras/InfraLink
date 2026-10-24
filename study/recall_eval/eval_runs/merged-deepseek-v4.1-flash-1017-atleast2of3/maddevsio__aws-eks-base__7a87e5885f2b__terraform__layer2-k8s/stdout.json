@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.elk configures Elasticsearch PVCs with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The Helm release can be applied before the storage class exists, leaving the PVCs Pending and the release timing out.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.elk` provisions Elasticsearch PVCs with `storageClassName: advanced` (a literal string in its values), which requires `kubernetes_storage_class.advanced` to exist, but no attribute reference or `depends_on` expresses this ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.elk` requests PVCs with `storageClassName: advanced` (literal string) but does not depend on `kubernetes_storage_class.advanced`; without ordering the volume claims can be created while the StorageClass is still missing and stay Pending.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.prometheus_operator configures Prometheus/Alertmanager PVCs with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The release can be applied before the storage class exists.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.prometheus_operator` (kube-prometheus-stack) provisions Prometheus/Alertmanager PVCs with `storageClassName: advanced` (literal string), requiring `kubernetes_storage_class.advanced`, but no attribute reference or `depends_on` expresses this ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.prometheus_operator` sets `storageClassName: advanced` (literal string) in its prometheus volumeClaimTemplate but does not depend on `kubernetes_storage_class.advanced`, so the claim may be created before the StorageClass exists.",
+      "node": ":resource.helm_release.prometheus_operator",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.victoria_metrics_k8s_stack configures VMSingle/Alertmanager PVCs with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The release can be applied before the storage class exists.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.victoria_metrics_k8s_stack` provisions the VMSingle PVC with `storageClassName: advanced` (literal string), requiring `kubernetes_storage_class.advanced`, but no attribute reference or `depends_on` expresses this ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.victoria_metrics_k8s_stack` sets `storageClassName: advanced` (literal string) in its vmsingle/alertmanager PVCs but does not depend on `kubernetes_storage_class.advanced`, so the claims may be created before the StorageClass exists.",
+      "node": ":resource.helm_release.victoria_metrics_k8s_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.loki_stack configures Loki persistence with `storageClassName: advanced` as a literal string, so Terraform has no ordering edge to kubernetes_storage_class.advanced. The release can be applied before the storage class exists.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.loki_stack` provisions the Loki PVC with `storageClassName: advanced` (literal string), requiring `kubernetes_storage_class.advanced`, but no attribute reference or `depends_on` expresses this ordering.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.loki_stack` sets `storageClassName: advanced` (literal string) for its PVC but does not depend on `kubernetes_storage_class.advanced`, so its volume claim may be created before the StorageClass exists.",
+      "node": ":resource.helm_release.loki_stack",
+      "target": ":resource.kubernetes_storage_class.advanced",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.elk references the `elastic-credentials` Secret by name in its chart values, but nothing orders it after kubernetes_secret.elasticsearch_credentials. The ELK pods can start before the Secret exists and fail to mount/read credentials.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.elk` deploys the Elasticsearch/Kibana pods that mount the `elastic-credentials` secret (via `secretKeyRef` in its values), but the secret is referenced only by its literal name \u2014 there is no attribute reference creating an edge. The release should depend on `kubernetes_secret.elasticsearch_credentials` so the secret exists before the chart's pods start.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.elk` reads the Secret `elastic-credentials` (secretKeyRef for ELASTICSEARCH_USERNAME/PASSWORD) by literal name but does not depend on `kubernetes_secret.elasticsearch_credentials`, so the chart may install before the Secret exists.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.elk references the `elastic-certificates` Secret by name in its chart values, but nothing orders it after kubernetes_secret.elasticsearch_certificates. Elasticsearch/Kibana pods can start before the TLS Secret exists.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.elk` mounts the `elastic-certificates` secret (TLS certs for Elasticsearch) by literal name only, so no Terraform edge exists. The release should depend on `kubernetes_secret.elasticsearch_certificates` so the certs exist before the chart's pods start.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.elk` mounts the Secret `elastic-certificates` (secretMounts in elasticsearch/kibana/filebeat/apm/metricbeat) by literal name, but does not depend on the `kubernetes_secret.elasticsearch_certificates` that creates it. Pods will fail to start if the Secret is absent, so the release must be ordered after the Secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.elk references the `elasticsearch-s3-user-creds` Secret by name in its chart values, but nothing orders it after kubernetes_secret.elasticsearch_s3_user_creds. Elasticsearch can start before the S3 keystore Secret exists.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.elk` references the `elasticsearch-s3-user-creds` secret by literal name (keystore S3 credentials) in its values, with no attribute reference establishing ordering. The release should depend on `kubernetes_secret.elasticsearch_s3_user_creds` so the credentials secret exists before the chart's pods start.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.elk` references the keystore Secret `elasticsearch-s3-user-creds` by literal name but does not depend on `kubernetes_secret.elasticsearch_s3_user_creds`, so the Secret may not exist when the chart is applied.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nhelm_release.elk references the `kibana-encryption-key` Secret by name in its chart values, but nothing orders it after kubernetes_secret.kibana_enc_key. Kibana can start before the encryption-key Secret exists.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`helm_release.elk` references the `kibana-encryption-key` secret by literal name (Kibana `KIBANA_ENCRYPTION_KEY` env) in its values, with no attribute reference establishing ordering. The release should depend on `kubernetes_secret.kibana_enc_key` so the key exists before Kibana starts.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`helm_release.elk` references the kibana encryption-key Secret `kibana-encryption-key` by literal name but does not depend on `kubernetes_secret.kibana_enc_key`, so Kibana pods may fail to start if the Secret is absent.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_compute_shared_vpc_service_project.shared_vpc_service` registers this project as a Shared VPC service project, which requires the Compute Engine API to be enabled in the service project first. Unlike the `shared_vpc_host` resource (and the `service_projects` attachments), it has no `depends_on`/reference to `google_project_service.project_services`, so it may run before the API is enabled. Add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_kms_crypto_key_iam_member.service_identity_cmek` derives its `member` from `local.service_accounts_robots`, which resolves through `local.project.number` to `google_project.project.0.number`. That reference already establishes the ordering, so the explicit `depends_on` on `google_project.project` is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_kms_crypto_key_iam_member.service_identity_cmek` derives its `member` from `local.service_accounts_robots`, which resolves through `local.project.number` to `data.google_project.project.0.number`. That reference already establishes the ordering, so the explicit `depends_on` on `data.google_project.project` is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

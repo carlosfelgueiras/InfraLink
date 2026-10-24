@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The user-data script rendered into aws_launch_configuration.gitlab_runner_instance writes the runner token into SSM under the name `${environment}-${secure_parameter_store_runner_token_key}` \u2014 the exact same name that aws_ssm_parameter.runner_registration_token manages. There is no attribute reference or depends_on from the launch configuration to the SSM parameter, so Terraform may boot the runner agent instance before creating the parameter. Since the runner's user-data script creates the parameter itself (via `aws ssm put-parameter`) when it doesn't exist, Terraform would then fail the create of aws_ssm_parameter.runner_registration_token with ParameterAlreadyExists (create uses overwrite=false by default per the AWS provider docs). The launch configuration must be created only after the SSM parameter exists.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `policy_arn` of aws_iam_role_policy_attachment.docker_machine_cache_instance comes from `local.bucket_policy`, which resolves to `module.cache.policy_arn` when `cache_bucket.create` is true. The dependency on module.cache (and the S3 cache bucket policy it creates) is not captured anywhere in the graph, so the role policy attachment (or worse, the bucket policy resource inside the cache module) could be planned before the cache bucket exists. The attachment should be ordered after module.cache completes.",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When `enable_cloudwatch_logging` is true, the runner agent's user-data configures the CloudWatch Logs agent to write to the log group named `${var.environment}` \u2014 the group managed by aws_cloudwatch_log_group.environment. No attribute reference or depends_on orders the launch configuration after the log group, so the instance's logging agent can start first and create the group itself; Terraform's subsequent create of aws_cloudwatch_log_group.environment would then fail (log groups are not overwritten, like most AWS resources created via `create`). The launch configuration should be created after the log group exists.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [\"tls_private_key.ssh\"]` on local_file.public_ssh_key is redundant: its `content` attribute already references `tls_private_key.ssh.public_key_openssh`, which Terraform resolves to the same implicit dependency. The `depends_on` can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [\"tls_private_key.ssh\"]` on local_file.private_ssh_key is redundant: its `content` attribute already references `tls_private_key.ssh.private_key_pem`, which establishes the identical implicit dependency. The `depends_on` can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

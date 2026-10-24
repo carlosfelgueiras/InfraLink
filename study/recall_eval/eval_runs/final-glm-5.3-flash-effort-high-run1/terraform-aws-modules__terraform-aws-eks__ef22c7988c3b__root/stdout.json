@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The self-managed node group's autoscaling group launches instances that assume the node IAM role, but the ASG has no ordering against aws_iam_role_policy_attachment.this. The launch template's depends_on covers this only when the module creates the launch template; if create_launch_template is false (user-supplied launch template), instances can boot and attempt to join the cluster before AmazonEKSWorkerNodePolicy / AmazonEC2ContainerRegistryReadOnly / CNI policies are attached, causing nodes to fail to join.",
+      "node": "module.self_managed_node_group:resource.aws_autoscaling_group.this",
+      "target": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS managed node group references the node IAM role via node_role_arn, but has no ordering against the role's policy attachments (AmazonEKSWorkerNodePolicy, AmazonEC2ContainerRegistryReadOnly, CNI). Node group provisioning is asynchronous: instances are launched and attempt to join the cluster as soon as the node group is created, and they need those policies attached to the role. The aws_launch_template.this resource carries a depends_on for the attachments, which only covers the case where a custom launch template is created; when create_launch_template is false (or the module is otherwise reordered), nothing guarantees the attachments exist before nodes launch. The aws_eks_node_group documentation explicitly recommends depends_on on the role's policy attachments.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile references the pod execution role via pod_execution_role_arn, but has no ordering against the role's policy attachments. Fargate profile creation is asynchronous: once the profile becomes ACTIVE, pods matching its selectors are scheduled immediately and must assume the role with AmazonEKSFargatePodExecutionRolePolicy (and the CNI policy) already attached, otherwise those pods cannot run. An explicit depends_on on the policy attachment ensures the permissions exist before the profile goes ACTIVE.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When cluster_ip_family = \"ipv6\" and iam_role_attach_cni_policy = true, the eks-managed-node-group module attaches \"arn:...:iam::<account>:policy/AmazonEKS_CNI_IPv6_Policy\" to the node IAM role \u2014 a policy that this root module creates via aws_iam_policy.cni_ipv6_policy (create_cni_ipv6_iam_policy). Because the sub-module constructs the ARN as a plain string (local.cni_policy), no attribute reference connects the module to the policy, so Terraform may attach the policy before it exists and fail. The module block needs an explicit depends_on on the CNI IPv6 policy (only meaningful when IPv6 is in use; the string-built ARN makes this invisible to mechanical reference analysis).",
+      "node": ":module.eks_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same cross-module gap as the managed node groups: when cluster_ip_family = \"ipv6\" and iam_role_attach_cni_policy = true, the self-managed-node-group module's aws_iam_role_policy_attachment.this references the AmazonEKS_CNI_IPv6_Policy by a string-built ARN, but the policy itself is created in the root module by aws_iam_policy.cni_ipv6_policy. Without ordering (e.g. depends_on on the module block), the policy attachment can be applied before the policy exists, failing node IAM setup.",
+      "node": ":module.self_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same cross-module gap as the node groups: when cluster_ip_family = \"ipv6\" and iam_role_attach_cni_policy = true, the fargate-profile module's aws_iam_role_policy_attachment.this references the AmazonEKS_CNI_IPv6_Policy by a string-built ARN, while the policy is created by aws_iam_policy.cni_ipv6_policy in the root module. No attribute reference or depends_on orders the module after the policy, so the pod-execution-role CNI attachment can be applied before the policy exists.",
+      "node": ":module.fargate_profile",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

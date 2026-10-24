@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`resource.null_resource.wait_for_cluster` lists `aws_eks_cluster.this[0]` in its explicit `depends_on`, but the local-exec provisioner's `environment` already sets `ENDPOINT = aws_eks_cluster.this[0].endpoint`, which establishes the same ordering implicitly (this edge is already present in the graph's implicit_deps). The `aws_eks_cluster.this` entry in `depends_on` is redundant and only the `aws_security_group_rule.cluster_private_access` entry is actually needed.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`resource.aws_autoscaling_group.workers` launches self-managed EKS worker instances that authenticate to the cluster via the `aws-auth` ConfigMap (their role ARN is templated into `local.configmap_roles`), but nothing orders the ASG after `kubernetes_config_map.aws_auth`: the ASG's expressions only reference the cluster name, launch configuration and random_pet. The module authors added exactly this ordering to the managed node groups via `ng_depends_on` (which includes `kubernetes_config_map.aws_auth`) to avoid nodes being created before they can authenticate; the self-managed ASG has the same race and needs an explicit `depends_on` (or an equivalent reference) on the ConfigMap.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`resource.aws_autoscaling_group.workers_launch_template` launches self-managed EKS worker instances from a launch template whose role is registered in the `aws-auth` ConfigMap (`local.auth_launch_template_worker_roles`), yet the ASG does not depend on `kubernetes_config_map.aws_auth`. Only the cluster, launch template and random_pet are referenced. Like the managed node groups (which get this ordering through `ng_depends_on` in the `node_groups` module), the worker instances need the ConfigMap entry to exist before they can register with the cluster, so an explicit dependency on `kubernetes_config_map.aws_auth` is missing.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

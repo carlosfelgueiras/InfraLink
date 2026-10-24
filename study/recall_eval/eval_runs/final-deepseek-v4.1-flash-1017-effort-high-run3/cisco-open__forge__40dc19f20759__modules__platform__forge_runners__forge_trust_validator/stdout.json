@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.forge_trust_validator_lambda: explicit depends_on of :resource.aws_cloudwatch_log_group.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda: explicit depends_on of :module.forge_trust_validator_lambda is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.forge_trust_validator_lambda has an explicit depends_on on aws_cloudwatch_log_group.forge_trust_validator_lambda, but it already depends on that log group implicitly via `logging_log_group = aws_cloudwatch_log_group.forge_trust_validator_lambda.name`. The depends_on is redundant.",
+      "node": ":module.forge_trust_validator_lambda",
+      "target": ":resource.aws_cloudwatch_log_group.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_cloudwatch_event_target.forge_trust_validator_lambda has an explicit depends_on on module.forge_trust_validator_lambda, but it already depends on the module implicitly via `arn = module.forge_trust_validator_lambda.lambda_function_arn`. The depends_on is redundant.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_forge_role_trust updates each Forge role's assume-role policy to trust the trust-validator Lambda role (`arn:aws:iam::...:role/${var.prefix}-forge-trust-validator`), which is created by module.forge_trust_validator_lambda. It has no dependency on the module, so Terraform can grant trust before that role exists. It should depend on the module so the Lambda role is created first.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": {
+        "field": "triggers",
+        "expression": "merge({ role_name = each.value.name, future_sha = sha1(local.concatenated_trust_json[each.key]) }, { lambda_role_arn = module.forge_trust_validator_lambda.lambda_role_arn })"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

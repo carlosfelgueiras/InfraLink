@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props.conf resource `splunk_configs_conf.forgecicd_cloudwatchlogs` references the transform `forgecicd_trust_validation` via its REPORT- variable (\"REPORT-forgecicd_trust_validation\" = \"forgecicd_trust_validation\"), so it operationally requires `splunk_configs_conf.forgecicd_trust_validation` to exist first, but there is no `depends_on` (or attribute reference) creating that ordering. Add it to `depends_on` alongside the other transforms.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "props.conf resource `splunk_configs_conf.forgecicd_cloudwatchlogs` references the transform `forgecicd_extra_lambda_ec2_tenant_fields` via its REPORT- variable (\"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = \"forgecicd_extra_lambda_ec2_tenant_fields\"), so it operationally requires `splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields` to exist first, but there is no `depends_on` (or attribute reference) creating that ordering. Add it to `depends_on` alongside the other transforms.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

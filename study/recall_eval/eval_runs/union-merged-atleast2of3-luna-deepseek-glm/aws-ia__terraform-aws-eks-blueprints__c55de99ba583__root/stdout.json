@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe aws_eks_teams module creates Kubernetes resources, but its only EKS ordering is through the cluster ID. It should wait for the HTTP readiness check so Terraform does not attempt Kubernetes API operations before the EKS endpoint is healthy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe module call :module.aws_eks_teams provisions Kubernetes resources, but it does not wait for :data.http.eks_cluster_readiness. The readiness check is explicitly used to gate other Kubernetes operations because an ACTIVE EKS cluster can still have an API endpoint that is not yet healthy; add a module-level depends_on on the readiness check.",
+      "node": ":module.aws_eks_teams",
+      "target": ":data.http.eks_cluster_readiness",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`module.aws_eks_teams` creates Kubernetes namespaces, RBAC objects, service accounts, and `kubectl_manifest` resources, but it does not wait for the `kubernetes_config_map.aws_auth` readiness/auth barrier that the other Kubernetes-facing modules use. It should depend on `kubernetes_config_map.aws_auth` so the cluster API is ready and aws-auth is configured before team Kubernetes resources are applied.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe aws_eks_teams module creates Kubernetes namespaces, RBAC resources, and manifests but has no ordering dependency on the aws-auth ConfigMap or cluster readiness. Its Kubernetes resources can race with cluster/API readiness; add depends_on = [kubernetes_config_map.aws_auth] so they are created only after read-readiness and aws-auth are applied.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nThe aws-eks-teams module creates Kubernetes resources (kubernetes_namespace.team, kubernetes_cluster_role/team, kubernetes_role/team, kubernetes_service_account/team, kubectl_manifest.team) that can only be applied once the EKS cluster API endpoint is reachable. Every other module in this root that touches the Kubernetes API (module.aws_eks_managed_node_groups, module.aws_eks_self_managed_node_groups, module.aws_eks_fargate_profiles, module.emr_on_eks) declares `depends_on = [kubernetes_config_map.aws_auth]` \u2014 which is itself gated on the `data.http.eks_cluster_readiness` health check \u2014 but module.aws_eks_teams has no such dependency. Inside the module, resources like kubernetes_namespace.team reference only var.application_teams, so nothing orders them after cluster creation; a apply could try to create namespaces/roles before the cluster exists (or before the API server is healthy) and fail.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nmodule.aws_eks_teams creates Kubernetes API objects (namespaces, service accounts, roles, role bindings, kubectl manifests) against the EKS cluster, but has no dependency on resource.kubernetes_config_map.aws_auth (or the cluster-readiness gate). Every other consumer of the cluster's Kubernetes API in this project (the managed/self-managed/fargate node-group modules and module.emr_on_eks) explicitly depends on kubernetes_config_map.aws_auth to ensure the cluster API server is reachable and aws-auth has been applied before the kubernetes provider runs. Without it, Terraform may attempt to create team namespaces/roles before the cluster is ready, causing apply failures.",
+      "node": ":module.aws_eks_teams",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

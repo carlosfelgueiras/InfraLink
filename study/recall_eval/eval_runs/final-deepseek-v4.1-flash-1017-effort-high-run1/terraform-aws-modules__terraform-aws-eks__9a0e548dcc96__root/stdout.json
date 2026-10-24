@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit `depends_on = [aws_eks_cluster.this[0], ...]` on null_resource.wait_for_cluster duplicates an implicit dependency: its `provisioner \"local-exec\"` already sets `ENDPOINT = aws_eks_cluster.this[0].endpoint`, so Terraform orders null_resource.wait_for_cluster after aws_eks_cluster.this anyway. Only the `aws_security_group_rule.cluster_private_access` entry carries information.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_autoscaling_group.workers can launch instances before aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy is attached: the launch configuration only reaches aws_iam_role.workers through the instance profile, which is a sibling of the policy attachment, so no ordering exists. Worker instances run bootstrap.sh, which calls `eks:DescribeCluster` (granted by AmazonEKSWorkerNodePolicy); without it bootstrap fails and the nodes never join the cluster. The node_groups submodule explicitly guards this same race via `ng_depends_on`, but the self-managed ASGs do not.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_autoscaling_group.workers_launch_template can launch instances before aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy is attached \u2014 the launch template only reaches aws_iam_role.workers via aws_iam_instance_profile.workers_launch_template, which is a sibling of the policy attachment. Worker bootstrap requires `eks:DescribeCluster` from that policy; without it the instance bootstrap fails and nodes never join. The node_groups submodule guards this race with `ng_depends_on`; these self-managed ASGs are unguarded.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

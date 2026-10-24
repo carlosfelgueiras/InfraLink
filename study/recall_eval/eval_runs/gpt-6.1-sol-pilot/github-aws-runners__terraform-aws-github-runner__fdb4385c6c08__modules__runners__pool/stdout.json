@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.pool must wait for aws_iam_role_policy_attachment.pool_vpc_execution_role when VPC networking is enabled. Referencing the role ARN does not wait for its VPC permissions to be attached; Lambda provisioning requires those ENI permissions.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool does not wait for aws_iam_role_policy.pool, which grants its application permissions. The function can become available to the schedule before that policy is installed; wait for the policy to avoid initial invocation authorization failures.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool should wait for aws_iam_role_policy_attachment.ami_id_ssm_parameter_read when configured, so scheduled invocations cannot run before the AMI parameter read permission is attached.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_id_ssm_parameter_read",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool should wait for aws_iam_role_policy.pool_xray when tracing is enabled, so initial invocations have the required X-Ray permissions rather than racing policy creation.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool can become active before aws_iam_role_policy.scheduler grants its execution role lambda:InvokeFunction. Wait for the policy before enabling scheduled invocations; the role ARN reference alone does not order policy creation.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_scheduler_schedule.pool should wait for aws_iam_role_policy.pool_logging so its first invocation cannot precede log group creation and installation of logging permissions. The current Lambda reference does not provide that ordering. Ordering the schedule after this policy also waits for the log group without introducing a Lambda/log-group dependency cycle.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.pool_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

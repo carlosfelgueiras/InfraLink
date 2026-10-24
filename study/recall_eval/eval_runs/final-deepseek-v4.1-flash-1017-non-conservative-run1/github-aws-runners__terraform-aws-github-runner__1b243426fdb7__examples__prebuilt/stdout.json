@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale-up SQS event source mapping can be created before the inline role policy that grants the scale-up Lambda permission to receive/delete messages and read queue attributes. In that state AWS may reject the mapping or leave it unable to poll the queue. Add an explicit dependency from the event source mapping to aws_iam_role_policy.scale_up.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-down EventBridge target is ordered only after the rule and Lambda function, so it can be active before the resource-based permission that allows events.amazonaws.com to invoke the function. Scheduled invocations during that window fail. Add depends_on from the target to aws_lambda_permission.scale_down.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The binaries-syncer EventBridge target is ordered only after the rule and Lambda function, so it can be active before the resource-based permission that allows events.amazonaws.com to invoke the function. Scheduled invocations during that window fail. Add depends_on from the target to aws_lambda_permission.syncer.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Each pool EventBridge target is ordered only after its rule and the pool Lambda function, so a target can be active before the corresponding resource-based permission that allows events.amazonaws.com to invoke the function. Scheduled pool adjustments during that window fail. Add depends_on from the target to aws_lambda_permission.pool.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

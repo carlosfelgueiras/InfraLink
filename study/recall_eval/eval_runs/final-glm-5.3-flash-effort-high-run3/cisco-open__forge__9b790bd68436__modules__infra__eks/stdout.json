@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "helm_release.karpenter declares depends_on = [null_resource.wait_for_cluster], but this ordering is already established transitively: the helm provider is configured from data.aws_eks_cluster.cluster and data.aws_eks_cluster_auth.cluster (referenced in providers.tf), both of which already depend on null_resource.wait_for_cluster. Resources using the helm provider are therefore always applied after the wait completes, making the explicit depends_on redundant.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

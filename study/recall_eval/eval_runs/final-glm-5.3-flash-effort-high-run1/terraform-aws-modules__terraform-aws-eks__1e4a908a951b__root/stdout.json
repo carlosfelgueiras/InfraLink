@@ -1,0 +1,103 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit `depends_on = [aws_eks_cluster.this[0], ...]` on :resource.null_resource.wait_for_cluster is redundant: the dependency on :resource.aws_eks_cluster.this is already established implicitly by the provisioner's `environment = { ENDPOINT = aws_eks_cluster.this[0].endpoint }` attribute reference. The explicit entry can be removed without changing ordering.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.null_data_source.node_groups reads `aws_eks_cluster.this[*].name` into its `inputs.cluster_name` (and its output feeds module.node_groups' cluster_name), but the graph shows no dependency on :resource.aws_eks_cluster.this. Since data sources without a known dependency are read before their inputs' targets exist, this data source (and everything downstream, i.e. the EKS node groups) can be evaluated with an empty cluster name before the cluster is created.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.null_data_source.node_groups reads `kubernetes_config_map.aws_auth[*].id` into its `inputs.aws_auth` \u2014 this is the module's explicit hack (\"Hack to ensure ordering of resource creation. Do not create node_groups before other resources are ready\") to gate node group creation on the aws-auth ConfigMap. The dependency on :resource.kubernetes_config_map.aws_auth is not expressed in the graph, so the EKS node groups could be created before workers are registered in aws-auth.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.null_data_source.node_groups reads `aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy[*].id` into its `inputs.role_NodePolicy` as part of the node-group ordering guard, but the dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy is missing from the graph. Without it, node groups may launch instances whose IAM role lacks the worker node policy.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.null_data_source.node_groups reads `aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy[*].id` into its `inputs.role_CNI_Policy` as part of the node-group ordering guard, but the dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy is missing from the graph. Without it, node groups may launch before the CNI policy is attached, leaving nodes unable to get pod networking.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.null_data_source.node_groups reads `aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly[*].id` into its `inputs.role_Container` as part of the node-group ordering guard, but the dependency on :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly is missing from the graph. Without it, node groups may launch before workers can pull images from ECR.",
+      "node": ":data.null_data_source.node_groups",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":module.node_groups receives `cluster_name = coalescelist(data.null_data_source.node_groups[*].outputs[\"cluster_name\"], [\"\"])[0]`, which is the sole link gating node-group creation behind the ordering-hack data source. The graph shows no dependency of :module.node_groups on :data.null_data_source.node_groups, so the module (and its aws_eks_node_group resources) can be created before the gate data source \u2014 and therefore before the cluster, aws-auth ConfigMap, and worker policy attachments it guards on.",
+      "node": ":module.node_groups",
+      "target": ":data.null_data_source.node_groups",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.template_file.userdata renders `cluster_name`, `endpoint`, and `cluster_auth_base64` from `aws_eks_cluster.this[*]` (inside coalescelist) into the workers' bootstrap user data, but the graph shows no dependency on :resource.aws_eks_cluster.this. Without the ordering, the user data baked into aws_launch_configuration.workers could be rendered with empty cluster name/endpoint/CA values.",
+      "node": ":data.template_file.userdata",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":data.template_file.launch_template_userdata renders `cluster_name`, `endpoint`, and `cluster_auth_base64` from `aws_eks_cluster.this[*]` (inside coalescelist) into the launch-template user data, but the graph shows no dependency on :resource.aws_eks_cluster.this. Without the ordering, the user data baked into aws_launch_template.workers_launch_template could be rendered with empty cluster values.",
+      "node": ":data.template_file.launch_template_userdata",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_iam_openid_connect_provider.oidc_provider sets `url = flatten(concat(aws_eks_cluster.this[*].identity[*].oidc.0.issuer, [\"\"]))[0]`, but the graph shows no dependency on :resource.aws_eks_cluster.this. The OIDC provider URL can only be known after the cluster exists; without the ordering, the provider could be created against an empty/unknown issuer URL.",
+      "node": ":resource.aws_iam_openid_connect_provider.oidc_provider",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

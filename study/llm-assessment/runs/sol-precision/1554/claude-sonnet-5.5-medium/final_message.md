@@ -1,0 +1,3 @@
+aws_default_vpc adopts the default VPC if it exists. If it doesn't exist, it creates one, and AWS creates the default subnets along with it. The data source is read at plan time and would find no subnets in that case. The subnets would then never be managed by `aws_default_subnet`, so they would be left unhardened. The data source has no reference to the VPC, so Terraform has no ordering information here. The report is correct.
+
+Correct

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer is created before aws_cloudwatch_log_group.syncer: the log group's name is derived from the function name, so the graph orders the log group *after* the function. AWS's documented best practice is the opposite \u2014 the CloudWatch log group must exist before the Lambda function (aws_lambda_function depends_on aws_cloudwatch_log_group). Because nothing orders the log group before the function's first invocation (aws_s3_object.trigger invokes it later), Lambda can auto-create the log group first, causing Terraform to fail with \"log group already exists\" or to lose the configured retention_in_days/kms_key_id/log_group_class. aws_lambda_function.syncer should depend on aws_cloudwatch_log_group.syncer.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_cloudwatch_log_group.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

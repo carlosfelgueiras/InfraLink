@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` pushes the webhook endpoint and secret to the GitHub App via a local-exec provisioner, but its only dependency on the webhook stack is the static endpoint string (which resolves to `aws_apigatewayv2_api.webhook` plus a constant). Nothing orders it after `module.runners.module.webhook:resource.aws_apigatewayv2_integration.webhook` (nor the route, `$default` stage, or `aws_lambda_permission.webhook`), so the GitHub App can be updated to point at the endpoint before that endpoint is actually wired to the webhook lambda \u2014 GitHub would then deliver webhook events to a non-functional URL. Add an explicit `depends_on` from the null_resource to the API Gateway integration (route/stage/lambda permission are covered transitively or should be included too).",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_integration.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

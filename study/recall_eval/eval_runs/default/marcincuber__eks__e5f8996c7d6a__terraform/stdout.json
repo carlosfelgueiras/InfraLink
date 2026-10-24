@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster IAM role policy attachments should be complete before creating the EKS cluster; the cluster references the role ARN, but not the separate attachment resource, so Terraform may create the cluster before its required permissions are attached.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed node group should be created only after the node group's IAM policies are attached. The module references the role ARN but has no dependency on the separate policy-attachment resource, so node bootstrap may start before required permissions are available.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Karpenter instance profile can be used by instances as soon as it is created, so its node IAM permissions should be attached first. No dependency currently orders the instance profile after the node role policy attachments.",
+      "node": ":resource.aws_iam_instance_profile.eks_node_karpenter",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CoreDNS add-on's security group rules reference the cluster security group and CoreDNS security group, but the add-on itself has no dependency ensuring these rules are in place before deployment; the configured CoreDNS security group rules are operational prerequisites.",
+      "node": ":resource.aws_eks_addon.core_dns",
+      "target": ":resource.aws_vpc_security_group_ingress_rule.all_allow_access_from_control_plane_to_core_dns",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EBS CSI add-on should not be installed before the managed policy is attached to its service-account role. The add-on references the role ARN, but that does not order it after the separate policy-attachment resource.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ADOT add-on should not be installed before its service-account role policies are attached; it references the role but not the separate policy attachments resource.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The cluster capacity-provider association must wait until each autoscaling capacity provider has been created; its capacity_providers list currently uses input names without an ordering dependency on the provider resources.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.fargate_capacity_providers : try(v.name, k)], [for k, v in aws_ecs_capacity_provider.this : v.name]))"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

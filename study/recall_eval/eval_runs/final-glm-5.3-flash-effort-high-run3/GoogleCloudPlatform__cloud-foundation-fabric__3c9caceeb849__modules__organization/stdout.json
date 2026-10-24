@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module should wait for google_organization_iam_binding.bindings: SCC permissions granted through the authoritative/binding/member IAM resources of this module may be required to create the custom module, and without an explicit ordering the two can be applied concurrently.",
+      "node": ":resource.google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module creates organization-level SCC custom modules using the caller's credentials, but has no ordering guarantee against the organization IAM bindings managed in this same module. Every other org-level resource in this module (essential contacts, PAM entitlements, log sinks, tag keys, org policies) carries depends_on on the organization IAM resources for exactly this reason: when permissions such as roles/securitycenter.admin are granted to the Terraform principal via this module's IAM variables in the same apply, module creation can race the IAM grants and fail with permission errors.",
+      "node": ":resource.google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module should wait for google_organization_iam_member.bindings: additive IAM members granted in this module may include the principal that creates the SCC custom module, and without an explicit ordering the grant and the module creation can race, producing 403 errors on apply.",
+      "node": ":resource.google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster encryption configuration can use a KMS key, but the cluster role's encryption policy attachment is not ordered before cluster creation. EKS needs the role permissions to use the configured key; add an explicit dependency so cluster creation cannot race the attachment.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile can become active and start scheduling pods before its pod execution role has the required managed policy attached. Order profile creation after the role policy attachment so Fargate workloads do not race permission setup.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS managed node group can be created without waiting for its IAM role policy attachments, and AWS documents that these permissions must be established before node group handling (including deletion). Add an ordering dependency on the required worker-node policy attachments.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

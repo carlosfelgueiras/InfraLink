@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.wait_for_cluster already references aws_eks_cluster.this[0].endpoint in its local-exec environment, which establishes the cluster dependency implicitly. Its explicit depends_on on aws_eks_cluster.this duplicates that ordering and can be removed.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "For a private-only cluster, aws_security_group_rule.cluster_private_access opens HTTPS access from the Terraform runner's configured CIDRs. null_resource.wait_for_cluster probes that endpoint but currently waits only for the cluster, allowing the health check to race the ingress rule and time out. Make the readiness check depend on this rule; kubernetes_config_map.aws_auth will then inherit the ordering.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_security_group_rule.cluster_private_access",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch nodes using the module-managed worker role before aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy completes. The launch configuration's instance-profile reference orders profile creation, not policy attachment. Order worker launches after this attachment so the EKS worker permissions are available during node initialization and retained until the workers are removed.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers has no ordering against aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy. When the module attaches the CNI policy to its worker role, instances can start the VPC CNI before that attachment completes. Depend on the attachment to avoid initializing node networking without its required permissions.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers can launch instances before aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly completes. Referencing an instance profile does not wait for this separate attachment, so initial ECR pulls for node components can fail for lack of permissions. Order the worker group after this attachment when using the module-managed role.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch nodes using the module-managed worker role before aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy completes. The launch template's instance-profile reference does not order separate policy attachments. Depend on this attachment so worker permissions are available during initialization and remain attached until worker removal.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template is not ordered after aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy. When this policy is managed on the worker role, instances can initialize the VPC CNI before its required permissions have been attached. Add ordering against this attachment rather than relying on launch-template or instance-profile creation.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.workers_launch_template can launch instances before aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly completes. The launch template and instance profile do not depend on this separate attachment, allowing initial ECR pulls for node components to race permission setup. Order worker launches after the attachment when using the module-managed role.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

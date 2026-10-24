@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_eks_fargate_profile.this` only depends on `aws_iam_role.this` (via pod_execution_role_arn), so Terraform may create/manage the Fargate profile before the role's policies are attached (and delete it after them). The pod execution role must have AmazonEKSFargatePodExecutionRolePolicy (and the CNI policy) attached first, otherwise the profile cannot provision pods / delete cleanly. Unlike the EKS managed and self-managed node groups \u2014 which get this ordering transitively through their launch template's explicit depends_on \u2014 the fargate profile has no such depends_on, so an explicit `depends_on = [aws_iam_role_policy_attachment.this]` is needed.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

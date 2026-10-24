@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.local_file.public_ssh_key to :resource.tls_private_key.ssh duplicates the implicit dependency already created by the content reference to tls_private_key.ssh.public_key_openssh.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit depends_on from :resource.local_file.private_ssh_key to :resource.tls_private_key.ssh duplicates the implicit dependency already created by the content reference to tls_private_key.ssh.private_key_pem.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The user-data script manages the runner registration token in SSM, but the autoscaling group can launch its instance before the parameter resource is created. This can race the startup script against Terraform's initial parameter write; make the group wait for the parameter to exist.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

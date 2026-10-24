@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy` is the policy for the redrive/dead-letter queue (it is only created when `var.redrive_build_queue.enabled` is true), but its `queue_url` points at `module.runners:resource.aws_sqs_queue.queued_builds` instead of `module.runners:resource.aws_sqs_queue.queued_builds_dlq`. As written, it has no dependency on the DLQ it is supposed to govern, and it instead attaches a second `aws_sqs_queue_policy` to the build queue that `aws_sqs_queue_policy.build_queue_policy` already manages (conflicting policies on the same queue). It should depend on, and target, the dead-letter queue.",
+      "node": "module.runners:resource.aws_sqs_queue_policy.build_queue_dlq_policy",
+      "target": "module.runners:resource.aws_sqs_queue.queued_builds_dlq",
+      "fix": {
+        "field": "queue_url",
+        "expression": "aws_sqs_queue.queued_builds_dlq[0].id"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

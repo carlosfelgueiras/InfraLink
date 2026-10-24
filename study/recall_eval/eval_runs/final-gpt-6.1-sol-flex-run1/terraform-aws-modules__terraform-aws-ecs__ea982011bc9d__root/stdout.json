@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_ecs_cluster_capacity_providers.this associates the autoscaling capacity providers by names derived from input variables, but the supplied graph has no dependency on :resource.aws_ecs_capacity_provider.this. Association must wait until those providers exist. Reference the created providers' names in capacity_providers to establish that ordering.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.fargate_capacity_providers : try(v.name, k)], [for k, v in aws_ecs_capacity_provider.this : v.name]))"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

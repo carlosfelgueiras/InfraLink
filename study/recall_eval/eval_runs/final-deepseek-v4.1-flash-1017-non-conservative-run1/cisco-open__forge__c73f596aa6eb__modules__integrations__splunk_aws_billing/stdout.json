@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_service: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_service is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource_process: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource_process is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.cur_per_resource: explicit depends_on of :resource.aws_cloudwatch_log_group.cur_per_resource is redundant \u2014 already implied by attribute references",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_resource creates a BCM Data Exports export that writes into aws_s3_bucket.aws_billing_report, but it has no ordering edge to aws_s3_bucket_policy.cur_bucket_policy. The bucket policy is what grants bcm-data-exports.amazonaws.com the s3:PutObject / s3:GetBucketPolicy permissions (statement \"EnableAWSDataExportsToWriteToS3AndCheckPolicy\"). The CreateExport API validates the destination bucket policy at creation time, so if Terraform creates the export in parallel with (or before) the bucket policy, creation fails with a \"bucket policy does not grant access\" style error. Because `s3_bucket` only references the bucket \u2014 and the bucket does not depend on its policy \u2014 nothing orders these two. Add `depends_on = [aws_s3_bucket_policy.cur_bucket_policy]` to the export.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_bcmdataexports_export.cur_per_service exports to aws_s3_bucket.aws_billing_report but is not ordered after aws_s3_bucket_policy.cur_bucket_policy, which is the resource granting bcm-data-exports.amazonaws.com write access to that bucket. Since the export only references the bucket (not the policy), Terraform may create the export while the bucket policy is still missing or stale, and the BCM Data Exports create call fails its destination-bucket-policy validation. Add `depends_on = [aws_s3_bucket_policy.cur_bucket_policy]` (or another explicit edge) to the export.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.cur_per_resource already depends on aws_cloudwatch_log_group.cur_per_resource through the implicit reference `logging_log_group = aws_cloudwatch_log_group.cur_per_resource.name`, so `depends_on = [aws_cloudwatch_log_group.cur_per_resource]` (module call in billing_per_resource.tf) adds no ordering information and can be removed.",
+      "node": ":module.cur_per_resource",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.cur_per_resource_process already gets an ordering edge to aws_cloudwatch_log_group.cur_per_resource_process from `logging_log_group = aws_cloudwatch_log_group.cur_per_resource_process.name`, so the explicit `depends_on = [aws_cloudwatch_log_group.cur_per_resource_process]` in billing_per_resource_process.tf is redundant.",
+      "node": ":module.cur_per_resource_process",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.cur_per_service already references aws_cloudwatch_log_group.cur_per_service via `logging_log_group = aws_cloudwatch_log_group.cur_per_service.name` (plus use_existing_cloudwatch_log_group = true), so the explicit `depends_on = [aws_cloudwatch_log_group.cur_per_service]` in billing_per_service.tf duplicates an existing implicit dependency.",
+      "node": ":module.cur_per_service",
+      "target": ":resource.aws_cloudwatch_log_group.cur_per_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC service-project association should wait for this project's APIs to be enabled; it currently has no dependency on the project service resources, unlike the host-project association.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Project tag bindings use the project number in their parent but have no reference to project creation or lookup, so they can be applied before the project exists. Add an ordering dependency on the project resource for newly-created projects; no clean resource attribute reference is suitable here because the number is produced through a conditional local that also supports existing projects.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

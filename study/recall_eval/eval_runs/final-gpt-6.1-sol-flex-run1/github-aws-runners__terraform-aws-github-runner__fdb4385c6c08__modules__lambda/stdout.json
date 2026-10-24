@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.main must wait for aws_iam_role_policy_attachment.vpc_execution_role when VPC configuration is enabled: Lambda requires the execution role's EC2 network-interface permissions during provisioning. Referencing the role ARN alone does not wait for its policy attachment; add depends_on on the attachment (also preserving permissions until the function is deleted).",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

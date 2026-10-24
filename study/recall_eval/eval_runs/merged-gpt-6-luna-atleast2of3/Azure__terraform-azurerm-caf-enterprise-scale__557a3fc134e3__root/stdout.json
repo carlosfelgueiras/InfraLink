@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe diagnostic setting writes a Log Analytics workspace ID, but that ID comes from configuration locals rather than a reference to the managed workspace. When the workspace is created by this configuration, the setting can be attempted before the workspace exists; add an ordering dependency or reference the managed workspace ID.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe management-group diagnostic setting sends local.template_file_variables.log_analytics_workspace_resource_id as its workspaceId, but that value is assembled from configuration rather than the created workspace. When this module creates the workspace, the setting should wait for it to exist.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe diagnostic setting sends `workspaceId` from a generated configuration string rather than a reference to the workspace resource. When the module manages that workspace, it must exist before Azure can create the diagnostic setting; no dependency currently orders it ahead of `diag_settings`.",
+      "node": ":resource.azapi_resource.diag_settings",
+      "target": ":resource.azurerm_log_analytics_workspace.management",
+      "fix": {
+        "field": "body",
+        "expression": "jsonencode({ properties = { logAnalyticsDestinationType = \"null\", logs = [{ category = \"Administrative\", enabled = true }, { category = \"Policy\", enabled = true }], workspaceId = try(values(azurerm_log_analytics_workspace.management)[0].id, local.template_file_variables.log_analytics_workspace_resource_id) } })"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nPolicy-assignment role assignments can reference custom role definitions created by this configuration. The module has no dependency on the role-definition readiness delay, so it could attempt those assignments before Azure has replicated the definitions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nPolicy-assignment role assignments can use custom role definitions produced by this module. Their IDs are assembled from configuration strings, so the module has no inferred dependency on the role-definition readiness delay. It should wait for the same role-definition delay used before the other managed role assignments.",
+      "node": ":module.role_assignments_for_policy",
+      "target": ":resource.time_sleep.after_azurerm_role_definition",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

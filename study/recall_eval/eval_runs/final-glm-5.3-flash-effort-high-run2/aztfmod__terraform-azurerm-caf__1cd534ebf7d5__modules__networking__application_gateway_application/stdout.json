@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.delete_probe runs az CLI to delete the Application Gateway probe, but has no dependency on :resource.null_resource.delete_http_settings. HTTP settings reference probes, so on destroy the probe can be removed while http_settings still reference it, failing the destroy-time deletion. The set side mirrors this with set_http_settings depending on set_probe, but the delete side never establishes the reverse ordering (delete_http_settings depends on set_probe, not delete_probe). delete_probe should depend on delete_http_settings so probes are deleted after the settings that reference them.",
+      "node": ":resource.null_resource.delete_probe",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.null_resource.delete_frontend_port runs az CLI to delete the Application Gateway frontend port, but has no dependency on :resource.null_resource.delete_http_listener. HTTP listeners reference frontend ports (PORT in set_http_listener), so on destroy the frontend port can be removed while listeners still reference it, failing the destroy-time deletion. The set side mirrors this with set_http_listener depending on set_frontend_port, but the delete side never establishes the reverse ordering (delete_http_listener depends on set_frontend_port, not delete_frontend_port). delete_frontend_port should depend on delete_http_listener so the port is deleted after the listeners that reference it.",
+      "node": ":resource.null_resource.delete_frontend_port",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

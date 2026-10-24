@@ -1,0 +1,25 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe null_resource updates a Forge role trust policy to name the Lambda execution role as a principal, but it does not wait for the Lambda module to create that role. Ensure the role exists before applying the trust-policy update.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe provisioner updates Forge role trust policies to name the Lambda execution role as a principal. That role must exist before the IAM trust-policy update, so this resource should wait for the Lambda module to finish creating it.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe provisioner updates each Forge role's trust policy to name the Lambda execution role as a principal. That principal must exist when AWS accepts the trust-policy update, so this resource must wait for the Lambda module to create its execution role; currently it can run concurrently with the module.",
+      "node": ":resource.null_resource.update_forge_role_trust",
+      "target": ":module.forge_trust_validator_lambda",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ role_name = each.value.name, future_sha = sha1(local.concatenated_trust_json[each.key]), lambda_role_arn = module.forge_trust_validator_lambda.lambda_role_arn }"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EventBridge target can become active before the Lambda permission is installed, allowing scheduled invocations to fail authorization. Make the target wait for the permission resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nEventBridge needs the Lambda resource-based permission to invoke this function. The target should be created after the permission is installed; currently it only depends on the function module and rule, not on the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.forge_trust_validator_lambda",
+      "target": ":resource.aws_lambda_permission.forge_trust_validator_lambda",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

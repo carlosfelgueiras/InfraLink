@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`kubectl_manifest.karpenter_provisioner` references the AWSNodeTemplate `default` via `spec.providerRef.name = \"default\"`, but has no dependency on `kubectl_manifest.karpenter_node_template`. If the Provisioner is applied before the NodeTemplate exists, Karpenter cannot resolve the providerRef and node provisioning fails until the template appears; the ordering is only enforced operationally, not by any attribute reference or depends_on.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

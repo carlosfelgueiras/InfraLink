@@ -1,0 +1,166 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.virtual_wans.module.hubs:resource.azurerm_point_to_site_vpn_gateway.p2s_gateway: explicit depends_on of module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub is redundant \u2014 already implied by attribute references",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_point_to_site_vpn_gateway.p2s_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.virtual_wans.module.hubs:resource.azurerm_point_to_site_vpn_gateway.p2s_gateway: explicit depends_on of module.virtual_wans.module.hubs:resource.azurerm_vpn_server_configuration.p2s_configuration is redundant \u2014 already implied by attribute references",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_point_to_site_vpn_gateway.p2s_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_vpn_server_configuration.p2s_configuration",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.virtual_wans.module.hubs:resource.azurerm_vpn_gateway.s2s_gateway: explicit depends_on of module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub is redundant \u2014 already implied by attribute references",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_vpn_gateway.s2s_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.virtual_wans.module.hubs:resource.azurerm_express_route_gateway.er_gateway: explicit depends_on of module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub is redundant \u2014 already implied by attribute references",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_express_route_gateway.er_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.app_service_environments:resource.azurerm_private_dns_a_record.a_records: explicit depends_on of module.app_service_environments:resource.azurerm_template_deployment.ase is redundant \u2014 already implied by attribute references",
+      "node": "module.app_service_environments:resource.azurerm_private_dns_a_record.a_records",
+      "target": "module.app_service_environments:resource.azurerm_template_deployment.ase",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.app_service_environments:data.external.ase_ilb_ip: explicit depends_on of module.app_service_environments:resource.azurerm_template_deployment.ase is redundant \u2014 already implied by attribute references",
+      "node": "module.app_service_environments:data.external.ase_ilb_ip",
+      "target": "module.app_service_environments:resource.azurerm_template_deployment.ase",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.azuread_applications:resource.null_resource.grant_admin_consent: explicit depends_on of module.azuread_applications:resource.azuread_service_principal.app is redundant \u2014 already implied by attribute references",
+      "node": "module.azuread_applications:resource.null_resource.grant_admin_consent",
+      "target": "module.azuread_applications:resource.azuread_service_principal.app",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.recovery_vaults:resource.azurerm_site_recovery_replication_policy.policy: explicit depends_on of module.recovery_vaults:resource.azurerm_recovery_services_vault.asr_rg_vault is redundant \u2014 already implied by attribute references",
+      "node": "module.recovery_vaults:resource.azurerm_site_recovery_replication_policy.policy",
+      "target": "module.recovery_vaults:resource.azurerm_recovery_services_vault.asr_rg_vault",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The null_resource register_aks_msi_preview_feature runs a local-exec script that registers the Microsoft.ContainerService \"AAD-V2\" feature and polls until the provider reports it as Registered (the source notes this can take around 30 minutes). The AKS cluster is created with managed Azure AD RBAC (role_based_access_control.azure_active_directory.managed = true), which requires that feature/preview registration to be complete before the cluster can be provisioned. However, azurerm_kubernetes_cluster.aks references none of the null_resource's outputs (it has none) and no attribute reference or depends_on orders the cluster after the registration resource, so Terraform may create the cluster before (or concurrently with) feature registration and fail. Add an explicit depends_on from the cluster to the null_resource.",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_virtual_hub_connection.vhub_connection declares depends_on = [module.networking, module.virtual_wans]. The dependency on module.virtual_wans is redundant: the resource already references module.virtual_wans[...].virtual_hubs[...].id via the virtual_hub_id attribute (captured as implicit_deps through module.virtual_wans:output.virtual_hubs), so Terraform already orders this resource after the virtual WAN/hubs. The module.networking entry is NOT redundant (remote_virtual_network_id is resolved through local.combined_objects_networking) and should be kept.",
+      "node": ":resource.azurerm_virtual_hub_connection.vhub_connection",
+      "target": ":module.virtual_wans",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The external data source data.external.ase_ilb_ip declares depends_on = [azurerm_template_deployment.ase], but it already depends on that resource implicitly: its `program` string interpolates lookup(azurerm_template_deployment.ase.outputs, \"id\"), which is captured in implicit_deps. The explicit depends_on duplicates the implicit dependency.",
+      "node": "module.app_service_environments:data.external.ase_ilb_ip",
+      "target": "module.app_service_environments:resource.azurerm_template_deployment.ase",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_private_dns_a_record.a_records declares depends_on = [azurerm_template_deployment.ase], but that ordering is already established transitively: the record consumes data.external.ase_ilb_ip (for the ILB IP in `records`), and that data source itself depends on azurerm_template_deployment.ase (both implicitly via the outputs lookup and via its own explicit depends_on). The explicit depends_on on the ASE template duplicates the transitive dependency.",
+      "node": "module.app_service_environments:resource.azurerm_private_dns_a_record.a_records",
+      "target": "module.app_service_environments:resource.azurerm_template_deployment.ase",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "null_resource.grant_admin_consent declares depends_on = [azuread_service_principal.app], but it already depends on that resource implicitly: its local-exec provisioner environment interpolates azuread_service_principal.app.id (principalId) and the resource is also listed in implicit_deps. The explicit depends_on duplicates the implicit dependency.",
+      "node": "module.azuread_applications:resource.null_resource.grant_admin_consent",
+      "target": "module.azuread_applications:resource.azuread_service_principal.app",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_site_recovery_replication_policy.policy declares depends_on = [azurerm_recovery_services_vault.asr_rg_vault], but it already depends on the vault implicitly through the recovery_vault_name = azurerm_recovery_services_vault.asr_rg_vault.name attribute reference (captured in implicit_deps). The explicit depends_on is redundant.",
+      "node": "module.recovery_vaults:resource.azurerm_site_recovery_replication_policy.policy",
+      "target": "module.recovery_vaults:resource.azurerm_recovery_services_vault.asr_rg_vault",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_express_route_gateway.er_gateway declares depends_on = [azurerm_virtual_hub.vwan_hub], but it already depends on the hub implicitly via virtual_hub_id = azurerm_virtual_hub.vwan_hub.id (captured in implicit_deps). The explicit depends_on is redundant.",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_express_route_gateway.er_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_point_to_site_vpn_gateway.p2s_gateway declares depends_on = [azurerm_virtual_hub.vwan_hub, azurerm_vpn_server_configuration.p2s_configuration], but both are already implicit dependencies: virtual_hub_id = azurerm_virtual_hub.vwan_hub.id and vpn_server_configuration_id = azurerm_vpn_server_configuration.p2s_configuration[0].id (both captured in implicit_deps). This explicit depends_on entry duplicates the hub dependency.",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_point_to_site_vpn_gateway.p2s_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_point_to_site_vpn_gateway.p2s_gateway declares depends_on = [azurerm_virtual_hub.vwan_hub, azurerm_vpn_server_configuration.p2s_configuration], but the configuration is already an implicit dependency via vpn_server_configuration_id = azurerm_vpn_server_configuration.p2s_configuration[0].id (captured in implicit_deps). This explicit depends_on entry duplicates that dependency.",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_point_to_site_vpn_gateway.p2s_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_vpn_server_configuration.p2s_configuration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "azurerm_vpn_gateway.s2s_gateway declares depends_on = [azurerm_virtual_hub.vwan_hub], but it already depends on the hub implicitly via virtual_hub_id = azurerm_virtual_hub.vwan_hub.id (captured in implicit_deps). The explicit depends_on is redundant.",
+      "node": "module.virtual_wans.module.hubs:resource.azurerm_vpn_gateway.s2s_gateway",
+      "target": "module.virtual_wans.module.hubs:resource.azurerm_virtual_hub.vwan_hub",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

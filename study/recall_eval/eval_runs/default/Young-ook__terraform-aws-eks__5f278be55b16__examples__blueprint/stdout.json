@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :module.helm-addons to :module.eks-addons is redundant: its inputs already reference :module.eks, which the EKS add-ons module itself references, so Terraform has an indirect dependency path.",
+      "node": ":module.helm-addons",
+      "target": ":module.eks-addons",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

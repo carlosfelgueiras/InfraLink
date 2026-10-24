@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EMR virtual cluster should be created only after the EKS cluster is ready; its container provider is configured with the EKS cluster name, but that reference does not establish operational readiness of the Kubernetes cluster before EMR registration.",
+      "node": "module.emr:resource.aws_emrcontainers_virtual_cluster.emr",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

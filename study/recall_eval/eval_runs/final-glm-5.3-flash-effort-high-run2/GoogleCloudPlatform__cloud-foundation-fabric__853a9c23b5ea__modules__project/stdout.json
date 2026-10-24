@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project to an external host, but has no dependency on the project's API enablement. Google requires the Compute Engine API to be enabled in the service project before it can be attached to a Shared VPC host. When compute.googleapis.com is in var.services, both resources are created in parallel with no ordering edge (the only dependency via local.project covers the project's existence, not its enabled services), so the attachment can run before (or without) the API being enabled and fail intermittently. An explicit depends_on = [google_project_service.project_services] on the shared_vpc_service resource is needed; no clean data-reference alternative exists since service_project is already fully determined by local.project.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

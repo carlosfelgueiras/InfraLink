@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled Lambda can be configured with VPC networking, but the function does not wait for the VPC execution policy attachment. When VPC subnets and security groups are configured, Lambda needs the role's ENI permissions to initialize networking; creating the function before the policy is attached can leave it unable to initialize correctly.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be created before its AMI-housekeeper execution permissions are installed. The function should wait for :resource.aws_iam_role_policy.ami_housekeeper so it is ready to perform its configured cleanup operations when invoked.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, the Lambda function may be created before its X-Ray execution permissions are installed. Make :resource.aws_lambda_function.ami_housekeeper wait for :resource.aws_iam_role_policy.ami_housekeeper_xray so tracing is authorized before invocations begin.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the Lambda is configured for VPC networking, it should wait for :resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role. Without that ordering, Lambda can begin VPC initialization before the role has the required VPC execution permissions.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be installed before the Lambda invocation permission. Because both are independently created after the rule and function, the rule may attempt an invocation before :resource.aws_lambda_permission.ami_housekeeper grants it; make the target wait for that permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can become invokable before its CloudWatch Logs permissions are attached. It should wait for :resource.aws_iam_role_policy.lambda_logging so its initial invocations can deliver logs to the configured log group.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scheduled rule can begin invoking the Lambda as soon as its target and permission are installed, while the logging policy is independently attached after the log group. Make the EventBridge target wait for :resource.aws_iam_role_policy.lambda_logging so an early scheduled invocation does not run before CloudWatch Logs access is granted.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nThe AKS cluster uses managed Azure AD RBAC, but there is no dependency ensuring null_resource.register_aks_msi_preview_feature (which registers the AAD-V2 feature/provider) runs before azurerm_kubernetes_cluster.aks. Adding an explicit ordering is needed to avoid intermittent cluster creation failures.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.aks_clusters:resource.azurerm_kubernetes_cluster.aks enables Azure AD-managed RBAC (`role_based_access_control.azure_active_directory.managed = true`), which requires the \"AAD-V2\" preview feature of Microsoft.ContainerService to be registered first. That registration is performed by module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature (a ~30 minute az CLI loop), but nothing orders the cluster after it: the null_resource has no dependents and the cluster has no reference to it. Both will run in parallel and cluster creation can fail with a feature-not-registered error. Add `depends_on = [null_resource.register_aks_msi_preview_feature]` to the AKS cluster.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`module.aks_clusters:resource.azurerm_kubernetes_cluster.aks` is created with a managed `identity` block and AKS-managed Azure AD RBAC, which requires the `AAD-V2` feature of `Microsoft.ContainerService` to be registered first. That registration is performed by `module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature` (including polling until the provider is registered, which can take ~30 minutes), but nothing orders the cluster after it, so on a fresh subscription the cluster creation fails. Add `depends_on = [null_resource.register_aks_msi_preview_feature]` to the `azurerm_kubernetes_cluster.aks` resource.",
+      "node": "module.aks_clusters:resource.azurerm_kubernetes_cluster.aks",
+      "target": "module.aks_clusters:resource.null_resource.register_aks_msi_preview_feature",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

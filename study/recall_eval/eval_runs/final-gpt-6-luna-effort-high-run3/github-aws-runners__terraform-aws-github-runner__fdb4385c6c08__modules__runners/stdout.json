@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can become active before the Lambda resource-based invoke permission is installed. Ensure the permission exists before attaching the target to avoid scheduled invocations being denied during deployment.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-down EventBridge target may become active before Lambda's resource-based invoke permission is installed, allowing scheduled deliveries to fail authorization. Order target creation after the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be created and enabled before the Lambda invoke permission is installed, so scheduled invocations may be rejected during deployment. Make the target depend on the matching permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge Scheduler schedule may become active before the scheduler role's Lambda-invoke policy is attached, causing scheduled invocations to be denied. Order schedule creation after the policy resource.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-down EventBridge target can invoke the Lambda as soon as it is attached, while the execution role's scale-down policy is otherwise unordered. Ensure the runtime policy is installed before enabling the scheduled target to avoid invocations failing for lack of permissions.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_iam_role_policy.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The scale-up Lambda can be invoked by the SQS event source mapping after it is created, but its execution role's scale-up policy is unordered. Ensure the policy is attached before enabling the mapping to avoid early invocations without required permissions.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

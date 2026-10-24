@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.aws_lambda_function.main does not depend on resource.aws_cloudwatch_log_group.main, but the CloudWatch log group for a Lambda function must exist before the function itself. Here the ordering is actually inverted: the log group's name references aws_lambda_function.main.function_name, so Terraform creates the function first. If the function is invoked before the log group is created, Lambda auto-creates a log group with default settings (no retention), and the subsequent aws_cloudwatch_log_group.main create fails with an \"already exists\" conflict. The provider docs explicitly recommend depends_on = [aws_cloudwatch_log_group...] on the function. Note the proper fix is to compute the log group name from a local (e.g. \"/aws/lambda/${var.lambda.prefix}-${var.lambda.name}\") to break the reverse reference, then add depends_on on the function \u2014 otherwise the two edges would form a cycle.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_cloudwatch_log_group.main",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.aws_lambda_function.main references aws_iam_role.main.arn but has no dependency on resource.aws_iam_role_policy_attachment.vpc_execution_role, which attaches the AWSLambdaVPCAccessExecutionRole policy the function needs to manage network interfaces in its VPC config. When var.lambda.subnet_ids is non-empty, the function is created with VPC attachment before that permission is attached; the provider docs recommend depends_on from the lambda function to its role policy attachment to ensure execution permissions are in place (IAM propagation is eventually consistent).",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "resource.aws_lambda_function.main does not depend on resource.aws_iam_role_policy.xray, which grants the X-Ray permissions the function needs when var.lambda.tracing_config.mode is set. Since IAM policy propagation is eventually consistent, the function can exist (and start being invoked/tracing) before the xray-policy is attached and propagated; the provider docs' canonical Lambda logging/permissions example places the role's policy attachment in the function's depends_on for the same reason.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

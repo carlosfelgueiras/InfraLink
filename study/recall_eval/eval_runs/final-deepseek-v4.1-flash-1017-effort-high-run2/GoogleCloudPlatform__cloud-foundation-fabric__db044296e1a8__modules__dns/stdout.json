@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "google_dns_record_set.dns_record_set has an explicit `depends_on = [google_dns_managed_zone.dns_managed_zone]`, but the ordering is already established implicitly: the record set's `name` attribute is `each.value.resource_name`, and `local.recordsets` derives `resource_name` from `local.managed_zone.dns_name`, which resolves to google_dns_managed_zone.dns_managed_zone (or the corresponding data source). That attribute reference already forces the zone to be created before the record set, so the explicit depends_on duplicates it. (The graph misses this because it does not trace through `local` values.)",
+      "node": ":resource.google_dns_record_set.dns_record_set",
+      "target": ":resource.google_dns_managed_zone.dns_managed_zone",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

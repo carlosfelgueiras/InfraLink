@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_s3_object.trigger` exists solely to fire `aws_lambda_function.syncer` immediately on first deploy, and S3 delivers that event asynchronously with no retry. The upload is ordered after the notification and the `aws_lambda_permission.on_deploy` (via `depends_on`), but not after `module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer`, which grants the function its required `s3:PutObject`/read access on the distribution object. Both branches start from `aws_iam_role.syncer_lambda`, so the object can be created while the inline policies are still pending, in which case the one-shot invocation fails with AccessDenied and the runner binary is not populated until the hourly schedule runs. A bare `depends_on` on the trigger is the only fix here \u2014 no attribute on `aws_s3_object` can meaningfully reference an inline role policy.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.webhook-github-app:resource.null_resource.update_app` runs a `local-exec` provisioner that registers the webhook URL on the GitHub App, but it only references `var.webhook_endpoint`, which resolves from `aws_apigatewayv2_api.webhook.api_endpoint` \u2014 an attribute available as soon as the API exists. It has no ordering relative to `module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook`, which is what actually creates the `$default` deployment holding the route/integration (`auto_deploy = true`). Terraform can therefore run the GitHub API call before the stage exists, so GitHub's initial ping (and any early deliveries) hits an undeployed endpoint and fails; the registration is a one-shot external side effect that is never retried by Terraform. This needs an explicit `depends_on` (or a reference that pulls in the stage) \u2014 there is no clean attribute-level fix, since the runners module does not export the stage.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

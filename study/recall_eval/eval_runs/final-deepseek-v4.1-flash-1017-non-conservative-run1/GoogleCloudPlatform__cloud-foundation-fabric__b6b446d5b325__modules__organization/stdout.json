@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_org_policy_custom_constraint.constraint creates an organization-level orgpolicy custom constraint but has no ordering relative to :resource.google_organization_iam_binding.authoritative. Unlike its sibling :resource.google_org_policy_policy.default, it is not ordered after the organization IAM bindings, so when the module grants the applying principal/service agent orgpolicy permissions in the same apply, constraint creation fails with a permission error.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_org_policy_custom_constraint.constraint (google-beta) has no ordering relative to :resource.google_organization_iam_binding.bindings, which may grant the orgpolicy roles the custom-constraint creation depends on when they are configured in the same module call.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_org_policy_custom_constraint.constraint has no ordering relative to :resource.google_organization_iam_member.bindings, which may grant the additive orgpolicy role bindings needed to create the custom constraint in the same apply.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_logging_organization_settings.default changes organization-level logging settings (including disabling the _Default sink) but is not ordered after :resource.google_organization_iam_binding.authoritative, unlike every other org-level resource in this module (sinks, tag keys, contacts, SCC modules, PAM entitlements, org policies). When the logging admin role is granted by this module in the same apply, the settings update fails; the provider docs' own example shows an explicit depends_on on the relevant IAM grant for this resource.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_logging_organization_settings.default is not ordered after :resource.google_organization_iam_binding.bindings, which may grant the organization-level logging permissions the settings resource requires in the same module call.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.google_logging_organization_settings.default is not ordered after :resource.google_organization_iam_member.bindings, so additive logging role grants made by the same module call are not guaranteed to be in place before the organization settings are updated.",
+      "node": ":resource.google_logging_organization_settings.default",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

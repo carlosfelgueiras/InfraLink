@@ -1,0 +1,5 @@
+The schedule does not need to wait on the inline invoke policy. `aws_scheduler_schedule.pool` already waits for `aws_iam_role.scheduler` through `target.role_arn`, and that role carries the trust policy `CreateSchedule` actually checks.
+
+`lambda:InvokeFunction` lives only in `aws_iam_role_policy.scheduler` and is enforced when the schedule fires, not when it is created. The provider retries only the assume-role `ValidationException`, not a missing target permission. `flexible_time_window.mode = "OFF"` means an exact fire time, not an immediate invocation, and the default retry policy (185 attempts / 24 hours) covers a transient authorization miss. Both resources are created in the same apply, so ordering the policy first is not required for the schedule to be created or to keep running.
+
+Incorrect

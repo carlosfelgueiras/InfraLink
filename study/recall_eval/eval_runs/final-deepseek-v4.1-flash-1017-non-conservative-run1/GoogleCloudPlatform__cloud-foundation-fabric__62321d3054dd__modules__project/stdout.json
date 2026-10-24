@@ -1,0 +1,100 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_org_policy_policy.default` creates org policy overrides scoped to `projects/${local.project.project_id}`, so it can only be applied once the project exists, yet it has no dependency on `:resource.google_project.project` (and every other resource in the module \u2014 services, IAM, sinks \u2014 is ordered behind it). A project created in the same apply may not exist yet when the policy is applied.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].project_id, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_project_iam_custom_role.roles` creates custom roles inside the project (`project = local.project.project_id`), but has no dependency at all on `:resource.google_project.project`, so it can race with project creation when the module creates the project itself.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_resource_manager_lien.lien` sets `parent = \"projects/${local.project.number}\"`; the project number only exists after `:resource.google_project.project` is created, but the lien has no edge to it, so the lien can be created before (or fail while) the project is provisioned.",
+      "node": ":resource.google_resource_manager_lien.lien",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].number, local.project.number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_tags_tag_key.default` creates project-scoped tag keys with `parent = \"projects/${local.project.project_id}\"`, but nothing orders it after `:resource.google_project.project`; on a freshly created project it can be applied before the project exists.",
+      "node": ":resource.google_tags_tag_key.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"projects/${try(google_project.project[0].project_id, local.project.project_id)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_tags_tag_binding.binding` binds tag values to `//cloudresourcemanager.googleapis.com/projects/${local.project.number}` \u2014 the binding cannot be created until `:resource.google_project.project` exists and has a project number, yet the graph shows no dependency on it.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "parent",
+        "expression": "\"//cloudresourcemanager.googleapis.com/projects/${try(google_project.project[0].number, local.project.number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_access_context_manager_service_perimeter_resource.default` adds `projects/${local.project.number}` to a VPC-SC perimeter; the project must exist (and be readable) first, but this resource has no dependency on `:resource.google_project.project`, so it can be applied before the project is created.",
+      "node": ":resource.google_access_context_manager_service_perimeter_resource.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "resource",
+        "expression": "\"projects/${try(google_project.project[0].number, local.project.number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.google_access_context_manager_service_perimeter_dry_run_resource.default` adds `projects/${local.project.number}` to a VPC-SC dry-run perimeter and likewise has no dependency on `:resource.google_project.project`, so it can run before the project exists.",
+      "node": ":resource.google_access_context_manager_service_perimeter_dry_run_resource.default",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "resource",
+        "expression": "\"projects/${try(google_project.project[0].number, local.project.number)}\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_monitoring_monitored_project.primary` registers `local.project.project_id` into each metrics-scope project; the project must already exist and be visible to the monitoring API, but the graph shows no dependency on `:resource.google_project.project`, so registration can race with project creation.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "name",
+        "expression": "try(google_project.project[0].project_id, local.project.project_id)"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

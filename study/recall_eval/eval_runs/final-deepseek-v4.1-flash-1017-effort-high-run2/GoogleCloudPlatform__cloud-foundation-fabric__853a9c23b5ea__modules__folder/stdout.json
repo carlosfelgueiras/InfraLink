@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_folder_iam_binding.authoritative` sets IAM on the folder via `folder = local.folder.name`, but the graph shows no dependency on `:resource.google_folder.folder`. The folder must exist (and be ready) before its IAM policy can be authoritative-bound; this operational ordering is only hidden inside the `local.folder` conditional and should be made explicit, e.g. `depends_on = [google_folder.folder]`.",
+      "node": ":resource.google_folder_iam_binding.authoritative",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_folder_iam_binding.bindings` sets IAM on the folder via `folder = local.folder.name`, but the graph shows no dependency on `:resource.google_folder.folder`. The folder must exist before the binding can be applied; add `depends_on = [google_folder.folder]` to make the ordering explicit (it is currently only implied through `local.folder`).",
+      "node": ":resource.google_folder_iam_binding.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_folder_iam_member.bindings` sets IAM on the folder via `folder = local.folder.name`, but the graph shows no dependency on `:resource.google_folder.folder`. The folder must exist before the member binding can be applied; add `depends_on = [google_folder.folder]` to make the ordering explicit.",
+      "node": ":resource.google_folder_iam_member.bindings",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_org_policy_policy.default` uses `parent = local.folder.name` but the graph shows no dependency on `:resource.google_folder.folder`. Org policies cannot be attached to a folder that does not yet exist; add `depends_on = [google_folder.folder]` so the folder is created first.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_logging_folder_sink.sink` uses `folder = local.folder.name` but the graph shows no dependency on `:resource.google_folder.folder`. A folder-level log sink cannot be created before its folder exists; add `depends_on = [google_folder.folder]` to make the ordering explicit (currently only implied via `local.folder`).",
+      "node": ":resource.google_logging_folder_sink.sink",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_logging_folder_exclusion.logging-exclusion` uses `folder = local.folder.name` but the graph shows no dependency on `:resource.google_folder.folder`. The exclusion must be created on an existing folder; add `depends_on = [google_folder.folder]` to make the ordering explicit.",
+      "node": ":resource.google_logging_folder_exclusion.logging-exclusion",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_folder_iam_audit_config.default` uses `folder = local.folder.name` but the graph shows no dependency on `:resource.google_folder.folder`. Data-access audit configuration can only be set on an existing folder; add `depends_on = [google_folder.folder]` to make the ordering explicit.",
+      "node": ":resource.google_folder_iam_audit_config.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_essential_contacts_contact.contact` uses `parent = local.folder.name` but the graph shows no dependency on `:resource.google_folder.folder`. Essential contacts are registered on an existing folder; add `depends_on = [google_folder.folder]` to make the ordering explicit.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_compute_firewall_policy_association.default` uses `attachment_target = local.folder.id` but the graph shows no dependency on `:resource.google_folder.folder`. A hierarchical firewall policy cannot be associated with a folder that does not yet exist; add `depends_on = [google_folder.folder]` to make the ordering explicit.",
+      "node": ":resource.google_compute_firewall_policy_association.default",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_tags_tag_binding.binding` builds `parent` from `local.folder.id` but the graph shows no dependency on `:resource.google_folder.folder`. A tag binding cannot be attached to a folder that does not yet exist; add `depends_on = [google_folder.folder]` to make the ordering explicit.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_folder.folder",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

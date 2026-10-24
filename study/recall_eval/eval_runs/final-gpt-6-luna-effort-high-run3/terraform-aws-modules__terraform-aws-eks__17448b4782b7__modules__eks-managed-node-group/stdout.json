@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS node group should wait for the standard node-role policies to be attached. The AWS provider documentation recommends an explicit dependency on these policy attachments so EKS can correctly create and delete the node group's EC2 instances and network interfaces; a reference to the IAM role alone does not order the attachment before the node group.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

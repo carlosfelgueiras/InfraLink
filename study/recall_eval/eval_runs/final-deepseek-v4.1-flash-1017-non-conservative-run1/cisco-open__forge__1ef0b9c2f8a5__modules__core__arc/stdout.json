@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup creates a ServiceAccount in metadata.namespace = var.controller_config.namespace, but that namespace is created inside module.controller (:module.controller:resource.kubernetes_namespace.controller_namespace, metadata.name = var.controller_config.namespace). The ServiceAccount has no dependency on module.controller, so Terraform may attempt to create it before the namespace exists and fail. Add depends_on = [module.controller] (a bare depends_on is required \u2014 the namespace is only referenced as the string var.controller_config.namespace).",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.kubernetes_role_v1.zombie_runner_cleanup creates a Role in metadata.namespace = var.controller_config.namespace, which is created by module.controller (:module.controller:resource.kubernetes_namespace.controller_namespace). There is no dependency on module.controller, so the Role can be created before the namespace exists. (The RoleBinding and CronJob then inherit this ordering transitively via their references to the Role/ServiceAccount.) Use depends_on = [module.controller].",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": "module.controller:resource.kubernetes_namespace.controller_namespace",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The initial S3 object creation triggers the Lambda, but it can run before the role's S3 access policy is installed. Make the trigger wait for this policy so its first invocation can access the distribution bucket.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The trigger object can invoke the Lambda before its CloudWatch logging policy is installed, leaving the initial invocation without the permissions needed to write logs. Order the trigger after this policy.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When KMS encryption is configured, the trigger can invoke the Lambda before its conditional KMS role policy is installed. Order the initial trigger after this policy so its invocation has the configured KMS permissions.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.lambda_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, the trigger can invoke the Lambda before its conditional X-Ray policy is installed. Order the trigger after this policy so the configured tracing permissions are ready for the initial invocation.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer_lambda_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When the Lambda is configured for VPC subnets, the initial trigger may invoke it before the VPC execution policy attachment is ready, preventing Lambda from setting up its network interfaces. Order the trigger after this attachment.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be created before the Lambda invoke permission is installed, so scheduled invocations may be attempted without authorization. Make the target depend on the permission resource.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function can be invoked by the S3 notification or scheduled target before its log group is created. Lambda may auto-create the default group on first invocation, racing this managed log-group creation and its retention/encryption settings. Arrange for the log group to exist before the function can emit logs; the current log-group name reference to the function also creates the opposite ordering.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_cloudwatch_log_group.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe VPC-backed OpenSearch domain requires the Elasticsearch/OpenSearch service-linked role to exist before creation, but it has no dependency on the conditionally managed role. Add an explicit depends_on so the domain is not created before the service-linked role.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe OpenSearch domain uses VPC options, which require the Elasticsearch/OpenSearch service-linked role to exist first. The AWS provider documentation explicitly recommends a depends_on for this same-time creation case, but the domain has no dependency on the configured service-linked-role resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe VPC-enabled OpenSearch domain `:resource.aws_elasticsearch_domain.opensearch` should wait for `:resource.aws_iam_service_linked_role.opensearch`. The AWS provider documentation states that the service-linked role must exist before creating a domain with VPC options; the domain currently has no dependency on that role.",
+      "node": ":resource.aws_elasticsearch_domain.opensearch",
+      "target": ":resource.aws_iam_service_linked_role.opensearch",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

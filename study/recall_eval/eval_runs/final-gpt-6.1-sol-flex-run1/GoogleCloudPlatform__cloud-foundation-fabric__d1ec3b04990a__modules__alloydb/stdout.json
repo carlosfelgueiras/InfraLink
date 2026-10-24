@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_alloydb_user.users must wait for google_alloydb_instance.primary to be ready before creating database users. Its cluster reference only waits for the cluster, allowing user creation to race primary-instance provisioning. The provider's user examples explicitly depend on the primary instance; add depends_on = [google_alloydb_instance.primary].",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": {
+        "field": "cluster",
+        "expression": "google_alloydb_instance.primary.cluster"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

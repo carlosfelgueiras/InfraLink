@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.dispatcher should depend on aws_cloudwatch_log_group.dispatcher so the log group exists before the function is created. Currently the log group's name references aws_lambda_function.dispatcher.function_name, so the dependency is reversed and the Lambda has no dependency back on the log group. AWS Lambda auto-creates /aws/lambda/<function_name> when invoked, which can collide with Terraform's log-group creation (apply error) and prevents retention_in_days / kms_key_id / log_group_class from being enforced. (Make the log-group name static, e.g. \"/aws/lambda/${var.config.prefix}-dispatch-to-runner\", and add depends_on = [aws_cloudwatch_log_group.dispatcher] to the function.)",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_cloudwatch_log_group.dispatcher",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.webhook should depend on aws_cloudwatch_log_group.webhook so the log group exists before the function is created. Currently the dependency runs the wrong way: the log group's name references aws_lambda_function.webhook.function_name, while the Lambda has no dependency on the log group. AWS Lambda auto-creates /aws/lambda/<function_name> on first invocation, so Terraform can fail with a \"log group already exists\" error and the configured retention_in_days / kms_key_id / log_group_class are never enforced. (The log-group name should be made static, e.g. \"/aws/lambda/${var.config.prefix}-webhook\", and the function given depends_on = [aws_cloudwatch_log_group.webhook].)",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

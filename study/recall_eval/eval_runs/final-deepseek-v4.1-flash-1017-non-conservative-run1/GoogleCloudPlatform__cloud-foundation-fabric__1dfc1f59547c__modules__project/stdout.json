@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "placeholder",
+      "node": ":resource.google_project_iam_binding.authoritative",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.additive grants roles from var.iam_additive_roles (possibly service-owned roles) but does not depend on google_project_service.project_services. As with the authoritative binding, the service APIs must be enabled before the bindings are created (and the bindings torn down before disable_on_destroy services are disabled), so this resource should depend on project_services.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.oslogin_compute_viewer grants roles/compute.viewer, which requires the Compute Engine API to be enabled. It has no dependency on google_project_service.project_services, so the role may fail to apply if compute.googleapis.com is not yet enabled, and the binding may be disrupted when disable_on_destroy disables services. It should depend on project_services.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.oslogin_admins grants roles/compute.osAdminLogin, which requires the Compute Engine API to be enabled. It does not depend on google_project_service.project_services, so the grant can fail before compute.googleapis.com is enabled. It should depend on project_services.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.oslogin_users grants roles/compute.osLogin, which requires the Compute Engine API to be enabled. It has no dependency on google_project_service.project_services, so the grant can fail before compute.googleapis.com is enabled. It should depend on project_services.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "google_project_iam_member.oslogin_iam_serviceaccountuser grants a service-owned role but has no dependency on google_project_service.project_services. For consistency with the authoritative binding and to keep the same create/destroy ordering against disable_on_destroy services, it should depend on project_services.",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

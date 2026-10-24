@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter has depends_on = [null_resource.wait_for_cluster], but it already depends on wait_for_cluster transitively: helm_release.karpenter ->(implicit) module.karpenter (via service_account/queue_name) ->(depends_on) null_resource.patch_calico_installation ->(implicit) data.external.update_kubeconfig ->(depends_on) null_resource.wait_for_cluster. The direct depends_on duplicates an ordering that is already guaranteed, so the explicit dependency is redundant.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.wait_for_cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "helm_release.karpenter installs the Karpenter controller, whose pods must be scheduled onto worker nodes. The only source of worker capacity available before Karpenter runs is module.self_managed_node_group (whose nodes are provisioned asynchronously), yet helm_release.karpenter only references module.eks and module.karpenter and is not ordered after the node group. Helm (wait = false) can therefore install the controller while zero nodes exist, leaving it Pending until the node group catches up. It should depend on module.self_managed_node_group, mirroring how the aws_eks_addon resources depend on it to guarantee schedulable capacity.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.self_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

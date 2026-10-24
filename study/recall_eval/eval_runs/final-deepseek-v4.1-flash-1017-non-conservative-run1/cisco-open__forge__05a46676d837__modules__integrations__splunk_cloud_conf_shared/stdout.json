@@ -1,0 +1,316 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs` sets `REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields = \"forgecicd_cloudwatchlogs_lambda_tenant_fields\"`, which is the transform stanza managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields`. The props config references the transform by a bare string, so nothing orders the transform's creation before this props stanza. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_extra_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs` sets `REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields = \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields`. It is referenced only by a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_extra_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs` sets `REPORT-forgecicd_extra_lambda_tenant_fields = \"forgecicd_extra_lambda_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_extra_lambda_tenant_fields`. It is a bare string with no ordering dependency. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_extra_lambda_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/forgecicd:aws:billing:cur` sets `REPORT-forgecicd_billing_cur_instance_id = \"forgecicd_billing_cur_instance_id\"`, the transform managed by `splunk_configs_conf.forgecicd_billing_cur_instance_id`. Referenced only as a string, so the transform is not ordered before the props stanza. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_billing_cur_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_instance_id.name, \"transforms/\"), \"REPORT-forgecicd_billing_cur_volume_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_volume_id.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/forgecicd:aws:billing:cur` sets `REPORT-forgecicd_billing_cur_volume_id = \"forgecicd_billing_cur_volume_id\"`, the transform managed by `splunk_configs_conf.forgecicd_billing_cur_volume_id`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_aws_billing_cur",
+      "target": ":resource.splunk_configs_conf.forgecicd_billing_cur_volume_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_billing_cur_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_instance_id.name, \"transforms/\"), \"REPORT-forgecicd_billing_cur_volume_id\" = trimprefix(splunk_configs_conf.forgecicd_billing_cur_volume_id.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs:forgecicd` sets `REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields = \"forgecicd_cloudwatchlogs_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields`. It is a bare string with no ordering dependency. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs:forgecicd` sets `REPORT-forgecicd_cloudwatchlogs_extract_log_time_message = \"forgecicd_cloudwatchlogs_extract_log_time_message\"`, the transform managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs:forgecicd` sets `REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name = \"forgecicd_cloudwatchlogs_runner_pages_github_repo_name\"`, the transform managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs:forgecicd` sets `REPORT-forgecicd_cloudwatchlogs_runner_ci_result = \"forgecicd_cloudwatchlogs_runner_ci_result\"`, the transform managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:cloudwatchlogs:forgecicd` sets `REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version = \"forgecicd_cloudwatchlogs_runner_gh_runner_version\"`, the transform managed by `splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+      "target": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_cloudwatchlogs_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_extract_log_time_message\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_pages_github_repo_name\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_cloudwatchlogs_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:metadata` sets `REPORT-forgecicd_metadata_tenant_fields = \"forgecicd_metadata_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_metadata_tenant_fields`. It is a bare string with no ordering dependency. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:metadata` sets `REPORT-forgecicd_metadata_instance_id = \"forgecicd_metadata_instance_id\"`, the transform managed by `splunk_configs_conf.forgecicd_metadata_instance_id`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:metadata` sets `REPORT-forgecicd_metadata_image_id = \"forgecicd_metadata_image_id\"`, the transform managed by `splunk_configs_conf.forgecicd_metadata_image_id`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_image_id",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/aws:metadata` sets `REPORT-forgecicd_metadata_instance_type = \"forgecicd_metadata_instance_type\"`, the transform managed by `splunk_configs_conf.forgecicd_metadata_instance_type`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_metadata",
+      "target": ":resource.splunk_configs_conf.forgecicd_metadata_instance_type",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_metadata_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_metadata_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_image_id\" = trimprefix(splunk_configs_conf.forgecicd_metadata_image_id.name, \"transforms/\"), \"REPORT-forgecicd_metadata_instance_type\" = trimprefix(splunk_configs_conf.forgecicd_metadata_instance_type.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:runner` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. It is a bare string with no ordering dependency. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_kube_container_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:runner` sets `REPORT-forgecicd_kube_container_runner_ci_result = \"forgecicd_kube_container_runner_ci_result\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_ci_result`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_ci_result",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_kube_container_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:runner` sets `REPORT-forgecicd_kube_container_runner_gh_runner_version = \"forgecicd_kube_container_runner_gh_runner_version\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_runner",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\"), \"REPORT-forgecicd_kube_container_runner_ci_result\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_ci_result.name, \"transforms/\"), \"REPORT-forgecicd_kube_container_runner_gh_runner_version\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:init-docker-creds` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_docker_creds",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:init-dind-rootless` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_rootless",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:init-work` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_work",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:init-dind-externals` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_init_dind_externals",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:dind` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_dind",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:worker` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_worker",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:hook` sets `REPORT-forgecicd_kube_container_runner_tenant_fields = \"forgecicd_kube_container_runner_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_log_hook",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_runner_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:listener` sets `REPORT-forgecicd_kube_container_listener_tenant_fields = \"forgecicd_kube_container_listener_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_listener",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_listener_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "props stanza `props/kube:container:manager` sets `REPORT-forgecicd_kube_container_manager_tenant_fields = \"forgecicd_kube_container_manager_tenant_fields\"`, the transform managed by `splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields`. Referenced only as a string, so no ordering dependency exists. Reference the transform resource instead.",
+      "node": ":resource.splunk_configs_conf.forgecicd_kube_container_manager",
+      "target": ":resource.splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{ \"REPORT-forgecicd_kube_container_manager_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields.name, \"transforms/\") }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

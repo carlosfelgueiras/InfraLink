@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin delivering scheduled events before the Lambda resource-based permission is installed. Make the target wait for the permission so invocations are not rejected during creation.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can begin delivering scheduled events before the Lambda resource-based permission is installed. Make the target wait for the permission so invocations are not rejected during creation.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_lambda_permission.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This enabled scheduled EventBridge target may invoke the Lambda before its managed CloudWatch log group exists. Waiting for the log group avoids a first-invocation race with Lambda's automatic log-group creation.",
+      "node": ":resource.aws_cloudwatch_event_target.scale_down",
+      "target": ":resource.aws_cloudwatch_log_group.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This enabled scheduled EventBridge target may invoke the Lambda before its managed CloudWatch log group exists. Waiting for the log group avoids a first-invocation race with Lambda's automatic log-group creation.",
+      "node": ":resource.aws_cloudwatch_event_target.ssm_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ssm_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The SQS event source mapping may start invoking the Lambda before its managed CloudWatch log group exists. Make the mapping wait for the log group to avoid a first-invocation race with Lambda's automatic log-group creation.",
+      "node": ":resource.aws_lambda_event_source_mapping.scale_up",
+      "target": ":resource.aws_cloudwatch_log_group.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The enabled schedule can invoke the pool Lambda before Scheduler's invocation policy is installed on its execution role. Make the schedule wait for the policy to prevent early invocations from being denied.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The pool schedule can invoke the Lambda before its managed CloudWatch log group exists. Make the schedule wait for the log group to avoid a first-invocation race with Lambda's automatic log-group creation.",
+      "node": "module.pool:resource.aws_scheduler_schedule.pool",
+      "target": "module.pool:resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

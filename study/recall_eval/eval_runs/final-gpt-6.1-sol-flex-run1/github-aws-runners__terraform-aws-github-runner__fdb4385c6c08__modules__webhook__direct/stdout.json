@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.webhook must depend on :resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role when VPC networking is enabled: Lambda requires the execution role's EC2 network-interface permissions during function creation. Referencing the role ARN does not order the policy attachment; add depends_on on the attachment (also preserving permissions until function deletion).",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

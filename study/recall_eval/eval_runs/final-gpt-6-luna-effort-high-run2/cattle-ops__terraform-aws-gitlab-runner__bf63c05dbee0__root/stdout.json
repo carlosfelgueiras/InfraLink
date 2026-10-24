@@ -1,0 +1,241 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_instance_profile.instance` sets its `role` through a local string, so Terraform does not order profile creation after `:resource.aws_iam_role.instance`; AWS requires the role to exist before adding it to the profile.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy.instance` names the role through a local string rather than referencing `:resource.aws_iam_role.instance`, so policy creation can race role creation.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy` uses the locally computed role name and can be created before `:resource.aws_iam_role.instance` exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.instance_session_manager_policy` uses a local role-name string, leaving its required ordering after `:resource.aws_iam_role.instance` unstated when this module creates that role.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed` uses a local role-name string, leaving its required ordering after `:resource.aws_iam_role.instance` unstated when this module creates that role.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.user_defined_policies` uses a locally computed role name and does not wait for `:resource.aws_iam_role.instance` when the module manages the runner role.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance` attaches the cache policy to a locally named runner role; it can race creation of `:resource.aws_iam_role.instance`.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.service_linked_role` uses the locally computed runner-role name and may be applied before `:resource.aws_iam_role.instance` exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.ssm` uses the locally computed runner-role name and may be applied before `:resource.aws_iam_role.instance` exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_iam_role_policy_attachment.eip` uses the locally computed runner-role name and may be applied before `:resource.aws_iam_role.instance` exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": {
+        "field": "role",
+        "expression": "var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can begin launching instances through the launch template before `:resource.aws_iam_instance_profile.instance` exists; the template currently passes its name as a local string. Ensure the profile is created before the ASG starts capacity.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch its runner instance before `:resource.aws_iam_role_policy.instance` is installed, so instance startup can run without its configured CloudWatch permissions.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch instances before `:resource.aws_iam_role_policy_attachment.instance_docker_machine_policy` attaches the agent's Docker Machine permissions.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch the agent before `:resource.aws_iam_role_policy_attachment.instance_session_manager_policy` is attached, leaving session-manager permissions unavailable during startup.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch the agent before `:resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed` is attached, leaving session-manager permissions unavailable during startup.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch the agent before `:resource.aws_iam_role_policy_attachment.user_defined_policies` is attached, despite those policies being part of the configured runner role.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch the agent before `:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance` is attached, so cache access may not be available during runner startup.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch before `:resource.aws_iam_role_policy_attachment.service_linked_role` is attached, so the service-linked-role creation permission may be unavailable when needed.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch before `:resource.aws_iam_role_policy_attachment.ssm` is attached, so runner-token management permissions may not be ready when the instance starts.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` can launch before `:resource.aws_iam_role_policy_attachment.eip` is attached, so the agent may lack its configured EIP-assignment permission at startup.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_iam_role_policy_attachment.eip",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.terminate_instances_lifecycle_function:resource.aws_cloudwatch_event_target.terminate_instances` can make the rule's Lambda target active before `:module.terminate_instances_lifecycle_function:resource.aws_lambda_permission.unqualified_alias_triggers` grants EventBridge permission to invoke the unqualified function ARN.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_cloudwatch_event_target.terminate_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_lambda_permission.unqualified_alias_triggers",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.terminate_instances_lifecycle_function:resource.aws_lambda_function.terminate_runner_instances` depends on its execution role but not on `:module.terminate_instances_lifecycle_function:resource.aws_iam_role_policy_attachment.lambda`; an early invocation may occur before the execution permissions (including log access) are attached.",
+      "node": "module.terminate_instances_lifecycle_function:resource.aws_lambda_function.terminate_runner_instances",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_iam_role_policy_attachment.lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_autoscaling_group.gitlab_runner_instance` launches and waits for capacity before the module-created `module.terminate_instances_lifecycle_function:resource.aws_autoscaling_lifecycle_hook.terminate_instances` can be created. AWS provider documentation warns that separately managed hooks are attached only after ASG creation and can miss initial instances; make this an `initial_lifecycle_hook` on the ASG rather than trying to add a cyclic `depends_on`.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.terminate_instances_lifecycle_function:resource.aws_autoscaling_lifecycle_hook.terminate_instances",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

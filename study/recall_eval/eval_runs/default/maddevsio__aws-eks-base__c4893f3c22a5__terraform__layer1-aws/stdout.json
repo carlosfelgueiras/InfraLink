@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from module.pritunl:resource.aws_launch_template.this to module.pritunl:resource.aws_efs_mount_target.this is redundant: the launch template's user_data already references the EFS file system, not the mount targets; wait, this is not duplicate. Do not report.",
+      "node": "module.pritunl:resource.aws_launch_template.this",
+      "target": "module.pritunl:resource.aws_efs_mount_target.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit `depends_on = [\"tls_private_key.ssh\"]` on `local_file.public_ssh_key` is redundant: the resource already references `tls_private_key.ssh.public_key_openssh` in its `content` attribute, so Terraform infers this dependency implicitly.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit `depends_on = [\"tls_private_key.ssh\"]` on `local_file.private_ssh_key` is redundant: the resource already references `tls_private_key.ssh.private_key_pem` in its `content` attribute, so Terraform infers this dependency implicitly.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The runner agent EC2 instances launched by `aws_autoscaling_group.gitlab_runner_instance` boot with a user-data script that reads/writes the GitLab runner token in SSM (the module source itself notes: \"Parameter value is managed by the user-data script of the gitlab runner instance\", and the instance role has the SSM policy attached for this purpose). Nothing in the graph ties the autoscaling group (or its launch configuration/user-data template) to `aws_ssm_parameter.runner_registration_token`: the user-data template only shares the parameter name via the local `secure_parameter_store_runner_token_key`, not via a reference to the resource. If the instance starts before the SSM parameter exists, the user-data script can fail (or create the parameter out-of-band, conflicting with Terraform's create and the `ignore_changes` lifecycle block). A `depends_on` from the autoscaling group to the SSM parameter is needed. No clean data-reference fix exists for the ASG itself \u2014 the parameter name is constructed from locals rather than read from the resource \u2014 so a bare `depends_on` is the appropriate remedy.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

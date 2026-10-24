@@ -1,0 +1,3 @@
+Creating an EventBridge target doesn't require the Lambda permission to exist first. AWS accepts the target without it. The permission only matters when the rule fires, and a failed invocation just gets retried on the next schedule. This is the standard pattern, and the rest of the module's Lambda and rule pairs use it without `depends_on`. The only effect is that the first scheduled run could theoretically fail in the short window before the permission is created. That is not a strict ordering requirement.
+
+Incorrect

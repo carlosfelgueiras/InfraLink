@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.fargate_profile:resource.aws_eks_fargate_profile.this references the execution role, but does not wait for module.fargate_profile:resource.aws_iam_role_policy_attachment.this to attach AmazonEKSFargatePodExecutionRolePolicy. Profile provisioning and pod startup can race the required permissions. Add an explicit dependency on the attachments so they are created first and retained until profile deletion completes.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks_managed_node_group:resource.aws_eks_node_group.this needs the permissions installed by module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this during creation and deletion. The existing dependency on those attachments is only on the optional launch template; with create_launch_template=false it does not protect the node group. Put the attachment dependency on the node group itself, as recommended in the provider documentation.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When IPv6 CNI policy creation and attachment are enabled, :module.eks_managed_node_group attaches the policy created by :resource.aws_iam_policy.cni_ipv6_policy using an independently constructed ARN. Nothing orders policy creation before the child module's attachments, so AttachRolePolicy can fail with NoSuchEntity. Add depends_on = [aws_iam_policy.cni_ipv6_policy] to the module call.",
+      "node": ":module.eks_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When IPv6 CNI policy creation and attachment are enabled, :module.self_managed_node_group attaches the policy created by :resource.aws_iam_policy.cni_ipv6_policy using an independently constructed ARN. Nothing orders policy creation before the child module's attachments, so AttachRolePolicy can fail with NoSuchEntity. Add depends_on = [aws_iam_policy.cni_ipv6_policy] to the module call.",
+      "node": ":module.self_managed_node_group",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When IPv6 CNI policy creation and attachment are enabled, :module.fargate_profile attaches the policy created by :resource.aws_iam_policy.cni_ipv6_policy using an independently constructed ARN. Nothing orders policy creation before the child module's attachments, so AttachRolePolicy can fail with NoSuchEntity. Add depends_on = [aws_iam_policy.cni_ipv6_policy] to the module call.",
+      "node": ":module.fargate_profile",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "For a configured add-on using service_account_role_arn, :resource.aws_eks_addon.this requires the cluster's IAM OIDC provider, :resource.aws_iam_openid_connect_provider.oidc_provider, to exist before its pods can use IRSA. The provider documentation explicitly requires an OIDC provider for this setting, but these resources currently run independently after cluster creation. Order IRSA-enabled add-ons after the OIDC provider.",
+      "node": ":resource.aws_eks_addon.this",
+      "target": ":resource.aws_iam_openid_connect_provider.oidc_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If cluster_addons includes CoreDNS or another add-on needing schedulable compute, :resource.aws_eks_addon.this can start before :module.eks_managed_node_group supplies that capacity. Add-on creation waits for health and can time out without nodes. Order compute-dependent add-ons after this module when it supplies their nodes; keep any add-ons required before node bootstrap in a separate pre-compute resource.",
+      "node": ":resource.aws_eks_addon.this",
+      "target": ":module.eks_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If cluster_addons includes CoreDNS or another add-on needing schedulable compute, :resource.aws_eks_addon.this can start before :module.self_managed_node_group supplies that capacity. Add-on creation waits for health and can time out without nodes. Order compute-dependent add-ons after this module when it supplies their nodes; keep any add-ons required before node bootstrap in a separate pre-compute resource.",
+      "node": ":resource.aws_eks_addon.this",
+      "target": ":module.self_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If a compute-dependent add-on such as suitably configured CoreDNS is intended to run on Fargate, :resource.aws_eks_addon.this needs the matching profile in :module.fargate_profile before its pods can schedule. Both currently start independently after cluster creation, risking add-on health timeouts. Order such add-ons after the Fargate profile module; this ordering does not replace the required matching selectors and Fargate-compatible pod configuration.",
+      "node": ":resource.aws_eks_addon.this",
+      "target": ":module.fargate_profile",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

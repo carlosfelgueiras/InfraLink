@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Lambda function can be configured with VPC subnets, but it only depends on the execution role\u2014not the VPC execution policy attachment. Ensure the role has the required VPC networking permissions before creating the function, or Lambda may fail to configure VPC access.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function is configured to use VPC subnets, but it can be created before the VPC execution policy is attached to its role. Ensure the execution policy attachment completes first so Lambda has the required network-interface permissions.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Lambda function can be created with VPC configuration before its execution role has the VPC access policy attached. Ensure the VPC execution policy is attached before configuring the function so Lambda can create and manage the required network interfaces.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

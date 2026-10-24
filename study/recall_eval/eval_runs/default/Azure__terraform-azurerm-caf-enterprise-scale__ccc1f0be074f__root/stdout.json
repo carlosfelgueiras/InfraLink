@@ -1,0 +1,202 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_policy_set_definition: explicit depends_on of :resource.azurerm_policy_set_definition.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_policy_set_definition",
+      "target": ":resource.azurerm_policy_set_definition.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_role_assignment: explicit depends_on of :module.role_assignments_for_policy is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_role_assignment",
+      "target": ":module.role_assignments_for_policy",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_role_assignment: explicit depends_on of :resource.azurerm_role_assignment.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_role_assignment",
+      "target": ":resource.azurerm_role_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_1 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_1",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_2 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_2",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_3 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_3",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_4 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_4",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_5 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_5",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_management_group: explicit depends_on of :resource.azurerm_management_group.level_6 is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_6",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_policy_definition: explicit depends_on of :resource.azurerm_policy_definition.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_policy_definition",
+      "target": ":resource.azurerm_policy_definition.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_role_definition: explicit depends_on of :resource.azurerm_role_definition.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_role_definition",
+      "target": ":resource.azurerm_role_definition.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.time_sleep.after_azurerm_policy_assignment: explicit depends_on of :resource.azurerm_management_group_policy_assignment.enterprise_scale is redundant \u2014 already implied by attribute references",
+      "node": ":resource.time_sleep.after_azurerm_policy_assignment",
+      "target": ":resource.azurerm_management_group_policy_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_management_group on :resource.azurerm_management_group.level_1 duplicates the implicit reference through its triggers map (`keys(azurerm_management_group.level_1)`).",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_management_group on :resource.azurerm_management_group.level_2 duplicates the implicit reference through its triggers map (`keys(azurerm_management_group.level_2)`).",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_2",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_management_group on :resource.azurerm_management_group.level_3 duplicates the implicit reference through its triggers map (`keys(azurerm_management_group.level_3)`).",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_3",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_management_group on :resource.azurerm_management_group.level_4 duplicates the implicit reference through its triggers map (`keys(azurerm_management_group.level_4)`).",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_4",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_management_group on :resource.azurerm_management_group.level_5 duplicates the implicit reference through its triggers map (`keys(azurerm_management_group.level_5)`).",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_5",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_management_group on :resource.azurerm_management_group.level_6 duplicates the implicit reference through its triggers map (`keys(azurerm_management_group.level_6)`).",
+      "node": ":resource.time_sleep.after_azurerm_management_group",
+      "target": ":resource.azurerm_management_group.level_6",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_policy_definition on :resource.azurerm_policy_definition.enterprise_scale duplicates the implicit reference through its triggers map (`keys(azurerm_policy_definition.enterprise_scale)`).",
+      "node": ":resource.time_sleep.after_azurerm_policy_definition",
+      "target": ":resource.azurerm_policy_definition.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_policy_set_definition on :resource.azurerm_policy_set_definition.enterprise_scale duplicates the implicit reference through its triggers map (`keys(azurerm_policy_set_definition.enterprise_scale)`).",
+      "node": ":resource.time_sleep.after_azurerm_policy_set_definition",
+      "target": ":resource.azurerm_policy_set_definition.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_policy_assignment on :resource.azurerm_management_group_policy_assignment.enterprise_scale duplicates the implicit reference through its triggers map (`keys(azurerm_management_group_policy_assignment.enterprise_scale)`).",
+      "node": ":resource.time_sleep.after_azurerm_policy_assignment",
+      "target": ":resource.azurerm_management_group_policy_assignment.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of :resource.time_sleep.after_azurerm_role_definition on :resource.azurerm_role_definition.enterprise_scale duplicates the implicit reference through its triggers map (`keys(azurerm_role_definition.enterprise_scale)`).",
+      "node": ":resource.time_sleep.after_azurerm_role_definition",
+      "target": ":resource.azurerm_role_definition.enterprise_scale",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

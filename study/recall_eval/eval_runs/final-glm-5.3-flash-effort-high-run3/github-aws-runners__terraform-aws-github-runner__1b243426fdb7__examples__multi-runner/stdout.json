@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The null_resource 'update_app' reconfigures the GitHub App to deliver webhooks to the API Gateway endpoint (module.multi-runner.webhook.endpoint). Its only ordering comes from the webhook output, which resolves to the aws_apigatewayv2_api object (plus the webhook lambda, log group, and role). It has no dependency on the aws_apigatewayv2_stage ('$default', auto_deploy) \u2014 nor on the aws_apigatewayv2_route/integration behind it \u2014 so Terraform may run the update-app.sh local-exec while the stage that makes the endpoint serve traffic is still being created, briefly pointing the GitHub App webhook at a non-functional URL. Add a depends_on for the webhook stage so the endpoint is deployed before the GitHub App is updated.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

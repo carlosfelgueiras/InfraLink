@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_lambda_function.ami_housekeeper` is created before `aws_cloudwatch_log_group.ami_housekeeper` (the only relation in the graph is the reverse: the log group's name is built from `aws_lambda_function.ami_housekeeper.function_name`). Because Lambda auto-creates a log group named `/aws/lambda/<function_name>` on its own, the Lambda must exist only after the module-managed log group with retention/KMS/class settings, otherwise Lambda creates the group first and Terraform's create fails with ResourceAlreadyExistsException (or the retention/KMS settings are silently not applied). The provider documentation's own example adds `depends_on = [aws_cloudwatch_log_group.example]` to the function for exactly this reason. A data reference is not viable here because it would form a dependency cycle with the log group's name attribute, so a bare `depends_on` is the correct fix.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.ami_housekeeper` has a `vpc_config` block (subnets/security groups as soon as subnets are configured) but no dependency on `aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role`, which grants the execution role `AWSLambdaVPCAccessExecutionRole`. Both only depend on the shared `aws_iam_role.ami_housekeeper`, so Terraform may create the function before the policy attachment exists and CreateFunction fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". The function should be ordered after the attachment (the AWS provider docs include `aws_iam_role_policy_attachment.lambda_logs` in the function's `depends_on`). No clean attribute reference exists on the function to express this, so a bare `depends_on` is appropriate.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

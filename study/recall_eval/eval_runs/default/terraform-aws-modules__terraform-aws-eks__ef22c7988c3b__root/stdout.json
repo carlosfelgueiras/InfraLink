@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS cluster should wait for its control-plane log group to exist before enabling cluster logging. The explicit dependency on the log group is present, so no missing finding is warranted.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_cloudwatch_log_group.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The cluster security-group rules can use the node security-group ID through local.node_security_group_id, so they must wait for the node security group to be created. This reference is not represented in the graph dependencies for the rule resource.",
+      "node": ":resource.aws_security_group_rule.cluster",
+      "target": ":resource.aws_security_group.node",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Node security-group rules that reference the cluster security-group ID through local.cluster_security_group_id must wait for the cluster security group to exist. No dependency is recorded for this conditional reference.",
+      "node": ":resource.aws_security_group_rule.node",
+      "target": ":resource.aws_security_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

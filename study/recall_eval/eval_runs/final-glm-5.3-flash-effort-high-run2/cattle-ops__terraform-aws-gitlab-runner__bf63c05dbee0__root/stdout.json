@@ -1,0 +1,139 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_ssm_parameter.runner_registration_token is created with a placeholder value (\"null\") and `ignore_changes = [value]` precisely because the runner agent's user-data script writes the real registration token into it after the instance boots. Nothing establishes that :resource.aws_ssm_parameter.runner_registration_token must exist before :resource.aws_autoscaling_group.gitlab_runner_instance launches its instance, so on a fresh apply the user-data can race ahead of the SSM parameter creation and fail to store the runner token.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Like the runner token, :resource.aws_ssm_parameter.runner_sentry_dsn is seeded with \"null\" and its value is written by the runner agent's user-data script once the ASG instance boots. :resource.aws_autoscaling_group.gitlab_runner_instance has no ordering constraint on :resource.aws_ssm_parameter.runner_sentry_dsn, so the user-data script can run before the parameter exists and the DSN write can fail.",
+      "node": ":resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": ":resource.aws_ssm_parameter.runner_sentry_dsn",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_instance_profile.instance sets `role = local.aws_iam_role_instance_name`, a plain name string, so Terraform sees no dependency on :resource.aws_iam_role.instance. When var.create_runner_iam_role is true both are created in the same apply, and IAM rejects an instance profile that references a role that does not exist yet, so the profile can be applied before the role and fail.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_instance_profile.instance references the role only via the name string local.aws_iam_role_instance_name; when the module creates the role (:resource.aws_iam_role.instance), the instance profile must not be created before it. Wiring the actual role attribute into `role` makes the ordering implicit.",
+      "node": ":resource.aws_iam_instance_profile.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_launch_template.gitlab_runner_instance sets iam_instance_profile.name from local.aws_iam_role_instance_name (a name string), so Terraform orders it independently of :resource.aws_iam_instance_profile.instance. EC2 validates the instance profile when the launch template is created/updated, so the profile must exist first; the two can currently be applied in the wrong order.",
+      "node": ":resource.aws_launch_template.gitlab_runner_instance",
+      "target": ":resource.aws_iam_instance_profile.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy attaches to `role = local.aws_iam_role_instance_name` (a name string), so Terraform sees no dependency on :resource.aws_iam_role.instance even though it creates that role in the same apply; the attachment can be applied before the role exists and fail with NoSuchEntity.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy is created under the same var.create_runner_iam_role condition as :resource.aws_iam_role.instance, so the attachment's `role` can safely reference the role resource directly instead of the plain name local, establishing the required ordering implicitly.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_docker_machine_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy attaches to the runner agent role only via the name string local.aws_iam_role_instance_name; when :resource.aws_iam_role.instance is module-managed, the attachment has no ordering on the role and can fail if applied first.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_policy",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed attaches the AWS-managed SSM policy to `role = local.aws_iam_role_instance_name`; Terraform does not know it must come after :resource.aws_iam_role.instance, which the module creates in the same apply when var.create_runner_iam_role is true.",
+      "node": ":resource.aws_iam_role_policy_attachment.instance_session_manager_aws_managed",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.user_defined_policies attaches user-supplied policies to `role = local.aws_iam_role_instance_name`. When the runner role is module-managed (:resource.aws_iam_role.instance), the attachment must be created after it, but no attribute reference or depends_on expresses that ordering.",
+      "node": ":resource.aws_iam_role_policy_attachment.user_defined_policies",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance attaches the cache policy to `role = local.aws_iam_role_instance_name` (a name string). When :resource.aws_iam_role.instance is created by this module, the attachment can be applied before the role exists and fail.",
+      "node": ":resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.service_linked_role attaches to `role = local.aws_iam_role_instance_name`; it has no dependency on :resource.aws_iam_role.instance, which the module may create in the same apply, so the attachment can race ahead of the role creation.",
+      "node": ":resource.aws_iam_role_policy_attachment.service_linked_role",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.ssm attaches the SSM policy to `role = local.aws_iam_role_instance_name` (a plain name). When :resource.aws_iam_role.instance is module-managed, the attachment has no ordering on the role and can be applied before it exists.",
+      "node": ":resource.aws_iam_role_policy_attachment.ssm",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy_attachment.eip attaches the EIP policy to `role = local.aws_iam_role_instance_name`; Terraform sees no dependency on :resource.aws_iam_role.instance, so when the role is created in the same apply the attachment can run first and fail with NoSuchEntity.",
+      "node": ":resource.aws_iam_role_policy_attachment.eip",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_iam_role_policy.instance (the CloudWatch logging policy) targets `role = local.aws_iam_role_instance_name`, a name string, so Terraform does not order it after :resource.aws_iam_role.instance. The inline role policy can be applied before the role exists.",
+      "node": ":resource.aws_iam_role_policy.instance",
+      "target": ":resource.aws_iam_role.instance",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

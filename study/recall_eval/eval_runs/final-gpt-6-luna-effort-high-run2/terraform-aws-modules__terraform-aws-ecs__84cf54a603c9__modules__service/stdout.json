@@ -1,0 +1,184 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.aws_ecs_task_definition.this: explicit depends_on of :resource.aws_ecs_task_definition.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The data source `:data.aws_ecs_task_definition.this` already references `:resource.aws_ecs_task_definition.this` in its `task_definition` argument, so Terraform infers this ordering; the explicit `depends_on` duplicates that dependency.",
+      "node": ":data.aws_ecs_task_definition.this",
+      "target": ":resource.aws_ecs_task_definition.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service can begin launching tasks as soon as it is created, but it has no dependency on `:resource.aws_iam_role_policy_attachment.task_exec`. Waiting for the task execution policy attachment avoids a race where ECS starts tasks before they have the permissions needed for image pulls, logs, or configured secrets.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service can begin launching tasks as soon as it is created, but it has no dependency on `:resource.aws_iam_role_policy_attachment.task_exec`. Waiting for the task execution policy attachment avoids a race where ECS starts tasks before they have the permissions needed for image pulls, logs, or configured secrets.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before the execution-role policy attachment is in place. It should wait for `:resource.aws_iam_role_policy_attachment.task_exec` so task startup does not race permissions for image pulls, logging, and configured secrets.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before the execution-role policy attachment is in place. It should wait for `:resource.aws_iam_role_policy_attachment.task_exec` so task startup does not race permissions for image pulls, logging, and configured secrets.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before additional execution-role policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.task_exec_additional` so startup does not race permissions granted by those policies.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before additional execution-role policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.task_exec_additional` so startup does not race permissions granted by those policies.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before the task-role inline policy exists. It should wait for `:resource.aws_iam_role_policy.tasks` so tasks do not start before the permissions in that policy are available.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before the task-role inline policy exists. It should wait for `:resource.aws_iam_role_policy.tasks` so tasks do not start before the permissions in that policy are available.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before task-role managed policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.tasks` so tasks do not start before those permissions are available.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service may launch tasks before task-role managed policies are attached. Where configured, it should wait for `:resource.aws_iam_role_policy_attachment.tasks` so tasks do not start before those permissions are available.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks, but it does not wait for the execution-role policy attachment. It should depend on `:resource.aws_iam_role_policy_attachment.task_exec` to avoid task startup racing permissions for image pulls, logs, or configured secrets.",
+      "node": ":resource.aws_ecs_task_set.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks, but it does not wait for the execution-role policy attachment. It should depend on `:resource.aws_iam_role_policy_attachment.task_exec` to avoid task startup racing permissions for image pulls, logs, or configured secrets.",
+      "node": ":resource.aws_ecs_task_set.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks before additional execution-role managed policies are attached. Where configured, it should depend on `:resource.aws_iam_role_policy_attachment.task_exec_additional`.",
+      "node": ":resource.aws_ecs_task_set.this",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks before additional execution-role managed policies are attached. Where configured, it should depend on `:resource.aws_iam_role_policy_attachment.task_exec_additional`.",
+      "node": ":resource.aws_ecs_task_set.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.task_exec_additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks before the task-role inline policy exists. It should depend on `:resource.aws_iam_role_policy.tasks` so tasks do not start before its permissions are available.",
+      "node": ":resource.aws_ecs_task_set.this",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks before the task-role inline policy exists. It should depend on `:resource.aws_iam_role_policy.tasks` so tasks do not start before its permissions are available.",
+      "node": ":resource.aws_ecs_task_set.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks before task-role managed policies are attached. Where configured, it should depend on `:resource.aws_iam_role_policy_attachment.tasks`.",
+      "node": ":resource.aws_ecs_task_set.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This ECS task set can launch tasks before task-role managed policies are attached. Where configured, it should depend on `:resource.aws_iam_role_policy_attachment.tasks`.",
+      "node": ":resource.aws_ecs_task_set.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

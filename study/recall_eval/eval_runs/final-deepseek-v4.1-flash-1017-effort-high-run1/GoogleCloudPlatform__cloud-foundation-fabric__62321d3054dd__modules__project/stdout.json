@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project to a Shared VPC host, which requires the Compute Engine API to already be enabled in the service project. Nothing establishes that ordering: `host_project` comes from `var.shared_vpc_service_config` and `service_project` from `local.project.project_id`, and there is no `depends_on`, so this resource can be applied before `:resource.google_project_service.project_services` finishes activating compute.googleapis.com and fail with an API-disabled error. Its counterpart `:resource.google_compute_shared_vpc_host_project.shared_vpc_host` already declares exactly this ordering.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_project_iam_member.shared_vpc_host_iam` grants roles/compute.networkUser on a host project to principals that consume the host network from this service project. It currently has a literally empty `depends_on = []`, and no argument references the attachment (`project` is a variable, `member` is a variable), so it is ordered independently of `:resource.google_compute_shared_vpc_service_project.shared_vpc_service` and can be applied before this project is actually attached to the host's Shared VPC \u2014 granting host network access to a project that is not yet a service project of that host.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_iam",
+      "target": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:resource.google_logging_project_sink.sink` explicitly depends on `:resource.google_project_service.project_services`, but it already depends on all three project IAM resources (`google_project_iam_binding.authoritative`, `google_project_iam_binding.bindings`, `google_project_iam_member.bindings`), each of which declares `depends_on = [google_project_service.project_services, google_project_iam_custom_role.roles]`. The ordering against API activation is therefore already established through those edges, making this entry a duplicate.",
+      "node": ":resource.google_logging_project_sink.sink",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:resource.google_project_iam_member.service_agents` lists both `:resource.google_project_service.project_services` and `:resource.google_project_service_identity.default` in its `depends_on`. Since `google_project_service_identity.default` itself declares `depends_on = [google_project_service.project_services]`, the API-activation dependency is already guaranteed by the service-identity edge and the separate `project_services` entry is a duplicate.",
+      "node": ":resource.google_project_iam_member.service_agents",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

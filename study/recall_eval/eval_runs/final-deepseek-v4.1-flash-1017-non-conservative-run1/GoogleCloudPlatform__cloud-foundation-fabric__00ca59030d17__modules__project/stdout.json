@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_kms_crypto_key_iam_member.service_identity_cmek` lists `google_project.project` in its explicit `depends_on`, but its `member` argument is `serviceAccount:${local.service_accounts_robots[...]}`, which is formatted from `local.project.number`, and `local.project.number` is `try(google_project.project.0.number, null)`. The resource therefore already has an implicit dependency on `google_project.project` through that reference, so the explicit `depends_on` entry is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`google_kms_crypto_key_iam_member.service_identity_cmek` lists `data.google_project.project` in its explicit `depends_on`, but the same `local.project.number` expression (reached via `local.service_accounts_robots` in `member`) also traverses `data.google_project.project.0.number`, so the ordering is already established implicitly and the explicit entry is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_compute_shared_vpc_host_project.shared_vpc_host` enables the Shared VPC (XPN) feature for the project, an operation served by the Compute Engine API, but it has no dependency on `google_project_service.project_services`. When `compute.googleapis.com` is part of `var.services`, the two resources are applied concurrently and enabling the host project can fail with an API-not-enabled error. Nothing in the resource expression references the service enablement (`project = local.project.project_id` only ties it to the project itself), so the ordering is currently unexpressed.",
+      "node": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_compute_shared_vpc_service_project.shared_vpc_service` attaches this project as a service project to an external Shared VPC host, which requires the Compute Engine API to be enabled in this project. It only references `local.project.project_id` and `var.shared_vpc_service_config`, so there is no edge to `google_project_service.project_services` and the attach can race the API enablement.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.shared_vpc_host_robots` grants roles on the host project to this project's robot service agents (`service-<number>@<service>-system.iam.gserviceaccount.com` etc.). Those agents only exist once the corresponding APIs are enabled in this project, but the resource's `member`/`project` expressions derive solely from `local.service_accounts_robots` / `local.service_account_cloud_services` and `var.shared_vpc_service_config`, so it has no dependency on `google_project_service.project_services` and the IAM binding can fail with \"service account does not exist\".",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

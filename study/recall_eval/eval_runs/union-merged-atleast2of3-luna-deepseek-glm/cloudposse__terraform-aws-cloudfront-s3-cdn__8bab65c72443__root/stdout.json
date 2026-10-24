@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe CloudFront distribution should wait for the origin bucket policy to be applied. Without this ordering, the distribution can become usable while its policy granting CloudFront access to the private S3 origin is still being created, causing origin requests to fail with access denied.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe CloudFront distribution can begin serving requests before the origin bucket policy is applied, causing initial origin requests to be denied. Make the distribution wait for the policy when the policy resource is created.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

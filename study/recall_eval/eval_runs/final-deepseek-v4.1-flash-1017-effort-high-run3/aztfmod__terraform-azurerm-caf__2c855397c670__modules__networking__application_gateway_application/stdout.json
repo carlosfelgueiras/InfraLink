@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_http_settings has a destroy-time provisioner that removes an HTTP setting which references a probe on the Application Gateway. The probe must not be removed until after the HTTP setting is gone, so delete_http_settings must be destroyed before delete_probe. It currently depends_on null_resource.set_probe (a create-only resource whose destroy does nothing), which does not order the actual probe deletion. It should depend on null_resource.delete_probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_http_listener has a destroy-time provisioner that removes an HTTP listener which references a frontend port. The frontend port cannot be removed until after the listener is gone, so delete_http_listener must be destroyed before delete_frontend_port. It currently depends_on null_resource.set_frontend_port (a create-only resource with no destroy provisioner), which does not order the actual frontend-port deletion. It should depend on null_resource.delete_frontend_port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

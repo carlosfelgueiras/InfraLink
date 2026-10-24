@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe GitHub App update can register the endpoint before the API Gateway route exists; the endpoint value depends on the API URL and path, not on route creation. Make the update wait for the route to be usable.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe GitHub App is configured with the webhook endpoint by this resource, but its references do not establish that the API route exists before that external registration runs. The route is needed for the endpoint to accept webhook requests.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe GitHub App update can register the endpoint before its API Gateway stage is deployed. Make the update wait for the stage so the newly registered URL is serving traffic.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe webhook endpoint is registered with GitHub by `module.webhook-github-app:resource.null_resource.update_app`, but its current references only establish dependencies on the API object and other webhook outputs, not on the deployed `$default` stage. Ensure the stage is ready before registering the endpoint so GitHub is not configured to send events to an endpoint that is not yet live.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nAn EventBridge schedule can invoke the scale-down Lambda as soon as the target is installed, but the target does not wait for its Lambda invoke permission. Order target creation after the permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can invoke the scale-down Lambda, but it does not wait for the Lambda permission granting EventBridge invocation. Add ordering so the target is not active before the permission is installed.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe scheduled scale-down target can become active before its Lambda invoke permission exists, so an invocation during deployment may fail. Make the target wait for the permission.",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe scheduled syncer target may become active before EventBridge has permission to invoke the Lambda. Make the target wait for the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can begin invoking the syncer Lambda as soon as it is active, but it has no dependency on the Lambda resource-based permission that authorizes EventBridge invocation. Order target creation after the permission to avoid a delivery window where invocations are rejected.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can be installed before its Lambda invoke permission, allowing a scheduled invocation to fail during deployment. Make the target wait for the permission.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nA pool schedule can invoke the pool Lambda as soon as its target is installed, but the target does not wait for the Lambda invoke permission. Order target creation after the permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe scheduled pool target can invoke its Lambda, but it has no dependency on the corresponding Lambda permission for EventBridge. Ensure the permission is in place before activating the target.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe pool EventBridge target can be created before the Lambda invoke permission, permitting a scheduled invocation to fail during deployment. Make the target wait for the permission.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe SQS event source mapping can begin polling and invoking the scale-up Lambda once enabled, but it does not wait for the Lambda execution role policy that grants access to the queue and other required resources. Ensure the policy is attached before activating the mapping.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nAn SQS event source mapping can start polling and invoke the scale-up Lambda immediately. The mapping does not wait for the inline execution-role policy that grants the Lambda permission to consume the build queue, risking failed polling or invocations while the policy is absent or propagating.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe SQS event source mapping can become active before the scale-up execution role has its SQS permissions, which can cause polling or invocations to fail during deployment. Make the mapping wait for the role policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run1]\nmodule.runners.module.runner_binaries:resource.aws_s3_bucket_policy.action_dist_bucket_policy and module.runners.module.runner_binaries:resource.aws_s3_bucket_public_access_block.action_dist both depend only on the bucket, so Terraform applies them in parallel. If PutBucketPolicy for the ForceSSL/ForceSSE policy runs while the public access block (block_public_policy/restrict_public_buckets) is still being configured on the bucket, AWS rejects the PutBucketPolicy call with \"A conflicting conditional operation is currently in progress against this resource\", failing the apply and leaving the distribution bucket without its access policy. The bucket policy must be applied only after the public access block has been configured. Since the policy resource has no attribute that can reference the public access block, an explicit `depends_on = [aws_s3_bucket_public_access_block.action_dist]` is required.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_s3_bucket_policy.action_dist_bucket_policy attaches a policy to the action-distribution bucket, but has no ordering relationship with aws_s3_bucket_public_access_block.action_dist, which sets block_public_policy = true. When the public access block has not yet been applied, AWS evaluates the bucket without those settings and can reject the PutBucketPolicy call (or briefly allow a wider window than intended). The public access block must be in place before the bucket policy is attached \u2014 this operational ordering is not expressed by any attribute reference or depends_on.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_policy.action_dist_bucket_policy",
+      "target": "module.runners.module.runner_binaries:resource.aws_s3_bucket_public_access_block.action_dist",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

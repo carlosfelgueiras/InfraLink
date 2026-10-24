@@ -1,0 +1,115 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.emr_on_eks:resource.null_resource.update_trust_policy: explicit depends_on of module.emr_on_eks:resource.kubernetes_namespace.spark is redundant \u2014 already implied by attribute references",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng: explicit depends_on of module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_instance_profile.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng: explicit depends_on of module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng is redundant \u2014 already implied by attribute references",
+      "node": "module.aws_eks_self_managed_node_groups:resource.aws_autoscaling_group.self_managed_ng",
+      "target": "module.aws_eks_self_managed_node_groups:resource.aws_iam_role.self_managed_ng",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EKS cluster's encryption configuration (passed via local.cluster_encryption_config) uses `try(module.kms[0].key_arn, var.cluster_kms_key_arn)` as the provider key ARN, but the graph records no dependency from module.aws_eks to module.kms. The KMS key must be created before the cluster that encrypts its Kubernetes secrets with it; without an explicit edge the cluster could be planned/created before the key exists and fail (or silently fall back).",
+      "node": ":module.aws_eks",
+      "target": ":module.kms",
+      "fix": {
+        "field": "cluster_encryption_config",
+        "expression": "var.enable_cluster_encryption ? [{ provider_key_arn = try(module.kms[0].key_arn, var.cluster_kms_key_arn), resources = [\"secrets\"] }] : []"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed node groups module receives `context = local.node_group_context`, which embeds `module.aws_eks.cluster_id`, `cluster_ca_base64`, `cluster_endpoint`, and `module.aws_eks.node_security_group_id` (worker_security_group_ids). Node groups and their launch templates cannot be created before the EKS cluster and its node security group exist, but the graph shows no dependency from module.aws_eks_managed_node_groups to module.aws_eks (only a transitive one via kubernetes_config_map.aws_auth). An explicit depends_on (or a direct reference in the context argument) should make this ordering direct.",
+      "node": ":module.aws_eks_managed_node_groups",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The self-managed node groups module receives `context = local.node_group_context`, which embeds `module.aws_eks.cluster_id`, `cluster_ca_base64`, `cluster_endpoint`, and `module.aws_eks.node_security_group_id` (worker_security_group_ids); the launch template module further reads the cluster via data.aws_eks_cluster. ASG nodes cannot be created before the EKS cluster and its node security group exist, but the graph shows no dependency from module.aws_eks_self_managed_node_groups to module.aws_eks (only a transitive one via kubernetes_config_map.aws_auth). An explicit depends_on (or a direct reference in the context argument) should make this ordering direct.",
+      "node": ":module.aws_eks_self_managed_node_groups",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profiles module receives `context = local.fargate_context`, which embeds `local.eks_cluster_id` (= module.aws_eks.cluster_id). Fargate profiles are created against the cluster and cannot exist before it, but the graph shows no dependency from module.aws_eks_fargate_profiles to module.aws_eks (only a transitive one via kubernetes_config_map.aws_auth). An explicit depends_on (or a direct reference in the context argument) should make this ordering direct.",
+      "node": ":module.aws_eks_fargate_profiles",
+      "target": ":module.aws_eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "aws_eks_node_group.managed_ng already implicitly depends on aws_iam_role.managed_ng through `node_role_arn = aws_iam_role.managed_ng[0].arn`; the explicit `depends_on` entry for the same role duplicates that edge and can be removed. (The depends_on entries for aws_iam_instance_profile.managed_ng and aws_iam_role_policy_attachment.managed_ng are not implicit and should stay.)",
+      "node": "module.aws_eks_managed_node_groups:resource.aws_eks_node_group.managed_ng",
+      "target": "module.aws_eks_managed_node_groups:resource.aws_iam_role.managed_ng",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy already implicitly depends on aws_iam_role.emr_on_eks_execution (its command interpolates `${aws_iam_role.emr_on_eks_execution.id}`); the explicit `depends_on` entry duplicates that edge.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.aws_iam_role.emr_on_eks_execution",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_trust_policy already implicitly depends on kubernetes_namespace.spark (its command interpolates `${kubernetes_namespace.spark.id}`); the explicit `depends_on` entry duplicates that edge.",
+      "node": "module.emr_on_eks:resource.null_resource.update_trust_policy",
+      "target": "module.emr_on_eks:resource.kubernetes_namespace.spark",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`null_resource.delete_daemonset` runs `kubectl delete daemonset -n kube-system aws-node`, which removes the AWS VPC CNI only after Calico has taken over networking. The Calico chain ends at `null_resource.create_calico_installation` (apply_tigera_operator \u2192 kubernetes_secret.calico_image_pull \u2192 create_calico_installation), but `delete_daemonset` only waits on `null_resource.update_kubeconfig` and `module.eks`. If it runs before the Tigera operator/Installation exist, the cluster is left with no functioning CNI. It should be ordered after the Calico installation is created.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_kubeconfig` has an explicit `depends_on = [module.eks]`, but the resource already references `module.eks` directly in its provisioner command (`module.eks.cluster_name`, `module.eks.cluster_name-...` alias), so the dependency is established implicitly. The explicit `depends_on` duplicates it.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.apply_ec2_node_class` has an explicit `depends_on` entry for `module.eks`, but its `triggers` block already references `module.eks.cluster_primary_security_group_id` and `module.eks.cluster_security_group_id`, so the dependency on `module.eks` is inferred implicitly. The explicit `depends_on` duplicates it.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The `depends_on` entry `module.karpenter.node_iam_role_arn` on `null_resource.apply_ec2_node_class` duplicates a dependency already established implicitly: `triggers.role_arn = module.karpenter.node_iam_role_arn` already ties the resource to the Karpenter module's IAM role, and the manifests rendered from it also reference `module.karpenter.node_iam_role_arn`.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

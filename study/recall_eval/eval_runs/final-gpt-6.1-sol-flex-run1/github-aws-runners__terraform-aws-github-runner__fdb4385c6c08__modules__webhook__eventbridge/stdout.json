@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.webhook must wait for :resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role when VPC subnets are configured: Lambda provisioning requires the execution role's EC2 network-interface permissions, and referencing the role alone does not wait for its policy attachment.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.dispatcher must wait for :resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role when VPC subnets are configured: Lambda provisioning requires the execution role's EC2 network-interface permissions, and referencing the role alone does not wait for its policy attachment.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_cloudwatch_event_target.dispatcher should wait for :resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda before enabling event delivery; otherwise EventBridge can deliver events before it has permission to invoke the dispatcher.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

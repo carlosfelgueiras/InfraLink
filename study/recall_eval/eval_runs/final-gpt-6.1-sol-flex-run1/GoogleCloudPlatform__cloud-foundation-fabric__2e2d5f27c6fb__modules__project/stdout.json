@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Output :output.iam_project_id promises to wait for IAM bindings, but its depends_on references the nonexistent google_project_iam_member.non_authoritative instead of :resource.google_project_iam_member.additive. Depend on the existing additive resource so consumers wait for additive IAM grants as intended.",
+      "node": ":output.iam_project_id",
+      "target": ":resource.google_project_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

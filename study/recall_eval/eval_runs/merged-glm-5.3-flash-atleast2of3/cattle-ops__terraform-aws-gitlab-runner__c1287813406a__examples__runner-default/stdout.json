@@ -1,0 +1,37 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_iam_role_policy_attachment.docker_machine_cache_instance sets policy_arn via local.bucket_policy, which resolves to module.cache.policy_arn when cache_bucket.create is true. No direct dependency on the cache module is expressed, so the attachment could be created before the cache bucket policy exists.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_iam_role_policy_attachment.docker_machine_cache_instance attaches the cache-bucket policy via local.bucket_policy, which resolves to module.cache.policy_arn (the S3 bucket policy created by module.cache), but the graph shows no dependency on module.runner:module.cache. The cache bucket and its policy must exist before the policy can be attached to the runner instance role. Inlining the local's expression as a direct reference to module.cache establishes the ordering as a data dependency.",
+      "node": "module.runner:resource.aws_iam_role_policy_attachment.docker_machine_cache_instance",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "policy_arn",
+        "expression": "${var.cache_bucket[\"create\"] ? module.cache.policy_arn : var.cache_bucket[\"policy\"]}"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ndata.template_file.runners renders the runner config with vars.bucket_name sourced from local.bucket_name, which resolves to module.cache.bucket when cache_bucket.create is true. The rendered config (which ends up in the runner agent's user-data) references the cache bucket, so the data source should depend on the cache module being created; no such dependency is expressed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\ndata.template_file.runners renders the runner config.toml with the S3 cache bucket name taken from local.bucket_name, which resolves to module.cache.bucket, but the graph shows no dependency on module.runner:module.cache. The cache bucket must exist (and its name be known) before the runner configuration referencing it is rendered and baked into the runner agent's user data. Inlining the local's expression as a direct reference to module.cache establishes the ordering as a data dependency.",
+      "node": "module.runner:data.template_file.runners",
+      "target": "module.runner:module.cache",
+      "fix": {
+        "field": "bucket_name",
+        "expression": "\"${var.cache_bucket[\"create\"] ? module.cache.bucket : var.cache_bucket[\"bucket\"]}\""
+      },
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nThe runner agent's user-data script manages the value of aws_ssm_parameter.runner_registration_token (the parameter is created by Terraform with a placeholder value and the instance writes the real token into it). The autoscaling group boots the agent instance but expresses no dependency on the SSM parameter; if the instance starts before the parameter exists, the user-data script creates it and Terraform's own creation of the parameter subsequently fails. The parameter must be created before the autoscaling group launches instances.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe autoscaling group boots the runner agent instance whose user-data script writes the GitLab runner token into SSM (aws ssm put-parameter on local.secure_parameter_store_runner_token_key). aws_ssm_parameter.runner_registration_token (with lifecycle ignore_changes on value) must exist before that script runs, otherwise the script creates the parameter itself and Terraform's aws_ssm_parameter create later fails with \"parameter already exists\". No attribute reference connects the ASG/launch configuration to the SSM parameter, so this ordering is not captured by the graph.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

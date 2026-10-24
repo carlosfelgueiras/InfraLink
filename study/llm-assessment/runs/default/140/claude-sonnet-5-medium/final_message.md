@@ -1,0 +1,5 @@
+Confirmed: `aws_cloudwatch_event_target.ssm_housekeeper` references the rule and the Lambda function ARN directly, but has no attribute reference to (and no `depends_on` on) `aws_lambda_permission.ssm_housekeeper`. This is the exact same pattern the AWS/Terraform community and AWS documentation warn about: when `aws_lambda_permission` isn't depended upon by the EventBridge target, the rule+target can become active and fire before the Lambda's resource-based policy grants `events.amazonaws.com` invoke rights, leading to transient `AccessDenied` invocation failures. The permission resource only depends on the function and the rule (for its `source_arn`), so nothing forces it to be created before the target. This is a known real ordering requirement not captured anywhere else in the config (no other depends_on chain enforces it either).
+
+All three reports describe the same correct missing dependency.
+
+Correct

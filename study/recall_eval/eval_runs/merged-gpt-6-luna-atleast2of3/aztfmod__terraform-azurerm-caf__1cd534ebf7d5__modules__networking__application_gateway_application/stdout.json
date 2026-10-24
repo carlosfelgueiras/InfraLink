@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\ndelete_http_settings removes an Application Gateway HTTP setting that can reference a probe; it should be ordered before delete_probe so the probe is not removed while still in use. Add an explicit dependency from delete_http_settings to delete_probe.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nHTTP settings can reference probes, so the HTTP-settings delete action should run before the probe delete action. Make the HTTP-settings deletion node depend on the probe deletion node so Terraform destroys the settings first.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nHTTP settings can reference probes, so their deletion must complete before the probe is deleted. Add the dependency in this direction; a dependency from probe deletion to HTTP-settings deletion would reverse the required destroy order.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\ndelete_frontend_port should be ordered after delete_http_listener cleanup because the listener uses the frontend port; otherwise the port may be removed while the listener still references it. Add an explicit dependency from delete_frontend_port to delete_http_listener.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe frontend port deletion action should wait until HTTP listeners that use the port have been deleted.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nFrontend ports used by HTTP listeners must not be removed until those listeners have been deleted. The frontend-port deletion currently has no ordering dependency on listener deletion.",
+      "node": ":resource.null_resource.delete_frontend_port",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run2]\nThe probe deletion action should wait until HTTP settings that may reference the probe have been deleted; otherwise Azure may reject or retain the referenced probe.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe probe must be removed only after HTTP settings that may reference it are removed; otherwise deleting the probe can leave the Application Gateway configuration referencing a missing probe. Make the probe deletion depend on the HTTP settings deletion.",
+      "node": ":resource.null_resource.delete_probe",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

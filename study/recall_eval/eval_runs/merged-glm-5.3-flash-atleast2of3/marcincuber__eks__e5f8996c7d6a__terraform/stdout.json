@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_eks_cluster.cluster only depends on :resource.aws_iam_role.cluster (via role_arn), but EKS validates at CreateCluster time that the cluster role carries the required managed policies (AmazonEKSClusterPolicy etc.). If :resource.aws_iam_role_policy_attachments_exclusive.cluster hasn't applied yet, cluster creation fails. It should depend on the policy attachment resource.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_cluster.cluster uses aws_iam_role.cluster.arn but has no dependency on aws_iam_role_policy_attachments_exclusive.cluster. EKS validates the cluster role's permissions at cluster creation, so the cluster must be created only after the AmazonEKSClusterPolicy (and related policies) are attached, otherwise cluster creation fails with an authorization error.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:module.eks_node_group_al2023 references :resource.aws_iam_role.eks_node_group via node_role_arn, but not the managed policy attachments. Node group instances launched before :resource.aws_iam_role_policy_attachments_exclusive.eks_node_group applies lack AmazonEKSWorkerNodePolicy/AmazonEKS_CNI_Policy and will never join the cluster.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:module.eks_node_group_al2023 only depends on :resource.aws_iam_role.eks_node_group via its node_role_arn, but not on :resource.aws_iam_role_policy_attachments_exclusive.eks_node_group, which attaches the required worker policies (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly, etc.). If the managed node group is provisioned before the policy attachments propagate, worker nodes cannot join the cluster. :module.eks_node_group_al2023 should wait for :resource.aws_iam_role_policy_attachments_exclusive.eks_node_group (e.g. an explicit depends_on, since only the bare role ARN is referenced).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nmodule.eks_node_group_al2023 depends on aws_iam_role.eks_node_group.arn but not on aws_iam_role_policy_attachments_exclusive.eks_node_group. Managed node group creation requires the node instance role to already have AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy and AmazonEC2ContainerRegistryReadOnly attached; the attachment resource may otherwise be applied in parallel with (or after) the node group.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_eks_addon.aws_ebs_csi_driver passes service_account_role_arn = :resource.aws_iam_role.ebs_csi_controller_sa but does not depend on :resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa. If the AmazonEBSCSIDriverPolicy is not yet attached when the addon is installed, the CSI controller pods will fail to provision volumes (and on first install may error out).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_addon.aws_ebs_csi_driver sets service_account_role_arn from aws_iam_role.ebs_csi_controller_sa.arn but does not depend on aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa. The addon provider docs require the service-account role to already have the IAM permissions the addon needs; if the addon is applied before the AmazonEBSCSIDriverPolicy attachment, the driver pods fail authorization.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_eks_addon.adot references :resource.aws_iam_role.adot_collector via service_account_role_arn but not its policy attachments; if :resource.aws_iam_role_policy_attachments_exclusive.adot_collector applies after the addon, the ADOT collector cannot write to Prometheus/X-Ray/CloudWatch.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_addon.adot sets service_account_role_arn from aws_iam_role.adot_collector.arn but does not depend on aws_iam_role_policy_attachments_exclusive.adot_collector. The addon provider docs require the service-account role to already have the IAM permissions the addon needs; if the addon is applied before the Prometheus/X-Ray/CloudWatch policy attachments, the collector pods fail authorization.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.aws_eks_addon.amazon_cloudwatch_observability has a depends_on for :resource.aws_cloudwatch_log_group.cluster_performance only. The addon's Fluent Bit agent also auto-creates the application/host/dataplane log groups, so :resource.aws_cloudwatch_log_group.cluster_application can race the addon (or already exist when Terraform tries to create it, breaking retention management). It needs the same ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_addon.amazon_cloudwatch_observability only depends_on aws_cloudwatch_log_group.cluster_performance, but the addon's agent also writes to the application log group. Without aws_cloudwatch_log_group.cluster_application being created first, the agent auto-creates it and Terraform's log group creation will conflict / lose its retention_in_days=180.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_application",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nSame race as the performance/application groups: :resource.aws_eks_addon.amazon_cloudwatch_observability creates the dataplane Container Insights log group if absent, so it must not be created before :resource.aws_cloudwatch_log_group.cluster_dataplane.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_addon.amazon_cloudwatch_observability only depends_on aws_cloudwatch_log_group.cluster_performance, but the addon's agent also writes to the dataplane log group. Without aws_cloudwatch_log_group.cluster_dataplane being created first, the agent auto-creates it and Terraform's log group creation will conflict / lose its retention_in_days=180.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_dataplane",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nSame race as the performance/application groups: :resource.aws_eks_addon.amazon_cloudwatch_observability creates the host Container Insights log group if absent, so it must not be created before :resource.aws_cloudwatch_log_group.cluster_host.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_addon.amazon_cloudwatch_observability only depends_on aws_cloudwatch_log_group.cluster_performance, but the addon's agent also writes to the host log group. Without aws_cloudwatch_log_group.cluster_host being created first, the agent auto-creates it and Terraform's log group creation will conflict / lose its retention_in_days=180.",
+      "node": ":resource.aws_eks_addon.amazon_cloudwatch_observability",
+      "target": ":resource.aws_cloudwatch_log_group.cluster_host",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nWhen :var.eks_enabled_log_types is non-empty, EKS auto-creates /aws/eks/<name>/cluster. If :resource.aws_eks_cluster.cluster is created before :resource.aws_cloudwatch_log_group.cluster, EKS may create the group first and Terraform's create then fails with \"already exists\". :resource.aws_eks_cluster.cluster should be ordered after the log group.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.aws_eks_cluster.cluster has no dependency on :resource.aws_cloudwatch_log_group.cluster, but when var.eks_enabled_log_types is non-empty the EKS control plane starts writing to /aws/eks/${var.name_prefix}/cluster as soon as the cluster is created. If the log group is created after the cluster, CloudWatch auto-creates it and Terraform fails with \"ResourceAlreadyExistsException\". :resource.aws_eks_cluster.cluster should wait for :resource.aws_cloudwatch_log_group.cluster to exist first (e.g. an explicit depends_on, since no attribute reference links them).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_cluster.cluster has no dependency on aws_cloudwatch_log_group.cluster. If the cluster is created before the log group, EKS/CloudWatch auto-creates /aws/eks/${var.name_prefix}/cluster on first log write, causing the Terraform aws_cloudwatch_log_group.cluster creation to collide and its retention_in_days setting to be lost.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

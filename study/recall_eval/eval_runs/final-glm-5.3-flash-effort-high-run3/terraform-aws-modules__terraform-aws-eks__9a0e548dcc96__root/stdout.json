@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "Explicit depends_on on aws_eks_cluster.this is redundant: the node already implicitly depends on the cluster via the provisioner environment block (ENDPOINT = aws_eks_cluster.this[0].endpoint) and transitively via aws_security_group_rule.cluster_private_access (whose security_group_id references the cluster).",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker instances launch asynchronously as soon as the ASG is created, in parallel with the aws-auth ConfigMap apply. If instances boot before the ConfigMap is applied, the node role is unmapped in aws-auth and kubelet fails to join until the ConfigMap lands. The module already acknowledges this exact race for EKS node groups via the ng_depends_on hack (which includes kubernetes_config_map.aws_auth) but the launch-configuration ASGs have no equivalent ordering. No implicit attribute reference or fix exists; a bare depends_on is needed.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same race as aws_autoscaling_group.workers: launch-template instances boot asynchronously in parallel with the aws-auth ConfigMap apply and fail to join until the node role is mapped in aws-auth. The node_groups module waits for this resource via ng_depends_on, but this ASG has no equivalent dependency. No implicit attribute reference exists; a bare depends_on is required.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS AMI bootstrap script authenticates with the node IAM role and calls aws eks describe-cluster, which requires the AmazonEKSWorkerNodePolicy attachment (and IAM changes propagate with delay). The ASG only transitively depends on the IAM role via the launch configuration's instance profile, not on the policy attachments, so instances can boot before the policy is attached and bootstrap then fails so the node never joins. The node_groups module waits for these attachments via ng_depends_on; the ASG does not. No implicit reference or data fix exists; a bare depends_on is needed.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same bootstrap race as aws_autoscaling_group.workers: launch-template instances can boot before the AmazonEKSWorkerNodePolicy attachment is applied (IAM propagation delay), causing the bootstrap script's aws eks describe-cluster call to fail so the node never joins. The node_groups module waits for these attachments via ng_depends_on, but this ASG has no equivalent dependency. No implicit reference or data fix exists; a bare depends_on is required.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

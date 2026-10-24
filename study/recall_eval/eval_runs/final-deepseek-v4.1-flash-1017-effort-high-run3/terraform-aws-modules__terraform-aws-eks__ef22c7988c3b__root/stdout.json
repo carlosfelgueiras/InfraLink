@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS managed node group (aws_eks_node_group.this) only references the bare IAM role (node_role_arn = aws_iam_role.this[0].arn) and has no dependency on the role's policy attachments. Per the official aws_eks_node_group docs, the node group must be created after (and destroyed before) its AmazonEKSWorkerNodePolicy / AmazonEC2ContainerRegistryReadOnly / CNI policy attachments exist, or nodes fail to register and EKS cannot cleanly delete instances and ENIs. No attribute reference or depends_on expresses this ordering.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The self-managed node group's Auto Scaling group (aws_autoscaling_group.this) launches instances using the node IAM role (via the instance profile) but has no dependency on that role's policy attachments. The worker nodes cannot join the cluster without AmazonEKSWorkerNodePolicy / AmazonEC2ContainerRegistryReadOnly / CNI policy, so the ASG must be created after (and destroyed before) aws_iam_role_policy_attachment.this; the graph shows no attribute reference or depends_on establishing this.",
+      "node": "module.self_managed_node_group:resource.aws_autoscaling_group.this",
+      "target": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile (aws_eks_fargate_profile.this) references only the bare pod-execution IAM role (pod_execution_role_arn) and \u2014 unlike the node-group modules, which have no launch template to transitively depend on the attachments \u2014 has no dependency at all on aws_iam_role_policy_attachment.this. The pod execution role needs AmazonEKSFargatePodExecutionRolePolicy / CNI policy attached before Fargate pods can run, so the profile should be ordered after the attachments; nothing in the configuration expresses this.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "repo": "aztfmod__terraform-azurerm-caf",
+  "parent_sha": "2c855397c670f93638029e589cfd89f293562e6f^",
+  "resolved_sha": "1cd534ebf7d56396201ed06c5d2dcd283f74078d",
+  "module_dir": "modules/networking/application_gateway_application",
+  "profile": "merged(min_runs=2): final-gpt-6-luna-effort-high-run1,final-gpt-6-luna-effort-high-run2,final-gpt-6-luna-effort-high-run3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "aztfmod__terraform-azurerm-caf",
+      "pr_number": 1385,
+      "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/1385",
+      "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/2c855397c670f93638029e589cfd89f293562e6f",
+      "commit_sha": "2c855397c670f93638029e589cfd89f293562e6f",
+      "parent_sha": "2c855397c670f93638029e589cfd89f293562e6f^",
+      "commit_subject": "Application Gateway bugs + adding force_firewall_policy_association (#1385)",
+      "commit_date": "2022-10-13T18:04:01+08:00",
+      "file": "modules/networking/application_gateway_application/ssl_cert.tf",
+      "module_dir": "modules/networking/application_gateway_application",
+      "holder_address": "null_resource.set_ssl_cert",
+      "added_targets": [
+        "null_resource.set_http_settings"
+      ],
+      "pre_existing_targets": [
+        "null_resource.set_backend_pools",
+        "null_resource.set_frontend_port"
+      ],
+      "already_implicit": {
+        "null_resource.set_http_settings": false
+      },
+      "verify_error": null
+    }
+  ]
+}

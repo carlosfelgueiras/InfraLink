@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EKS cluster role is referenced, but the cluster can be created before its managed IAM policies are reconciled. The AWS provider documentation specifically recommends ordering cluster creation after the role permissions; without this edge, cluster deletion can also occur before those permissions are removed.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The managed node group module receives the node role ARN, but has no dependency on the role's managed-policy reconciliation. EKS node group provisioning should wait until the worker-node policies are attached; the AWS provider documentation recommends this ordering for node groups.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "This add-on references the ADOT IAM role, but its required managed policies are reconciled separately. Make the add-on wait for the role's policy attachments so the add-on does not start before its service account has the permissions it needs.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When EKS control-plane logging is enabled, EKS can create the cluster log group automatically. Create the Terraform-managed group first so EKS uses the configured group (including retention and KMS settings), rather than racing its creation or creating it with defaults.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EBS CSI add-on is configured with the controller service-account role, but its managed policy attachments are reconciled independently. Ensure the permissions exist before the add-on is installed so its controller does not start without the required AWS access.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

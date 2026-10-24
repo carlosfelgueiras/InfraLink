@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If an authoritative binding uses a custom role created by this module, the binding can be applied before that role exists and fail. Add an explicit dependency on the custom-role resource collection; the role value is supplied independently and there is no clean direct attribute reference that preserves its semantics.",
+      "node": ":resource.google_project_iam_binding.authoritative",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "If an additive IAM member is granted a custom role created by this module, it may be applied before that role exists and fail. Add a dependency on the custom-role resource collection; the role is provided as a string input, so there is no clean direct resource-attribute reference to express this ordering.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

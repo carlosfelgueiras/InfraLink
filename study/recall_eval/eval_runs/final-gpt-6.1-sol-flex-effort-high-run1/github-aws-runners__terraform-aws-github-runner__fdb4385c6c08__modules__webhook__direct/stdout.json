@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.webhook references the execution role but does not wait for aws_iam_role_policy_attachment.webhook_vpc_execution_role. When lambda_subnet_ids is nonempty, Lambda needs the attached EC2 network-interface permissions to provision its VPC networking; function creation can race policy attachment and fail. Add depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role], which also keeps these permissions attached until the function is destroyed.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_permission.webhook can enable API Gateway invocation before aws_iam_role_policy.webhook_logging is installed. The logging policy already waits for the function's log group, but neither it nor the log group is an ancestor of the invocation permission. Make the permission depend on this policy so initial requests do not race logging setup. Ordering at the permission avoids the cycle that a function-to-logging-policy dependency would create with the current log-group name reference.",
+      "node": ":resource.aws_lambda_permission.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_permission.webhook can enable API Gateway invocation while aws_iam_role_policy.webhook_sqs is still being installed. The webhook needs that policy to publish jobs to its configured SQS queues; the shared execution-role reference does not order policy installation before invocation becomes possible. Make the invocation permission depend on the SQS policy to avoid authorization failures on initial requests.",
+      "node": ":resource.aws_lambda_permission.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_permission.webhook does not wait for aws_iam_role_policy.webhook_ssm, although the function reads its webhook secret and runner-matcher configuration from SSM. API Gateway can therefore invoke the function before its SSM access policy is installed. Make the invocation permission depend on this policy; referencing the execution role alone does not establish that ordering.",
+      "node": ":resource.aws_lambda_permission.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When config.kms_key_arn is configured for the webhook's KMS access, aws_lambda_permission.webhook can enable requests before aws_iam_role_policy.webhook_kms is installed, allowing initial requests that require the key to fail authorization. Make the invocation permission depend on the KMS policy so policy installation precedes API Gateway access.",
+      "node": ":resource.aws_lambda_permission.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, aws_lambda_permission.webhook can enable API Gateway invocation before aws_iam_role_policy.xray is installed. Initial invocations can consequently lack the configured X-Ray permissions and lose tracing data. Make the invocation permission depend on aws_iam_role_policy.xray; the dependency is harmless when the policy's count is zero.",
+      "node": ":resource.aws_lambda_permission.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

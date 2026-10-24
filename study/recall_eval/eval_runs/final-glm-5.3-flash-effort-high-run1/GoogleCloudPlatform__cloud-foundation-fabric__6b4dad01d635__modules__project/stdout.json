@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project, which requires the Compute Engine API to be enabled in the service project before the attachment can succeed. Its sibling resources in shared-vpc.tf (google_compute_shared_vpc_host_project.shared_vpc_host and google_compute_shared_vpc_service_project.service_projects) both declare depends_on on google_project_service.project_services, but this resource has no such ordering, so it can race API enablement when the project is created in the same apply.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_project_exclusion.logging-exclusion creates log exclusions via the Cloud Logging API in this project. The module's own convention (see google_logging_project_sink.sink, which depends_on google_project_service.project_services for the same reason) establishes that Logging-API-backed operations must wait for service enablement, but this resource has no dependency on google_project_service.project_services, so it can race API enablement when the logging API is part of var.services and the project is created in the same apply.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_essential_contacts_contact.contact manages Essential Contacts on this project, an operation served by the Essential Contacts API which is not enabled by default on projects. No attribute reference or depends_on orders it after google_project_service.project_services, so when essentialcontacts.googleapis.com is included in var.services (or was previously disabled), contact creation can race API enablement and fail.",
+      "node": ":resource.google_essential_contacts_contact.contact",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

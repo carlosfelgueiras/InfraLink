@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.webhook is created before aws_cloudwatch_log_group.webhook (the log group's name is derived from the function, so the graph orders the log group after the function). If the webhook lambda is invoked before the managed log group exists, Lambda auto-creates a default log group without the configured retention_in_days/kms_key_id, which then conflicts with aws_cloudwatch_log_group.webhook and breaks the apply. The function should wait for the log group (e.g. depends_on), per the provider's documented \"ensure log group exists before function\" pattern.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_cloudwatch_log_group.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook has vpc_config (lambda_subnet_ids/lambda_security_group_ids), which requires the AWSLambdaVPCAccessExecutionRole permissions attached to its execution role at function creation time. aws_iam_role_policy_attachment.webhook_vpc_execution_role is only ordered after the shared role, in parallel with the function, so the function can be created before the ENI permissions are attached, leading to CreateNetworkInterface permission failures or a temporarily unavailable function. The function should depend on the attachment.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.syncer is created before aws_cloudwatch_log_group.syncer (the log group's name derives from the function name, forcing the wrong order). If the syncer lambda runs before the managed log group exists, Lambda auto-creates a default log group without the configured retention/kms_key_id, which then conflicts with aws_cloudwatch_log_group.syncer during apply. The function should wait for the log group.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_cloudwatch_log_group.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.syncer can be VPC-configured (lambda_subnet_ids/lambda_security_group_ids), which requires the AWSLambdaVPCAccessExecutionRole policy to be attached to its execution role when the function is created. aws_iam_role_policy_attachment.syncer_vpc_execution_role runs in parallel with the function, so the function may be created before ENI permissions are attached. The function should depend on the attachment.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.scale_up is created before aws_cloudwatch_log_group.scale_up (log group name derives from the function). If the scale-up lambda is invoked (e.g. by the SQS event source mapping) before the managed log group exists, Lambda auto-creates a default log group lacking retention_in_days/kms_key_id, which then conflicts with aws_cloudwatch_log_group.scale_up and can break the apply. The function should wait for the log group.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_cloudwatch_log_group.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.scale_up has vpc_config (lambda_subnet_ids/lambda_security_group_ids), requiring the AWSLambdaVPCAccessExecutionRole permissions to be attached to its execution role at creation time. aws_iam_role_policy_attachment.scale_up_vpc_execution_role is only ordered after the shared role and runs in parallel with the function, so the function can be created before the ENI permissions are attached. The function should depend on the attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.scale_down is created before aws_cloudwatch_log_group.scale_down (log group name derives from the function). If the scale-down lambda fires (its EventBridge cron runs every few minutes) before the managed log group exists, Lambda auto-creates a default log group without retention/kms settings, which conflicts with aws_cloudwatch_log_group.scale_down during apply. The function should wait for the log group.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_cloudwatch_log_group.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.scale_down can be VPC-configured (lambda_subnet_ids/lambda_security_group_ids), which requires the AWSLambdaVPCAccessExecutionRole policy attached to its execution role when the function is created. aws_iam_role_policy_attachment.scale_down_vpc_execution_role runs in parallel with the function, so the function may be created before ENI permissions are attached. The function should depend on the attachment.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.pool is created before aws_cloudwatch_log_group.pool (log group name derives from the function). If the pool lambda is invoked before the managed log group exists, Lambda auto-creates a default log group without the configured retention/kms_key_id, which then conflicts with aws_cloudwatch_log_group.pool during apply. The function should wait for the log group.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_log_group.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.pool has vpc_config (config.lambda.subnet_ids/security_group_ids), requiring the AWSLambdaVPCAccessExecutionRole permissions to be attached to its execution role at creation time. aws_iam_role_policy_attachment.pool_vpc_execution_role is only ordered after the shared role and runs in parallel with the function, so the function can be created before the ENI permissions are attached. The function should depend on the attachment.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_launch_template.this` only has `depends_on = [aws_iam_role_policy_attachment.this]`, but the node IAM role also gets policies attached via `aws_iam_role_policy_attachment.additional`. There is no attribute reference or `depends_on` establishing that ordering, so the launch template (and the ASG/instances it feeds) can be created before the additional policies are attached to the role. Instances launched from this template then come up with a role missing those additional permissions \u2014 exactly the \"premature access of policies by pods that depend on nodes\" scenario the existing `depends_on` on `.this` was added to prevent. `aws_iam_role_policy_attachment.additional` should be added to that same `depends_on` list.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

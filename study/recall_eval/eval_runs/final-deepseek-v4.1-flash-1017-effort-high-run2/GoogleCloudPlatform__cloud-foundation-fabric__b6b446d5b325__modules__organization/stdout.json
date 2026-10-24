@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_binding.authoritative resolves roles via local.ctx.custom_roles (strings from var.context), so it has no dependency on the custom roles this module may create. When a custom role is created by google_organization_iam_custom_role.roles in the same apply and referenced here by alias, the binding can be attempted before the role exists (IAM is also eventually consistent), causing a 403/404. Add an explicit depends_on on google_organization_iam_custom_role.roles.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_binding.bindings looks up each role through local.ctx.custom_roles, so no dependency edge exists to google_organization_iam_custom_role.roles. If the binding targets a custom role created by this module, it may run before the role is created (and IAM propagation lags), causing the binding to fail. The custom_role_id output is meant to be used, but within the module the ordering still needs an explicit depends_on on google_organization_iam_custom_role.roles.",
+      "node": ":resource.google_organization_iam_binding.bindings",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_member.bindings resolves its role via local.ctx.custom_roles and therefore has no dependency on google_organization_iam_custom_role.roles. When the member binding references a custom role created in this same module call, ordering is not guaranteed and creation can fail because the role does not yet exist. Add an explicit depends_on on google_organization_iam_custom_role.roles.",
+      "node": ":resource.google_organization_iam_member.bindings",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

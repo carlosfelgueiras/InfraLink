@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ndelete_http_settings has no dependency on delete_probe. HTTP settings are created after probes (set_http_settings depends on set_probe) and can reference a probe, so during destroy the http settings must be removed before the probe. Its depends_on lists set_probe (a create-time resource), which establishes no destroy-time ordering with the probe's delete script; deleting the probe first would fail because it is still referenced.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ndelete_http_settings destroys HTTP settings that reference probes, but it has no dependency on delete_probe (it depends on set_probe instead, which has no destroy-time provisioner and imposes no destroy ordering). On destroy, HTTP settings must be deleted before the probes they reference; add delete_probe to delete_http_settings' depends_on.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ndelete_http_listener has no dependency on delete_frontend_port. Listeners are created after frontend ports and reference them (PORT), so the frontend port must be deleted after all listeners. Its depends_on references set_frontend_port (the create-time resource), not the delete-time resource, so the port's az delete can run before the listener delete and fail because the port is still in use.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ndelete_http_listener destroys listeners bound to frontend ports, but it depends on set_frontend_port (a create-phase resource with no destroy provisioner) rather than delete_frontend_port, which has no depends_on and is otherwise unordered. On destroy, listeners must be deleted before the frontend ports they reference; add delete_frontend_port to delete_http_listener's depends_on.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

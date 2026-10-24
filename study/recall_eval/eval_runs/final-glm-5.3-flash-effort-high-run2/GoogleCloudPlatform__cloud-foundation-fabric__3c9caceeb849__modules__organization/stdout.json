@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_tags_tag_binding.binding resolves `tag_value` via `lookup(local.ctx.tag_values, each.value, each.value)`, so tag values created by this same module (google_tags_tag_value.default, e.g. referenced by namespaced name like \"organizations/123/key/value\") have no ordering relationship with the binding. The binding can be created before the tag value exists, and the TagBinding API will fail to resolve the value; an explicit depends_on on google_tags_tag_value.default is needed to guarantee the value (and transitively its key) is created first.",
+      "node": ":resource.google_tags_tag_binding.binding",
+      "target": ":resource.google_tags_tag_value.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

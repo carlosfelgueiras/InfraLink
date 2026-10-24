@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.helm_release.elk installs the ELK stack whose Elasticsearch, Kibana, Filebeat, APM and Metricbeat pods all pull username/password from the `elastic-credentials` Secret (extraEnvs secretKeyRef). That Secret is created by :resource.kubernetes_secret.elasticsearch_credentials, but the release has no dependency on it \u2014 on a fresh apply the pods will fail to start (CreateContainerConfigError) if the Secret isn't applied first. No attribute reference or depends_on expresses this ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nhelm_release.elk deploys Elasticsearch configured with secretKeyRefs to secret \"elastic-credentials\" (extraEnvs ELASTIC_PASSWORD/ELASTIC_USERNAME), but has no dependency on kubernetes_secret.elasticsearch_credentials, so pods can be scheduled before the secret exists.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.helm_release.elk references the secret \"elastic-credentials\" by name in its values (ELASTIC_PASSWORD / ELASTIC_USERNAME env vars via secretKeyRef), but has no dependency on :resource.kubernetes_secret.elasticsearch_credentials. On a fresh apply the helm release can be installed before the secret exists, causing Elasticsearch pods to fail with CreateContainerConfigError. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_credentials",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.helm_release.elk mounts the `elastic-certificates` Secret (TLS key/cert) via secretMounts into Elasticsearch, Kibana, Filebeat, APM and Metricbeat containers. That Secret is created by :resource.kubernetes_secret.elasticsearch_certificates, but the release has no dependency on it, so pods can come up before the certificates exist. This ordering is not captured by any attribute reference or depends_on.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nhelm_release.elk mounts secret \"elastic-certificates\" into Elasticsearch, Kibana, Filebeat and APM pods (secretMounts / TLS config), but has no dependency on kubernetes_secret.elasticsearch_certificates.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.helm_release.elk mounts the secret \"elastic-certificates\" (secretMounts for TLS certs) referenced by name in its values, but has no dependency on :resource.kubernetes_secret.elasticsearch_certificates. Without ordering, Elasticsearch/Kibana/filebeat pods can start before the TLS certificates secret exists and crash. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_certificates",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.helm_release.elk's Elasticsearch keystore reads the `elasticsearch-s3-user-creds` Secret (S3 snapshot credentials) via secretName in the keystore values. That Secret is created by :resource.kubernetes_secret.elasticsearch_s3_user_creds, but the release has no dependency on it; if the keystore secret is missing when Elasticsearch initializes, snapshot repository setup breaks. No attribute reference or depends_on establishes this ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nhelm_release.elk configures the Elasticsearch keystore from secret \"elasticsearch-s3-user-creds\" (S3 snapshot repository credentials), but has no dependency on kubernetes_secret.elasticsearch_s3_user_creds.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.helm_release.elk mounts the secret \"elasticsearch-s3-user-creds\" into the keystore (S3 snapshot repository credentials) referenced by name in its values, but has no dependency on :resource.kubernetes_secret.elasticsearch_s3_user_creds. On a fresh apply the S3 snapshot user credentials may not be in place when the release is installed, breaking snapshot/keystore setup. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.elasticsearch_s3_user_creds",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.helm_release.elk's Kibana deployment reads the `kibana-encryption-key` Secret (KIBANA_ENCRYPTION_KEY) via secretKeyRef. That Secret is created by :resource.kubernetes_secret.kibana_enc_key, but the release has no dependency on it, so on a fresh apply Kibana can start before the encryption key exists and crash. This ordering is not expressed by any attribute reference or depends_on.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nhelm_release.elk deploys Kibana which reads KIBANA_ENCRYPTION_KEY from secret \"kibana-encryption-key\", but the release has no dependency on kubernetes_secret.kibana_enc_key.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.helm_release.elk references the secret \"kibana-encryption-key\" via secretKeyRef (KIBANA_ENCRYPTION_KEY) in its kibana values, but has no dependency on :resource.kubernetes_secret.kibana_enc_key. Without ordering, the Kibana pod can start before the secret exists and fail. Add an explicit depends_on for this secret.",
+      "node": ":resource.helm_release.elk",
+      "target": ":resource.kubernetes_secret.kibana_enc_key",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

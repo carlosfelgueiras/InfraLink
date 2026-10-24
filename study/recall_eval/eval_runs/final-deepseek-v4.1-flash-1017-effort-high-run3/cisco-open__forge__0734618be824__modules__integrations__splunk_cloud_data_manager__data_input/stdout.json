@@ -1,0 +1,34 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_s3_object.cloudformation_template: explicit depends_on of :resource.random_uuid.splunk_input_uuid is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`aws_s3_object.cloudformation_template` lists `random_uuid.splunk_input_uuid` in its `depends_on`, but the ordering is already implied by attribute references: both `key` and `source` interpolate `random_uuid.splunk_input_uuid.result`. The explicit entry can be removed.",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_s3_object.cloudformation_template` uploads `source = \"/tmp/${random_uuid.splunk_input_uuid.result}_template.json\"` and hashes it with `filemd5(...)`, but that file in `/tmp` is produced as a side effect of the `local-exec` provisioner run by `null_resource.create_integration` (`scripts/create_splunk_integration.sh`). Nothing in the upload's own attributes expresses that ordering \u2014 it only happens to run after `create_integration` transitively through the `data.external.splunk_dm_version` dependency. The upload should depend on `null_resource.create_integration` directly so the generated template file is guaranteed to exist.",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.null_resource.create_integration",
+      "fix": {
+        "field": "source",
+        "expression": "\"/tmp/${null_resource.create_integration.triggers.splunk_input_uuid}_template.json\""
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

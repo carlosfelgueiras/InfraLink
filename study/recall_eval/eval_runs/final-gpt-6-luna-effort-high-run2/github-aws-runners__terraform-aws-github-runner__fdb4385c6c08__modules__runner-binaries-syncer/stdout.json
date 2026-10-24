@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target can be created before the Lambda invoke permission, leaving the rule unable to invoke the function until the permission is installed. Make the target wait for the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC subnets are configured, Lambda creation/operation requires the execution role's VPC networking permissions. The function currently depends on the role but not on the managed VPC execution policy attachment, so it may be created before those permissions are attached.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Uploading this trigger object can invoke the Lambda immediately, but the trigger object has no ordering dependency on the role's S3 access policy. Ensure the policy is attached before creating the trigger to avoid an invocation before the function has permission to access the distribution bucket.",
+      "node": ":resource.aws_s3_object.trigger",
+      "target": ":resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

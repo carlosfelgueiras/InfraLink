@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\nazapi_resource.diag_settings writes `workspaceId = local.template_file_variables.log_analytics_workspace_resource_id` into its body, but that resource ID is a plain string built from locals/variables \u2014 no attribute reference or depends_on ties it to azurerm_log_analytics_workspace.management. When deploy_diagnostics_for_mg and deploy_management_resources are both enabled, the diagnostic settings can be created before the module-managed Log Analytics workspace exists, causing a 404/failure from the ARM API. Add azurerm_log_analytics_workspace.management to its depends_on (the existing depends_on only covers the Management Groups).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nazapi_resource.diag_settings sets body.properties.workspaceId to local.template_file_variables.log_analytics_workspace_resource_id, which is a static string derived from the management sub-module configuration and creates no Terraform data dependency on azurerm_log_analytics_workspace.management. When the Log Analytics workspace is created in the same apply (deploy_management_resources = true), the Management Group diagnostic settings can be created before the workspace exists and will fail. azapi_resource.data_collection_rule targeting the same workspace already declares this depends_on.",
+      "node": ":resource.azapi_resource.diag_settings",
+      "target": ":resource.azurerm_log_analytics_workspace.management",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

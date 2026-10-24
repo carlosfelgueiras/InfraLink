@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references transform stanza \"forgecicd_trust_validation\" in its variables map (REPORT-forgecicd_trust_validation) but does not depend on splunk_configs_conf.forgecicd_trust_validation. The REPORT string is not an attribute reference, so Terraform cannot infer the ordering; the transform should exist before the props config that reports on it. Add it to depends_on (a bare depends_on is required since the REPORT value must be the exact bare stanza name, not the resource's transforms/... .name).",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "splunk_configs_conf.forgecicd_cloudwatchlogs references transform stanza \"forgecicd_extra_lambda_ec2_tenant_fields\" in its variables map (REPORT-forgecicd_extra_lambda_ec2_tenant_fields) but does not depend on splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields. The REPORT reference is a plain string, so no ordering is inferred; the transform must be created before the props config that reports on it. Add it to depends_on (no idiomatic data reference keeps the required bare-name value).",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

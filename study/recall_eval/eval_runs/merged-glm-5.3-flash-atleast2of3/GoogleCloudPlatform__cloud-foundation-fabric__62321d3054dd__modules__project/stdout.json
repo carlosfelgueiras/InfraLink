@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.google_monitoring_notification_channel.channels uses the Cloud Monitoring API (via `project = local.project.project_id`), but the graph shows no dependency (implicit or explicit) on :resource.google_project_service.project_services. Monitoring is not enabled by default on new projects; if this module is enabling `monitoring.googleapis.com` in the same apply, channel creation can run before the API is active and fail. The module already uses an explicit depends_on on project_services for every other API-dependent resource (e.g. google_compute_project_metadata_item.default, google_logging_project_sink.sink, google_cloud_quotas_quota_preference.default); this resource is missing it.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.google_monitoring_notification_channel.channels calls the Cloud Monitoring API against `local.project.project_id`, but has no ordering relationship with :resource.google_project_service.project_services. Sibling observability resources in this module (e.g. logging sinks, quota preferences) already depend on project_services for exactly this reason; without it, channels can be applied before monitoring.googleapis.com is activated and fail with an API-not-enabled error.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.google_monitoring_notification_channel.channels creates notification channels via the Cloud Monitoring API, which is not enabled by default; if monitoring.googleapis.com is being activated by :resource.google_project_service.project_services in the same apply, channel creation races the API activation and fails. Every other API-dependent resource in this module (quotas, compute metadata, sinks, service identities) declares depends_on on :resource.google_project_service.project_services, but this one does not.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\n:resource.google_monitoring_monitored_project.primary registers this project in metrics scopes through the Cloud Monitoring API, but the graph shows no dependency on :resource.google_project_service.project_services. The monitoring API is not enabled by default, so when this module provisions `monitoring.googleapis.com` in the same apply the monitored-project registration may execute before the API is usable. Like the other API-dependent resources in this module, it needs an explicit ordering on :resource.google_project_service.project_services.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n:resource.google_monitoring_monitored_project.primary uses the Cloud Monitoring API but has no dependency on :resource.google_project_service.project_services; the monitoring API must be activated in the project before monitored projects can be registered.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.google_monitoring_monitored_project.primary registers this project under a metrics scope using the Monitoring API (locations.global.metricsScopes.projects), which requires monitoring.googleapis.com to be enabled in this project. The API activation is performed by :resource.google_project_service.project_services, but this resource does not depend on it, so the two can race on a fresh project.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run2]\n:resource.google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project via the Compute API, but unlike google_compute_shared_vpc_host_project.shared_vpc_host (which depends_on project_services) it has no dependency on :resource.google_project_service.project_services, so it may run before compute.googleapis.com is enabled.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n:resource.google_compute_shared_vpc_service_project.shared_vpc_service attaches this project as a Shared VPC service project of an external host; the Compute API must be enabled in this (service) project before the association succeeds. :resource.google_project_service.project_services performs the API activation, and the sibling resources google_compute_shared_vpc_host_project.shared_vpc_host and google_project_iam_member.shared_vpc_host_robots already depend on it, but this resource has no dependency on it and can be applied before the Compute API is active.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

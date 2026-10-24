@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_service.this uses the infrastructure role in vpc_lattice_configurations, but does not wait for aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy. Referencing the role does not ensure its VPC Lattice permissions are attached. Add this attachment to depends_on so ECS cannot configure Lattice before the permissions exist, and the permissions remain attached until service deletion completes.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_service.ignore_task_definition uses the infrastructure role in vpc_lattice_configurations, but does not wait for aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy. The existing dependencies cover the service policy and EBS policy, not the Lattice policy. Add this attachment to depends_on to order Lattice permissions before service creation and preserve them through service deletion.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_ecs_task_definition.this waits for external task-role policies and execution-role policies, but omits aws_iam_role_policy_attachment.tasks_internal, which supplies ECS Exec and custom task-role permissions. The task_role_arn reference orders only role creation, not this attachment. Include tasks_internal in the existing depends_on gate so services and task sets consuming the definition cannot launch tasks before these permissions are attached; this is a runtime ordering requirement, not a task-definition registration requirement.",
+      "node": ":resource.aws_ecs_task_definition.this",
+      "target": ":resource.aws_iam_role_policy_attachment.tasks_internal",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

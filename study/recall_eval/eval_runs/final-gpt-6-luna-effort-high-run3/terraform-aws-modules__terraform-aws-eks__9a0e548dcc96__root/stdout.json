@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:resource.null_resource.wait_for_cluster` already references `:resource.aws_eks_cluster.this` through its provisioner environment (`ENDPOINT`), so the explicit dependency duplicates an implicit dependency.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker instances can launch before the aws-auth ConfigMap maps their IAM roles, so `:resource.aws_autoscaling_group.workers` should wait for `:resource.kubernetes_config_map.aws_auth` to avoid nodes attempting to join before authentication is configured.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Worker instances can launch before the aws-auth ConfigMap maps their IAM roles, so `:resource.aws_autoscaling_group.workers_launch_template` should wait for `:resource.kubernetes_config_map.aws_auth` to avoid nodes attempting to join before authentication is configured.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group may launch workers before the required EKS worker-node policy is attached; `:resource.aws_autoscaling_group.workers` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy` so instances have the permissions needed to register and operate.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group may launch workers before the required EKS worker-node policy is attached; `:resource.aws_autoscaling_group.workers_launch_template` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy` so instances have the permissions needed to register and operate.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group may launch workers before the CNI policy is attached; `:resource.aws_autoscaling_group.workers` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy` so the worker role has its configured networking permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group may launch workers before the CNI policy is attached; `:resource.aws_autoscaling_group.workers_launch_template` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy` so the worker role has its configured networking permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group may launch workers before the ECR read-only policy is attached; `:resource.aws_autoscaling_group.workers` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly` so the worker role has its configured image-pull permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Auto Scaling group may launch workers before the ECR read-only policy is attached; `:resource.aws_autoscaling_group.workers_launch_template` should depend on `:resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly` so the worker role has its configured image-pull permissions before instances start.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

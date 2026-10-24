@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "Output iam_project_id is documented as depending on IAM bindings including the non-authoritative IAM members, but it has no dependency on resource.google_project_iam_member.additive. Its depends_on still references the removed resource google_project_iam_member.non_authoritative; it should instead depend on google_project_iam_member.additive so consumers of this output don't act before the additive (non-authoritative) IAM members are applied.",
+      "node": ":output.iam_project_id",
+      "target": ":resource.google_project_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

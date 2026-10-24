@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_autoscaling_group.data_nodes launches Elasticsearch data nodes that must discover and join masters provided by aws_autoscaling_group.master_nodes (ASG-based discovery via the instance role); the master ASG must exist first, but no dependency expresses this ordering.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nThe data-node autoscaling group must be created after the master-node autoscaling group so that data nodes do not start before the master nodes have formed the Elasticsearch cluster. The source declares depends_on = [\"aws_autoscaling_group.master_nodes\"] on aws_autoscaling_group.data_nodes, but the graph records no dependency on the master ASG (no implicit path exists either), so the intended ordering is not enforced.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nnull_resource.cluster_bootstrap_state writes the cluster bootstrap marker file with a local-exec provisioner; it must run only after aws_instance.bootstrap_node (which performs the one-time cluster bootstrap) has been created, otherwise the state marker is recorded before bootstrap completes. The null resource currently has no dependency on it.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\nnull_resource.cluster_bootstrap_state writes the cluster_bootstrap_state file (\"1\" on create, \"0\" on destroy) that gates whether the bootstrap node is created, so it must only run after aws_instance.bootstrap_node has been created. The source declares depends_on = [\"aws_instance.bootstrap_node\"], but no dependency is captured in the graph; without it the state file could be written before the bootstrap node exists, breaking the bootstrap-once logic on subsequent applies.",
+      "node": ":resource.null_resource.cluster_bootstrap_state",
+      "target": ":resource.aws_instance.bootstrap_node",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

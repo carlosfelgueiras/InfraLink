@@ -1,0 +1,3 @@
+Neither a `depends_on` nor an attribute reference links the export to the policy. The export references only the bucket id. A SYNCHRONOUS export is delivered right after creation. AWS documents that the bucket policy must allow `bcm-data-exports` to run `PutObject` and `GetBucketPolicy`. Without the policy in place, creation can fail or the delivery can be denied. The ordering is real and not expressed.
+
+Correct

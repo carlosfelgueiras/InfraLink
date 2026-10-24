@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\naws_ecs_cluster_capacity_providers.this associates capacity providers with the ECS cluster by name (capacity_providers is derived from var.autoscaling_capacity_providers / var.fargate_capacity_providers, not from the aws_ecs_capacity_provider.this resources themselves). AWS's UpdateClusterCapacityProviders API requires each capacity provider to already exist and be registered before it can be associated, and capacity provider creation is asynchronous on the AWS side. The graph shows no dependency from aws_ecs_cluster_capacity_providers.this on aws_ecs_capacity_provider.this (the only HCL reference is via the merge in the default_capacity_provider_strategy dynamic block, which does not guarantee the required operational ordering), so the association can be applied before the capacity providers are ready and fail. Add depends_on = [aws_ecs_capacity_provider.this] to aws_ecs_cluster_capacity_providers.this.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\naws_ecs_cluster_capacity_providers.this associates capacity providers with the cluster by name, including the autoscaling capacity providers created by aws_ecs_capacity_provider.this (their names come from var.autoscaling_capacity_providers). AWS requires the capacity provider to exist before it can be associated with a cluster (and to be detached before deletion), but no implicit or explicit dependency on aws_ecs_capacity_provider.this is recorded \u2014 the only reference to those resources is inside the nested dynamic \\\"default_capacity_provider_strategy\\\" block and is not captured as a dependency. Without this ordering, the association can be applied before the capacity providers are created and fail. Add a depends_on, or better, build the autoscaling portion of the capacity_providers set from the created resources' name attributes (identical values: try(each.value.name, each.key)), which establishes the ordering as a data dependency.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_ecs_cluster_capacity_providers.this associates capacity providers with the cluster and configures default_capacity_provider_strategy entries built from local.cluster_capacity_providers, which merges in the autoscaling capacity providers from aws_ecs_capacity_provider.this. No dependency (implicit or explicit) is recorded between them, so Terraform may create the association before the capacity providers exist; ECS rejects a cluster capacity-provider update referencing providers that are not yet registered. Add a depends_on or, better, derive the autoscaling provider names directly from the resource so the ordering is inferred.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat(\n    [for k, v in var.fargate_capacity_providers : try(v.name, k)],\n    [for k, v in aws_ecs_capacity_provider.this : v.name]\n  ))"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

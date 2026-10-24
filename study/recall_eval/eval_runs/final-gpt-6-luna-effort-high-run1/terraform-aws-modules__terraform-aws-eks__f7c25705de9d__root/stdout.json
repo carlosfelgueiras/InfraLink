@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS cluster encryption configuration can use the KMS key created by module.kms, but the cluster role's encryption policy is not attached until this resource completes. The cluster should wait for this attachment so EKS has the required KMS permissions when creating the encrypted cluster.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Creating this Kubernetes ConfigMap requires the EKS Kubernetes API to be available, but the resource has no dependency on the cluster. Add an ordering dependency so Terraform does not attempt to manage aws-auth before the cluster exists.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed node group uses the IAM role but has no dependency on its worker-node policy attachments. The AWS provider documentation recommends ordering the node group after these permissions are attached (and before they are removed); otherwise provisioning or deletion can race the policy attachments.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Managing aws-auth through the Kubernetes API requires the EKS cluster to exist, including when create_aws_auth_configmap is disabled and this data resource manages an existing ConfigMap. Its dependency on the optional ConfigMap resource does not ensure cluster readiness in that case.",
+      "node": ":resource.kubernetes_config_map_v1_data.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

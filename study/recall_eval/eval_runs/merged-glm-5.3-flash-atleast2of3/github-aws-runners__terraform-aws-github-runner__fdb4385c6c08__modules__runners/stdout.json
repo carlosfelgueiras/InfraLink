@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nThe scale-up lambda embeds the job-retry check queue URL in its environment: `JOB_RETRY_CONFIG = jsonencode(local.job_retry_config)` where `local.job_retry_config` reads `module.job_retry[0].job_retry_check_queue.url`. The dependency graph shows no edge from :resource.aws_lambda_function.scale_up to module.job_retry:output.job_retry_check_queue (the reference is hidden behind a local), so the function could be created before the job-retry queue exists and would not be updated when the queue URL changes. Add `depends_on = [module.job_retry]` (or otherwise surface the queue reference in a direct attribute) on the scale-up lambda.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\n`:resource.aws_lambda_function.scale_up` sets the `JOB_RETRY_CONFIG` environment variable from `local.job_retry_config`, which embeds `module.job_retry[0].job_retry_check_queue.url`, but the function has no dependency on `module.job_retry:output.job_retry_check_queue` (only the sibling `aws_iam_role_policy.job_retry_sqs_publish` depends on it). The scale-up function can therefore be created before the job-retry check queue exists, pointing at a queue URL that is not yet provisioned.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": "module.job_retry:output.job_retry_check_queue",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

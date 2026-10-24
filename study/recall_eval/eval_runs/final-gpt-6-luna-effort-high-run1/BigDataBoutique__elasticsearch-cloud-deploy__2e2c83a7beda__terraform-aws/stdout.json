@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The bootstrap EC2 instance can start before the Elasticsearch role's inline discovery policy is attached. Order instance creation after the policy so its bootstrap code has the required EC2 describe permissions.",
+      "node": ":resource.aws_instance.bootstrap_node",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The master Auto Scaling Group can launch instances before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its members.",
+      "node": ":resource.aws_autoscaling_group.master_nodes",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The data Auto Scaling Group can launch instances before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its members.",
+      "node": ":resource.aws_autoscaling_group.data_nodes",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The client Auto Scaling Group can launch instances before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its members.",
+      "node": ":resource.aws_autoscaling_group.client_nodes",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The single-node Auto Scaling Group can launch its instance before the Elasticsearch role's inline discovery policy is attached. Make the group wait for the policy before launching its member.",
+      "node": ":resource.aws_autoscaling_group.single_node",
+      "target": ":resource.aws_iam_role_policy.elasticsearch",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The bootstrap instance receives the master Auto Scaling Group name and needs the conditional ASG-discovery permissions available before bootstrapping. Order the instance after this policy attachment.",
+      "node": ":resource.aws_instance.bootstrap_node",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Master nodes need the conditional ASG-discovery permissions to discover peers, but the group can launch them before this policy attachment. Order the group after the policy.",
+      "node": ":resource.aws_autoscaling_group.master_nodes",
+      "target": ":resource.aws_iam_role_policy.asg_discover",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

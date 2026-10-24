@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS cluster can be created with encryption enabled before the cluster role's cluster-encryption policy attachment is applied. The role must have the required KMS permissions before EKS provisions the cluster; add an explicit ordering dependency.",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS managed node group uses an IAM role whose required worker-node policies are attached by this resource, but the node group has no dependency on the attachment. The launch-template dependency only orders this when a custom launch template is actually used; with `use_custom_launch_template = false`, the node group can be created before its role permissions are ready. Add an explicit dependency so EKS node-group creation and deletion are ordered around the policy attachment.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The aws-auth ConfigMap is managed through the Kubernetes API but has no dependency on the EKS cluster. When no node-group module references contribute an indirect edge, Terraform may attempt to manage the ConfigMap before the cluster/API exists; order it after the cluster.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile can be created before the Fargate pod execution role's required managed policy is attached. The profile may become usable and start pods before that permission is available; order profile creation after the policy attachment.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

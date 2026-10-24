@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda: explicit depends_on of module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda: explicit depends_on of module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda is redundant \u2014 already implied by attribute references",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":module.runners: explicit depends_on of :data.external.download_lambdas is redundant \u2014 already implied by attribute references",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:data.aws_ssm_parameter.ami_id` reads `/github-action-runners/<prefix>/<runner_key>/runners/config/ami_id`, a parameter that is created by `:module.runners` (the multi-runner module manages the runner config SSM parameters, and the AMI is later refreshed in place by the AMI-updater lambda). The read only references a locally-built name string (`local.runner_ami_ssm_parameter_names`), so the graph records no dependency and Terraform may refresh this data source during plan before the parameter exists, failing with ParameterNotFound on a fresh apply. `:data.aws_ssm_parameter.ami_id` should depend on `:module.runners` (e.g. a `depends_on = [module.runners]`), which also transitively fixes `:data.aws_ami.runner_ami`.",
+      "node": ":data.aws_ssm_parameter.ami_id",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.ec2_update_runner_ssm_ami` builds the SSM parameter ARNs it manages from locally concatenated strings (`local.runner_ami_ssm_parameter_arns`) instead of from any resource or module, so it has no ordering relative to `:module.runners`, which owns/creates those `/github-action-runners/<prefix>/<runner_key>/runners/config/ami_id` parameters. On a fresh apply the scheduled lambda can be deployed and invoked (the rule fires every 10 minutes) while the parameters do not yet exist, so its GetParameter call fails. Add `depends_on = [module.runners]` on `:module.ec2_update_runner_ssm_ami`.",
+      "node": ":module.ec2_update_runner_ssm_ami",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`:module.runners` has an explicit `depends_on = [data.external.download_lambdas]`, but its `webhook_lambda_zip`, `runner_binaries_syncer_lambda_zip` and `runners_lambda_zip` arguments already interpolate `data.external.download_lambdas.result.path`, so Terraform already infers the dependency. The `depends_on` entry can be dropped.",
+      "node": ":module.runners",
+      "target": ":data.external.download_lambdas",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda` passes `logging_log_group = aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda.name`, which already makes the Lambda module depend on `module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda`. The explicit `depends_on = [aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda]` is redundant.",
+      "node": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_log_group.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda` sets `arn = module.ec2_update_runner_ssm_ami_lambda.lambda_function_arn`, which already establishes the dependency on `module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda`. The explicit `depends_on` on that module is redundant.",
+      "node": "module.ec2_update_runner_ssm_ami:resource.aws_cloudwatch_event_target.ec2_update_runner_ssm_ami_lambda",
+      "target": "module.ec2_update_runner_ssm_ami:module.ec2_update_runner_ssm_ami_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda` passes `logging_log_group = aws_cloudwatch_log_group.ec2_update_runner_tags_lambda.name`, which already makes the Lambda module depend on `module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda`. The explicit `depends_on` on that log group is redundant.",
+      "node": "module.ec2_update_runner_tags:module.ec2_update_runner_tags_lambda",
+      "target": "module.ec2_update_runner_tags:resource.aws_cloudwatch_log_group.ec2_update_runner_tags_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

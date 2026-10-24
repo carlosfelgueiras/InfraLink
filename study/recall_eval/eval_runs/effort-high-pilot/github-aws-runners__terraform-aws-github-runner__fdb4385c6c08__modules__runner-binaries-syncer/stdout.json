@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC subnets are configured, the Lambda execution role needs the VPC access policy before function creation/use. The conditional role-policy attachment is not referenced by the function, so Terraform may create the function before that permission is attached; add an explicit dependency on the attachment.",
+      "node": ":resource.aws_lambda_function.syncer",
+      "target": ":resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EventBridge target invokes this Lambda, but it does not depend on the Lambda invoke permission for events.amazonaws.com. The permission and target can be created concurrently, allowing the rule to become active before invocation is authorized; add an explicit dependency.",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

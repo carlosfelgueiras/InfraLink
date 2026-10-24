@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_cloudtrail.main` references only the bucket id (`s3_bucket_name = aws_s3_bucket.cloudtrail.id`), so nothing forces `:resource.aws_s3_bucket_policy.cloudtrail` (which grants cloudtrail.amazonaws.com s3:GetBucketAcl / s3:PutObject) to be applied first. If the trail is created while the bucket policy is absent, CloudTrail's CreateTrail call fails with InsufficientS3BucketPolicyException. Per the provider docs' basic example, `aws_cloudtrail` must depend on the S3 bucket policy (`depends_on = [aws_s3_bucket_policy.cloudtrail]`); there is no attribute reference that can express this, since the bucket policy resource exports no attributes usable by the trail.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

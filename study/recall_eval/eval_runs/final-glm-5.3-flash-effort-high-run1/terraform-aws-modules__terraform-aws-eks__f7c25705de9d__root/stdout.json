@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The aws-auth ConfigMap must be created against the cluster's Kubernetes API server, but `kubernetes_config_map.aws_auth` has no dependency on `aws_eks_cluster.this` \u2014 neither an attribute reference nor a `depends_on`. Nothing in the module's dependency chain orders this resource after the cluster, so Terraform may attempt to create it before the cluster (and its API endpoint) exists, causing the apply to fail.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`kubernetes_config_map_v1_data.aws_auth` reads and merges the live `aws-auth` ConfigMap via the Kubernetes API, so it requires the cluster to exist. Its only explicit `depends_on` is on `kubernetes_config_map.aws_auth`, which itself has no dependency on `aws_eks_cluster.this`, so the cluster ordering is not established transitively. This is closed once `kubernetes_config_map.aws_auth` depends on the cluster; a direct `depends_on` on the cluster also works if the config map resource is disabled via `create_aws_auth_configmap = false`.",
+      "node": ":resource.kubernetes_config_map_v1_data.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

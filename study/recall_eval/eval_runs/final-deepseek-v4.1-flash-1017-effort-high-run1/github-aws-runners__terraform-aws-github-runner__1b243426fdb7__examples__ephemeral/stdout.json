@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_apigatewayv2_stage.webhook` has `auto_deploy = true`, so creating the stage immediately creates an API Gateway deployment that snapshots whatever routes exist at that moment. The stage only references `aws_apigatewayv2_api.webhook.id`, so it does not wait for `aws_apigatewayv2_route.webhook` (or the integration behind it). If the stage is created first, the deployed API has no `POST /webhook` route and the endpoint returns 404 \u2014 and because the stage also sets `lifecycle { ignore_changes = [deployment_id] }`, the late-arriving route will never be redeployed, leaving the webhook permanently broken. Add `depends_on = [aws_apigatewayv2_route.webhook]` (which transitively covers `aws_apigatewayv2_integration.webhook`) on the stage. No attribute-based fix is available: the stage has no field that can reference the route.",
+      "node": "module.runners.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "target": "module.runners.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_event_source_mapping.scale_up` only references `aws_lambda_function.scale_up` and `var.sqs_build_queue`, so it can be created before `aws_iam_role_policy.scale_up` (the inline policy granting `sqs:ReceiveMessage`/`DeleteMessage`/`GetQueueAttributes` to the scale-up role) is attached. Lambda validates the execution role's SQS permissions during CreateEventSourceMapping and fails with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\". The role policy and the event source mapping are siblings in the graph (both hang off the role/queue), so nothing orders them. Add an explicit `depends_on = [aws_iam_role_policy.scale_up]`; there is no attribute on the mapping that can reference the policy.",
+      "node": "module.runners.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

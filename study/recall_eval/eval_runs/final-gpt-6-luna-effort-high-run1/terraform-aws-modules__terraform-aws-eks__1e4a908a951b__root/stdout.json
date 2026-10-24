@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.null_resource.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the implicit dependency established by referencing the cluster endpoint in the provisioner environment.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency from :resource.null_resource.wait_for_cluster to :resource.aws_eks_cluster.this duplicates the implicit dependency created by referencing the cluster endpoint in the local-exec environment.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The managed node group resource :module.node_groups:resource.aws_eks_node_group.workers should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy. The node group's role ARN reference orders role creation, not this policy attachment; the AWS provider documentation specifically recommends ordering node groups after the worker policy attachment.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The managed node group resource :module.node_groups:resource.aws_eks_node_group.workers should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy. Its IAM role reference does not order this attachment, which is needed for workers' networking permissions.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The managed node group resource :module.node_groups:resource.aws_eks_node_group.workers should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly so the node role's image-pull permissions are attached before the node group is handled.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The managed node group resource :module.node_groups:resource.aws_eks_node_group.workers should wait for :resource.kubernetes_config_map.aws_auth. The source explicitly uses the aws-auth ConfigMap as a readiness gate before unlocking node-group creation, but the supplied graph does not express that dependency.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.kubernetes_config_map.aws_auth",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The self-managed worker Auto Scaling group :resource.aws_autoscaling_group.workers can launch instances as soon as its launch configuration is available, but its role-policy attachments are not dependencies. It should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy so nodes do not start before their worker permissions are attached.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The self-managed worker Auto Scaling group :resource.aws_autoscaling_group.workers can launch instances before the CNI permissions are attached. It should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The self-managed worker Auto Scaling group :resource.aws_autoscaling_group.workers can launch instances before the image-pull permissions are attached. It should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly.",
+      "node": ":resource.aws_autoscaling_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The launch-template worker Auto Scaling group :resource.aws_autoscaling_group.workers_launch_template can launch instances before the worker permissions are attached. It should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The launch-template worker Auto Scaling group :resource.aws_autoscaling_group.workers_launch_template can launch instances before the CNI permissions are attached. It should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The launch-template worker Auto Scaling group :resource.aws_autoscaling_group.workers_launch_template can launch instances before the image-pull permissions are attached. It should wait for :resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly.",
+      "node": ":resource.aws_autoscaling_group.workers_launch_template",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

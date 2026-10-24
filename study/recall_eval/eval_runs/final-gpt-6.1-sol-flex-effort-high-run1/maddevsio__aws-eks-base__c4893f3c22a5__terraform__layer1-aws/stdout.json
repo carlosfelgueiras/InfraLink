@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_cloudtrail.main references the log bucket but does not wait for aws_s3_bucket_policy.cloudtrail to grant CloudTrail GetBucketAcl and PutObject permissions. Trail creation can race policy installation and fail with InsufficientS3BucketPolicyException. Use the policy's bucket attribute for s3_bucket_name to establish the missing ordering.",
+      "node": ":resource.aws_cloudtrail.main",
+      "target": ":resource.aws_s3_bucket_policy.cloudtrail",
+      "fix": {
+        "field": "s3_bucket_name",
+        "expression": "aws_s3_bucket_policy.cloudtrail.bucket"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eventbridge creates enabled rules and SNS targets without waiting for aws_sns_topic_policy.security_alerts, which grants events.amazonaws.com permission to publish. Targets can become active before publication is authorized, causing initial alert delivery failures. Reading each topic ARN through its topic policy orders target creation after permission installation.",
+      "node": ":module.eventbridge",
+      "target": ":resource.aws_sns_topic_policy.security_alerts",
+      "fix": {
+        "field": "targets",
+        "expression": "{ for rule in [\"secrets_manager_actions\", \"parameter_store_actions\", \"console_login_failed\", \"kms_cmk_delete_or_disable\", \"consolelogin_without_mfa\", \"unauthorized_api_calls\", \"usage_of_root_account\", \"iam_policy_changes\", \"cloudtrail_configuration_changes\", \"s3_bucket_policy_changes\", \"aws_config_changes\", \"security_group_changes\", \"nacl_changes\", \"network_gateway_changes\", \"route_table_changes\", \"vpc_changes\", \"organization_changes\"] : rule => [{ name = \"${replace(rule, \"_\", \"-\")}-notify-via-sns\", arn = aws_sns_topic_policy.security_alerts[count.index].arn }] }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.eks can launch self-managed workers before aws_ebs_encryption_by_default.default enables regional default encryption. Its block-device configuration sets encrypted = false, so initial volumes can be unencrypted if the regional default was previously disabled; enabling the default later does not encrypt existing volumes. Wire the managed encryption setting into the worker block-device configuration to establish ordering and explicitly request encryption.",
+      "node": ":module.eks",
+      "target": ":resource.aws_ebs_encryption_by_default.default",
+      "fix": {
+        "field": "self_managed_node_group_defaults",
+        "expression": "{ block_device_mappings = { xvda = { device_name = \"/dev/xvda\", ebs = { delete_on_termination = true, encrypted = aws_ebs_encryption_by_default.default.enabled, volume_size = 100, volume_type = \"gp3\" } } }, iam_role_additional_policies = var.eks_workers_additional_policies, metadata_options = { http_endpoint = \"enabled\", http_tokens = \"required\", http_put_response_hop_limit = 1, instance_metadata_tags = \"disabled\" }, iam_role_attach_cni_policy = false }"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When enabled, module.pritunl launches an EC2 instance through its Auto Scaling group without explicit EBS encryption settings and without waiting for aws_ebs_encryption_by_default.default. If regional default encryption was previously disabled, initial instance volumes can be created unencrypted and are not retroactively encrypted. Add a dependency on the regional encryption setting at the root module.pritunl call so it is enabled before instances launch.",
+      "node": ":module.pritunl",
+      "target": ":resource.aws_ebs_encryption_by_default.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

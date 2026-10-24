@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.additive` grants roles from `var.iam_additive_roles`, which may reference custom roles created in this module by `google_project_iam_custom_role.roles`. Since `role` is a plain string from a variable, Terraform cannot infer this ordering, and applying an additive binding before its custom role exists fails with a \"role not found\" error. The module already guards the analogous authoritative binding (`google_project_iam_binding.authoritative`) with an explicit `depends_on` on the custom roles, but the additive bindings lack the same protection. Add `depends_on = [google_project_iam_custom_role.roles]` to `google_project_iam_member.additive`.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_network_connectivity_spoke.spoke-ra has no dependency on google_compute_router_peer.peer_0. The spoke's linked_router_appliance_instances are built from plain strings in var.router_appliances (internal_ip / vm_self_link), so Terraform creates the spoke in parallel with the Cloud Router BGP peers. NCC requires the BGP sessions between the Cloud Router interfaces and the router appliance VMs to be established before the router appliance spoke can be created, so peer_0 must be created (and its session up) first; otherwise the spoke create can fail or be flaky. Add an explicit depends_on on google_compute_router_peer.peer_0 (and peer_1) since no spoke attribute can reference a router peer.",
+      "node": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "target": ":resource.google_compute_router_peer.peer_0",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_network_connectivity_spoke.spoke-ra has no dependency on google_compute_router_peer.peer_1. The second set of BGP sessions to the router appliance VMs is configured by peer_1, but the spoke only reads VM self-links from variables, so it can be applied concurrently with peer_1. NCC validates the router appliance BGP sessions at spoke creation time, so the spoke must be ordered after peer_1 (along with peer_0) via an explicit depends_on; there is no attribute on the spoke that can carry this ordering implicitly.",
+      "node": ":resource.google_network_connectivity_spoke.spoke-ra",
+      "target": ":resource.google_compute_router_peer.peer_1",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

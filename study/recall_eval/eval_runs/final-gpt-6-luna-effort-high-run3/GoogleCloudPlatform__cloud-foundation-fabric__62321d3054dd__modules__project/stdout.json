@@ -1,0 +1,364 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on project_services is redundant: google_project_iam_member.service_agents already depends on google_project_service_identity.default, which itself depends on project_services.",
+      "node": ":resource.google_project_iam_member.service_agents",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on project_services is redundant: google_logging_project_sink.sink depends on IAM binding/member resources, each of which already depends on project_services.",
+      "node": ":resource.google_logging_project_sink.sink",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on project_services is redundant: google_project_iam_member.shared_vpc_host_robots already depends on service identities, default service accounts, and service-account data sources that depend on project_services.",
+      "node": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on project_services is redundant: google_compute_subnetwork_iam_member.shared_vpc_host_robots already depends on service identities, default service accounts, and service-account data sources that depend on project_services.",
+      "node": ":resource.google_compute_subnetwork_iam_member.shared_vpc_host_robots",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on project_services is redundant: google_kms_crypto_key_iam_member.service_agent_cmek already depends on service identities and service-agent IAM resources that depend on project_services.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_monitoring_notification_channel.channels creates project notification channels but has no ordering dependency on project_services. If monitoring.googleapis.com is enabled by this module, channel creation can race API activation.",
+      "node": ":resource.google_monitoring_notification_channel.channels",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_monitoring_alert_policy.alerts creates alert policies in the project but has no dependency on project_services; when monitoring.googleapis.com is enabled by this module, policy creation can race API activation, particularly when channels are external or none are configured.",
+      "node": ":resource.google_monitoring_alert_policy.alerts",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_metric.metrics creates a project logging metric but does not wait for project_services. If logging.googleapis.com is enabled by this module, metric creation can race API activation.",
+      "node": ":resource.google_logging_metric.metrics",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_project_exclusion.logging-exclusion creates a project logging exclusion but does not wait for project_services. If logging.googleapis.com is enabled by this module, exclusion creation can race API activation.",
+      "node": ":resource.google_logging_project_exclusion.logging-exclusion",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_logging_log_scope.log-scopes creates project log scopes but does not wait for project_services. If logging.googleapis.com is enabled by this module, log-scope creation can race API activation.",
+      "node": ":resource.google_logging_log_scope.log-scopes",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Shared VPC service-project association uses Compute Engine functionality but has no ordering edge to project_services. When compute.googleapis.com is enabled by this module, association can race API activation.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service_identity.default is redundant because google_project_iam_member.service_agents already depends on that service-identity resource.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_compute_shared_vpc_host_project.shared_vpc_host is redundant because google_compute_shared_vpc_service_project.service_projects already depends on the host-project resource.",
+      "node": ":output.id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_org_policy_policy.default is redundant because google_project_service.project_services already depends on the organization-policy resource.",
+      "node": ":output.id",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service.project_services is redundant because this output already depends on resources that themselves depend on project_services, including the service identities, service-agent IAM, Shared VPC host, and CMEK IAM resources.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service_identity.default is redundant because google_project_iam_member.service_agents and google_kms_crypto_key_iam_member.service_agent_cmek already depend on service_identity.default.",
+      "node": ":output.id",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.service_agents is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on service_agents.",
+      "node": ":output.id",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_org_policy_policy.default is redundant because google_project_service.project_services already depends on the organization-policy resource.",
+      "node": ":output.name",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service.project_services is redundant because the output also depends on resources such as service_projects, Shared VPC host IAM, and CMEK IAM that depend transitively on project_services.",
+      "node": ":output.name",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_compute_shared_vpc_service_project.service_projects is redundant because that resource already depends on google_compute_shared_vpc_host_project.shared_vpc_host, which this output also depends on.",
+      "node": ":output.name",
+      "target": ":resource.google_compute_shared_vpc_service_project.service_projects",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_compute_shared_vpc_host_project.shared_vpc_host is redundant because google_compute_shared_vpc_service_project.service_projects already depends on the host-project resource.",
+      "node": ":output.number",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_kms_crypto_key_iam_member.service_agent_cmek is redundant because this output already depends on google_project_iam_member.service_agents, which is one of CMEK IAM's prerequisites.",
+      "node": ":output.number",
+      "target": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_compute_shared_vpc_host_project.shared_vpc_host is redundant because google_compute_shared_vpc_service_project.service_projects already depends on that host-project resource.",
+      "node": ":output.project_id",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service_identity.default is redundant because google_project_iam_member.service_agents and google_kms_crypto_key_iam_member.service_agent_cmek already depend on it.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_org_policy_policy.default is redundant because google_project_service.project_services already depends on the organization-policy resource.",
+      "node": ":output.project_id",
+      "target": ":resource.google_org_policy_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_compute_shared_vpc_service_project.service_projects is redundant because that resource already depends on google_compute_shared_vpc_host_project.shared_vpc_host, which this output also depends on.",
+      "node": ":output.number",
+      "target": ":resource.google_compute_shared_vpc_service_project.service_projects",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.service_agents is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on it.",
+      "node": ":output.number",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.shared_vpc_host_robots is redundant because this output already depends on google_project_iam_member.service_agents, which transitively waits on the shared project-services and service identity prerequisites, as well as CMEK IAM which depends on service_agents.",
+      "node": ":output.number",
+      "target": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service.project_services is redundant because this output already depends on resources that transitively depend on project_services, including service identities, IAM, Shared VPC host, and CMEK IAM.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service_identity.default is redundant because google_project_iam_member.service_agents already depends on it.",
+      "node": ":output.number",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.service_agents is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on service_agents.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_kms_crypto_key_iam_member.service_agent_cmek is redundant because the output also depends on google_project_iam_member.shared_vpc_host_robots, and both are ordered after the common service-agent and service activation prerequisites.",
+      "node": ":output.name",
+      "target": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_service_identity.default is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on it.",
+      "node": ":output.name",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.shared_vpc_host_robots is redundant because this output already depends on google_kms_crypto_key_iam_member.service_agent_cmek, which depends on the same service-agent setup including service/project-service prerequisites.",
+      "node": ":output.name",
+      "target": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.shared_vpc_host_robots is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on shared_vpc_host_robots' common prerequisites, but the IAM operations are separate and no edge orders one after the other.",
+      "node": ":output.number",
+      "target": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_compute_shared_vpc_host_project.shared_vpc_host is redundant because google_compute_shared_vpc_service_project.service_projects already depends on that host-project resource.",
+      "node": ":output.name",
+      "target": ":resource.google_compute_shared_vpc_host_project.shared_vpc_host",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.service_agents is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on it.",
+      "node": ":output.name",
+      "target": ":resource.google_project_iam_member.service_agents",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on google_project_iam_member.shared_vpc_host_robots is redundant because google_kms_crypto_key_iam_member.service_agent_cmek already depends on shared_vpc_host_robots' common prerequisites, but the IAM operations are separate and no edge orders one after the other.",
+      "node": ":output.project_id",
+      "target": ":resource.google_project_iam_member.shared_vpc_host_robots",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on google_project_service.project_services is transitively established by the output's dependency on google_project_service_identity.default, which itself depends on project_services.",
+      "node": ":output.services",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency on google_project_service_identity.default is transitively established by the output's dependency on google_project_iam_member.service_agents, which itself depends on the service identity.",
+      "node": ":output.service_agents",
+      "target": ":resource.google_project_service_identity.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

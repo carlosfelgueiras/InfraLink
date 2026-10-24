@@ -1,0 +1,160 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.delete_daemonset removes the aws-node VPC CNI DaemonSet, but it has no dependency on null_resource.create_calico_installation. Terraform can therefore delete the existing CNI before the Calico Installation has been created, leaving the cluster without working pod networking.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ calico_installation_id = null_resource.create_calico_installation.id }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "module.karpenter explicitly depends_on module.self_managed_node_group, but it already depends_on aws_eks_addon.aws_ebs_csi_driver and aws_eks_addon.eks_pod_identity_agent, and both of those add-ons explicitly depend_on module.self_managed_node_group. The direct edge is redundant.",
+      "node": ":module.karpenter",
+      "target": ":module.self_managed_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter explicitly depends_on data.aws_eks_cluster_auth.cluster, but it already has an implicit dependency on module.karpenter, which explicitly depends_on data.aws_eks_cluster_auth.cluster. The explicit edge is redundant.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":data.aws_eks_cluster_auth.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter explicitly depends_on module.karpenter, but its values reference module.karpenter.service_account and module.karpenter.queue_name, so Terraform already creates the same implicit dependency.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "helm_release.karpenter explicitly depends_on null_resource.update_kubeconfig, but it already depends on module.karpenter, which depends on null_resource.apply_tigera_operator, which in turn depends on null_resource.update_kubeconfig. The explicit edge is redundant.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_ec2_node_class explicitly depends_on module.eks, but its triggers and local manifest already reference module.eks security group and cluster outputs, creating the same implicit dependency.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_ec2_node_class explicitly depends_on module.karpenter, but its triggers and local manifest reference module.karpenter.node_iam_role_arn, so the implicit dependency already exists.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_ec2_node_class explicitly depends_on null_resource.update_kubeconfig, but it already depends on module.karpenter, which depends on null_resource.apply_tigera_operator, which depends on update_kubeconfig. The explicit edge is redundant.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool explicitly depends_on module.eks, but it already depends_on null_resource.apply_ec2_node_class, which itself depends on module.eks. The explicit edge is redundant.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool explicitly depends_on helm_release.karpenter, but it already depends_on null_resource.apply_ec2_node_class, which explicitly depends_on helm_release.karpenter. The explicit edge is redundant.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.helm_release.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.apply_node_pool explicitly depends_on null_resource.update_kubeconfig, but it already depends_on null_resource.apply_ec2_node_class, which depends on update_kubeconfig. The explicit edge is redundant.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_daemonset explicitly depends_on module.eks, but it already depends_on null_resource.update_kubeconfig, which depends_on module.eks. The explicit module.eks edge is redundant.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.update_kubeconfig explicitly depends_on module.eks, but its command references module.eks.cluster_name, so Terraform already infers the dependency implicitly.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

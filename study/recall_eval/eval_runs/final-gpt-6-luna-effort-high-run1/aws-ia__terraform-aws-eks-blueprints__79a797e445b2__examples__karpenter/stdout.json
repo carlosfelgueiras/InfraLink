@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Karpenter Provisioner manifest sets providerRef.name to \"default\", matching the AWSNodeTemplate created by node_template, but there is no dependency edge between them. Terraform may apply the Provisioner before its referenced template exists; order the template manifest first.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Provisioner manifest's providerRef names the AWSNodeTemplate manifest \"default\", but Terraform can apply the Provisioner first because both only depend on the add-ons module. Make the Provisioner wait for the referenced template so Karpenter does not encounter a temporarily unresolved provider reference.",
+      "node": ":resource.kubectl_manifest.karpenter_provisioner",
+      "target": ":resource.kubectl_manifest.karpenter_node_template",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on the AWS provider manifest is redundant: this provider-config manifest also depends on the 60-second wait resource, which itself depends on the AWS provider manifest, so that ordering is already guaranteed transitively.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.aws_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on the Helm provider manifest is redundant: helm_provider_config depends on the wait resource, and that wait resource already depends on the Helm provider manifest.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.helm_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The direct dependency on the Kubernetes provider manifest is redundant: kubernetes_provider_config also depends on the wait resource, which depends on that provider manifest.",
+      "node": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider_config",
+      "target": "module.eks_blueprints_kubernetes_addons.module.crossplane:resource.kubectl_manifest.kubernetes_provider",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

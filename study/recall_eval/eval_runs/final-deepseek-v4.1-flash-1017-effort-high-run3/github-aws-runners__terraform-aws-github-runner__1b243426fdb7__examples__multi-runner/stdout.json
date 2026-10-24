@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scale-up Lambda's SQS event source mapping (`aws_lambda_event_source_mapping.scale_up`) references only the function ARN and the queue ARN, so Terraform does not order it after `aws_iam_role_policy.scale_up`. That inline policy is what grants the execution role `sqs:ReceiveMessage`/`sqs:DeleteMessage`/`sqs:GetQueueAttributes`. Lambda validates the execution role when creating an SQS event source mapping and otherwise fails with \"The provided execution role does not have permissions to call ReceiveMessage on SQS\". The mapping must depend on the SQS policy being attached.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`null_resource.update_app` registers the GitHub App webhook URL using `module.multi-runner.webhook.endpoint`, but that endpoint output is derived only from the API Gateway API object (plus the hardcoded relative path). It does not depend on the `POST /webhook` route/integration (or the API Gateway invocation permission), so the GitHub API update can run before the API Gateway is actually serving `/webhook`. The webhook registration should be ordered after the webhook route is created.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

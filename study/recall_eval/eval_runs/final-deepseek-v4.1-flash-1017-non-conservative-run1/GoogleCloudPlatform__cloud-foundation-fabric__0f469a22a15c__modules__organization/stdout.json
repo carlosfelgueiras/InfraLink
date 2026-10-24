@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_binding.authoritative binds roles from var.iam, which may include custom roles created by google_organization_iam_custom_role.roles in this same module. Granting a role requires the custom role to already exist (and role changes propagate asynchronously), but no attribute reference or depends_on orders the binding after the role, so an apply can fail with a \"role not found\"/propagation error. Add an explicit dependency on google_organization_iam_custom_role.roles.",
+      "node": ":resource.google_organization_iam_binding.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_member.additive grants roles from var.iam_additive / var.iam_additive_members, which can be custom roles created by google_organization_iam_custom_role.roles in this module. IAM member creation requires the referenced role to exist first; nothing establishes that ordering, so the module can race custom-role creation and fail. Add an explicit dependency on google_organization_iam_custom_role.roles.",
+      "node": ":resource.google_organization_iam_member.additive",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_organization_iam_policy.authoritative applies an authoritative policy whose bindings come from var.iam_bindings_authoritative, which can include custom roles created by google_organization_iam_custom_role.roles. The whole policy cannot be applied until those custom roles exist, but the policy only depends on the local data source/var and has no ordering to the role resource. Add an explicit dependency on google_organization_iam_custom_role.roles.",
+      "node": ":resource.google_organization_iam_policy.authoritative",
+      "target": ":resource.google_organization_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

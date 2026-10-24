@@ -1,0 +1,7 @@
+In `modules/eks-managed-node-group/main.tf`, `aws_eks_node_group.this` references `aws_iam_role.this[0].arn` via `node_role_arn`, which orders the node group after the IAM role itself, but does not directly depend on `aws_iam_role_policy_attachment.this` (or `aws_iam_role_policy_attachment.additional`).
+
+Although `aws_launch_template.this` has `depends_on = [aws_iam_role_policy_attachment.this]`, that transitive dependency only holds when `var.create_launch_template` and `var.use_custom_launch_template` are both `true`. When a custom launch template is disabled (`use_custom_launch_template = false`) or an existing launch template is provided (`create_launch_template = false`), `aws_launch_template.this` has `count = 0` and its `depends_on` is not in the dependency chain for `aws_eks_node_group.this` (or `launch_template` block is omitted altogether).
+
+During `aws_eks_node_group` creation and deletion, EKS requires the worker node IAM role to have the required policies attached (`AmazonEKSWorkerNodePolicy`, `AmazonEC2ContainerRegistryReadOnly`, and `AmazonEKS_CNI_Policy`) so that nodes can properly join the cluster and EKS can manage/clean up EC2 instances and ENIs before policies are detached on destroy. As documented by the Terraform AWS Provider for `aws_eks_node_group`, `aws_eks_node_group.this` should explicitly depend on `aws_iam_role_policy_attachment.this`.
+
+Correct

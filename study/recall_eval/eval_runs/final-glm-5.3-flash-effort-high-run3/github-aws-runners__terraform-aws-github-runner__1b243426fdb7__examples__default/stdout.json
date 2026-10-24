@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The webhook-github-app module runs a local-exec provisioner that registers the webhook endpoint (and secret) with the GitHub App, but its only dependency is module.runners:output.webhook, which resolves from the API Gateway resource alone. The API Gateway route, integration, and stage that make the endpoint functional (aws_apigatewayv2_route.webhook, aws_apigatewayv2_integration.webhook, aws_apigatewayv2_stage.webhook inside module.runners) are unrelated in the graph, so the provisioner can execute before the webhook stack is deployed. The GitHub App would then be configured against an endpoint URL that exists but is not yet routable, and nothing would re-run the update afterwards. The module block in the root (main.tf) should declare depends_on = [module.runners] so the whole runners stack (including route/integration/stage) is created first.",
+      "node": ":module.webhook-github-app",
+      "target": ":module.runners",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

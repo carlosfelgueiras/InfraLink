@@ -1,0 +1,5 @@
+This confirms the report. `google_project_iam_member.additive` only uses `var.iam_additive_roles` (plain strings from input, no reference to `google_project_iam_custom_role.roles`), so if a custom role created by this module is included in that list, Terraform has no implicit dependency info to order the member grant after the role creation—and unlike `google_project_iam_binding.authoritative` (lines 82-91), which explicitly has `depends_on = [google_project_service.project_services, google_project_iam_custom_role.roles]`, the additive resource (lines 93-98) has no `depends_on` at all. The module comment at line 80 even flags "additive (non-authoritative) roles might fail due to dynamic values," acknowledging this exact risk.
+
+This is a genuine operational ordering requirement (a role must exist before it can be granted) that is not expressed anywhere in the configuration for the additive resource.
+
+Correct

@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_organization_security_policy_association.attachment attaches firewall policies by ID taken only from var.firewall_policy_attachments, with no reference to the policies created in this module. Since association creation calls the addAssociation API against the policy, each policy in google_compute_organization_security_policy.policy must exist before its association is created; without an explicit depends_on the associations may be applied before the policies, causing API errors on create and premature deletion ordering on destroy.",
+      "node": ":resource.google_compute_organization_security_policy_association.attachment",
+      "target": ":resource.google_compute_organization_security_policy.policy",
+      "fix": {
+        "field": "policy_id",
+        "expression": "try(google_compute_organization_security_policy.policy[each.value].id, each.value)"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

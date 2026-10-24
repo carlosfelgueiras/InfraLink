@@ -1,0 +1,52 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.kubernetes_service_account_v1.zombie_runner_cleanup` is created in `var.controller_config.namespace`, a Kubernetes namespace provisioned by `module.controller` (`kubernetes_namespace.controller_namespace`). But this resource has no implicit or explicit dependency on `:module.controller`, so on a fresh apply Terraform may try to create the ServiceAccount before the namespace exists, causing \"namespace not found\" errors. It should depend on `:module.controller`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nkubernetes_service_account_v1.zombie_runner_cleanup is created in var.controller_config.namespace, the namespace provisioned by module.controller (kubernetes_namespace.controller_namespace). It has no dependency on module.controller, so Terraform may try to create this ServiceAccount before the namespace exists and fail with \"namespace not found\". It should wait for module.controller.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.kubernetes_role_v1.zombie_runner_cleanup` lives in the controller namespace `var.controller_config.namespace`, which is created by `module.controller`'s `kubernetes_namespace.controller_namespace`. It has no dependency (direct or transitive) on `:module.controller`, so it can be applied before the namespace exists. It should depend on `:module.controller`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nkubernetes_role_v1.zombie_runner_cleanup is created in var.controller_config.namespace (provisioned by module.controller) and its rule targets the actions.github.com/ephemeralrunners CRD that the controller's Helm release installs. Without a dependency on module.controller it can be applied before the namespace/CRDs exist.",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.kubernetes_role_binding_v1.zombie_runner_cleanup` is a Kubernetes object in the controller namespace `var.controller_config.namespace`, created by `module.controller`. Its only dependencies are other zombie resources and variables, none of which reach `:module.controller`, so the namespace may not exist when it is created. It should depend on `:module.controller`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nkubernetes_role_binding_v1.zombie_runner_cleanup lives in var.controller_config.namespace, which is created by module.controller, but it only depends on the sibling SA/Role resources in the root module and never on module.controller. It can therefore be applied before the namespace (and controller CRDs) exist.",
+      "node": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.kubernetes_cron_job_v1.zombie_runner_cleanup` is created in the controller namespace and its script queries `actions.github.com/ephemeralrunners` CRs, both of which are provided by `module.controller` (the namespace plus the controller Helm release's CRDs). It has no dependency on `:module.controller`, so on a fresh apply the namespace/CRDs may not exist yet and the CronJob will fail. It should depend on `:module.controller`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nkubernetes_cron_job_v1.zombie_runner_cleanup runs in var.controller_config.namespace and relies on the actions.github.com/ephemeralrunners CRD installed by module.controller's Helm release, but has no dependency on module.controller. It can race ahead of the namespace/CRD creation and fail.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_eks_pod_identity_association.eks_pod_identity binds the runner IAM role to the service account named by var.service_account, but it only references the variable string, not the kubernetes_service_account_v1.runner_sa resource that actually creates that service account. This leaves the association and the service account with no ordering/consistency link. Wire the association's service_account to the runner_sa resource so the dependency is inferred.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_eks_pod_identity_association.eks_pod_identity binds the service account kubernetes_service_account_v1.runner_sa to the IAM role, but references the SA only by the var.service_account string and therefore has no ordering dependency on the SA resource. Point service_account at the SA resource so the association is created after the service account exists.",
+      "node": "module.scale_sets:resource.aws_eks_pod_identity_association.eks_pod_identity",
+      "target": "module.scale_sets:resource.kubernetes_service_account_v1.runner_sa",
+      "fix": {
+        "field": "service_account",
+        "expression": "kubernetes_service_account_v1.runner_sa[count.index].metadata[0].name"
+      },
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

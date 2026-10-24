@@ -1,0 +1,35 @@
+{
+  "repo": "cisco-open__forge",
+  "parent_sha": "6e4fdddd322c10f578a1933ceb00d6aa3627754c^",
+  "resolved_sha": "23ba04c17d2a221f292fe78c4db7f69125323de7",
+  "module_dir": "modules/integrations/splunk_cloud_data_manager/data_input",
+  "profile": "openrouter-deepseek-v4.1-flash-1017",
+  "effort": "high",
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "cisco-open__forge",
+      "pr_number": 264,
+      "pr_url": "https://github.com/cisco-open/forge/pull/264",
+      "commit_url": "https://github.com/cisco-open/forge/commit/6e4fdddd322c10f578a1933ceb00d6aa3627754c",
+      "commit_sha": "6e4fdddd322c10f578a1933ceb00d6aa3627754c",
+      "parent_sha": "6e4fdddd322c10f578a1933ceb00d6aa3627754c^",
+      "commit_subject": "fix: force dm template update (#264)",
+      "commit_date": "2026-01-08T21:25:40+01:00",
+      "file": "modules/integrations/splunk_cloud_data_manager/data_input/s3_template.tf",
+      "module_dir": "modules/integrations/splunk_cloud_data_manager/data_input",
+      "holder_address": "aws_s3_object.cloudformation_template",
+      "added_targets": [
+        "data.external.splunk_dm_version"
+      ],
+      "pre_existing_targets": [
+        "null_resource.create_integration",
+        "random_uuid.splunk_input_uuid"
+      ],
+      "already_implicit": {
+        "data.external.splunk_dm_version": false
+      },
+      "verify_error": null
+    }
+  ]
+}

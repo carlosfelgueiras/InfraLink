@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_shared_vpc_service_project.shared_vpc_service associates this project as a Shared VPC service project, which requires the Compute API to be enabled in the project first. Unlike its siblings google_compute_shared_vpc_host_project.shared_vpc_host (which depends_on google_project_service.project_services) and service_projects (which inherits that ordering), this resource only depends on the VPC-SC perimeter resources and has no path to google_project_service.project_services. Add it to depends_on (no clean data reference exists since the project id is referenced via local.project.project_id).",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_project_default_network_tier.default_network_tier calls the Compute API (projects.setDefaultNetworkTier) and must run after the Compute API is enabled. Its sibling in main.tf, google_compute_project_metadata_item.default, carries depends_on = [google_project_service.project_services], but default_network_tier has no such ordering (its only reference is var.default_network_tier, and the project comes via local.project.project_id). Add google_project_service.project_services to depends_on.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_monitoring_monitored_project.primary adds this project to a Cloud Monitoring metrics scope, an operation that requires the Cloud Monitoring API to be enabled in the project. It currently has no dependency of any kind (only var.metric_scopes and local.project.project_id are referenced), unlike its sibling google_compute_project_metadata_item.default which orders after project_services. Add google_project_service.project_services to depends_on so the API is enabled first.",
+      "node": ":resource.google_monitoring_monitored_project.primary",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

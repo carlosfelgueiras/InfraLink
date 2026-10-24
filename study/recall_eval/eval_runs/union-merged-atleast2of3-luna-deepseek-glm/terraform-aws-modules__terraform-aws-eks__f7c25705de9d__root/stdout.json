@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe EKS cluster encryption configuration can use the KMS key created by module.kms, but the cluster role's encryption policy is not attached until this resource completes. The cluster should wait for this attachment so EKS has the required KMS permissions when creating the encrypted cluster.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe cluster encryption configuration can use a KMS key, but the cluster role's encryption policy attachment is not ordered before cluster creation. EKS needs the role permissions to use the configured key; add an explicit dependency so cluster creation cannot race the attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS cluster can be created with encryption enabled before the cluster role's cluster-encryption policy attachment is applied. The role must have the required KMS permissions before EKS provisions the cluster; add an explicit ordering dependency.\n\n----------------------------------------\n\n[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\n`:resource.aws_eks_cluster.this` enables `encryption_config` with the KMS key from `module.kms`, but it only orders itself against `aws_iam_role_policy_attachment.this`. The cluster IAM role's KMS permissions (`kms:Encrypt/Decrypt/CreateGrant/DescribeKey` for the encryption key) are granted by `:resource.aws_iam_role_policy_attachment.cluster_encryption`, which has no ordering relationship to the cluster \u2014 Terraform may create the cluster before the role can use the key, causing intermittent failures of the control plane's secrets-encryption operations during/right after cluster creation. The other role attachment is already ordered explicitly; this one is not.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_eks_cluster.this enables encryption_config using the KMS key from module.kms, but its IAM role only gets the required kms:Encrypt/Decrypt/DescribeKey/CreateGrant permissions from aws_iam_role_policy_attachment.cluster_encryption (aws_iam_policy.cluster_encryption). The cluster's depends_on only covers aws_iam_role_policy_attachment.this, so Terraform has no ordering forcing the encryption policy to be attached before the cluster is created. EKS validates KMS access at create time, so the cluster can fail if the attachment hasn't happened yet. Add the encryption policy attachment to the cluster's depends_on (no attribute reference expresses this).",
+      "node": ":resource.aws_eks_cluster.this",
+      "target": ":resource.aws_iam_role_policy_attachment.cluster_encryption",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nCreating this Kubernetes ConfigMap requires the EKS Kubernetes API to be available, but the resource has no dependency on the cluster. Add an ordering dependency so Terraform does not attempt to manage aws-auth before the cluster exists.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe aws-auth ConfigMap is managed through the Kubernetes API but has no dependency on the EKS cluster. When no node-group module references contribute an indirect edge, Terraform may attempt to manage the ConfigMap before the cluster/API exists; order it after the cluster.",
+      "node": ":resource.kubernetes_config_map.aws_auth",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run1]\nThe managed node group uses the IAM role but has no dependency on its worker-node policy attachments. The AWS provider documentation recommends ordering the node group after these permissions are attached (and before they are removed); otherwise provisioning or deletion can race the policy attachments.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EKS managed node group can be created without waiting for its IAM role policy attachments, and AWS documents that these permissions must be established before node group handling (including deletion). Add an ordering dependency on the required worker-node policy attachments.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EKS managed node group uses an IAM role whose required worker-node policies are attached by this resource, but the node group has no dependency on the attachment. The launch-template dependency only orders this when a custom launch template is actually used; with `use_custom_launch_template = false`, the node group can be created before its role permissions are ready. Add an explicit dependency so EKS node-group creation and deletion are ordered around the policy attachment.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\nThe EKS managed node group is created without any ordering relative to its node IAM role policy attachments. EKS validates node role permissions when provisioning the node group, and IAM policy changes propagate asynchronously: without the AmazonEKSWorkerNodePolicy/AmazonEKS_CNI_Policy/AmazonEC2ContainerRegistryReadOnly policies attached and propagated before node group creation, launched nodes cannot join the cluster, and node group deletion may fail to clean up EC2 instances and ENIs. The launch template has a bare `depends_on` on the base attachment, but the node group resource itself has no dependency on either attachment.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_node_group.this provision instances asynchronously and can launch/join the cluster before aws_iam_role_policy_attachment.this is applied. The node role (aws_iam_role.this) must have its policies attached first (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, AmazonEC2ContainerRegistryReadOnly), otherwise nodes join without permissions and EKS cannot properly manage EC2 instances and ENIs.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-gpt-6-luna-atleast2of3]\n[final-gpt-6-luna-effort-high-run2]\nThe Fargate profile can become active and start scheduling pods before its pod execution role has the required managed policy attached. Order profile creation after the role policy attachment so Fargate workloads do not race permission setup.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Fargate profile can be created before the Fargate pod execution role's required managed policy is attached. The profile may become usable and start pods before that permission is available; order profile creation after the policy attachment.\n\n----------------------------------------\n\n[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\nThe Fargate profile is created without any ordering relative to the pod execution role's policy attachments. The pod execution role must have AmazonEKSFargatePodExecutionRolePolicy (and any CNI policy) attached \u2014 and propagated, given IAM's eventual consistency \u2014 before the profile is created, otherwise pods scheduled onto the profile cannot assume the role or pull images. There is no implicit or explicit dependency path from the profile resource to the policy attachment.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_fargate_profile.this uses pod_execution_role_arn (aws_iam_role.this) whose policies (aws_iam_role_policy_attachment.this) must be attached before pods execute; the fargate profile should wait for the policy attachment to be applied.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\nThe EKS managed node group should also wait for the additional policies (`aws_iam_role_policy_attachment.additional`, e.g. user-supplied policies like AmazonEKSVPCResourceController) to be attached to the node role. Policy changes propagate asynchronously, so creating the node group before the additional attachments can leave nodes running without required permissions. There is no implicit or explicit dependency path from the node group to this attachment.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_node_group.this should also wait for aws_iam_role_policy_attachment.additional so that any user-specified policies on the node role are attached before instances launch and join the cluster.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\nThe Fargate profile should also wait for the additional policy attachment (`aws_iam_role_policy_attachment.additional`) on the pod execution role, for the same IAM-propagation reasons as the base attachment. No dependency path currently connects the two resources.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\naws_eks_fargate_profile.this should also depend on aws_iam_role_policy_attachment.additional so additional policies on the pod execution role are attached before the profile becomes ACTIVE and pods are scheduled.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

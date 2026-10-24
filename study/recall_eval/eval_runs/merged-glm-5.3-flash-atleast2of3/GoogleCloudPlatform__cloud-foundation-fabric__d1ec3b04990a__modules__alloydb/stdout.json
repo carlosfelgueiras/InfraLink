@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\ngoogle_alloydb_user.users is provisioned on google_alloydb_cluster.primary without any ordering guarantee relative to google_alloydb_instance.primary. Per the provider documentation, database users should only be created after the primary instance exists (the official examples attach depends_on = [google_alloydb_instance.default] to google_alloydb_user), since user provisioning requires the instance backing the cluster to be in place. Add a bare `depends_on = [google_alloydb_instance.primary]` to google_alloydb_user.users.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run2]\n`google_alloydb_user.users` only depends on `google_alloydb_cluster.primary` (via its `cluster` attribute). Creating database users is a real-world operation that requires the cluster's primary instance to exist first \u2014 the official provider documentation for google_alloydb_user includes `depends_on = [google_alloydb_instance...]` in every example. Without this ordering, Terraform may create the users concurrently with (or before) `google_alloydb_instance.primary`, and user creation can fail or race against instance provisioning. Add an explicit `depends_on = [google_alloydb_instance.primary]`; there is no attribute on the user resource that can reference the instance, so a data-dependency fix is not applicable.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_alloydb_user.users only depends on google_alloydb_cluster.primary (via the cluster attribute), but creating database users in an AlloyDB cluster requires the cluster's primary instance to exist and be ready first. The provider documentation's own google_alloydb_user examples include depends_on = [google_alloydb_instance.default] for this reason. Without this ordering, user creation can race ahead of instance provisioning and fail.",
+      "node": ":resource.google_alloydb_user.users",
+      "target": ":resource.google_alloydb_instance.primary",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.kubernetes_service_account_v1.zombie_runner_cleanup` is created in `var.controller_config.namespace`, a Kubernetes namespace provisioned by `module.controller` (`kubernetes_namespace.controller_namespace`). But this resource has no implicit or explicit dependency on `:module.controller`, so on a fresh apply Terraform may try to create the ServiceAccount before the namespace exists, causing \"namespace not found\" errors. It should depend on `:module.controller`.",
+      "node": ":resource.kubernetes_service_account_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.kubernetes_role_v1.zombie_runner_cleanup` lives in the controller namespace `var.controller_config.namespace`, which is created by `module.controller`'s `kubernetes_namespace.controller_namespace`. It has no dependency (direct or transitive) on `:module.controller`, so it can be applied before the namespace exists. It should depend on `:module.controller`.",
+      "node": ":resource.kubernetes_role_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.kubernetes_role_binding_v1.zombie_runner_cleanup` is a Kubernetes object in the controller namespace `var.controller_config.namespace`, created by `module.controller`. Its only dependencies are other zombie resources and variables, none of which reach `:module.controller`, so the namespace may not exist when it is created. It should depend on `:module.controller`.",
+      "node": ":resource.kubernetes_role_binding_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.kubernetes_cron_job_v1.zombie_runner_cleanup` is created in the controller namespace and its script queries `actions.github.com/ephemeralrunners` CRs, both of which are provided by `module.controller` (the namespace plus the controller Helm release's CRDs). It has no dependency on `:module.controller`, so on a fresh apply the namespace/CRDs may not exist yet and the CronJob will fail. It should depend on `:module.controller`.",
+      "node": ":resource.kubernetes_cron_job_v1.zombie_runner_cleanup",
+      "target": ":module.controller",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

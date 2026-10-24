@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `iam_project_id` output is intended to wait for IAM changes (its description and source `depends_on` indicate this), but it does not depend on the additive IAM member resource. Its dependency on the authoritative binding does not order this separate resource.",
+      "node": ":output.iam_project_id",
+      "target": ":resource.google_project_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `iam_project_id` output is documented as waiting for IAM bindings, and its source explicitly attempts to depend on `google_project_iam_member.non_authoritative`; the actual non-authoritative IAM resource is `additive`, which is absent from the graph dependencies. Add an explicit dependency on the additive IAM members so this output waits for them too.",
+      "node": ":output.iam_project_id",
+      "target": ":resource.google_project_iam_member.additive",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

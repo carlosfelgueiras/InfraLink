@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_lambda_function.webhook` attaches a VPC configuration (`vpc_config` from `var.config.lambda_subnet_ids`/`lambda_security_group_ids`), and Lambda needs the `AWSLambdaVPCAccessExecutionRole` managed policy on its execution role *at creation time* to create the ENIs (else creation fails with \"The provided execution role does not have permissions to call CreateNetworkInterface\"). Nothing in the function references `aws_iam_role_policy_attachment.webhook_vpc_execution_role`, so Terraform may create the function in parallel with/before the attachment, making applies order-dependent. Add `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]` to the function.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

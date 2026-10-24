@@ -1,0 +1,3 @@
+`helm_release.elk` injects the literal name `elastic-credentials` into Elasticsearch, Kibana, and Filebeat via `secretKeyRef` and the keystore init container. The Elastic 7.16 chart does not create that Secret, and neither the values nor `depends_on` reference `kubernetes_secret.elasticsearch_credentials`. With Helm `wait` defaulting to true, pods cannot start or become ready until that Secret exists, so Terraform has no edge to enforce the required order.
+
+Correct

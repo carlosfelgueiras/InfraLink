@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "data.http.wait_for_cluster has an explicit depends_on entry for aws_eks_cluster.this, but this dependency is already established implicitly: the data source's `url` attribute references `aws_eks_cluster.this[0].endpoint` and its `ca_certificate` attribute references `aws_eks_cluster.this[*].certificate_authority[0].data`, so Terraform cannot read this data source until the cluster exists. The explicit entry can be removed (the second entry, aws_security_group_rule.cluster_private_access, is not redundant and should be kept).",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

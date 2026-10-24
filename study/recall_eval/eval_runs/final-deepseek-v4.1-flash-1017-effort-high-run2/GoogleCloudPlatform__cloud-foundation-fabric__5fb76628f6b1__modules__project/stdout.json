@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "google_kms_crypto_key_iam_member.service_agent_cmek already depends implicitly on google_project.project: its `member` is built from local._cmek_members -> local._aliased_service_agents, whose emails use templatestring(..., { project_number = local.project.number }), and local.project.number resolves to google_project.project[0].number. The explicit depends_on entry on google_project.project duplicates that dependency.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "google_kms_crypto_key_iam_member.service_agent_cmek's `member` value is derived from local.project.number, which in the project-reuse-with-data-source branch is read from data.google_project.project[0].number. That already establishes the dependency implicitly, so the explicit depends_on entry on data.google_project.project is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_agent_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "google_compute_project_default_network_tier.default_network_tier configures a Compute Engine project setting, which requires compute.googleapis.com to be enabled. Unlike google_compute_project_metadata_item.default, it has no depends_on on google_project_service.project_services, so it can be applied before the Compute API finishes enabling.",
+      "node": ":resource.google_compute_project_default_network_tier.default_network_tier",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

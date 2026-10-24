@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.null_resource.wait_for_cluster` declares `depends_on = [aws_eks_cluster.this[0]]`, but the provisioner already sets `environment = { ENDPOINT = aws_eks_cluster.this[0].endpoint }`, which creates the very same implicit dependency on `:resource.aws_eks_cluster.this`. The explicit `depends_on` duplicates it and can be dropped.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_eks_node_group.workers` (module.node_groups) is created with `node_role_arn` pointing at the worker role, but nothing orders it after `:resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy`. Per the aws_eks_node_group docs, IAM role permissions must exist before the node group is handled, and before/after deletion, otherwise EKS cannot properly create or delete the underlying EC2 instances and ENIs.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_eks_node_group.workers` (module.node_groups) has no dependency on `:resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy`. Nodes created by the node group need the CNI policy attached to their role in order to bring up pod networking; without the ordering the group can be provisioned against a role lacking the policy (and deletion can fail for the same reason).",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_eks_node_group.workers` (module.node_groups) has no dependency on `:resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly`. The node group's role must already carry the ECR read-only policy when the group is created (and must keep it until the group is deleted), otherwise nodes cannot pull images and EKS teardown can fail.",
+      "node": "module.node_groups:resource.aws_eks_node_group.workers",
+      "target": ":resource.aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

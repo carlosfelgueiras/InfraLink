@@ -1,0 +1,382 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_settings must depend on null_resource.delete_probe so Terraform destroys HTTP settings before deleting the probes they reference. Its dependency on null_resource.set_probe does not order the destroy-time provisioner on null_resource.delete_probe.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_listener must depend on null_resource.delete_frontend_port so reverse destroy ordering removes listeners before their referenced frontend ports. The existing dependency on null_resource.set_frontend_port does not order the destroy-time provisioner on null_resource.delete_frontend_port.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_http_settings already depends on null_resource.set_backend_pools through null_resource.set_probe (and through null_resource.set_root_cert); the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_http_settings",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_http_listener already depends on null_resource.set_backend_pools through null_resource.set_http_settings; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_http_listener already depends on null_resource.set_frontend_port through null_resource.set_ssl_cert; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_http_listener already depends on null_resource.set_root_cert through null_resource.set_http_settings; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_http_listener",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_root_cert already depends on null_resource.delete_backend_pool through null_resource.delete_ssl_cert; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_root_cert",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_http_settings already depends on null_resource.delete_backend_pool through null_resource.delete_root_cert and null_resource.delete_ssl_cert; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_http_settings already depends on null_resource.delete_ssl_cert through null_resource.delete_root_cert; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_http_listener already depends on null_resource.delete_backend_pool through null_resource.delete_http_settings; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_http_listener already depends on null_resource.delete_root_cert through null_resource.delete_http_settings; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_http_listener already depends on null_resource.delete_ssl_cert through null_resource.delete_http_settings and null_resource.delete_root_cert; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_map already depends on null_resource.set_backend_pools through null_resource.set_http_listener and null_resource.set_http_settings; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_map already depends on null_resource.set_http_settings through null_resource.set_http_listener; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_map already depends on null_resource.set_root_cert through null_resource.set_http_listener and null_resource.set_http_settings; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_map already depends on null_resource.set_ssl_cert through null_resource.set_http_listener; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_map",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_rule already depends on null_resource.set_backend_pools through null_resource.set_url_path_map and null_resource.set_http_listener; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_rule already depends on null_resource.set_http_listener through null_resource.set_url_path_map; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_rule already depends on null_resource.set_http_settings through null_resource.set_url_path_map and null_resource.set_http_listener; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_rule already depends on null_resource.set_root_cert through null_resource.set_url_path_map and null_resource.set_http_listener; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_url_path_rule already depends on null_resource.set_ssl_cert through null_resource.set_url_path_map and null_resource.set_http_listener; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_url_path_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_request_routing_rule already depends on null_resource.set_backend_pools through null_resource.set_url_path_rule and its prerequisites; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_backend_pools",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_request_routing_rule already depends on null_resource.set_http_listener through null_resource.set_url_path_rule and null_resource.set_url_path_map; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_request_routing_rule already depends on null_resource.set_http_settings through null_resource.set_url_path_rule and its prerequisites; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_request_routing_rule already depends on null_resource.set_root_cert through null_resource.set_url_path_rule and its prerequisites; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_request_routing_rule already depends on null_resource.set_ssl_cert through null_resource.set_url_path_rule and its prerequisites; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.set_request_routing_rule already depends on null_resource.set_url_path_map through null_resource.set_url_path_rule; the direct depends_on is redundant.",
+      "node": ":resource.null_resource.set_request_routing_rule",
+      "target": ":resource.null_resource.set_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_map already depends on null_resource.delete_backend_pool through null_resource.delete_http_listener and null_resource.delete_http_settings; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_map already depends on null_resource.delete_http_settings through null_resource.delete_http_listener; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_map already depends on null_resource.delete_root_cert through null_resource.delete_http_listener and null_resource.delete_http_settings; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_map already depends on null_resource.delete_ssl_cert through null_resource.delete_http_listener and null_resource.delete_http_settings; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_map",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_rule already depends on null_resource.delete_backend_pool through null_resource.delete_url_path_map and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_rule already depends on null_resource.delete_http_listener through null_resource.delete_url_path_map; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_rule already depends on null_resource.delete_http_settings through null_resource.delete_url_path_map and null_resource.delete_http_listener; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_rule already depends on null_resource.delete_root_cert through null_resource.delete_url_path_map and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_url_path_rule already depends on null_resource.delete_ssl_cert through null_resource.delete_url_path_map and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_url_path_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_request_routing_rule already depends on null_resource.delete_backend_pool through null_resource.delete_url_path_rule and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_backend_pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_request_routing_rule already depends on null_resource.delete_http_listener through null_resource.delete_url_path_rule and null_resource.delete_url_path_map; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_listener",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_request_routing_rule already depends on null_resource.delete_http_settings through null_resource.delete_url_path_rule and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_http_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_request_routing_rule already depends on null_resource.delete_root_cert through null_resource.delete_url_path_rule and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_root_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_request_routing_rule already depends on null_resource.delete_ssl_cert through null_resource.delete_url_path_rule and its prerequisites; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_ssl_cert",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "null_resource.delete_request_routing_rule already depends on null_resource.delete_url_path_map through null_resource.delete_url_path_rule; the direct depends_on is redundant, including for reverse destroy ordering.",
+      "node": ":resource.null_resource.delete_request_routing_rule",
+      "target": ":resource.null_resource.delete_url_path_map",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

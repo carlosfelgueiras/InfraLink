@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When `var.project_create` is true, `google_project_service.project_services` enables APIs in a project that must first be created. Its current project ID expression does not establish an ordering edge to `google_project.project`.",
+      "node": ":resource.google_project_service.project_services",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "var.project_create ? google_project.project[0].project_id : local.project.project_id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "When creating a new project, the service-account configuration operates on that project but has no dependency edge to `google_project.project`; it can therefore run before the project exists.",
+      "node": ":resource.google_project_default_service_accounts.default_service_accounts",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "var.project_create ? google_project.project[0].project_id : local.project.project_id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The API service identities are generated in the newly created project when `var.project_create` is true, so `google_project_service_identity.jit_si` must wait for `google_project.project` to exist. The current ordering through API enablement is not connected to project creation.",
+      "node": ":resource.google_project_service_identity.jit_si",
+      "target": ":resource.google_project.project",
+      "fix": {
+        "field": "project",
+        "expression": "var.project_create ? google_project.project[0].project_id : local.project.project_id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`google_org_policy_policy.default` targets a project identified by `local.project.project_id`; when this module creates that project, policy creation must wait until `google_project.project` exists.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`google_project_iam_custom_role.roles` creates roles in the project and must wait for `google_project.project` when the module is creating the project; its project argument uses a local value and provides no graph edge to project creation.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

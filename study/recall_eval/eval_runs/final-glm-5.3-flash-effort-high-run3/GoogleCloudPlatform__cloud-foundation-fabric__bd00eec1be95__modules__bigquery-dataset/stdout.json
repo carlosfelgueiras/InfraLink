@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_bigquery_table.views` creates SQL views whose query text (from var.views) commonly references the base tables created by `google_bigquery_table.default` in the same module. BigQuery validates the view's SQL against referenced tables at creation time, so if a view is created before the base table it queries exists, creation fails with a \"not found\" error. Currently both resources only depend on `google_bigquery_dataset.default` and are created in parallel. A bare depends_on is needed here because the query is supplied as a plain string variable, so no attribute reference can express the ordering.",
+      "node": ":resource.google_bigquery_table.views",
+      "target": ":resource.google_bigquery_table.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

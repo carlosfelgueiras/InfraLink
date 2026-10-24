@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Shared VPC service-project association requires the Compute API to be available, but it has no dependency on the project's API-enabling resource. Add an explicit dependency on project_services to ensure the configured APIs are enabled first.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\n`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` should wait for `:resource.google_project_service.project_services` so the required Compute API activation is complete before enabling this project as a Shared VPC service project; unlike the host-project resource, it currently has no such dependency.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\n`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` associates this project with Shared VPC but has no dependency on `:resource.google_project_service.project_services`; enabling the Compute API first avoids attempting the association before the API is ready.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

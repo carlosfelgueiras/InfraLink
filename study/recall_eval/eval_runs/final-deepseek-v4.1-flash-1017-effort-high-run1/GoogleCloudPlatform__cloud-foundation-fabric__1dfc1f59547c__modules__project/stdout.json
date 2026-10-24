@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.additive` grants whatever roles are listed in `var.iam_additive_roles`, which can include the custom roles created by `google_project_iam_custom_role.roles` in this same module. A role cannot be granted before it exists, so the additive member must be ordered after the custom role. The sibling authoritative binding already expresses exactly this ordering with `depends_on = [google_project_iam_custom_role.roles]`, but the additive member relies only on input variables, so no implicit dependency exists and the two can race.",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_iam_custom_role.roles",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner agent instance whose user-data script writes the runner token into the SSM parameter module.runner:resource.aws_ssm_parameter.runner_registration_token (referenced only by name via local.secure_parameter_store_runner_token_key, no attribute reference). The parameter must exist before the instance boots, otherwise the user-data script cannot store the runner token and Terraform's ownership of the parameter is broken.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner agent instance whose user-data script writes the runner token into the SSM parameter module.runner2:resource.aws_ssm_parameter.runner_registration_token (referenced only by name via local.secure_parameter_store_runner_token_key, no attribute reference). The parameter must exist before the instance boots, otherwise the user-data script cannot store the runner token and Terraform's ownership of the parameter is broken.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner agent instance whose user-data logging configuration (data.template_file.logging) targets the CloudWatch log group module.runner:resource.aws_cloudwatch_log_group.environment by name only. The log group must exist before the instance boots, otherwise the logging agent creates it out-of-band and Terraform then fails to create the same group.",
+      "node": "module.runner:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance launches the runner agent instance whose user-data logging configuration (data.template_file.logging) targets the CloudWatch log group module.runner2:resource.aws_cloudwatch_log_group.environment by name only. The log group must exist before the instance boots, otherwise the logging agent creates it out-of-band and Terraform then fails to create the same group.",
+      "node": "module.runner2:resource.aws_autoscaling_group.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_cloudwatch_log_group.environment",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.local_file.public_ssh_key declares depends_on for :resource.tls_private_key.ssh, but it already references tls_private_key.ssh.public_key_openssh in its `content` attribute, so the ordering is established implicitly and the explicit depends_on is redundant.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.local_file.private_ssh_key declares depends_on for :resource.tls_private_key.ssh, but it already references tls_private_key.ssh.private_key_pem in its `content` attribute, so the ordering is established implicitly and the explicit depends_on is redundant.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

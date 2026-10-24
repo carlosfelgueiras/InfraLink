@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_launch_template.this` only orders itself after `:resource.aws_iam_role_policy_attachment.this` (the built-in worker-node/CNI/registry policies). The user-supplied Node IAM policies created in `:resource.aws_iam_role_policy_attachment.additional` are never ordered before the launch template, even though the explicit `depends_on` exists precisely to ensure all node policies are attached before nodes launch and pods assume permissions. When `var.iam_role_additional_policies` is non-empty, instances/pods can come up before those additional policies are attached. `depends_on` should list `aws_iam_role_policy_attachment.additional` alongside `aws_iam_role_policy_attachment.this`; there is no attribute reference that can express this (the launch template cannot reference a policy attachment), so no data-dependency fix is offered.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

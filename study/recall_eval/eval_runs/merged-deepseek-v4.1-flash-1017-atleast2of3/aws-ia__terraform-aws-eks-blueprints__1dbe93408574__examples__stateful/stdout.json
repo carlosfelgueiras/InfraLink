@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nThe `gp3` StorageClass uses the `ebs.csi.aws.com` provisioner, which is only registered once the EBS CSI driver add-on is installed. That driver is provisioned by `module.eks_blueprints_kubernetes_addons` (`enable_self_managed_aws_ebs_csi_driver = true`), but `kubernetes_storage_class_v1.gp3` has no attribute reference or `depends_on` expressing that ordering, so it can be created before the driver exists. It should depend on the add-ons module that installs the EBS CSI driver.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe `gp3` StorageClass uses provisioner `ebs.csi.aws.com`, which is registered by the AWS EBS CSI driver installed via `module.eks_blueprints_kubernetes_addons` (`enable_self_managed_aws_ebs_csi_driver = true`). It has no expressed dependency on that module, so Terraform may create the StorageClass before the provisioner exists. It should depend on `module.eks_blueprints_kubernetes_addons`.",
+      "node": ":resource.kubernetes_storage_class_v1.gp3",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\nThe `efs` StorageClass uses the `efs.csi.aws.com` provisioner, which is only registered once the EFS CSI driver add-on is installed. That driver is provisioned by `module.eks_blueprints_kubernetes_addons` (`enable_aws_efs_csi_driver = true`). `kubernetes_storage_class_v1.efs` correctly depends on `module.efs` (via `fileSystemId = module.efs.id`) but has no dependency on the driver that actually implements `efs.csi.aws.com`.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nThe `efs` StorageClass uses provisioner `efs.csi.aws.com`, which is registered by the AWS EFS CSI driver installed via `module.eks_blueprints_kubernetes_addons` (`enable_aws_efs_csi_driver = true`). While it references `module.efs.id`, it has no dependency on the CSI driver addon, so it may be created before the provisioner is available. It should also depend on `module.eks_blueprints_kubernetes_addons`.",
+      "node": ":resource.kubernetes_storage_class_v1.efs",
+      "target": ":module.eks_blueprints_kubernetes_addons",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

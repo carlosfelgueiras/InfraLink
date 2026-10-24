@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.wait_for_cluster` already depends on `aws_eks_cluster.this` implicitly: its `local-exec` provisioner sets `environment = { ENDPOINT = aws_eks_cluster.this[0].endpoint }`, so the graph lists `:resource.aws_eks_cluster.this` in both `implicit_deps` and `depends_on_deps`. The explicit `depends_on = [aws_eks_cluster.this[0]]` therefore duplicates an ordering that is already established by the attribute reference and can be removed.",
+      "node": ":resource.null_resource.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

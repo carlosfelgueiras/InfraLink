@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "module.webhook-github-app:resource.null_resource.update_app registers the GitHub App webhook via local-exec using the endpoint URL built from module.multi-runner:output.webhook. That endpoint value only references aws_apigatewayv2_api.webhook.api_endpoint, not the $default stage, so Terraform can run the local-exec (and GitHub will start delivering webhooks to the URL) before module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook exists / has auto-deployed the POST /webhook route \u2014 the endpoint would then return errors until the stage deploys. The null_resource should be ordered after the stage is created.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_service grants invoke permission on the function by name (local.cur_per_service_lambda_name), a plain string with no reference to the lambda module that creates the function. If module.cur_per_service hasn't been created yet when this permission is applied, AWS returns ResourceNotFoundException. Referencing the module's lambda_function_name output establishes the ordering implicitly.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_resource grants invoke permission on the function by name (local.cur_per_resource_lambda_name), a plain string with no reference to the lambda module that creates the function. If module.cur_per_resource hasn't been created yet when this permission is applied, AWS returns ResourceNotFoundException. Referencing the module's lambda_function_name output establishes the ordering implicitly.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_permission.cur_per_resource_process grants invoke permission on the function by name (local.cur_per_resource_process_lambda_name), a plain string with no reference to the lambda module that creates the function. If module.cur_per_resource_process hasn't been created yet when this permission is applied, AWS returns ResourceNotFoundException. Referencing the module's lambda_function_name output establishes the ordering implicitly.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_name"
+      },
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_s3_bucket_notification.cur_notification configures an S3 trigger for the cur_per_resource_process lambda, but its depends_on only lists aws_lambda_permission.cur_per_service and aws_lambda_permission.cur_per_resource \u2014 aws_lambda_permission.cur_per_resource_process is omitted. AWS validates that S3 is allowed to invoke each target function when the notification configuration is applied, so creating the notification before that permission exists fails.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

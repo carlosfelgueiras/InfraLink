@@ -1,0 +1,5 @@
+The report is incorrect. `splunk_configs_conf.forgecicd_cloudwatchlogs` writes `props/aws:cloudwatchlogs` with `REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields` set to the literal stanza name `forgecicd_cloudwatchlogs_lambda_tenant_fields`. That name matches `splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields` (`transforms/forgecicd_cloudwatchlogs_lambda_tenant_fields`), and neither an attribute reference nor `depends_on` links the two resources.
+
+That missing graph edge is not an ordering requirement. The Splunk provider only POSTs the stanza key/value map to `configs/conf-{file}`; it does not resolve `REPORT-` targets. Splunk stores that value as an opaque string and does not require the transforms.conf stanza to exist at write time. `REPORT-` is a search-time extraction: the name is resolved when a search runs, a missing transform is skipped, and once the transform exists the extraction applies to events already indexed. Either create order leaves both resources valid and the same final behavior, so the transform does not have to be ready before this props stanza can be created or operated.
+
+Incorrect

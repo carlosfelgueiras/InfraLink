@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit depends_on from :resource.aws_cloudfront_distribution.default to :resource.aws_s3_bucket.origin duplicates the dependency already established by the distribution's origin domain_name referencing local.bucket_domain_name, which in turn references local.bucket and aws_s3_bucket.origin.*. Terraform can infer this ordering from those data references.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudFront distribution should wait for :resource.aws_s3_bucket_policy.default so its private S3 origin's read policy is installed before the distribution can serve traffic. The distribution currently references the bucket and origin access identity, but has no dependency on the policy resource; this ordering requires an explicit depends_on.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

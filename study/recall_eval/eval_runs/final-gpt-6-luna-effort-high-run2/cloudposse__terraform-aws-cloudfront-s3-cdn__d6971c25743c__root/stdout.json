@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_cloudfront_distribution.default to :resource.aws_s3_bucket.origin duplicates the dependency established by the distribution's origin domain_name, which is derived from local.bucket_domain_name and the created bucket.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The explicit dependency from :resource.aws_cloudfront_distribution.default to :resource.time_sleep.wait_for_aws_s3_bucket_settings is already guaranteed transitively because the distribution depends on :resource.aws_s3_bucket_ownership_controls.origin, which itself depends on the sleep resource.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.time_sleep.wait_for_aws_s3_bucket_settings",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

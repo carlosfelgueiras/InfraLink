@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.local_file.public_ssh_key` declares an explicit `depends_on` on `:resource.tls_private_key.ssh`, but the dependency is already established implicitly: its `content` attribute references `tls_private_key.ssh.public_key_openssh`. The explicit `depends_on` is redundant and can be removed.",
+      "node": ":resource.local_file.public_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.local_file.private_ssh_key` declares an explicit `depends_on` on `:resource.tls_private_key.ssh`, but the dependency is already established implicitly: its `content` attribute references `tls_private_key.ssh.private_key_pem`. The explicit `depends_on` is redundant and can be removed.",
+      "node": ":resource.local_file.private_ssh_key",
+      "target": ":resource.tls_private_key.ssh",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.runner:resource.aws_launch_configuration.gitlab_runner_instance` bakes the runner user-data into the instance, and that user-data reads and writes `:module.runner:resource.aws_ssm_parameter.runner_registration_token` (key derived from the environment) at boot to register the runner and persist the token. No attribute reference or `depends_on` orders the launch configuration after the SSM parameter: if the instance boots before the parameter exists, the user-data's `aws ssm put-parameter` creates it out-of-band and Terraform's own create of the parameter then fails with `ParameterAlreadyExists`. The launch configuration must be created after the SSM parameter.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.runner:resource.aws_launch_configuration.gitlab_runner_instance` only references `aws_iam_instance_profile.instance.name`, which transitively reaches the role but not the policy attached to it. With `enable_manage_gitlab_token` enabled (default), the instance user-data calls SSM at boot to store the runner token, which requires `:module.runner:resource.aws_iam_role_policy_attachment.ssm` to exist and have propagated in IAM. Because IAM policy attachment is asynchronous and no data reference connects the launch configuration to the attachment, the runner instance can boot without SSM permissions unless an explicit ordering exists.",
+      "node": "module.runner:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same as `module.runner`: `:module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` bakes the runner user-data into the instance, and that user-data reads and writes `:module.runner2:resource.aws_ssm_parameter.runner_registration_token` at boot. No attribute reference or `depends_on` orders the launch configuration after the SSM parameter, risking an out-of-band parameter creation that would make Terraform's create of the parameter fail with `ParameterAlreadyExists`. The launch configuration must be created after the SSM parameter.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_ssm_parameter.runner_registration_token",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Same as `module.runner`: `:module.runner2:resource.aws_launch_configuration.gitlab_runner_instance` references only the instance profile name, not the attached policies. With `enable_manage_gitlab_token` enabled (default), the instance user-data requires the SSM permission granted by `:module.runner2:resource.aws_iam_role_policy_attachment.ssm` at boot. IAM attachment propagation is asynchronous and no data reference connects the launch configuration to the attachment, so the runner instance can boot without SSM permissions unless an explicit ordering exists.",
+      "node": "module.runner2:resource.aws_launch_configuration.gitlab_runner_instance",
+      "target": "module.runner2:resource.aws_iam_role_policy_attachment.ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The launch template explicitly depends on aws_iam_role_policy_attachment.this to prevent nodes from booting before the base EKS policies are attached, but the additional policy attachments (aws_iam_role_policy_attachment.additional, one per entry in var.iam_role_additional_policies) are not covered by any dependency. Nodes launched from this template use the instance profile credentials, so pods requiring permissions granted by the additional policies can start before those attachments take effect, causing AccessDenied failures on create/destroy. The launch template should also depend on aws_iam_role_policy_attachment.additional.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

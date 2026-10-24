@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_settings deletes the Application Gateway HTTP settings, which can reference a probe. On destroy the HTTP settings must be removed *before* the probe, otherwise Azure rejects the probe deletion (or the HTTP-settings deletion) because it is still referenced. Its depends_on lists null_resource.set_probe instead of null_resource.delete_probe, so no ordering edge to the actual destroy-time probe resource exists. delete_probe (which runs the real probe deletion) has no dependents at all and can be destroyed first. Add `depends_on = [null_resource.delete_probe, ...]` so the destroy order is enforced.",
+      "node": ":resource.null_resource.delete_http_settings",
+      "target": ":resource.null_resource.delete_probe",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "null_resource.delete_http_listener deletes the HTTP listeners, which reference a frontend port. On destroy the listener must be deleted *before* the frontend port it points at. Its depends_on lists null_resource.set_frontend_port instead of null_resource.delete_frontend_port, so no ordering edge to the destroy-time frontend-port resource exists. delete_frontend_port consequently has no dependents and can be destroyed before the listener, breaking the required reverse-creation order. Add `depends_on = [null_resource.delete_frontend_port, ...]`.",
+      "node": ":resource.null_resource.delete_http_listener",
+      "target": ":resource.null_resource.delete_frontend_port",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

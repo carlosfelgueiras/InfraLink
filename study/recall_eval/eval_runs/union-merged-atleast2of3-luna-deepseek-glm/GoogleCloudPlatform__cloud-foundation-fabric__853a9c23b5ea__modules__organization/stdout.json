@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_org_policy_custom_constraint.constraint is an organization-level mutation but has no ordering relative to the organization IAM bindings. Every other organization-level resource in this module (google_org_policy_policy.default, google_logging_organization_sink.sink, google_tags_tag_key.default) explicitly waits for the org IAM bindings via depends_on, so that (a) org policies applied later cannot block these mutations and (b) permissions freshly granted by those bindings have propagated. The custom constraint, which lives in the same OrgPolicy API family as google_org_policy_policy.default, is created in parallel with the bindings and can fail in a fresh bootstrap when its required OrgPolicy permissions were just granted by those bindings.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_org_policy_custom_constraint.constraint performs an organization-level API write whose required permission (e.g. Orgpolicy Policy Admin) may be granted to the deploying identity by this module's own authoritative IAM bindings. Every other org-level resource in this module (google_org_policy_policy.default, google_tags_tag_key.default, google_logging_organization_sink.sink) gates on google_organization_iam_binding.authoritative for exactly this reason; the custom constraint resource has no such dependency, so IAM and the constraint can be applied in the wrong order. Add a depends_on.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.authoritative",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_org_policy_custom_constraint.constraint should also wait for google_organization_iam_binding.bindings, mirroring the explicit ordering that google_org_policy_policy.default, google_logging_organization_sink.sink and google_tags_tag_key.default already establish for all three organization IAM resources. Without it, constraint creation races with these bindings and can hit permission-propagation failures on a first apply.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_org_policy_custom_constraint.constraint has no dependency on google_organization_iam_binding.bindings, although creating a custom constraint on the organization requires permissions that the module's own var.iam_bindings may be granting to the deploying identity. The sibling org-level resources (google_org_policy_policy.default, google_tags_tag_key.default, google_logging_organization_sink.sink) all wait for this binding resource first; the custom constraint should too. Add a depends_on.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_binding.bindings",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[merged-glm-5.3-flash-atleast2of3]\n[final-glm-5.3-flash-effort-high-run2]\ngoogle_org_policy_custom_constraint.constraint should also wait for google_organization_iam_member.bindings, completing the module's established \"org IAM first\" ordering for organization-level resources (the additive IAM bindings are the third org IAM resource that google_org_policy_policy.default, google_logging_organization_sink.sink and google_tags_tag_key.default all wait on).\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\ngoogle_org_policy_custom_constraint.constraint has no dependency on google_organization_iam_member.bindings, although creating a custom constraint on the organization requires permissions that the module's own var.iam_bindings_additive may be granting to the deploying identity. The sibling org-level resources (google_org_policy_policy.default, google_tags_tag_key.default, google_logging_organization_sink.sink) all wait for this IAM member resource first; the custom constraint should too. Add a depends_on.",
+      "node": ":resource.google_org_policy_custom_constraint.constraint",
+      "target": ":resource.google_organization_iam_member.bindings",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

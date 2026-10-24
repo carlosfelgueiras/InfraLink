@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The deprecated gating output `organization_id` does not wait for `google_logging_organization_settings.default`, unlike its replacement `output.id` whose `depends_on` list is otherwise identical. Since the output's value (`var.organization_id`) references no resources, consumers using this output as a readiness signal may proceed before organization logging settings (disable_default_sink, storage_location) are applied. Add `google_logging_organization_settings.default` to its `depends_on` to match `output.id`.",
+      "node": ":output.organization_id",
+      "target": ":resource.google_logging_organization_settings.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

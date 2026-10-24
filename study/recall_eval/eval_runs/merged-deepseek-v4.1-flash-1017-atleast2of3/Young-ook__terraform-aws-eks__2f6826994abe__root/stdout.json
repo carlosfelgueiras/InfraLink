@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nWhen App Mesh is enabled, aws_iam_role_policy_attachment.xray-write attaches the X-Ray write policy to the node role, but aws_autoscaling_group.ng does not depend on that attachment. Instances can launch before the policy is attached.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nWhen App Mesh/X-Ray is enabled, aws_iam_role_policy_attachment.xray-write attaches the X-Ray permissions to the node role, but aws_autoscaling_group.ng can launch instances before that attachment completes. It should be ordered with the other node role policy attachments.",
+      "node": ":resource.aws_autoscaling_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nWhen App Mesh is enabled, aws_iam_role_policy_attachment.xray-write attaches the X-Ray write policy to the managed node group's role, but aws_eks_node_group.ng does not depend on that attachment. Nodes can be created before the policy is attached.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nWhen App Mesh/X-Ray is enabled, aws_iam_role_policy_attachment.xray-write attaches the X-Ray permissions to the node role, but aws_eks_node_group.ng can create nodes before that attachment completes. It should be ordered with the other node role policy attachments.",
+      "node": ":resource.aws_eks_node_group.ng",
+      "target": ":resource.aws_iam_role_policy_attachment.xray-write",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

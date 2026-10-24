@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_autoscaling_group.client_nodes should depend on aws_autoscaling_group.master_nodes: client (coordinating/Kibana) nodes join the Elasticsearch cluster via discovery and are health-checked by the ELB (HTTP:8080/status), so they must only be launched after the master nodes exist. The module already encodes this ordering for the data-node ASG (explicit depends_on on master_nodes), but the client-node ASG has no implicit or explicit dependency on the masters and can be created before/alongside them, leaving the cluster unable to form properly and the ELB backed by unhealthy instances.",
+      "node": ":resource.aws_autoscaling_group.client_nodes",
+      "target": ":resource.aws_autoscaling_group.master_nodes",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

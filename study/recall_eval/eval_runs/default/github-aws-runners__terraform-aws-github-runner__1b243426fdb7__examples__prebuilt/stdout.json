@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The S3 notification must not be configured until the bucket's ownership controls and public-access block are applied; otherwise initial notification setup can be rejected or leave the bucket in an unintended configuration. Add an ordering dependency from the notification to these bucket controls.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_notification.on_deploy",
+      "target": "module.runners.module.runner_binaries:resource.aws_s3_bucket_ownership_controls.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The S3 bucket policy's ForceSSE deny policy relies on the bucket default encryption being established first; applying the policy before the encryption configuration risks rejecting requests made during setup. Order the policy after the encryption configuration.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_bucket_policy.action_dist_bucket_policy",
+      "target": "module.runners.module.runner_binaries:resource.aws_s3_bucket_server_side_encryption_configuration.action_dist",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "The explicit dependency of aws_s3_object.trigger on aws_s3_bucket_notification.on_deploy is operationally significant, not redundant.",
+      "node": "module.runners.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.runners.module.runner_binaries:resource.aws_s3_bucket_notification.on_deploy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

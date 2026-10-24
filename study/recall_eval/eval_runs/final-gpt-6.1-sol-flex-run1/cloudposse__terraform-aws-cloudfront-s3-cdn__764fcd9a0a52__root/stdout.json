@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_s3_bucket_policy.default must wait for :resource.aws_s3_bucket.origin when managing a newly created origin bucket; otherwise PutBucketPolicy can run before the bucket exists. The supplied graph contains no ordering path between them.",
+      "node": ":resource.aws_s3_bucket_policy.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "local.using_existing_origin ? var.origin_bucket : aws_s3_bucket.origin[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_s3_bucket_public_access_block.origin must wait for :resource.aws_s3_bucket.origin to exist before configuring its public access block; the supplied graph contains no such dependency.",
+      "node": ":resource.aws_s3_bucket_public_access_block.origin",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "aws_s3_bucket.origin[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":data.aws_s3_bucket.selected reads the managed origin bucket and must wait for :resource.aws_s3_bucket.origin to exist. Without an ordering path in the supplied graph, the lookup can run before bucket creation.",
+      "node": ":data.aws_s3_bucket.selected",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": {
+        "field": "bucket",
+        "expression": "local.using_existing_origin ? var.origin_bucket : aws_s3_bucket.origin[0].id"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

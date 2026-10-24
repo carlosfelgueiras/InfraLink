@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudfront_distribution.default can become enabled before aws_s3_bucket_policy.default grants its origin access identity s3:GetObject and s3:ListBucket access to the private origin bucket. Make the distribution depend on the bucket policy so it does not begin serving requests before origin authorization is installed, avoiding AccessDenied responses that CloudFront can cache. The existing dependency on the origin access identity does not ensure the bucket policy has been applied.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.aws_s3_object.cloudformation_template: explicit depends_on of :resource.random_uuid.splunk_input_uuid is redundant \u2014 already implied by attribute references",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": ":resource.aws_s3_object.cloudformation_template explicitly depends on :resource.random_uuid.splunk_input_uuid, but its key, source, and source_hash already reference that UUID resource. The explicit dependency adds no ordering.",
+      "node": ":resource.aws_s3_object.cloudformation_template",
+      "target": ":resource.random_uuid.splunk_input_uuid",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":output.splunk_integration_template_url constructs its URL from configuration and the UUID without depending on :resource.aws_s3_object.cloudformation_template. Consumers can therefore use the URL before the template has been uploaded. Construct the output from the S3 object's attributes to order consumers after the upload.",
+      "node": ":output.splunk_integration_template_url",
+      "target": ":resource.aws_s3_object.cloudformation_template",
+      "fix": {
+        "field": "value",
+        "expression": "\"https://${aws_s3_object.cloudformation_template.bucket}.s3.amazonaws.com/${aws_s3_object.cloudformation_template.key}\""
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

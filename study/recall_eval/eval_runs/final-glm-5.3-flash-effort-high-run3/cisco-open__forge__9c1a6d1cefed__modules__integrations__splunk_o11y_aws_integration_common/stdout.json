@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "signalfx_aws_integration.integration sets use_metric_streams_sync = true, which requires the cloudwatch:PutMetricStream / GetMetricStream / iam:PassRole permissions granted by aws_iam_role_policy.splunk_managed_policy (SplunkManagedMetricStreams) \u2014 yet the integration has no dependency on that policy resource. With time_sleep.wait_30_seconds only waiting on the bare role, the policy attachment could race with (or land after) integration activation, causing the metric-streams setup to fail or the integration to come up non-functional. Per the provider documentation's guidance to depend on all role-related resources, add aws_iam_role_policy.splunk_managed_policy to the resource's depends_on.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_managed_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "signalfx_aws_integration.integration activates the Splunk AWS integration against aws_iam_role.splunk_integration, but has no dependency on aws_iam_role_policy.splunk_integration (the SplunkObservabilityPolicy granting the account-inventory read permissions). Nothing orders the policy attachment before integration activation: time_sleep.wait_30_seconds only waits on the role itself, so Terraform may create the integration before the policy is attached, leaving Splunk's cross-account role session without the permissions it needs. The provider documentation explicitly requires adding role-related resources (including policies) as dependencies of signalfx_aws_integration; add aws_iam_role_policy.splunk_integration to the resource's depends_on.",
+      "node": ":resource.signalfx_aws_integration.integration",
+      "target": ":resource.aws_iam_role_policy.splunk_integration",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

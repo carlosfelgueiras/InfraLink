@@ -1,0 +1,3 @@
+CloudTrail does check the SNS topic policy when the trail is created. If the policy is missing, it returns InsufficientSnsTopicPolicyException. The trail references only the topic and has no link to the policy resource. Its `depends_on` is `var.cloudtrail_depends_on`, which the report says covers only the S3 bucket policy. I did not open the root module to confirm what is passed in there. The report is therefore correct.
+
+Correct

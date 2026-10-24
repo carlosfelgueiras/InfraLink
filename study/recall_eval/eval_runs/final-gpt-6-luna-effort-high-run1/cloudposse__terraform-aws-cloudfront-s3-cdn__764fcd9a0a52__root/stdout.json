@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The CloudFront distribution should wait for the origin bucket policy to be attached before it is created/deployed; otherwise it can become available while CloudFront's origin access identity still lacks the intended S3 access policy.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket_policy.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "The distribution already references the origin bucket through local.bucket_domain_name (which is derived from aws_s3_bucket.origin), so the explicit depends_on duplicates the implicit dependency.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":resource.aws_s3_bucket.origin",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

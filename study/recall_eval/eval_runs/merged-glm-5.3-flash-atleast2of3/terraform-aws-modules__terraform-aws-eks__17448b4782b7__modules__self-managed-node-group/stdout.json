@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nThe launch template has an explicit depends_on on aws_iam_role_policy_attachment.this to prevent instances from launching before the node role's IAM policies are attached (pods requiring permissions on create). However, it does not depend on aws_iam_role_policy_attachment.additional, which attaches the user-configured additional policies (var.iam_role_additional_policies) to the same role. There is no attribute reference from the launch template to .additional (it only references the instance profile/role name), so instances launched by the autoscaling group can come up and join the cluster before the additional policies are attached, causing the same premature-access failure the existing depends_on is meant to prevent.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe launch template explicitly depends on aws_iam_role_policy_attachment.this to prevent nodes from booting before the base EKS policies are attached, but the additional policy attachments (aws_iam_role_policy_attachment.additional, one per entry in var.iam_role_additional_policies) are not covered by any dependency. Nodes launched from this template use the instance profile credentials, so pods requiring permissions granted by the additional policies can start before those attachments take effect, causing AccessDenied failures on create/destroy. The launch template should also depend on aws_iam_role_policy_attachment.additional.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

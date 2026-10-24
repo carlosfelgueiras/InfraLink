@@ -1,0 +1,37 @@
+{
+  "repo": "terraform-aws-modules__terraform-aws-ecs",
+  "parent_sha": "20338580482518fa086e90d9f74a54e8046fcb9a^",
+  "resolved_sha": "84cf54a603c9d976a150ec6aea4ab63eb0efd773",
+  "module_dir": "modules/service",
+  "profile": "openrouter-gpt-6.1-sol-flex",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "default",
+  "cases": [
+    {
+      "repo": "terraform-aws-modules__terraform-aws-ecs",
+      "pr_number": 201,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/201",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/commit/20338580482518fa086e90d9f74a54e8046fcb9a",
+      "commit_sha": "20338580482518fa086e90d9f74a54e8046fcb9a",
+      "parent_sha": "20338580482518fa086e90d9f74a54e8046fcb9a^",
+      "commit_subject": "fix: Make service, task, and task sets wait for their respective policy attachment to ensure permissions are available (#201)",
+      "commit_date": "2024-05-31T13:20:51-04:00",
+      "file": "modules/service/main.tf",
+      "module_dir": "modules/service",
+      "holder_address": "aws_ecs_task_definition.this",
+      "added_targets": [
+        "aws_iam_role_policy_attachment.task_exec",
+        "aws_iam_role_policy_attachment.task_exec_additional",
+        "aws_iam_role_policy_attachment.tasks"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "aws_iam_role_policy_attachment.task_exec": false,
+        "aws_iam_role_policy_attachment.task_exec_additional": false,
+        "aws_iam_role_policy_attachment.tasks": false
+      },
+      "verify_error": null
+    }
+  ]
+}

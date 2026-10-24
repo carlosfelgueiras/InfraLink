@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_eks_cluster.cluster only references aws_iam_role.cluster.arn, but the required cluster policies are attached by aws_iam_role_policy_attachments_exclusive.cluster, which has no ordering edge to the cluster. The AWS provider documents that the EKS cluster must depend on the IAM role policy attachments, otherwise EKS cannot create/delete managed EC2 infrastructure (e.g. security groups) because the role lacks AmazonEKSClusterPolicy at the time. Add `depends_on = [aws_iam_role_policy_attachments_exclusive.cluster]` to the cluster.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\naws_eks_cluster.cluster references aws_iam_role.cluster.arn but has no ordering dependency on aws_iam_role_policy_attachments_exclusive.cluster. The EKS control plane requires its IAM role to already carry AmazonEKSClusterPolicy (and the other EKS policies) when it is created; otherwise cluster creation can fail and EKS cannot manage/clean up its EC2 infrastructure (e.g. security groups) on deletion. The provider documentation explicitly recommends depends_on for the role-policy attachment.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\naws_eks_cluster.cluster references aws_iam_role.cluster.arn but not aws_iam_role_policy_attachments_exclusive.cluster, which attaches the required AmazonEKSClusterPolicy and other policies. Because aws_iam_role_policy_attachments_exclusive is a separate resource, Terraform has no ordering edge, and EKS validates the cluster role's permissions during create and needs them during delete of EKS-managed infrastructure. The provider documentation explicitly requires depends_on on the role policy attachments here.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nmodule.eks_node_group_al2023 references aws_iam_role.eks_node_group.arn (create_iam_role = false), but that role's worker-node policies are attached by aws_iam_role_policy_attachments_exclusive.eks_node_group, which has no ordering edge to the node group. The managed node group's instances will fail to join the cluster (missing AmazonEKSWorkerNodePolicy etc.) if the node group is created before the attachments. Add `depends_on = [aws_iam_role_policy_attachments_exclusive.eks_node_group]` to the node group module.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nmodule.eks_node_group_al2023 sets node_role_arn = aws_iam_role.eks_node_group.arn but has no ordering dependency on aws_iam_role_policy_attachments_exclusive.eks_node_group. The EKS managed node group validates that the node IAM role already has the required policies (AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, ECR read-only, etc.); without the attachment in place, node group creation can fail or nodes fail to join the cluster.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nmodule.eks_node_group_al2023 (which creates the aws_eks_node_group) references aws_iam_role.eks_node_group.arn but not aws_iam_role_policy_attachments_exclusive.eks_node_group, which attaches the required AmazonEKSWorkerNodePolicy/AmazonEKS_CNI_Policy/AmazonEC2ContainerRegistryReadOnly policies. Without an edge to the attachment, the node group may be created before the role's policies are attached, and EKS validates the node role permissions on node group create and needs them on delete. The provider docs require depends_on on the role policy attachments for aws_eks_node_group.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

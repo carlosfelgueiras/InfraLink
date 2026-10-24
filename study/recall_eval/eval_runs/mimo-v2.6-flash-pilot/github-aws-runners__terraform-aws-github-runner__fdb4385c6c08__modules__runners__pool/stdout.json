@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The schedule aws_scheduler_schedule.pool targets role aws_iam_role.scheduler, but nothing orders aws_iam_role_policy.scheduler (which grants lambda:InvokeFunction) before the schedule. The schedule is enabled on creation and may fire before its execution role has any permissions, causing AccessDenied on the first invocations.",
+      "node": ":resource.aws_scheduler_schedule.pool",
+      "target": ":resource.aws_iam_role_policy.scheduler",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The function aws_lambda_function.pool only depends on the bare role aws_iam_role.pool; the inline policy aws_iam_role_policy.pool (SSM/KMS/GitHub-app parameter permissions) is created concurrently with the function. The function can therefore be invoked \u2014 e.g. by the EventBridge schedule created right after it \u2014 before its execution role is permissioned. The provider documentation recommends ordering the function after its role policies.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When aws_lambda_function.pool is configured with vpc_config, it needs ENI permissions from aws_iam_role_policy_attachment.pool_vpc_execution_role, but nothing orders that attachment before the function. The attachment is created concurrently with the function, so early invocations can fail until the AWSLambdaVPCAccessExecutionRole policy is attached. The aws_lambda_function documentation shows ordering the function after its role policy attachments.",
+      "node": ":resource.aws_lambda_function.pool",
+      "target": ":resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-mimo-v2.6-flash"
+    }
+  ]
+}

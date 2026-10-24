@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper does not depend on aws_cloudwatch_log_group.ami_housekeeper. The function can be created and invoked before the managed log group exists, allowing Lambda to auto-create /aws/lambda/<function-name> with default retention and race Terraform's managed log group. The log group currently derives its name from the function resource, so the name should be decoupled before a direct depends_on can be added without a cycle.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_cloudwatch_log_group.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.ami_housekeeper can be created before aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role attaches AWSLambdaVPCAccessExecutionRole. A VPC-enabled Lambda needs those EC2 ENI permissions while the function is being created, so the policy attachment must complete before the function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper is not ordered after aws_iam_role_policy.lambda_logging, so the execution role may lack CloudWatch Logs permissions when the function is first invoked. The logging policy should be attached before the function is allowed to run; because the policy also depends on the log group, the log-group name should be decoupled to avoid a dependency cycle.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.ami_housekeeper is not ordered after aws_iam_role_policy.ami_housekeeper, so the execution role may lack the EC2 AMI cleanup permissions when the scheduled function first runs. The policy must be attached before invocations.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "info",
+      "message": "When tracing is enabled, aws_lambda_function.ami_housekeeper is not ordered after aws_iam_role_policy.ami_housekeeper_xray. The X-Ray policy must be attached before the function can send trace data.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.ami_housekeeper can be created before aws_lambda_permission.ami_housekeeper grants events.amazonaws.com permission to invoke the function. If the enabled rule fires in that window, EventBridge invocations fail; the target should depend on the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

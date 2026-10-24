@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-glm-5.3-flash-effort-high-run1]\nmodule.eks-addons builds AWS-managed IAM policy ARNs (AmazonEBSCSIDriverPolicy, AmazonPrometheusRemoteWriteAccess, CloudWatchAgentServerPolicy, etc.) using local.aws.partition, which resolves to module.aws.partition.partition. The dependency graph has no edge from module.eks-addons to module.aws, so the partition data source chain feeding those policy ARNs is not expressed.\n\n----------------------------------------\n\n[final-glm-5.3-flash-effort-high-run3]\nThe `addons` blocks in module.eks-addons interpolate `local.aws.partition` (which resolves to `module.aws.partition.partition`) into their `policy_arns` entries (AmazonEBSCSIDriverPolicy, AmazonPrometheusRemoteWriteAccess, AWSXrayWriteOnlyAccess, CloudWatchAgentServerPolicy, etc.), and the `tags` values also feed from the same locals. Unlike module.ctl, which the graph correctly shows depending on :module.aws, module.eks-addons records no dependency on :module.aws. The aws-partitions data must be resolved before the addons' policy-ARN expressions are evaluated, so module.eks-addons should depend on :module.aws in the same way module.ctl does.",
+      "node": ":module.eks-addons",
+      "target": ":module.aws",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

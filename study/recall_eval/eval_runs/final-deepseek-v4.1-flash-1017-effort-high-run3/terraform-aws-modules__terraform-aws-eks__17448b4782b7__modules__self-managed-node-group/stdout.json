@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The self-managed node instances created by `:resource.aws_autoscaling_group.this` authenticate to the EKS cluster using the node IAM role's access entry, but nothing orders the ASG after `:resource.aws_eks_access_entry.this`. The ASG only references the cluster name and subnets, so Terraform will happily launch instances in parallel with (or before) the access entry is created. Instances that boot before the `EC2_LINUX`/`EC2_WINDOWS` access entry exists fail to authenticate against the API server and do not join the cluster (the ASG's capacity wait only checks EC2 health, not node registration), which surfaces as nodes that never become Ready. Add an explicit ordering from the ASG to the access entry (e.g. `depends_on = [aws_eks_access_entry.this]`) so node authorization exists before instances are launched; there is no clean attribute reference on the ASG that could carry this dependency implicitly.",
+      "node": ":resource.aws_autoscaling_group.this",
+      "target": ":resource.aws_eks_access_entry.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

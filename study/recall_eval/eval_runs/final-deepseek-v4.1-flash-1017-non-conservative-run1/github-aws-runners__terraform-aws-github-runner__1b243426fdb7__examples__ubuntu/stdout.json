@@ -1,0 +1,76 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_lambda_function.syncer` attaches a `vpc_config` (when lambda_subnet_ids/lambda_security_group_ids are set, which is the intended use of this module), and Lambda validates that the execution role can call ec2:CreateNetworkInterface/DescribeNetworkInterfaces at function-creation time. The `AWSLambdaVPCAccessExecutionRole` grant only arrives via `module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role`, which is a sibling of the function: both depend on the IAM role, so nothing orders the attachment before the function. Terraform can therefore create the function before the policy is attached and the apply fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". Add `depends_on = [aws_iam_role_policy_attachment.syncer_vpc_execution_role]` to the function.",
+      "node": "module.runners.module.runner_binaries:resource.aws_lambda_function.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_iam_role_policy_attachment.syncer_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.webhook:resource.aws_lambda_function.webhook` renders a `vpc_config` block whenever subnet/security-group lists are provided, and Lambda requires the execution role to hold VPC networking permissions when the function is created. That permission comes only from `module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role`, which shares only the IAM role as a dependency with the function, so the function can be created before the attachment exists and the apply fails on the VPC config. Add an explicit `depends_on = [aws_iam_role_policy_attachment.webhook_vpc_execution_role]`.",
+      "node": "module.runners.module.webhook:resource.aws_lambda_function.webhook",
+      "target": "module.runners.module.webhook:resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners:resource.aws_lambda_function.scale_up` attaches a `vpc_config` (used whenever the module is given lambda subnets/security groups) but has no dependency on `module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role`, which is what grants ec2:CreateNetworkInterface / DescribeNetworkInterfaces to the scale-up role. Both resources depend only on `aws_iam_role.scale_up`, so Terraform may create the function first and the apply fails with \"The provided execution role does not have permissions to call CreateNetworkInterface on EC2\". Add `depends_on = [aws_iam_role_policy_attachment.scale_up_vpc_execution_role]`.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_up",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_up_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners:resource.aws_lambda_function.scale_down` attaches a `vpc_config` but does not depend on `module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role`, the resource that actually grants the VPC networking permissions Lambda validates at function creation. With nothing ordering the attachment before the function, a VPC-configured deployment can fail creating the function. Add `depends_on = [aws_iam_role_policy_attachment.scale_down_vpc_execution_role]`.",
+      "node": "module.runners.module.runners:resource.aws_lambda_function.scale_down",
+      "target": "module.runners.module.runners:resource.aws_iam_role_policy_attachment.scale_down_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "Inside the `pool` submodule, `module.runners.module.runners.module.pool:resource.aws_lambda_function.pool` is created with a `vpc_config` from `config.lambda.subnet_ids`/`security_group_ids`, while the VPC execution-role grant is applied by the separate `module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role`. Since the attachment is not an attribute of the function, ordering is undefined and Lambda can reject function creation for lack of ENI permissions. Add `depends_on = [aws_iam_role_policy_attachment.pool_vpc_execution_role]`.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_lambda_function.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_iam_role_policy_attachment.pool_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer` wires the scheduled rule to the syncer Lambda but has no ordering against `module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer`, which is the resource-based policy that actually lets events.amazonaws.com invoke the function. The rule/target and the permission are siblings (both depend on the rule / the function), so the enabled schedule rule can fire before the permission exists and the invocation fails. This is the same pattern the module already encodes for S3: `aws_s3_bucket_notification.on_deploy` explicitly depends on `aws_lambda_permission.on_deploy`. Add `depends_on = [aws_lambda_permission.syncer]` to the event target.",
+      "node": "module.runners.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.runners.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down` schedules the scale-down Lambda every few minutes, but it does not depend on `module.runners.module.runners:resource.aws_lambda_permission.scale_down`, the permission that allows events.amazonaws.com to invoke the function. Both only reference the rule and the function, so the rule can trigger while the permission is still being created, dropping the first scheduled invocations right after the apply. Add `depends_on = [aws_lambda_permission.scale_down]` (same ordering the S3 notification uses for its lambda permission).",
+      "node": "module.runners.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.runners.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool` attaches the pool schedule rules to the pool Lambda without ordering against `module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool`, which is required for events.amazonaws.com to invoke the function. Because the permission is created from `source_arn = aws_cloudwatch_event_rule.pool[count.index].arn` it is only sibling-ordered to the target, so a scheduled run can occur before the permission exists and be rejected. Add `depends_on = [aws_lambda_permission.pool]`.",
+      "node": "module.runners.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.runners.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

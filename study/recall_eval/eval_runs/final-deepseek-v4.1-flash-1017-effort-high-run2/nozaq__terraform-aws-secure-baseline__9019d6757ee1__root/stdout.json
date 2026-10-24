@@ -1,0 +1,175 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`aws_config_configuration_aggregator.organization` is created with `organization_aggregation_source { role_arn = aws_iam_role.config_organization[0].arn }`, which only guarantees the role exists. The organization aggregator requires that role to already carry the AWSConfigRoleForOrganizations managed policy; the AWS provider's own documented example puts `depends_on = [aws_iam_role_policy_attachment.organization]` on the aggregator for exactly this reason. If the aggregator is created before `aws_iam_role_policy_attachment.config_organization` completes, aggregator creation fails with an insufficient-permissions error.",
+      "node": ":resource.aws_config_configuration_aggregator.organization",
+      "target": ":resource.aws_iam_role_policy_attachment.config_organization",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`aws_cloudtrail.global` sets `sns_topic_name = aws_sns_topic.cloudtrail-sns-topic[0].arn`, so it waits for the topic but not for `aws_sns_topic_policy.local-account-cloudtrail`, which grants `cloudtrail.amazonaws.com` permission to publish. CloudTrail validates that permission when the trail is created, so the trail can fail with an SNS authorization error unless the topic policy is applied first (the same class of ordering problem the module already handles for the S3 bucket policy via `cloudtrail_depends_on`).",
+      "node": "module.cloudtrail_baseline:resource.aws_cloudtrail.global",
+      "target": "module.cloudtrail_baseline:resource.aws_sns_topic_policy.local-account-cloudtrail",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`module.config_baseline_ap-northeast-1` is given `s3_bucket_name = local.audit_log_bucket_id` (from `module.audit_log_bucket.this_bucket`) but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` s3:GetBucketAcl/s3:ListBucket/s3:PutObject on that bucket. Starting the configuration recorder before the delivery policy exists fails with InsufficientDeliveryPolicyException. CloudTrail is protected from this by `cloudtrail_depends_on`; AWS Config has no equivalent ordering.",
+      "node": ":module.config_baseline_ap-northeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_ap-northeast-2` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_ap-northeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_ap-northeast-3` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_ap-northeast-3",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_ap-south-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_ap-south-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_ap-southeast-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_ap-southeast-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_ap-southeast-2` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_ap-southeast-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_ca-central-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_ca-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_eu-central-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_eu-central-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_eu-north-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_eu-north-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_eu-west-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_eu-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_eu-west-2` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_eu-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_eu-west-3` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_eu-west-3",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_sa-east-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_sa-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_us-east-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_us-east-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_us-east-2` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_us-east-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_us-west-1` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_us-west-1",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.config_baseline_us-west-2` is given `s3_bucket_name = local.audit_log_bucket_id` but does not depend on `:resource.aws_s3_bucket_policy.audit_log`, which grants `config.amazonaws.com` access to the bucket. The recorder can be started before the delivery policy exists, causing InsufficientDeliveryPolicyException.",
+      "node": ":module.config_baseline_us-west-2",
+      "target": ":resource.aws_s3_bucket_policy.audit_log",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

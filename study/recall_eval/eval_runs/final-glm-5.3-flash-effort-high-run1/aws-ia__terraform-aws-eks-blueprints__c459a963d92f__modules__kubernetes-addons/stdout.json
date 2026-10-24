@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The kubernetes_service_account_v1.irsa resource in module.adot_collector_haproxy.module.helm_addon.module.irsa is placed in the namespace named by var.kubernetes_namespace, but it has no dependency (attribute reference or depends_on) on the kubernetes_namespace_v1.irsa resource that creates that namespace in the same module. If both resources are created (create_kubernetes_namespace = true), Terraform may create the service account before the namespace exists, causing the apply to fail or the account to be orphaned in a pending namespace.",
+      "node": "module.adot_collector_haproxy.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.adot_collector_haproxy.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The kubernetes_service_account_v1.irsa resource in module.adot_collector_java.module.helm_addon.module.irsa is placed in the namespace named by var.kubernetes_namespace, but it has no dependency (attribute reference or depends_on) on the kubernetes_namespace_v1.irsa resource that creates that namespace in the same module. If both resources are created (create_kubernetes_namespace = true), Terraform may create the service account before the namespace exists, causing the apply to fail or the account to be orphaned in a pending namespace.",
+      "node": "module.adot_collector_java.module.helm_addon.module.irsa:resource.kubernetes_service_account_v1.irsa",
+      "target": "module.adot_collector_java.module.helm_addon.module.irsa:resource.kubernetes_namespace_v1.irsa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

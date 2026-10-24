@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Shared VPC service-project association is created without waiting for the configured project APIs to finish enabling. In particular, the Compute Engine API must be available for the service project before it is associated; the sibling host-project resource already waits for project_services.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Shared VPC service-project attachment uses the Compute API but has no ordering edge to the project service enablement. Enablement must complete before creating this association; add an explicit dependency on the project services.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Shared VPC service-project association uses Compute Engine functionality but has no ordering edge to project_services. When compute.googleapis.com is enabled by this module, association can race API activation.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

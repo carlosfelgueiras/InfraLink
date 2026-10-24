@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.google_kms_crypto_key_iam_member.service_identity_cmek` lists `:resource.google_project.project` in its explicit `depends_on`, but its `member` argument is derived from `local.service_accounts_robots` \u2192 `local.project.number`, which already references `google_project.project.0.number`. The ordering is therefore established implicitly by the attribute expression and the explicit entry can be dropped.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":resource.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.google_compute_shared_vpc_service_project.shared_vpc_service` attaches the project as a Shared VPC service project to the host project, which is done through the Compute Engine API on the service project. It has no dependency on `:resource.google_project_service.project_services`, so the Compute API may not be enabled yet when the attachment is attempted (its sibling `google_compute_shared_vpc_host_project.shared_vpc_host` correctly depends on the service enablement). Because `service_project` comes from a local string there is no clean data-reference fix; add `depends_on = [google_project_service.project_services]`.",
+      "node": ":resource.google_compute_shared_vpc_service_project.shared_vpc_service",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`:resource.google_kms_crypto_key_iam_member.service_identity_cmek` also lists `:data.google_project.project` in `depends_on`, but the `member` argument (via `local.service_accounts_robots` \u2192 `local.project` \u2192 `data.google_project.project.0.number` in the `try()` branch) already creates that dependency implicitly, so the explicit entry is redundant.",
+      "node": ":resource.google_kms_crypto_key_iam_member.service_identity_cmek",
+      "target": ":data.google_project.project",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

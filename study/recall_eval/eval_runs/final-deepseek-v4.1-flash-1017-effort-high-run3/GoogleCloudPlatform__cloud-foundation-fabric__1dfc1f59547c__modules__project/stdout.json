@@ -1,0 +1,58 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_custom_role.roles` only depends on `google_project.project` (via `project = google_project.project.project_id`), so it can be created before the APIs listed in `var.services` are actually enabled. Custom roles declare permissions that belong to those APIs, and role creation/validation is done against the project's enabled services; enabling a service is asynchronous, so the role can be rejected or the permissions not recognized while the enable operation is still settling. Every other API-backed resource in this module (google_compute_project_metadata_item.oslogin_meta, google_project_iam_binding.authoritative) has an explicit `depends_on = [google_project_service.project_services]`; this one was missed. There is no attribute on the custom role that could reference the (caller-supplied) set of enabled services, so a bare `depends_on` is the appropriate fix.",
+      "node": ":resource.google_project_iam_custom_role.roles",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.additive` grants caller-supplied additive roles (`var.iam_additive_roles`) but only depends on `google_project.project`. The sibling authoritative binding deliberately depends on `google_project_service.project_services` so that role/service state is ready before IAM is written (and so the members are removed before `disable_on_destroy`/`disable_dependent_services` tears the APIs down). This resource has no such ordering, so it can race both on create and on destroy. No attribute here can reference the caller-supplied service list, so an explicit `depends_on` is the fix (matching the pattern already used by google_project_iam_binding.authoritative).",
+      "node": ":resource.google_project_iam_member.additive",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.oslogin_admins` grants `roles/compute.osAdminLogin`, a role owned by the Compute Engine API, but it depends only on `google_project.project`. If `var.services` enables compute.googleapis.com, the enable operation is asynchronous and an IAM write against a service that is still being enabled (and whose service agents are still being provisioned) can race/fail. The module already orders the related `google_compute_project_metadata_item.oslogin_meta` after `google_project_service.project_services` for exactly this reason, but the OS Login IAM members were left unordered.",
+      "node": ":resource.google_project_iam_member.oslogin_admins",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.oslogin_users` grants `roles/compute.osLogin` (a Compute Engine API role) but depends only on `google_project.project`. Service enablement performed by `google_project_service.project_services` is asynchronous, so this IAM write can race the API becoming usable, and on destroy these memberships are not guaranteed to be removed before `disable_dependent_services` disables the underlying APIs. Add `depends_on = [google_project_service.project_services]` to match `google_project_iam_binding.authoritative` and `google_compute_project_metadata_item.oslogin_meta`.",
+      "node": ":resource.google_project_iam_member.oslogin_users",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.oslogin_compute_viewer` grants `roles/compute.viewer` (a Compute Engine API role) yet depends only on `google_project.project`. With `var.services` enabling compute.googleapis.com, that enablement is asynchronous, so writing IAM for the service can race service readiness, and on destroy the membership can outlive the API it belongs to. Ordering after `google_project_service.project_services` is needed, as already done for the authoritative binding and the OS Login metadata item.",
+      "node": ":resource.google_project_iam_member.oslogin_compute_viewer",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`google_project_iam_member.oslogin_iam_serviceaccountuser` grants `roles/iam.serviceAccountUser` but depends only on `google_project.project`, with no ordering relative to `google_project_service.project_services`. The IAM API and the roles'/services' state it relies on are produced by that resource asynchronously (and torn down by `disable_on_destroy`/`disable_dependent_services` on destroy), so this membership should depend on it like the authoritative binding does.",
+      "node": ":resource.google_project_iam_member.oslogin_iam_serviceaccountuser",
+      "target": ":resource.google_project_service.project_services",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

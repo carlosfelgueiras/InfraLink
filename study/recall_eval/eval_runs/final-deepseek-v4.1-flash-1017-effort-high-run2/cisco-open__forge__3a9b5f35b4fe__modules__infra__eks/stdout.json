@@ -1,0 +1,151 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`null_resource.delete_daemonset` removes the aws-node (AWS VPC CNI) daemonset from kube-system, but it only depends on `null_resource.update_kubeconfig` and `module.eks` \u2014 nothing ties it to `null_resource.create_calico_installation`. With Calico as the CNI, removing aws-node before Calico is actually installed/available leaves pods without working networking (and new nodes unable to register). The delete must be ordered after the Calico Installation is created; no attribute reference or depends_on currently expresses that.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": {
+        "field": "triggers",
+        "expression": "{ calico_installation_id = null_resource.create_calico_installation.id }"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.update_kubeconfig` explicitly depends_on `module.eks`, but its own triggers/local-exec already reference `module.eks.cluster_name`, which is already recorded as an implicit dependency \u2014 the explicit depends_on adds nothing.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`data.aws_eks_cluster.cluster` explicitly depends_on `module.eks`, but it also depends_on `time_sleep.wait_300_seconds`, which itself depends_on `module.eks`. Ordering after the sleep already guarantees the cluster exists; the extra `module.eks` entry is redundant.",
+      "node": ":data.aws_eks_cluster.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`data.aws_eks_cluster_auth.cluster` explicitly depends_on `module.eks`, but `time_sleep.wait_300_seconds` (already in its depends_on) depends on `module.eks`, so the cluster ordering is already established transitively.",
+      "node": ":data.aws_eks_cluster_auth.cluster",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`data.aws_ecrpublic_authorization_token.token` explicitly depends_on `module.eks`, but it already depends_on `time_sleep.wait_300_seconds`, which depends_on `module.eks` \u2014 the ordering is already implied.",
+      "node": ":data.aws_ecrpublic_authorization_token.token",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`helm_release.karpenter` explicitly depends_on `module.karpenter`, but its `values` heredoc already references `module.karpenter.service_account` and `module.karpenter.queue_name`, so `module.karpenter` is already an implicit dependency.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.apply_ec2_node_class` explicitly depends_on `module.eks`, but its triggers and local-exec manifest already reference `module.eks.cluster_primary_security_group_id` / `module.eks.cluster_security_group_id`, so the dependency is already implicit.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.apply_ec2_node_class` explicitly depends_on `module.karpenter` (via `module.karpenter.node_iam_role_arn`), but `triggers`/the manifest already reference `module.karpenter.node_iam_role_arn`, making it an implicit dependency already.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.delete_daemonset` explicitly depends_on `module.eks`, but `null_resource.update_kubeconfig` (also in its depends_on) itself depends on `module.eks`, so the cluster ordering is already transitive.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.apply_node_pool` explicitly depends_on `module.eks`, but it already depends_on `null_resource.apply_ec2_node_class`, which depends on `module.eks` (and references it directly) \u2014 the cluster ordering is already established transitively.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.apply_node_pool` explicitly depends_on `helm_release.karpenter`, but it already depends_on `null_resource.apply_ec2_node_class`, which depends on `helm_release.karpenter`, so the Karpenter-install ordering is already transitive.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.helm_release.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "redundant",
+      "severity": "info",
+      "message": "`null_resource.apply_node_pool` explicitly depends_on `null_resource.update_kubeconfig`, but `null_resource.apply_ec2_node_class` (already in its depends_on) depends on `null_resource.update_kubeconfig`, so kubeconfig setup is already ordered ahead transitively.",
+      "node": ":resource.null_resource.apply_node_pool",
+      "target": ":resource.null_resource.update_kubeconfig",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

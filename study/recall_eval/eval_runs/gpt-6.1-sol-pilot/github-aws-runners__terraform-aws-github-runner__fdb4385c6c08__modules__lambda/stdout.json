@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": ":resource.aws_lambda_function.main must wait for :resource.aws_iam_role_policy_attachment.vpc_execution_role when VPC networking is enabled: Lambda needs the attached EC2 network-interface permissions during provisioning. Referencing the execution role alone does not wait for this attachment. Add depends_on for the attachment.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy_attachment.vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main does not wait for :resource.aws_iam_role_policy.xray, so when tracing is enabled the function can become available before its tracing permissions exist. Add depends_on on the policy to ensure tracing permissions are installed before the function is exposed.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": ":resource.aws_lambda_function.main should wait for :resource.aws_iam_role_policy.lambda_logging so initial invocations have logging permissions. Currently the logging policy is necessarily created after the function because its log-group reference leads back to the function. First name the log group directly from var.lambda.prefix and var.lambda.name instead of referencing the function, then add the function's depends_on on the logging policy; adding depends_on without that refactor would create a cycle.",
+      "node": ":resource.aws_lambda_function.main",
+      "target": ":resource.aws_iam_role_policy.lambda_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol"
+    }
+  ]
+}

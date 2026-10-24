@@ -1,0 +1,8 @@
+The report is correct.
+
+- **Role reference:** In `modules/config-baseline/main.tf`, the recorder gets its role through `role_arn = var.iam_role_arn`. That value is `aws_iam_role.recorder.arn`, so the recorder only waits for the role itself. It does not wait for `aws_iam_role_policy.recorder_publish_policy`, which grants the S3 and SNS permissions.
+- **Existing ordering:** `aws_config_configuration_recorder_status.recorder` only has `depends_on = [aws_config_delivery_channel.bucket]`. The delivery channel depends on the recorder, the SNS topic and the bucket name. The module call has `depends_on = [aws_s3_bucket_policy.audit_log]`. Nothing in this chain references the role policy.
+- **Operational need:** Once the recorder status is enabled, AWS Config starts recording and delivering to S3 and SNS using the role. If the policy does not exist yet, the first deliveries can fail. The policy therefore has to exist before recording is enabled.
+- **Why not a module-level dependency:** The policy's `sns:Publish` statement uses `local.config_topics`, which comes from each regional module's `config_sns_topic` output. Making the whole module depend on the policy would create a cycle. The ordering has to be added only at the recorder status, for example by passing a dependency value into the module and using it in the status resource's `depends_on`. That avoids the cycle, because the SNS topic does not depend on the status.
+
+Correct

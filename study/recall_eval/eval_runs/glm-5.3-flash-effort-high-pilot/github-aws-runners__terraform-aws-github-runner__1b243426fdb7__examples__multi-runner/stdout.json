@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app in module.webhook-github-app registers the GitHub App webhook via local-exec, but nothing orders it after aws_apigatewayv2_integration.webhook, which the POST /webhook route targets (AWS_PROXY integration to the webhook lambda). If the provisioner runs before the integration exists, the registered endpoint URL returns errors for GitHub events. The null_resource should depend on the webhook integration (a bare depends_on; the integration is not exposed via any module output for a data reference).",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_integration.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app in module.webhook-github-app runs a local-exec that registers the webhook endpoint on the GitHub App, but its only references (the webhook_endpoint and webhook_secret triggers) close over the API Gateway API, lambda, log group and role \u2014 not the POST /webhook route. aws_apigatewayv2_route.webhook can be applied after the provisioner runs, so the GitHub App can be configured with an endpoint URL that does not accept events yet (and the trigger map will not change when the route is later created, so the provisioner is never re-run). The null_resource should depend on the webhook route.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app in module.webhook-github-app registers the GitHub App webhook via local-exec, but is not ordered after aws_apigatewayv2_stage.webhook. HTTP APIs are only invocable through a stage: even with the route and integration in place, the endpoint only serves traffic once the $default stage (auto_deploy = true) has deployed it. If the provisioner runs first, the GitHub App is pointed at a URL that does not route events to the webhook lambda. The null_resource should depend on the stage (a bare depends_on; no module output exposes the stage for a data reference).",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

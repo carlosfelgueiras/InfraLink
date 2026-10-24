@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.syncer points the scheduled rule at aws_lambda_function.syncer, but the resource-based policy that grants events.amazonaws.com permission to invoke the function (aws_lambda_permission.syncer) is created independently. Until that permission exists, the rule's invocations are rejected. Add depends_on = [aws_lambda_permission.syncer] to aws_cloudwatch_event_target.syncer, mirroring the notification->permission ordering already used for the S3 trigger path (aws_s3_bucket_notification.on_deploy depends on aws_lambda_permission.on_deploy).",
+      "node": ":resource.aws_cloudwatch_event_target.syncer",
+      "target": ":resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

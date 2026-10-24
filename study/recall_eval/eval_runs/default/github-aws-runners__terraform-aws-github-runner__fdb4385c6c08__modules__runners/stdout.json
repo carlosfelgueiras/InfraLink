@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function :resource.aws_lambda_function.scale_up can be invoked as soon as it exists, but its execution role's inline and attached permissions are applied separately. Add ordering so those permissions are established before the function is used; this module has several policies/attachments, so a clean single attribute reference is not available.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Lambda function :resource.aws_lambda_function.scale_up may be invoked before its X-Ray permission policy is attached when tracing is enabled; ensure the policy is installed before invocation.",
+      "node": ":resource.aws_lambda_function.scale_up",
+      "target": ":resource.aws_iam_role_policy.scale_up_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

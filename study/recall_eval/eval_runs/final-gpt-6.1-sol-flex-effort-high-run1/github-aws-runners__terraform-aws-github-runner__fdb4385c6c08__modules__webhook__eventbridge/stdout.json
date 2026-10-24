@@ -1,0 +1,121 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.dispatcher references the execution role, but does not wait for aws_iam_role_policy_attachment.dispatcher_vpc_execution_role. When lambda_subnet_ids is nonempty, Lambda needs the attached EC2 network-interface permissions during VPC provisioning; creating the function concurrently with the attachment can fail. Add depends_on on the attachment resource, also keeping it attached until function deletion completes.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy_attachment.dispatcher_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "aws_lambda_function.webhook references the execution role, but does not wait for aws_iam_role_policy_attachment.webhook_vpc_execution_role. When lambda_subnet_ids is nonempty, Lambda needs the attached EC2 network-interface permissions during VPC provisioning; creating the function concurrently with the attachment can fail. Add depends_on on the attachment resource, also keeping it attached until function deletion completes.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy_attachment.webhook_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.dispatcher can start routing events before aws_lambda_permission.allow_cloudwatch_to_call_lambda grants EventBridge permission to invoke the function. Both currently wait for the function and rule but not each other. Make the target depend on the permission to avoid an initial delivery-denial window and to remove the target before revoking permission during destruction.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_lambda_permission.allow_cloudwatch_to_call_lambda",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher does not wait for aws_iam_role_policy.dispatcher_sqs. Its role reference orders only role creation, so EventBridge can invoke the deployed dispatcher before its queue-publishing permissions are installed. Add depends_on on the SQS role policy so initial dispatches do not race policy installation.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_sqs",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.dispatcher consumes runner-matcher configuration from SSM but does not wait for aws_iam_role_policy.dispatcher_ssm. The function and EventBridge target can become available before the execution role receives parameter-read permissions. Add depends_on on this policy to order policy installation before function availability.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When config.kms_key_arn is set, aws_iam_role_policy.dispatcher_kms supplies the dispatcher's configured KMS access, but aws_lambda_function.dispatcher has no dependency on that policy. Initial invocations can therefore race installation of the permissions needed for encrypted resources. Add depends_on on the KMS role policy.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, aws_lambda_function.dispatcher can become invokable before aws_iam_role_policy.dispatcher_xray installs the execution role's tracing permissions. The shared role reference does not order policy installation before the function. Add depends_on on the counted policy resource to avoid missing or denied initial trace submissions.",
+      "node": ":resource.aws_lambda_function.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook publishes to the event bus but does not wait for aws_iam_role_policy.webhook_eventbridge. Referencing the bus and role does not wait for the publishing policy, so API Gateway invocation permission can be granted while PutEvents is still unauthorized. Add depends_on on the publishing policy.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_eventbridge",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_function.webhook uses the webhook-secret SSM parameter but does not wait for aws_iam_role_policy.webhook_ssm to grant parameter access. The null_resource replacement trigger does not order IAM policy installation. Add depends_on on the SSM role policy so early webhook invocations do not race installation of secret-read permissions.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_ssm",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When config.kms_key_arn is set, aws_iam_role_policy.webhook_kms supplies the webhook's configured KMS access, but aws_lambda_function.webhook does not wait for that policy. Initial webhook requests can race installation of the permissions required to decrypt encrypted parameters. Add depends_on on the KMS role policy.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_kms",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When tracing is enabled, aws_lambda_function.webhook can become invokable before aws_iam_role_policy.xray installs its execution role's tracing permissions. The role reference alone does not order these operations. Add depends_on on the counted policy resource to avoid missing or denied initial trace submissions.",
+      "node": ":resource.aws_lambda_function.webhook",
+      "target": ":resource.aws_iam_role_policy.xray",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_cloudwatch_event_target.dispatcher can enable delivery before aws_iam_role_policy.dispatcher_logging grants logging access and, transitively, before the managed dispatcher log group exists. Make the target depend on the logging policy so initial invocations have their logging infrastructure ready. Ordering at the target avoids the cycle that a function-to-logging-policy dependency would introduce, because the policy already depends on the log group and function.",
+      "node": ":resource.aws_cloudwatch_event_target.dispatcher",
+      "target": ":resource.aws_iam_role_policy.dispatcher_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_lambda_permission.webhook can enable API Gateway invocations before aws_iam_role_policy.webhook_logging grants logging access and, transitively, before the managed webhook log group exists. Make the permission depend on the logging policy to prevent early invocations without logging readiness. Ordering at the permission avoids the cycle that a function-to-logging-policy dependency would introduce, because the policy already depends on the log group and function.",
+      "node": ":resource.aws_lambda_permission.webhook",
+      "target": ":resource.aws_iam_role_policy.webhook_logging",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

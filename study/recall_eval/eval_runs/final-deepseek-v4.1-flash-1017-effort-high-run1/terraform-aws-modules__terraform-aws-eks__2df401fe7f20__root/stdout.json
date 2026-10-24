@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":data.http.wait_for_cluster: explicit depends_on of :resource.aws_eks_cluster.this is redundant \u2014 already implied by attribute references",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`data.http.wait_for_cluster` declares `depends_on = [aws_eks_cluster.this, ...]`, but `aws_eks_cluster.this` is already referenced implicitly by the data source's own arguments (`url = format(\"%s/healthz\", aws_eks_cluster.this[0].endpoint)` and `ca_certificate = base64decode(...aws_eks_cluster.this[*]...)`). The `aws_eks_cluster.this` entry in that `depends_on` list duplicates the ordering Terraform already infers, so it can be dropped (only `aws_security_group_rule.cluster_private_access` is a genuine non-attribute ordering requirement).",
+      "node": ":data.http.wait_for_cluster",
+      "target": ":resource.aws_eks_cluster.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`module.fargate:resource.aws_eks_fargate_profile.this` is created with a freshly created pod execution role (`pod_execution_role_arn = local.pod_execution_role_arn` -> `aws_iam_role.eks_fargate_pod`), so ordering against the role itself is inferred, but nothing orders it after `module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod`. EKS validates/uses the pod execution role when the profile is created, and a role that was just created and has no policy attachment yet can hit IAM propagation problems (and pods scheduled through the profile get no ECR/CloudWatch permissions). The existing `eks_depends_on` hack only carries the cluster and the aws-auth ConfigMap; the role policy attachment should be added to that list (or a direct `depends_on` added on the profile).",
+      "node": "module.fargate:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate:resource.aws_iam_role_policy_attachment.eks_fargate_pod",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

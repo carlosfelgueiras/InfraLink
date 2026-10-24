@@ -1,0 +1,5 @@
+In `modules/compute/aks/aks.tf`, `resource "azurerm_kubernetes_cluster" "aks"` is configured with AKS-managed Azure AD integration (`role_based_access_control.azure_active_directory.managed = true`), which requires the `AAD-V2` feature on the `Microsoft.ContainerService` namespace to be registered in the subscription prior to cluster creation.
+
+In the same file, `resource "null_resource" "register_aks_msi_preview_feature"` uses a `local-exec` provisioner to register the `AAD-V2` feature, poll until its state reaches `"Registered"`, and re-register the `Microsoft.ContainerService` resource provider. However, `azurerm_kubernetes_cluster.aks` neither references `null_resource.register_aks_msi_preview_feature` nor declares `depends_on = [null_resource.register_aks_msi_preview_feature]`. Without this dependency, Terraform executes both resources concurrently, allowing AKS cluster creation to proceed before feature registration completes.
+
+Correct

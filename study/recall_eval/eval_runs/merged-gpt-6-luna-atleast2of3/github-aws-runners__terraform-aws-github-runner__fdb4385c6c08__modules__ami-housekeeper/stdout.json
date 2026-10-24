@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Lambda function can be created before its AMI-housekeeper inline policy is attached. Make the function depend on this policy so its execution role permissions are established before the function is ready to be invoked.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda function should wait for its AMI-housekeeper inline policy to be attached before it can be invoked with the permissions this function needs; referencing only the execution role does not order this policy creation. Add an explicit dependency because there is no suitable Lambda argument to reference this policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Lambda function's AMI cleanup behavior requires the inline cleanup policy to be installed before the function can run successfully, but the graph does not order function creation after that policy.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen tracing is enabled, the Lambda function can be created before its X-Ray inline policy is attached, leaving tracing enabled without the required execution permissions. Order the function after this policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nWhen tracing is enabled, the Lambda function needs the X-Ray role policy before it handles traced invocations. Its role reference does not imply ordering on this separate inline policy resource.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nWhen X-Ray tracing is enabled, the function's X-Ray policy should be installed before the function is used with tracing; no dependency on this policy is expressed.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy.ami_housekeeper_xray",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nWhen VPC subnets are configured, Lambda creation can race ahead of attachment of AWSLambdaVPCAccessExecutionRole. Lambda needs these EC2 permissions to configure its VPC networking, so it should depend on this attachment.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nFor VPC-configured Lambda functions, the execution role needs the VPC access policy before Lambda configures networking. The role-name reference does not order this separate policy attachment before function creation.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe Lambda function uses VPC configuration when subnet and security-group IDs are supplied, but it does not wait for the VPC execution policy attachment. Ensure the execution role has the required ENI permissions before creating the VPC-enabled function.",
+      "node": ":resource.aws_lambda_function.ami_housekeeper",
+      "target": ":resource.aws_iam_role_policy_attachment.ami_housekeeper_vpc_execution_role",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe EventBridge target can be installed before the Lambda resource-based permission, allowing an enabled rule to attempt invocation before it is authorized. Order target creation after the permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe EventBridge target can be installed before the Lambda invoke permission, even though that permission is required for the rule to invoke the function. Order target creation after the permission to avoid a window where scheduled invocations are unauthorized.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe EventBridge target can be installed before the Lambda resource-based permission, leaving scheduled invocations unauthorized until that permission is created. Order target creation after the permission.",
+      "node": ":resource.aws_cloudwatch_event_target.ami_housekeeper",
+      "target": ":resource.aws_lambda_permission.ami_housekeeper",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

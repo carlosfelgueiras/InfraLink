@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "`:resource.aws_ecs_cluster_capacity_providers.this` associates capacity providers with the cluster (`capacity_providers` / `default_capacity_provider_strategy`), and AWS requires each referenced `aws_ecs_capacity_provider` to already exist when it is registered \u2014 and vice-versa forbids deleting a capacity provider still associated with a cluster. The association currently lists provider names derived only from `var.autoscaling_capacity_providers` (`try(v.name, k)`), so no attribute reference ties it to `:resource.aws_ecs_capacity_provider.this` (the graph confirms only the cluster, `var.create`, and the two capacity-provider variables are dependencies). On a fresh apply, or on destroy/replace of a capacity provider, the association and the provider can be ordered wrongly, causing a failure. This was clearly the intent of `local.cluster_capacity_providers` merging in `aws_ecs_capacity_provider.this`, but that local is only used for the dynamic block's `for_each` values, not in any attribute the association sends to AWS.",
+      "node": ":resource.aws_ecs_cluster_capacity_providers.this",
+      "target": ":resource.aws_ecs_capacity_provider.this",
+      "fix": {
+        "field": "capacity_providers",
+        "expression": "distinct(concat([for k, v in var.fargate_capacity_providers : try(v.name, k)], [for k, v in aws_ecs_capacity_provider.this : v.name]))"
+      },
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

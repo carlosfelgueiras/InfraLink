@@ -1,0 +1,36 @@
+{
+  "repo": "terraform-aws-modules__terraform-aws-eks",
+  "parent_sha": "2515e0e561509d026fd0d4725ab0bd864e7340f9^",
+  "resolved_sha": "ef22c7988c3b28db341771f700813fb29553a5c1",
+  "module_dir": ".",
+  "profile": "openrouter-gpt-6-luna",
+  "effort": "high",
+  "temperature": null,
+  "cases": [
+    {
+      "repo": "terraform-aws-modules__terraform-aws-eks",
+      "pr_number": 1840,
+      "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/1840",
+      "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/2515e0e561509d026fd0d4725ab0bd864e7340f9",
+      "commit_sha": "2515e0e561509d026fd0d4725ab0bd864e7340f9",
+      "parent_sha": "2515e0e561509d026fd0d4725ab0bd864e7340f9^",
+      "commit_subject": "fix: Add node group dependency for EKS addons resource creation (#1840)",
+      "commit_date": "2022-02-07T21:33:35+01:00",
+      "file": "main.tf",
+      "module_dir": ".",
+      "holder_address": "aws_eks_addon.this",
+      "added_targets": [
+        "module.eks_managed_node_group",
+        "module.fargate_profile",
+        "module.self_managed_node_group"
+      ],
+      "pre_existing_targets": [],
+      "already_implicit": {
+        "module.eks_managed_node_group": false,
+        "module.fargate_profile": false,
+        "module.self_managed_node_group": false
+      },
+      "verify_error": null
+    }
+  ]
+}

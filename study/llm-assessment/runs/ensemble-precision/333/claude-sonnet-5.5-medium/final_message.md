@@ -1,0 +1,3 @@
+Nothing else orders the node group after the attachments. I checked for a `depends_on` on the node group module, and the only one in the repo is in `eks-addons.tf`. The module takes just the role ARN. The AWS provider docs for `aws_eks_node_group` say to make the node group depend on the role policy attachments. Without that, nodes can fail to join the cluster, and cleanup on delete can fail.
+
+Correct

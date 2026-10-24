@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_cluster.cluster` should wait for `:resource.aws_iam_role_policy_attachments_exclusive.cluster` so the EKS control-plane role permissions are attached before cluster creation and remain available through cluster deletion; the AWS provider documentation recommends this explicit ordering.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:module.eks_node_group_al2023` should wait for `:resource.aws_iam_role_policy_attachments_exclusive.eks_node_group` so the managed node group's role permissions are in place before node-group lifecycle operations.",
+      "node": ":module.eks_node_group_al2023",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.eks_node_group",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_addon.aws_ebs_csi_driver` should wait for `:resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa` so the CSI driver's service-account role has its required permissions before the add-on starts running.",
+      "node": ":resource.aws_eks_addon.aws_ebs_csi_driver",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_addon.adot` should wait for `:resource.aws_iam_role_policy_attachments_exclusive.adot_collector` so the collector's service-account role permissions are attached before the add-on starts running.",
+      "node": ":resource.aws_eks_addon.adot",
+      "target": ":resource.aws_iam_role_policy_attachments_exclusive.adot_collector",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`:resource.aws_eks_cluster.cluster` should wait for `:resource.aws_cloudwatch_log_group.cluster` so EKS logging uses the explicitly configured log group (including its retention and KMS settings) rather than creating or using it before those settings are applied.",
+      "node": ":resource.aws_eks_cluster.cluster",
+      "target": ":resource.aws_cloudwatch_log_group.cluster",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

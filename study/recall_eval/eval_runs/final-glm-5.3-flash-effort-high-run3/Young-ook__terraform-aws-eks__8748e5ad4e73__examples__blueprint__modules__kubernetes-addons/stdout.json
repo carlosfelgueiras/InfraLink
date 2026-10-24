@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The `addons` blocks in module.eks-addons interpolate `local.aws.partition` (which resolves to `module.aws.partition.partition`) into their `policy_arns` entries (AmazonEBSCSIDriverPolicy, AmazonPrometheusRemoteWriteAccess, AWSXrayWriteOnlyAccess, CloudWatchAgentServerPolicy, etc.), and the `tags` values also feed from the same locals. Unlike module.ctl, which the graph correctly shows depending on :module.aws, module.eks-addons records no dependency on :module.aws. The aws-partitions data must be resolved before the addons' policy-ARN expressions are evaluated, so module.eks-addons should depend on :module.aws in the same way module.ctl does.",
+      "node": ":module.eks-addons",
+      "target": ":module.aws",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The GitHub App webhook registration in null_resource.update_app should also wait for the API Gateway stage to be deployed ($default with auto_deploy). The stage has no dependency on the route in the current graph and the null_resource has no dependency on the stage at all, so the local-exec can run against an API endpoint that is not yet serving traffic. An explicit depends_on is needed since the endpoint output references only the API resource.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "null_resource.update_app registers the webhook endpoint with the GitHub App via local-exec, but its data dependency (module.multi-runner.webhook.endpoint) only pins aws_apigatewayv2_api.webhook. The route that maps POST /webhook to the lambda integration may not exist yet when the provisioner runs, so the registered webhook URL would be non-functional on first apply. The resource should be ordered after the route is created.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

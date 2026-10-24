@@ -1,0 +1,85 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.helm_release.karpenter: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.apply_ec2_node_class: explicit depends_on of :module.karpenter is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": ":resource.null_resource.update_kubeconfig: explicit depends_on of :module.eks is redundant \u2014 already implied by attribute references",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "redundant-depends-on-check"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.update_kubeconfig` has `depends_on = [module.eks]`, but its `local-exec` command already interpolates `module.eks.cluster_name`, so Terraform already infers the ordering to `module.eks`. The explicit `depends_on` is redundant and can be removed.",
+      "node": ":resource.null_resource.update_kubeconfig",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`helm_release.karpenter` lists `module.karpenter` in `depends_on`, but its `values` block already references `module.karpenter.service_account` and `module.karpenter.queue_name`, so the dependency on `module.karpenter` is already implicit. The `depends_on` entry is redundant.",
+      "node": ":resource.helm_release.karpenter",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.apply_ec2_node_class` lists `module.eks` in `depends_on`, but its `triggers` (and the `ec2_node_class_manifest` template) already reference `module.eks.cluster_primary_security_group_id` / `module.eks.cluster_security_group_id`, so the ordering to `module.eks` is already implicit.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.eks",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`null_resource.apply_ec2_node_class` lists `module.karpenter` (and `module.karpenter.node_iam_role_arn`) in `depends_on`, but `role_arn = module.karpenter.node_iam_role_arn` in `triggers` already makes the dependency on `module.karpenter` implicit. The `depends_on` entry is redundant.",
+      "node": ":resource.null_resource.apply_ec2_node_class",
+      "target": ":module.karpenter",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "`null_resource.delete_daemonset` runs `kubectl delete daemonset -n kube-system aws-node`, removing the AWS VPC CNI so that Calico becomes the cluster CNI. It only depends on `module.eks` and `null_resource.update_kubeconfig`, so it can run before Calico is actually deployed: as soon as `aws-node` is gone and no `calico-node` DaemonSet is running, every newly scheduled pod (including calico-node itself) fails to get an IP. It must depend on `null_resource.create_calico_installation` so the Calico `Installation` has been applied before the VPC CNI daemonset is removed. No attribute reference between these two `local-exec` kubectl resources exists, so a bare `depends_on` (or an ordering reference in `triggers`) is required; there is no clean data-dependency field on this resource.",
+      "node": ":resource.null_resource.delete_daemonset",
+      "target": ":resource.null_resource.create_calico_installation",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017:non-conservative"
+    }
+  ]
+}

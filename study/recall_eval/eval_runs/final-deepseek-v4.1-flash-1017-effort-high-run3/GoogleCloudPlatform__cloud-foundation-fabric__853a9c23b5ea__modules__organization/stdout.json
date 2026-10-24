@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "`google_org_policy_policy.default` explicitly depends_on `google_tags_tag_key.default`, but it already depends_on `google_tags_tag_value.default`, which itself depends on `google_tags_tag_key.default` (tag value's parent is the tag key's id). The separate tag-key entry only duplicates an ordering that is already enforced transitively, so it can be removed without changing apply ordering.",
+      "node": ":resource.google_org_policy_policy.default",
+      "target": ":resource.google_tags_tag_key.default",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

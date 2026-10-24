@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this launches instances using aws_iam_role.this via node_role_arn, but has no dependency on aws_iam_role_policy_attachment.this. The guarantee that the EKS worker/CNI/ECR policies are attached before nodes launch only exists indirectly through aws_launch_template.this's explicit depends_on, which does not apply when use_custom_launch_template = false (EKS then provisions its own launch template with no ordering). Nodes launched before the policies are attached fail to join the cluster. Add aws_iam_role_policy_attachment.this to the node group's depends_on, per the aws_eks_node_group provider documentation.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_eks_node_group.this has no dependency (direct or transitive) on aws_iam_role_policy_attachment.additional, even though the launch template's existing depends_on only covers aws_iam_role_policy_attachment.this. When var.iam_role_additional_policies is set, nodes can launch before the additional policies are attached to the node role, so pods requiring those permissions will fail on create. Add aws_iam_role_policy_attachment.additional to the node group's depends_on.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "aws_launch_template.this explicitly depends_on aws_iam_role_policy_attachment.this to \"prevent premature access of policies by pods that require permissions on create/destroy\", but omits aws_iam_role_policy_attachment.additional. When var.iam_role_additional_policies is set, instances launched from this template can start before those additional policies are attached to the node role. Add aws_iam_role_policy_attachment.additional alongside the existing depends_on entry.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:openrouter-glm-5.3-flash"
+    }
+  ]
+}

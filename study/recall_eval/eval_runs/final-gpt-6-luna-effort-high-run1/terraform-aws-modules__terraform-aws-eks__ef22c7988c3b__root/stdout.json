@@ -1,0 +1,49 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The Fargate profile uses this execution role, but it does not wait for the role's managed policies to be attached. The profile may become usable before its required pod-execution/CNI permissions are in place.",
+      "node": "module.fargate_profile:resource.aws_eks_fargate_profile.this",
+      "target": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When IPv6 CNI policy creation is enabled, this attachment refers to the custom policy by a constructed ARN rather than the policy resource. It should wait for the policy to exist before attempting the attachment.",
+      "node": "module.fargate_profile:resource.aws_iam_role_policy_attachment.this",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When IPv6 CNI policy creation is enabled, this attachment refers to the custom policy by a constructed ARN rather than the policy resource. It should wait for the policy to exist before attempting the attachment.",
+      "node": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When IPv6 CNI policy creation is enabled, this attachment refers to the custom policy by a constructed ARN rather than the policy resource. It should wait for the policy to exist before attempting the attachment.",
+      "node": "module.self_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "target": ":resource.aws_iam_policy.cni_ipv6_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The EKS managed node group uses this IAM role but does not wait for its required managed policies to be attached. The AWS provider documentation specifically recommends this dependency so EKS can properly handle node instances and network interfaces.",
+      "node": "module.eks_managed_node_group:resource.aws_eks_node_group.this",
+      "target": "module.eks_managed_node_group:resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

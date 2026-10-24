@@ -1,0 +1,28 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The REPORT-forgecicd_trust_validation entry in splunk_configs_conf.forgecicd_cloudwatchlogs names the transform managed by splunk_configs_conf.forgecicd_trust_validation using a literal string. No dependency ensures that transform exists before the props configuration enables it; add ordering or reference its name.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_trust_validation",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_lambda_tenant_fields\"\n  \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\"\n  \"REPORT-forgecicd_extra_lambda_tenant_fields\" = \"forgecicd_extra_lambda_tenant_fields\"\n  \"REPORT-forgecicd_trust_validation\" = trimprefix(splunk_configs_conf.forgecicd_trust_validation.name, \"transforms/\")\n  \"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = \"forgecicd_extra_lambda_ec2_tenant_fields\"\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The REPORT-forgecicd_extra_lambda_ec2_tenant_fields entry in splunk_configs_conf.forgecicd_cloudwatchlogs names the transform managed by splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields using a literal string. Unlike the other tenant-field transforms, it has no dependency ensuring creation before the props configuration enables it.",
+      "node": ":resource.splunk_configs_conf.forgecicd_cloudwatchlogs",
+      "target": ":resource.splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "fix": {
+        "field": "variables",
+        "expression": "{\n  \"REPORT-forgecicd_cloudwatchlogs_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_lambda_tenant_fields\"\n  \"REPORT-forgecicd_cloudwatchlogs_global_lambda_tenant_fields\" = \"forgecicd_cloudwatchlogs_global_lambda_tenant_fields\"\n  \"REPORT-forgecicd_extra_lambda_tenant_fields\" = \"forgecicd_extra_lambda_tenant_fields\"\n  \"REPORT-forgecicd_trust_validation\" = \"forgecicd_trust_validation\"\n  \"REPORT-forgecicd_extra_lambda_ec2_tenant_fields\" = trimprefix(splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields.name, \"transforms/\")\n}"
+      },
+      "origin": "agentic-check:openrouter-gpt-6.1-sol-flex"
+    }
+  ]
+}

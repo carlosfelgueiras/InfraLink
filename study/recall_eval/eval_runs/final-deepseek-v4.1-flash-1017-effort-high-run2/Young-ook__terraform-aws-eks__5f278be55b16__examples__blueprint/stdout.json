@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "redundant",
+      "severity": "warning",
+      "message": "module.helm-addons declares `depends_on = [module.eks-addons]`, but this ordering is already guaranteed by the module's ordinary attribute references: every Helm chart waits on module.eks (oidc = module.eks.oidc, module.eks.cluster.name / control_plane.endpoint, module.eks.instance_profile.*) and on module.vpc.vpc.id, and the IRSA permissions wait on aws_iam_policy.lbc/kpt/cas via the `arn` references. Nothing produced by module.eks-addons is referenced by module.helm-addons, so the explicit depends_on duplicates ordering that Terraform already infers from the shared module.eks dependencies.",
+      "node": ":module.helm-addons",
+      "target": ":module.eks-addons",
+      "fix": null,
+      "origin": "agentic-check:openrouter-deepseek-v4.1-flash-1017"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EventBridge target can be registered before the Lambda invoke permission exists. The rule may then attempt delivery while invocation is still denied; make the target wait for the permission.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_lambda_permission.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The scheduled EventBridge target can become active before its Lambda invoke permission is installed. Ensure the target is not registered until this permission exists.",
+      "node": "module.multi-runner.module.runners:resource.aws_cloudwatch_event_target.scale_down",
+      "target": "module.multi-runner.module.runners:resource.aws_lambda_permission.scale_down",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The API Gateway route uses an integration, but the Lambda permission is separately created and does not order the API integration or route. Ensure the permission exists before the route is created, so the API cannot be exposed before Lambda allows invocation.",
+      "node": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "target": "module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EventBridge target may be registered and start invoking the pool Lambda before its Lambda invoke permission is installed. Order target creation after the permission.",
+      "node": "module.multi-runner.module.runners.module.pool:resource.aws_cloudwatch_event_target.pool",
+      "target": "module.multi-runner.module.runners.module.pool:resource.aws_lambda_permission.pool",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The GitHub App webhook URL is updated from the API's endpoint and a local path, but that value does not wait for the API Gateway route to be created. The app can start sending webhook requests before the route is configured; make the update wait for the route.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_route.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The GitHub App update can run before API Gateway's default stage is ready and auto-deployed, so the configured endpoint may not yet serve the route. Make the update wait for the stage.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_apigatewayv2_stage.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The deployment trigger object is deliberately written after the bucket notification is configured, which can immediately invoke the syncer Lambda. It does not wait for the syncer's S3 access policy, so the first invocation can run before the execution role is authorized to access the distribution object. Order the trigger object after this policy.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_s3_object.trigger",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The GitHub App can be updated with the API endpoint before API Gateway has permission to invoke its Lambda. This can cause initial webhook deliveries to fail; make the update wait for the Lambda permission as well as the route and stage.",
+      "node": "module.webhook-github-app:resource.null_resource.update_app",
+      "target": "module.multi-runner.module.webhook:resource.aws_lambda_permission.webhook",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The EventBridge schedule can invoke the syncer as soon as its target is registered, but the syncer's S3 access policy is created independently. Ensure the scheduled target is not enabled until the execution role has the S3 permissions needed by the function.",
+      "node": "module.multi-runner.module.runner_binaries:resource.aws_cloudwatch_event_target.syncer",
+      "target": "module.multi-runner.module.runner_binaries:resource.aws_iam_role_policy.syncer",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "The SQS event source mapping can be enabled before the scale-up Lambda execution role has the inline policy granting access to the build queue. Ensure the mapping waits for this policy so polling/invocation does not begin with insufficient role permissions.",
+      "node": "module.multi-runner.module.runners:resource.aws_lambda_event_source_mapping.scale_up",
+      "target": "module.multi-runner.module.runners:resource.aws_iam_role_policy.scale_up",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

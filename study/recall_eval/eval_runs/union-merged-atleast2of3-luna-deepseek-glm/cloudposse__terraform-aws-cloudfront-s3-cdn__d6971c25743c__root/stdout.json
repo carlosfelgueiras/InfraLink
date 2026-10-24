@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[merged-deepseek-v4.1-flash-1017-atleast2of3]\n[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_cloudfront_distribution.default enables legacy access logging by pointing logging_config.bucket at local.cf_log_bucket_domain (module.logs.bucket_domain_name when cloudfront_access_log_create_bucket = true). Per the provider docs, V1 logging requires the target S3 bucket to already exist and to carry FULL_CONTROL for the awslogsdelivery canonical user before CreateDistribution succeeds. The graph shows no edge from the distribution to module.logs (the reference only flows through a local and a dynamic block), so the distribution can be created before the log bucket/ACL exists and fail with an InvalidArgument/NoSuchBucket error. Add an ordering dependency on the log bucket module.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n:resource.aws_cloudfront_distribution.default enables access logging into the bucket created by :module.logs (logging_config.bucket = local.cf_log_bucket_domain, which resolves to module.logs.bucket_domain_name). That reference only waits for the bucket resource to exist \u2014 it does not wait for module.logs to apply the ACL/grants that give the awslogsdelivery canonical user FULL_CONTROL. CloudFront validates/writes to the log bucket at distribution creation time and fails (`InvalidArgument`/`AccessDenied`) if those grants are not yet applied. Add `depends_on = [module.logs]` to the distribution so the whole logs module (bucket + ACL grants) completes first; there is no attribute on module.logs that is emitted only after the grants, so a bare depends_on is the correct closure.",
+      "node": ":resource.aws_cloudfront_distribution.default",
+      "target": ":module.logs",
+      "fix": null,
+      "origin": "agentic-check:merged(1/3)"
+    }
+  ]
+}

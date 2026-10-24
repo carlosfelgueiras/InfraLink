@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_eks_node_group.this provisions the node group's EC2 instances and ENIs using the node IAM role, but it only depends on aws_iam_role.this (via node_role_arn) \u2014 not on the role's policy attachments. Per the AWS provider documentation, the EKS node group must depend on the IAM role policy attachments (here aws_iam_role_policy_attachment.this, which attaches AmazonEKSWorkerNodePolicy, AmazonEC2ContainerRegistryReadOnly and the CNI policy) so EKS can create the nodes and, importantly on teardown, properly delete the EC2 instances and Elastic Network Interfaces. Today the ordering is at best met indirectly through the launch template and breaks entirely when use_custom_launch_template = false.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_eks_node_group.this` provisions EC2 instances/ENIs that assume the node IAM role, and AWS requires that role's worker-node/CNI/ECR policies be attached before the node group is created and detached only after the node group (and its instances/ENIs) is destroyed. `aws_eks_node_group.this` only references the role itself via `node_role_arn = aws_iam_role.this[0].arn`; nothing in the graph orders it after `aws_iam_role_policy_attachment.this`. Add an explicit dependency (as the provider docs recommend) so node permissions exist before creation and survive until deletion.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_eks_node_group.this` provisions the Auto Scaling group / EC2 instances that assume the node IAM role, but it has no dependency on `aws_iam_role_policy_attachment.this` (the standard AmazonEKSWorkerNodePolicy / CNI / ECR attachments). Per the aws_eks_node_group docs, the node group must depend on its role's policy attachments so the policies exist before nodes are created and are only removed after the node group (and its instances/ENIs) are deleted \u2014 otherwise EKS cannot join nodes or delete the EC2 instances and ENIs on destroy. Today this is only covered transitively via the launch template's depends_on, which applies solely when a custom launch template is created and used. Add `aws_iam_role_policy_attachment.this` to the node group's `depends_on`.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.this",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\naws_launch_template.this deliberately depends_on aws_iam_role_policy_attachment.this so that pods do not access IAM permissions before they are attached, but its depends_on list omits aws_iam_role_policy_attachment.additional. Additional policies attached to the node role via iam_role_additional_policies are subject to the same race: without an ordering dependency, EKS can launch nodes (and workloads on them) before those additional permissions exist, and on destroy the additional policies can be detached before the node group is torn down. The dependency on aws_iam_role_policy_attachment.additional should be added so the ordering holds in every path.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_launch_template.this` already has `depends_on = [aws_iam_role_policy_attachment.this]` specifically to prevent pods from accessing node-role policies before they are attached, but it omits `aws_iam_role_policy_attachment.additional` for the same node role. The additional policy attachments can therefore still be created concurrently with the launch template/node group, so pods relying on those permissions can start before they are attached. Include `aws_iam_role_policy_attachment.additional` in the launch template's ordering.",
+      "node": ":resource.aws_launch_template.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run2]\n`aws_eks_node_group.this` launches nodes whose role also receives the user-supplied `aws_iam_role_policy_attachment.additional` policies. Since those policy attachments depend only on `aws_iam_role.this`, they can be created after the node group starts (and destroyed before it) whenever policies are required by workloads/EKS operations on the node role. The node group should explicitly depend on `aws_iam_role_policy_attachment.additional` as well.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\n`aws_iam_role_policy_attachment.additional` attaches user-supplied policies to the same node IAM role consumed by `aws_eks_node_group.this`, but the node group has no ordering relative to it (the launch template's `depends_on` lists only `aws_iam_role_policy_attachment.this`, so nothing transitively covers the additional attachments). Nodes, and the pods on them that rely on those extra permissions, can be created before the additional policies are attached, and the policies can be detached before the node group is destroyed. Add `aws_iam_role_policy_attachment.additional` to the node group's `depends_on` as well.",
+      "node": ":resource.aws_eks_node_group.this",
+      "target": ":resource.aws_iam_role_policy_attachment.additional",
+      "fix": null,
+      "origin": "agentic-check:merged(2/3)"
+    }
+  ]
+}

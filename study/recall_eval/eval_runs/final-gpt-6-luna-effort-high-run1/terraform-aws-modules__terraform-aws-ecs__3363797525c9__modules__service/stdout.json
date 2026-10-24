@@ -1,0 +1,31 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "The ECS service's VPC Lattice configuration uses the infrastructure IAM role, but the service does not wait for the VPC Lattice policy attachment. The existing dependency on the EBS policy attachment does not ensure this separate policy is attached before ECS configures the service.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC Lattice is configured, this ECS service uses the infrastructure IAM role but does not wait for its VPC Lattice policy attachment. The service's current explicit dependencies cover the EBS policy attachment only.",
+      "node": ":resource.aws_ecs_service.this",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "When VPC Lattice is configured, this ECS service uses the infrastructure IAM role but does not wait for its VPC Lattice policy attachment. The service's current explicit dependencies cover the EBS policy attachment only.",
+      "node": ":resource.aws_ecs_service.ignore_task_definition",
+      "target": ":resource.aws_iam_role_policy_attachment.infrastructure_iam_role_vpc_lattice_policy",
+      "fix": null,
+      "origin": "agentic-check:openrouter-gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nazapi_resource.diag_settings sends management-group diagnostics to the Log Analytics workspace through workspaceId = local.template_file_variables.log_analytics_workspace_resource_id, which is just a string. Neither that reference nor its depends_on establishes an edge to azurerm_log_analytics_workspace.management, so the diagnostic settings can be created before the workspace exists and the apply will fail. It should depend on the workspace.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nazapi_resource.diag_settings creates diagnostic settings whose body sets `workspaceId = local.template_file_variables.log_analytics_workspace_resource_id`. That ID is built from resource names and never references the azurerm_log_analytics_workspace.management resource, so nothing forces the workspace to exist before the diagnostic settings are created. It should depend on the managed Log Analytics workspace (e.g. via a bare depends_on on azurerm_log_analytics_workspace.management).\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nazapi_resource.diag_settings uses local.template_file_variables.log_analytics_workspace_resource_id for its workspaceId, but does not depend on azurerm_log_analytics_workspace.management. The Log Analytics workspace must exist before the diagnostic setting can be created.",
+      "node": ":resource.azapi_resource.diag_settings",
+      "target": ":resource.azurerm_log_analytics_workspace.management",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-deepseek-v4.1-flash-1017-effort-high-run1]\nazurerm_virtual_hub_routing_intent.virtual_wan sets routing_policy.next_hop to local.virtual_hub_azfw_resource_id[location], i.e. the ID of azurerm_firewall.virtual_wan, but that ID is a plain string. Its depends_on only covers the resource groups, virtual WAN and virtual hub, so Terraform may create the routing intent before the firewall exists; Azure requires the next-hop firewall to already exist.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run2]\nazurerm_virtual_hub_routing_intent.virtual_wan builds its routing_policy with `next_hop = local.virtual_hub_azfw_resource_id[location]`, i.e. the Virtual Hub Azure Firewall, but its depends_on only lists the resource groups, virtual WAN and virtual hub. The firewall (azurerm_firewall.virtual_wan) must exist before the routing intent can point at it, so add a bare depends_on on azurerm_firewall.virtual_wan.\n\n----------------------------------------\n\n[final-deepseek-v4.1-flash-1017-effort-high-run3]\nazurerm_virtual_hub_routing_intent.virtual_wan sets routing_policy.next_hop to the Virtual WAN Azure Firewall resource ID from a local value, but it does not depend on azurerm_firewall.virtual_wan. The Azure Firewall must exist before the routing intent is created, otherwise the routing intent creation can fail.",
+      "node": ":resource.azurerm_virtual_hub_routing_intent.virtual_wan",
+      "target": ":resource.azurerm_firewall.virtual_wan",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

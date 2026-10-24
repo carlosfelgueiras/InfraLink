@@ -1,0 +1,67 @@
+{
+  "diagnostics": [
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Lambda permission :resource.aws_lambda_permission.cur_per_service uses a literal function name, so Terraform does not ensure module :module.cur_per_service has created the function before the permission is added. Reference the module's function ARN/name to establish this dependency.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda permission `:resource.aws_lambda_permission.cur_per_service` uses a literal function name and can be created before the Lambda in `:module.cur_per_service`; Lambda must exist before AWS can attach its invoke permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis permission uses a locally constructed function name that matches the function created by this module, but it does not reference the module output. It can therefore be created before the Lambda function exists, causing the permission API call to fail; wire the function name to the module output to establish ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_service",
+      "target": ":module.cur_per_service",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_service.lambda_function_arn"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Lambda permission :resource.aws_lambda_permission.cur_per_resource uses a literal function name, so Terraform does not ensure module :module.cur_per_resource has created the function before the permission is added. Reference the module's function ARN/name to establish this dependency.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda permission `:resource.aws_lambda_permission.cur_per_resource` uses a literal function name and can be created before the Lambda in `:module.cur_per_resource`; Lambda must exist before AWS can attach its invoke permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis permission uses a locally constructed function name that matches the function created by this module, but it does not reference the module output. It can therefore be created before the Lambda function exists, causing the permission API call to fail; wire the function name to the module output to establish ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource",
+      "target": ":module.cur_per_resource",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource.lambda_function_arn"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe Lambda permission :resource.aws_lambda_permission.cur_per_resource_process uses a literal function name, so Terraform does not ensure module :module.cur_per_resource_process has created the function before the permission is added. Reference the module's function ARN/name to establish this dependency.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe Lambda permission `:resource.aws_lambda_permission.cur_per_resource_process` uses a literal function name and can be created before the Lambda in `:module.cur_per_resource_process`; Lambda must exist before AWS can attach its invoke permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThis permission uses a locally constructed function name that matches the function created by this module, but it does not reference the module output. It can therefore be created before the Lambda function exists, causing the permission API call to fail; wire the function name to the module output to establish ordering.",
+      "node": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "target": ":module.cur_per_resource_process",
+      "fix": {
+        "field": "function_name",
+        "expression": "module.cur_per_resource_process.lambda_function_arn"
+      },
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "error",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe S3 notification :resource.aws_s3_bucket_notification.cur_notification configures the :module.cur_per_resource_process Lambda target but does not wait for its S3 invoke permission :resource.aws_lambda_permission.cur_per_resource_process. S3 notification setup must follow creation of the corresponding Lambda permission.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe S3 notification `:resource.aws_s3_bucket_notification.cur_notification` configures the process Lambda but does not wait for its invoke permission `:resource.aws_lambda_permission.cur_per_resource_process`. S3 notification configuration can fail unless that permission is already in place.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe S3 bucket notification configures an invocation for the per-resource-process Lambda, but it does not wait for that function's S3 invoke permission. AWS validates Lambda permissions when installing bucket notifications, so this permission must be created first.",
+      "node": ":resource.aws_s3_bucket_notification.cur_notification",
+      "target": ":resource.aws_lambda_permission.cur_per_resource_process",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe export :resource.aws_bcmdataexports_export.cur_per_resource writes to the billing bucket, but it can be created before :resource.aws_s3_bucket_policy.cur_bucket_policy grants the BCM Data Exports service access required for delivery. Add an explicit dependency on the bucket policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe export `:resource.aws_bcmdataexports_export.cur_per_resource` targets the billing bucket but has no ordering dependency on its policy `:resource.aws_s3_bucket_policy.cur_bucket_policy`, which grants BCM Data Exports the required bucket access. Ensure the policy is attached before configuring the export.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe BCM Data Exports export writes to this S3 bucket, whose policy grants the bcm-data-exports.amazonaws.com service access. Ensure the bucket policy is installed before creating the export; the bucket reference alone does not establish that ordering.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_resource",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    },
+    {
+      "category": "missing",
+      "severity": "warning",
+      "message": "[final-gpt-6-luna-effort-high-run1]\nThe export :resource.aws_bcmdataexports_export.cur_per_service writes to the billing bucket, but it can be created before :resource.aws_s3_bucket_policy.cur_bucket_policy grants the BCM Data Exports service access required for delivery. Add an explicit dependency on the bucket policy.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run2]\nThe export `:resource.aws_bcmdataexports_export.cur_per_service` targets the billing bucket but has no ordering dependency on its policy `:resource.aws_s3_bucket_policy.cur_bucket_policy`, which grants BCM Data Exports the required bucket access. Ensure the policy is attached before configuring the export.\n\n----------------------------------------\n\n[final-gpt-6-luna-effort-high-run3]\nThe BCM Data Exports export writes to this S3 bucket, whose policy grants the bcm-data-exports.amazonaws.com service access. Ensure the bucket policy is installed before creating the export; the bucket reference alone does not establish that ordering.",
+      "node": ":resource.aws_bcmdataexports_export.cur_per_service",
+      "target": ":resource.aws_s3_bucket_policy.cur_bucket_policy",
+      "fix": null,
+      "origin": "agentic-check:merged(3/3)"
+    }
+  ]
+}

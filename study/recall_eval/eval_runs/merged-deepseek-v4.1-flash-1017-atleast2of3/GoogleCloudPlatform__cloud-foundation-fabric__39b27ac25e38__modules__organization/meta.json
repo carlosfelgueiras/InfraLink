@@ -1,0 +1,42 @@
+{
+  "repo": "GoogleCloudPlatform__cloud-foundation-fabric",
+  "parent_sha": "c024eca32016f198aeb601a1a5cbca285071b0f9^",
+  "resolved_sha": "39b27ac25e38ebef72984911a3f25ec8fa193698",
+  "module_dir": "modules/organization",
+  "profile": "merged(min_runs=2): final-deepseek-v4.1-flash-1017-effort-high-run1,final-deepseek-v4.1-flash-1017-effort-high-run2,final-deepseek-v4.1-flash-1017-effort-high-run3",
+  "effort": null,
+  "temperature": null,
+  "system_prompt": "merged",
+  "cases": [
+    {
+      "repo": "GoogleCloudPlatform__cloud-foundation-fabric",
+      "pr_number": 1426,
+      "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/1426",
+      "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/c024eca32016f198aeb601a1a5cbca285071b0f9",
+      "commit_sha": "c024eca32016f198aeb601a1a5cbca285071b0f9",
+      "parent_sha": "c024eca32016f198aeb601a1a5cbca285071b0f9^",
+      "commit_subject": "Add custom tag support to FAST (#1426)",
+      "commit_date": "2023-06-07T22:10:27Z",
+      "file": "modules/organization/organization-policies.tf",
+      "module_dir": "modules/organization",
+      "holder_address": "google_org_policy_policy.default",
+      "added_targets": [
+        "google_tags_tag_key.default",
+        "google_tags_tag_value.default"
+      ],
+      "pre_existing_targets": [
+        "google_org_policy_custom_constraint.constraint",
+        "google_organization_iam_audit_config.config",
+        "google_organization_iam_binding.authoritative",
+        "google_organization_iam_custom_role.roles",
+        "google_organization_iam_member.additive",
+        "google_organization_iam_policy.authoritative"
+      ],
+      "already_implicit": {
+        "google_tags_tag_key.default": false,
+        "google_tags_tag_value.default": false
+      },
+      "verify_error": null
+    }
+  ]
+}
