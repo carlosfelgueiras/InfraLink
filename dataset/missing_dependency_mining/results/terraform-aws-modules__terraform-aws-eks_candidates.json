@@ -1,0 +1,340 @@
+[
+  {
+    "pr_number": 3087,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/3087",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/1604c6cdc8cedcd47b7357c5068dc11d0ed1d7e5",
+    "commit_sha": "1604c6cdc8cedcd47b7357c5068dc11d0ed1d7e5",
+    "parent_sha": "1604c6cdc8cedcd47b7357c5068dc11d0ed1d7e5^",
+    "commit_subject": "feat: Add support for custom IAM role policy (#3087)",
+    "commit_date": "2024-07-02T10:56:19-04:00",
+    "file": "modules/eks-managed-node-group/main.tf",
+    "module_dir": "modules/eks-managed-node-group",
+    "holder_address": "aws_launch_template.this",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.additional"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_role_policy_attachment.this"
+    ],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.additional": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 3087,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/3087",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/1604c6cdc8cedcd47b7357c5068dc11d0ed1d7e5",
+    "commit_sha": "1604c6cdc8cedcd47b7357c5068dc11d0ed1d7e5",
+    "parent_sha": "1604c6cdc8cedcd47b7357c5068dc11d0ed1d7e5^",
+    "commit_subject": "feat: Add support for custom IAM role policy (#3087)",
+    "commit_date": "2024-07-02T10:56:19-04:00",
+    "file": "modules/self-managed-node-group/main.tf",
+    "module_dir": "modules/self-managed-node-group",
+    "holder_address": "aws_launch_template.this",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.additional"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_role_policy_attachment.this"
+    ],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.additional": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2478,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/2478",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/78027f37e43c79748cd7528d3803122cb8072ed7",
+    "commit_sha": "78027f37e43c79748cd7528d3803122cb8072ed7",
+    "parent_sha": "78027f37e43c79748cd7528d3803122cb8072ed7^",
+    "commit_subject": "feat: Add support for enabling addons before data plane compute is created (#2478)",
+    "commit_date": "2023-02-17T07:28:03-05:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "aws_eks_cluster.this",
+    "added_targets": [
+      "aws_iam_policy.cni_ipv6_policy"
+    ],
+    "pre_existing_targets": [
+      "aws_cloudwatch_log_group.this",
+      "aws_iam_role_policy_attachment.this",
+      "aws_security_group_rule.cluster",
+      "aws_security_group_rule.node"
+    ],
+    "already_implicit": {
+      "aws_iam_policy.cni_ipv6_policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1840,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/1840",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/2515e0e561509d026fd0d4725ab0bd864e7340f9",
+    "commit_sha": "2515e0e561509d026fd0d4725ab0bd864e7340f9",
+    "parent_sha": "2515e0e561509d026fd0d4725ab0bd864e7340f9^",
+    "commit_subject": "fix: Add node group dependency for EKS addons resource creation (#1840)",
+    "commit_date": "2022-02-07T21:33:35+01:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "aws_eks_addon.this",
+    "added_targets": [
+      "module.eks_managed_node_group",
+      "module.fargate_profile",
+      "module.self_managed_node_group"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_managed_node_group": false,
+      "module.fargate_profile": false,
+      "module.self_managed_node_group": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1412,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/1412",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/1d848b56bf7c43ce708bd7cdee45589f816e05f0",
+    "commit_sha": "1d848b56bf7c43ce708bd7cdee45589f816e05f0",
+    "parent_sha": "1d848b56bf7c43ce708bd7cdee45589f816e05f0^",
+    "commit_subject": "fix: Remove duplicated security group rule for EKS private access endpoint (#1412)",
+    "commit_date": "2021-05-28T21:11:02+02:00",
+    "file": "data.tf",
+    "module_dir": ".",
+    "holder_address": "data.http.wait_for_cluster",
+    "added_targets": [
+      "aws_security_group_rule.cluster_private_access_cidrs_source",
+      "aws_security_group_rule.cluster_private_access_sg_source"
+    ],
+    "pre_existing_targets": [
+      "aws_eks_cluster.this",
+      "aws_security_group_rule.cluster_private_access"
+    ],
+    "already_implicit": {
+      "aws_security_group_rule.cluster_private_access_cidrs_source": false,
+      "aws_security_group_rule.cluster_private_access_sg_source": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 933,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/933",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/db9bb0b48201b09b4c1df82b10c2aceac4981520",
+    "commit_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520",
+    "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+    "commit_subject": "feat: worker launch templates and configurations depend on security group rules and IAM policies (#933)",
+    "commit_date": "2020-07-12T17:14:36+02:00",
+    "file": "cluster.tf",
+    "module_dir": ".",
+    "holder_address": "aws_eks_cluster.this",
+    "added_targets": [
+      "aws_security_group_rule.cluster_egress_internet",
+      "aws_security_group_rule.cluster_https_worker_ingress"
+    ],
+    "pre_existing_targets": [
+      "aws_cloudwatch_log_group.this",
+      "aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy",
+      "aws_iam_role_policy_attachment.cluster_AmazonEKSServicePolicy"
+    ],
+    "already_implicit": {
+      "aws_security_group_rule.cluster_egress_internet": false,
+      "aws_security_group_rule.cluster_https_worker_ingress": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 933,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/933",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/db9bb0b48201b09b4c1df82b10c2aceac4981520",
+    "commit_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520",
+    "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+    "commit_subject": "feat: worker launch templates and configurations depend on security group rules and IAM policies (#933)",
+    "commit_date": "2020-07-12T17:14:36+02:00",
+    "file": "workers.tf",
+    "module_dir": ".",
+    "holder_address": "aws_launch_configuration.workers",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "aws_iam_role_policy_attachment.workers_additional_policies",
+      "aws_security_group_rule.cluster_primary_ingress_workers",
+      "aws_security_group_rule.workers_egress_internet",
+      "aws_security_group_rule.workers_ingress_cluster",
+      "aws_security_group_rule.workers_ingress_cluster_https",
+      "aws_security_group_rule.workers_ingress_cluster_kubelet",
+      "aws_security_group_rule.workers_ingress_cluster_primary",
+      "aws_security_group_rule.workers_ingress_self"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy": false,
+      "aws_iam_role_policy_attachment.workers_additional_policies": false,
+      "aws_security_group_rule.cluster_primary_ingress_workers": false,
+      "aws_security_group_rule.workers_egress_internet": false,
+      "aws_security_group_rule.workers_ingress_cluster": false,
+      "aws_security_group_rule.workers_ingress_cluster_https": false,
+      "aws_security_group_rule.workers_ingress_cluster_kubelet": false,
+      "aws_security_group_rule.workers_ingress_cluster_primary": false,
+      "aws_security_group_rule.workers_ingress_self": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 933,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/933",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/db9bb0b48201b09b4c1df82b10c2aceac4981520",
+    "commit_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520",
+    "parent_sha": "db9bb0b48201b09b4c1df82b10c2aceac4981520^",
+    "commit_subject": "feat: worker launch templates and configurations depend on security group rules and IAM policies (#933)",
+    "commit_date": "2020-07-12T17:14:36+02:00",
+    "file": "workers_launch_template.tf",
+    "module_dir": ".",
+    "holder_address": "aws_launch_template.workers_launch_template",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "aws_iam_role_policy_attachment.workers_additional_policies",
+      "aws_security_group_rule.cluster_primary_ingress_workers",
+      "aws_security_group_rule.workers_egress_internet",
+      "aws_security_group_rule.workers_ingress_cluster",
+      "aws_security_group_rule.workers_ingress_cluster_https",
+      "aws_security_group_rule.workers_ingress_cluster_kubelet",
+      "aws_security_group_rule.workers_ingress_cluster_primary",
+      "aws_security_group_rule.workers_ingress_self"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy": false,
+      "aws_iam_role_policy_attachment.workers_additional_policies": false,
+      "aws_security_group_rule.cluster_primary_ingress_workers": false,
+      "aws_security_group_rule.workers_egress_internet": false,
+      "aws_security_group_rule.workers_ingress_cluster": false,
+      "aws_security_group_rule.workers_ingress_cluster_https": false,
+      "aws_security_group_rule.workers_ingress_cluster_kubelet": false,
+      "aws_security_group_rule.workers_ingress_cluster_primary": false,
+      "aws_security_group_rule.workers_ingress_self": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 867,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/867",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/616d30ec674ff1d125710755f5073b1665bbd1af",
+    "commit_sha": "616d30ec674ff1d125710755f5073b1665bbd1af",
+    "parent_sha": "616d30ec674ff1d125710755f5073b1665bbd1af^",
+    "commit_subject": "feat: Add a homemade `depends_on` for MNG submodule to ensure ordering of resource creation (#867)",
+    "commit_date": "2020-06-28T02:31:23+02:00",
+    "file": "node_groups.tf",
+    "module_dir": ".",
+    "holder_address": "module.node_groups",
+    "added_targets": [
+      "aws_eks_cluster.this",
+      "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy",
+      "kubernetes_config_map.aws_auth"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_eks_cluster.this": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.workers_AmazonEKS_CNI_Policy": false,
+      "kubernetes_config_map.aws_auth": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 815,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/815",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d",
+    "commit_sha": "49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d",
+    "parent_sha": "49b0667cd91e15f7c98dba67ad7e5aa5a6f54b5d^",
+    "commit_subject": "fix: Fix destroy failure when talking to EKS endpoint on private network (#815)",
+    "commit_date": "2020-03-24T23:19:41+01:00",
+    "file": "cluster.tf",
+    "module_dir": ".",
+    "holder_address": "null_resource.wait_for_cluster",
+    "added_targets": [
+      "aws_security_group_rule.cluster_private_access"
+    ],
+    "pre_existing_targets": [
+      "aws_eks_cluster.this"
+    ],
+    "already_implicit": {
+      "aws_security_group_rule.cluster_private_access": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 639,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/639",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/d79c8ab6f2a8f90b0ac8cf36fd6f75d08eb111ba",
+    "commit_sha": "d79c8ab6f2a8f90b0ac8cf36fd6f75d08eb111ba",
+    "parent_sha": "d79c8ab6f2a8f90b0ac8cf36fd6f75d08eb111ba^",
+    "commit_subject": "Wait cluster responsive (#639)",
+    "commit_date": "2020-01-07T12:28:56+01:00",
+    "file": "aws_auth.tf",
+    "module_dir": ".",
+    "holder_address": "kubernetes_config_map.aws_auth",
+    "added_targets": [
+      "aws_eks_cluster.this"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_eks_cluster.this": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 394,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/394",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/da2c78b8bac6340e5d1bb75c163a1ced4d135db2",
+    "commit_sha": "da2c78b8bac6340e5d1bb75c163a1ced4d135db2",
+    "parent_sha": "da2c78b8bac6340e5d1bb75c163a1ced4d135db2^",
+    "commit_subject": "Upgrade to terraform 0.12 (#394)",
+    "commit_date": "2019-06-19T09:57:51+02:00",
+    "file": "aws_auth.tf",
+    "module_dir": ".",
+    "holder_address": "null_resource.update_config_map_aws_auth",
+    "added_targets": [
+      "aws_eks_cluster.this"
+    ],
+    "pre_existing_targets": [
+      "\"aws_eks_cluster.this\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('NL_OR_COMMENT', '\\n  ') at line 62, column 255.\nExpected one of: \n\t* RBRACE\n"
+  },
+  {
+    "pr_number": 394,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/pull/394",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-eks/commit/da2c78b8bac6340e5d1bb75c163a1ced4d135db2",
+    "commit_sha": "da2c78b8bac6340e5d1bb75c163a1ced4d135db2",
+    "parent_sha": "da2c78b8bac6340e5d1bb75c163a1ced4d135db2^",
+    "commit_subject": "Upgrade to terraform 0.12 (#394)",
+    "commit_date": "2019-06-19T09:57:51+02:00",
+    "file": "cluster.tf",
+    "module_dir": ".",
+    "holder_address": "aws_eks_cluster.this",
+    "added_targets": [
+      "aws_cloudwatch_log_group.this",
+      "aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy",
+      "aws_iam_role_policy_attachment.cluster_AmazonEKSServicePolicy"
+    ],
+    "pre_existing_targets": [
+      "\"aws_cloudwatch_log_group.this\"",
+      "\"aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy\"",
+      "\"aws_iam_role_policy_attachment.cluster_AmazonEKSServicePolicy\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('NL_OR_COMMENT', '\\n  ') at line 62, column 255.\nExpected one of: \n\t* RBRACE\n"
+  }
+]

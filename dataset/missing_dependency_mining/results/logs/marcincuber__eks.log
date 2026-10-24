@@ -1,0 +1,113 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/marcincuber__eks --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/marcincuber__eks_candidates.json --github-repo marcincuber/eks --verbose
+[1/95] fc5bd966d6
+[2/95] 83761dc9ae
+[3/95] 3ad062345b
+[4/95] 57151ae9e3
+[5/95] fafabd533e
+[6/95] ad83c2dec7
+[7/95] 07438801cb
+[8/95] 9efecc36f0
+[9/95] 7aa6c031b4
+[10/95] b2f38148f4
+[11/95] ce5171f21a
+[12/95] 78800a4e51
+[13/95] 6d0c49f2ee
+[14/95] 328573ae6b
+[15/95] 4390b32d4a
+[16/95] 549c5b58b4
+[17/95] 1842b914a1
+[18/95] c51fc275c6
+[19/95] 778e137885
+[20/95] 0bbf1c1760
+[21/95] eefb438efc
+[22/95] 1240b63d4a
+[23/95] d74081decf
+[24/95] bf91474d2f
+[25/95] 30cbd7992f
+[26/95] 881bbebac1
+[27/95] aec68cf763
+[28/95] 73fe4b3f99
+[29/95] d9bd2847a9
+[30/95] 153446e4d8
+[31/95] db0cb0b199
+[32/95] 65191a4710
+[33/95] 25d1ec1585
+[34/95] d3645c015d
+[35/95] 45060aa023
+[36/95] bb91b59374
+[37/95] 8fe14a978c
+[38/95] 4d8a1193f7
+[39/95] d1b03aec34
+[40/95] 328dc5ebdd
+[41/95] a9bee6d9cd
+[42/95] fd6e733ece
+[43/95] 3b59534449
+[44/95] 3670b9edfa
+[45/95] d52da0267e
+[46/95] 9e8052df41
+[47/95] 1387676d95
+[48/95] 4341a72b1b
+[49/95] 92806b6faa
+[50/95] 7817f78909
+[51/95] ba98a0200e
+[52/95] f70a19e96e
+[53/95] f593d31be2
+[54/95] 33b8ccbdae
+[55/95] cf9c608f3e
+[56/95] cd7d493e7f
+[57/95] f7b4d529a8
+[58/95] b6c10adba5
+[59/95] 226667b492
+[60/95] 038ecb5397
+[61/95] 66b3586efb
+[62/95] e01a0b3ea7
+[63/95] 114b67d886
+[64/95] 89eb936739
+[65/95] 71e9bd148c
+[66/95] b19ee837ea
+[67/95] 201642333b
+[68/95] 47d35ebdad
+[69/95] 1c5aacd10f
+[70/95] 154d20b9c7
+[71/95] 169398352a
+[72/95] eb1c07fbe2
+[73/95] 3112503bd7
+[74/95] 2219bd2168
+[75/95] e6c78f286d
+[76/95] ed1760e461
+[77/95] 8f9591bb79
+[78/95] 3141ea9a91
+[79/95] a857ede98b
+[80/95] cb4ff1ec28
+[81/95] 2bde251a5a
+[82/95] 77b9fc35dc
+[83/95] 29821fa91f
+[84/95] ed34e70a0a
+[85/95] ac81cdf415
+[86/95] 9b8e81dbc3
+[87/95] 63268dc139
+[88/95] 4986ce044a
+[89/95] abe74cc116
+[90/95] 995fcdb70d
+[91/95] 9b4ca3a75e
+[92/95] 4d41bfabac
+[93/95] 48ab9cc4ac
+[94/95] 3c538eb215
+[95/95] 8a13a2b62f
+Found 1 candidate (holder, added target) fixes.
+verifying commit-group [1/1] 3ad062345bbd (1 candidate(s))
+Wrote 1 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/marcincuber__eks_candidates.json (1 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/marcincuber__eks_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/marcincuber__eks_trustworthy.json --verbose
+PASS  PR#16 terraform/vpc.tf aws_vpc_endpoint.eks_vpc_s3
+
+-- per-filter failure counts --
+  no_pr_number: 0
+  verify_error: 0
+  redundant: 0
+  passed all filters: 1
+  total candidates: 1
+1/1 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/marcincuber__eks_trustworthy.json
+

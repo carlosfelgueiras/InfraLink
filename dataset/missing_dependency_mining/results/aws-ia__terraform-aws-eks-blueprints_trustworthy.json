@@ -1,0 +1,274 @@
+[
+  {
+    "pr_number": 1494,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1494",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/19c7cfd40c4b83ec534b3ffcd70c3a3efc42ffd1",
+    "commit_sha": "19c7cfd40c4b83ec534b3ffcd70c3a3efc42ffd1",
+    "parent_sha": "19c7cfd40c4b83ec534b3ffcd70c3a3efc42ffd1^",
+    "commit_subject": "feat!: Update examples to use new addons module repo; remove module implementations (#1494)",
+    "commit_date": "2023-06-05T10:07:47-04:00",
+    "file": "examples/karpenter/main.tf",
+    "module_dir": "examples/karpenter",
+    "holder_address": "kubectl_manifest.karpenter_example_deployment",
+    "added_targets": [
+      "kubectl_manifest.karpenter_node_template"
+    ],
+    "pre_existing_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "already_implicit": {
+      "kubectl_manifest.karpenter_node_template": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1191,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1191",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "commit_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "parent_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c^",
+    "commit_subject": "fix: Fix efs csi driver mount issues (#1191)",
+    "commit_date": "2022-11-18T09:30:57-05:00",
+    "file": "examples/stateful/main.tf",
+    "module_dir": "examples/stateful",
+    "holder_address": "kubernetes_storage_class_v1.gp3",
+    "added_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_blueprints_kubernetes_addons": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1191,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1191",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "commit_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "parent_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c^",
+    "commit_subject": "fix: Fix efs csi driver mount issues (#1191)",
+    "commit_date": "2022-11-18T09:30:57-05:00",
+    "file": "examples/stateful/main.tf",
+    "module_dir": "examples/stateful",
+    "holder_address": "kubernetes_storage_class_v1.efs",
+    "added_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_blueprints_kubernetes_addons": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1170,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1170",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/84a4fc9bfa7a9972016bd28a6c5988e5518ed920",
+    "commit_sha": "84a4fc9bfa7a9972016bd28a6c5988e5518ed920",
+    "parent_sha": "84a4fc9bfa7a9972016bd28a6c5988e5518ed920^",
+    "commit_subject": "fix: E2E cleanup log group one time & wait for cluster readiness before creating teams k8s resources (#1170)",
+    "commit_date": "2022-11-14T19:02:15-05:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "module.aws_eks_teams",
+    "added_targets": [
+      "data.http.eks_cluster_readiness"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "data.http.eks_cluster_readiness": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1127,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1127",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/ae7274aa365e09e6189a8898d4b482713f6f8d86",
+    "commit_sha": "ae7274aa365e09e6189a8898d4b482713f6f8d86",
+    "parent_sha": "ae7274aa365e09e6189a8898d4b482713f6f8d86^",
+    "commit_subject": "fix: Add k8s provider & wait for addons (#1127)",
+    "commit_date": "2022-11-03T13:50:18-07:00",
+    "file": "examples/tls-with-aws-pca-issuer/main.tf",
+    "module_dir": "examples/tls-with-aws-pca-issuer",
+    "holder_address": "kubectl_manifest.cluster_pca_issuer",
+    "added_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_blueprints_kubernetes_addons": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 760,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/760",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/da3f46554ae36099e7bd29838899527778ae718b",
+    "commit_sha": "da3f46554ae36099e7bd29838899527778ae718b",
+    "parent_sha": "da3f46554ae36099e7bd29838899527778ae718b^",
+    "commit_subject": "aws s3 object fix for NotImplemented: A header you provided implies functionality that is not implemented (#760)",
+    "commit_date": "2022-07-11T11:54:49-05:00",
+    "file": "examples/analytics/spark-k8s-operator/main.tf",
+    "module_dir": "examples/analytics/spark-k8s-operator",
+    "holder_address": "aws_s3_object.this",
+    "added_targets": [
+      "aws_s3_bucket_acl.this",
+      "aws_s3_bucket_public_access_block.this",
+      "aws_s3_bucket_server_side_encryption_configuration.this"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_acl.this": false,
+      "aws_s3_bucket_public_access_block.this": false,
+      "aws_s3_bucket_server_side_encryption_configuration.this": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 759,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/759",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/8eb3c63c6f89d7f7ffa901702f0a901447ac6252",
+    "commit_sha": "8eb3c63c6f89d7f7ffa901702f0a901447ac6252",
+    "parent_sha": "8eb3c63c6f89d7f7ffa901702f0a901447ac6252^",
+    "commit_subject": "tf target apply fix for spark operator example (#759)",
+    "commit_date": "2022-07-11T15:34:17+01:00",
+    "file": "examples/analytics/spark-k8s-operator/main.tf",
+    "module_dir": "examples/analytics/spark-k8s-operator",
+    "holder_address": "module.eks_blueprints_kubernetes_addons",
+    "added_targets": [
+      "aws_s3_bucket_acl.this",
+      "aws_s3_bucket_public_access_block.this",
+      "aws_s3_bucket_server_side_encryption_configuration.this",
+      "aws_s3_object.this"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_acl.this": false,
+      "aws_s3_bucket_public_access_block.this": false,
+      "aws_s3_bucket_server_side_encryption_configuration.this": false,
+      "aws_s3_object.this": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_java",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_haproxy",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_memcached",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_nginx",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 268,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/268",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/d9c0779fa526cbd6f352ffc0b96b143632c1a194",
+    "commit_sha": "d9c0779fa526cbd6f352ffc0b96b143632c1a194",
+    "parent_sha": "d9c0779fa526cbd6f352ffc0b96b143632c1a194^",
+    "commit_subject": "fix: adding depndencies observability example (#268)",
+    "commit_date": "2022-02-21T09:44:30-08:00",
+    "file": "examples/observability/eks-cluster-with-amp-amg-opensearch/main.tf",
+    "module_dir": "examples/observability/eks-cluster-with-amp-amg-opensearch",
+    "holder_address": "aws_elasticsearch_domain.opensearch",
+    "added_targets": [
+      "aws_iam_service_linked_role.opensearch"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_service_linked_role.opensearch": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 163,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/163",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/8b0ac36ba9f864beff23459f9642f46093459438",
+    "commit_sha": "8b0ac36ba9f864beff23459f9642f46093459438",
+    "parent_sha": "8b0ac36ba9f864beff23459f9642f46093459438^",
+    "commit_subject": "update 1-eks-cluster-with-new-vpc example with provider configuration (#163)",
+    "commit_date": "2021-12-31T11:30:17Z",
+    "file": "deploy/1-eks-cluster-with-new-vpc/main.tf",
+    "module_dir": "deploy/1-eks-cluster-with-new-vpc",
+    "holder_address": "module.kubernetes-addons",
+    "added_targets": [
+      "module.aws-eks-accelerator-for-terraform"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.aws-eks-accelerator-for-terraform": false
+    },
+    "verify_error": null
+  }
+]

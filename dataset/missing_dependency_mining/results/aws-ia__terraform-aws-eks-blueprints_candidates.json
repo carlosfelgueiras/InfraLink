@@ -1,0 +1,794 @@
+[
+  {
+    "pr_number": 1737,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1737",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/c33c0085621f9df8b439ee72d89dfe257466ad2a",
+    "commit_sha": "c33c0085621f9df8b439ee72d89dfe257466ad2a",
+    "parent_sha": "c33c0085621f9df8b439ee72d89dfe257466ad2a^",
+    "commit_subject": "feat: Addition of Istio observability add-ons and enabling cross-zone loadbalancing on Ingress NLB (#1737)",
+    "commit_date": "2023-08-20T18:52:49-04:00",
+    "file": "examples/istio/main.tf",
+    "module_dir": "examples/istio",
+    "holder_address": "helm_release.istio_ingress",
+    "added_targets": [
+      "helm_release.istiod"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "helm_release.istiod": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1494,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1494",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/19c7cfd40c4b83ec534b3ffcd70c3a3efc42ffd1",
+    "commit_sha": "19c7cfd40c4b83ec534b3ffcd70c3a3efc42ffd1",
+    "parent_sha": "19c7cfd40c4b83ec534b3ffcd70c3a3efc42ffd1^",
+    "commit_subject": "feat!: Update examples to use new addons module repo; remove module implementations (#1494)",
+    "commit_date": "2023-06-05T10:07:47-04:00",
+    "file": "examples/karpenter/main.tf",
+    "module_dir": "examples/karpenter",
+    "holder_address": "kubectl_manifest.karpenter_example_deployment",
+    "added_targets": [
+      "kubectl_manifest.karpenter_node_template"
+    ],
+    "pre_existing_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "already_implicit": {
+      "kubectl_manifest.karpenter_node_template": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1191,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1191",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "commit_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "parent_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c^",
+    "commit_subject": "fix: Fix efs csi driver mount issues (#1191)",
+    "commit_date": "2022-11-18T09:30:57-05:00",
+    "file": "examples/stateful/main.tf",
+    "module_dir": "examples/stateful",
+    "holder_address": "kubernetes_storage_class_v1.gp3",
+    "added_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_blueprints_kubernetes_addons": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1191,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1191",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "commit_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c",
+    "parent_sha": "c5f6967b68b2be68a7880d9a5a9eaee7efabae5c^",
+    "commit_subject": "fix: Fix efs csi driver mount issues (#1191)",
+    "commit_date": "2022-11-18T09:30:57-05:00",
+    "file": "examples/stateful/main.tf",
+    "module_dir": "examples/stateful",
+    "holder_address": "kubernetes_storage_class_v1.efs",
+    "added_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_blueprints_kubernetes_addons": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1170,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1170",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/84a4fc9bfa7a9972016bd28a6c5988e5518ed920",
+    "commit_sha": "84a4fc9bfa7a9972016bd28a6c5988e5518ed920",
+    "parent_sha": "84a4fc9bfa7a9972016bd28a6c5988e5518ed920^",
+    "commit_subject": "fix: E2E cleanup log group one time & wait for cluster readiness before creating teams k8s resources (#1170)",
+    "commit_date": "2022-11-14T19:02:15-05:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "module.aws_eks_teams",
+    "added_targets": [
+      "data.http.eks_cluster_readiness"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "data.http.eks_cluster_readiness": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1127,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/1127",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/ae7274aa365e09e6189a8898d4b482713f6f8d86",
+    "commit_sha": "ae7274aa365e09e6189a8898d4b482713f6f8d86",
+    "parent_sha": "ae7274aa365e09e6189a8898d4b482713f6f8d86^",
+    "commit_subject": "fix: Add k8s provider & wait for addons (#1127)",
+    "commit_date": "2022-11-03T13:50:18-07:00",
+    "file": "examples/tls-with-aws-pca-issuer/main.tf",
+    "module_dir": "examples/tls-with-aws-pca-issuer",
+    "holder_address": "kubectl_manifest.cluster_pca_issuer",
+    "added_targets": [
+      "module.eks_blueprints_kubernetes_addons"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks_blueprints_kubernetes_addons": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 760,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/760",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/da3f46554ae36099e7bd29838899527778ae718b",
+    "commit_sha": "da3f46554ae36099e7bd29838899527778ae718b",
+    "parent_sha": "da3f46554ae36099e7bd29838899527778ae718b^",
+    "commit_subject": "aws s3 object fix for NotImplemented: A header you provided implies functionality that is not implemented (#760)",
+    "commit_date": "2022-07-11T11:54:49-05:00",
+    "file": "examples/analytics/spark-k8s-operator/main.tf",
+    "module_dir": "examples/analytics/spark-k8s-operator",
+    "holder_address": "aws_s3_object.this",
+    "added_targets": [
+      "aws_s3_bucket_acl.this",
+      "aws_s3_bucket_public_access_block.this",
+      "aws_s3_bucket_server_side_encryption_configuration.this"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_acl.this": false,
+      "aws_s3_bucket_public_access_block.this": false,
+      "aws_s3_bucket_server_side_encryption_configuration.this": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 759,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/759",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/8eb3c63c6f89d7f7ffa901702f0a901447ac6252",
+    "commit_sha": "8eb3c63c6f89d7f7ffa901702f0a901447ac6252",
+    "parent_sha": "8eb3c63c6f89d7f7ffa901702f0a901447ac6252^",
+    "commit_subject": "tf target apply fix for spark operator example (#759)",
+    "commit_date": "2022-07-11T15:34:17+01:00",
+    "file": "examples/analytics/spark-k8s-operator/main.tf",
+    "module_dir": "examples/analytics/spark-k8s-operator",
+    "holder_address": "module.eks_blueprints_kubernetes_addons",
+    "added_targets": [
+      "aws_s3_bucket_acl.this",
+      "aws_s3_bucket_public_access_block.this",
+      "aws_s3_bucket_server_side_encryption_configuration.this",
+      "aws_s3_object.this"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_acl.this": false,
+      "aws_s3_bucket_public_access_block.this": false,
+      "aws_s3_bucket_server_side_encryption_configuration.this": false,
+      "aws_s3_object.this": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_java",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_haproxy",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_memcached",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 627,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/627",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "commit_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7",
+    "parent_sha": "40e0e3dd331f3f2b6959133b4815855d9ba6d9b7^",
+    "commit_subject": "feat: Add support for EKS ADOT addon (#627)",
+    "commit_date": "2022-06-21T06:26:02-04:00",
+    "file": "modules/kubernetes-addons/main.tf",
+    "module_dir": "modules/kubernetes-addons",
+    "holder_address": "module.adot_collector_nginx",
+    "added_targets": [
+      "module.opentelemetry_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.opentelemetry_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/621a0cac3913bbf3f47c59d6a7a62474c627c9d7",
+    "commit_sha": "621a0cac3913bbf3f47c59d6a7a62474c627c9d7",
+    "parent_sha": "621a0cac3913bbf3f47c59d6a7a62474c627c9d7^",
+    "commit_subject": "fix: add missing dependencies to launch template",
+    "commit_date": "2022-03-21T10:48:17-07:00",
+    "file": "modules/aws-eks-managed-node-groups/managed-launch-templates.tf",
+    "module_dir": "modules/aws-eks-managed-node-groups",
+    "holder_address": "aws_launch_template.managed_node_groups",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_instance_profile.managed_ng",
+      "aws_iam_role.managed_ng",
+      "aws_iam_role_policy_attachment.managed_ng"
+    ],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/d4aeff4c203be656502dd83bfe4a4c5bb055ff62",
+    "commit_sha": "d4aeff4c203be656502dd83bfe4a4c5bb055ff62",
+    "parent_sha": "d4aeff4c203be656502dd83bfe4a4c5bb055ff62^",
+    "commit_subject": "fix: add dependency to vpc, remove fargate_profiles",
+    "commit_date": "2022-03-21T10:48:17-07:00",
+    "file": "examples/eks-cluster-with-new-vpc/main.tf",
+    "module_dir": "examples/eks-cluster-with-new-vpc",
+    "holder_address": "module.aws-eks-accelerator-for-terraform",
+    "added_targets": [
+      "module.aws_vpc"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.aws_vpc": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/af3f8285f6195d546055b8eb17daa7b60144f1cd",
+    "commit_sha": "af3f8285f6195d546055b8eb17daa7b60144f1cd",
+    "parent_sha": "af3f8285f6195d546055b8eb17daa7b60144f1cd^",
+    "commit_subject": "fix: add missing dependencies to launch template",
+    "commit_date": "2022-03-18T13:29:02-05:00",
+    "file": "modules/aws-eks-managed-node-groups/managed-launch-templates.tf",
+    "module_dir": "modules/aws-eks-managed-node-groups",
+    "holder_address": "aws_launch_template.managed_node_groups",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_instance_profile.managed_ng",
+      "aws_iam_role.managed_ng",
+      "aws_iam_role_policy_attachment.managed_ng"
+    ],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/e2049899786df580b86f315caaeff3dab9329a79",
+    "commit_sha": "e2049899786df580b86f315caaeff3dab9329a79",
+    "parent_sha": "e2049899786df580b86f315caaeff3dab9329a79^",
+    "commit_subject": "fix: add dependency to vpc, remove fargate_profiles",
+    "commit_date": "2022-03-17T21:19:04-05:00",
+    "file": "examples/eks-cluster-with-new-vpc/main.tf",
+    "module_dir": "examples/eks-cluster-with-new-vpc",
+    "holder_address": "module.aws-eks-accelerator-for-terraform",
+    "added_targets": [
+      "module.aws_vpc"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.aws_vpc": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/8660cbe25b6e3b71b8e8b7167982d977322c4255",
+    "commit_sha": "8660cbe25b6e3b71b8e8b7167982d977322c4255",
+    "parent_sha": "8660cbe25b6e3b71b8e8b7167982d977322c4255^",
+    "commit_subject": "fix e2e errors",
+    "commit_date": "2022-03-15T21:38:09-07:00",
+    "file": "modules/kubernetes-addons/prometheus/main.tf",
+    "module_dir": "modules/kubernetes-addons/prometheus",
+    "holder_address": "module.irsa_amp_query",
+    "added_targets": [
+      "module.irsa_amp_ingest"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.irsa_amp_ingest": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/e05d3516869f483f2ef0b66770c629f5c9875fec",
+    "commit_sha": "e05d3516869f483f2ef0b66770c629f5c9875fec",
+    "parent_sha": "e05d3516869f483f2ef0b66770c629f5c9875fec^",
+    "commit_subject": "fix pr-test errors",
+    "commit_date": "2022-03-15T16:08:04-07:00",
+    "file": "modules/kubernetes-addons/prometheus/main.tf",
+    "module_dir": "modules/kubernetes-addons/prometheus",
+    "holder_address": "module.helm_addon",
+    "added_targets": [
+      "module.irsa_amp_ingest",
+      "module.irsa_amp_query"
+    ],
+    "pre_existing_targets": [
+      "irsa_amp_ingest",
+      "irsa_amp_query"
+    ],
+    "already_implicit": {
+      "module.irsa_amp_ingest": false,
+      "module.irsa_amp_query": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 268,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/268",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/d9c0779fa526cbd6f352ffc0b96b143632c1a194",
+    "commit_sha": "d9c0779fa526cbd6f352ffc0b96b143632c1a194",
+    "parent_sha": "d9c0779fa526cbd6f352ffc0b96b143632c1a194^",
+    "commit_subject": "fix: adding depndencies observability example (#268)",
+    "commit_date": "2022-02-21T09:44:30-08:00",
+    "file": "examples/observability/eks-cluster-with-amp-amg-opensearch/main.tf",
+    "module_dir": "examples/observability/eks-cluster-with-amp-amg-opensearch",
+    "holder_address": "aws_elasticsearch_domain.opensearch",
+    "added_targets": [
+      "aws_iam_service_linked_role.opensearch"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_service_linked_role.opensearch": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 268,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/268",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/d9c0779fa526cbd6f352ffc0b96b143632c1a194",
+    "commit_sha": "d9c0779fa526cbd6f352ffc0b96b143632c1a194",
+    "parent_sha": "d9c0779fa526cbd6f352ffc0b96b143632c1a194^",
+    "commit_subject": "fix: adding depndencies observability example (#268)",
+    "commit_date": "2022-02-21T09:44:30-08:00",
+    "file": "examples/observability/eks-cluster-with-amp-amg-opensearch/main.tf",
+    "module_dir": "examples/observability/eks-cluster-with-amp-amg-opensearch",
+    "holder_address": "module.kubernetes-addons",
+    "added_targets": [
+      "module.aws_vpc"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.aws_vpc": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/127f169a32f335d35ed6572742c1c194410ba6c5",
+    "commit_sha": "127f169a32f335d35ed6572742c1c194410ba6c5",
+    "parent_sha": "127f169a32f335d35ed6572742c1c194410ba6c5^",
+    "commit_subject": "fix: moving teams auth config to root locals",
+    "commit_date": "2022-02-14T22:36:59+02:00",
+    "file": "eks-worker.tf",
+    "module_dir": ".",
+    "holder_address": "module.aws_eks_managed_node_groups",
+    "added_targets": [
+      "kubernetes_config_map.aws_auth"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "kubernetes_config_map.aws_auth": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/127f169a32f335d35ed6572742c1c194410ba6c5",
+    "commit_sha": "127f169a32f335d35ed6572742c1c194410ba6c5",
+    "parent_sha": "127f169a32f335d35ed6572742c1c194410ba6c5^",
+    "commit_subject": "fix: moving teams auth config to root locals",
+    "commit_date": "2022-02-14T22:36:59+02:00",
+    "file": "eks-worker.tf",
+    "module_dir": ".",
+    "holder_address": "module.aws_eks_self_managed_node_groups",
+    "added_targets": [
+      "kubernetes_config_map.aws_auth"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "kubernetes_config_map.aws_auth": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/127f169a32f335d35ed6572742c1c194410ba6c5",
+    "commit_sha": "127f169a32f335d35ed6572742c1c194410ba6c5",
+    "parent_sha": "127f169a32f335d35ed6572742c1c194410ba6c5^",
+    "commit_subject": "fix: moving teams auth config to root locals",
+    "commit_date": "2022-02-14T22:36:59+02:00",
+    "file": "eks-worker.tf",
+    "module_dir": ".",
+    "holder_address": "module.aws_eks_fargate_profiles",
+    "added_targets": [
+      "kubernetes_config_map.aws_auth"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "kubernetes_config_map.aws_auth": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/e7718bed0bb9dfc0c0c1adb55c28e043db37e61c",
+    "commit_sha": "e7718bed0bb9dfc0c0c1adb55c28e043db37e61c",
+    "parent_sha": "e7718bed0bb9dfc0c0c1adb55c28e043db37e61c^",
+    "commit_subject": "fix: deploy vpc_cni windows configmap if needed",
+    "commit_date": "2022-01-05T13:55:14-06:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "kubernetes_config_map.amazon_vpc_cni",
+    "added_targets": [
+      "data.http.eks_cluster_readiness"
+    ],
+    "pre_existing_targets": [
+      "module.aws_eks"
+    ],
+    "already_implicit": {
+      "data.http.eks_cluster_readiness": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 163,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/163",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/8b0ac36ba9f864beff23459f9642f46093459438",
+    "commit_sha": "8b0ac36ba9f864beff23459f9642f46093459438",
+    "parent_sha": "8b0ac36ba9f864beff23459f9642f46093459438^",
+    "commit_subject": "update 1-eks-cluster-with-new-vpc example with provider configuration (#163)",
+    "commit_date": "2021-12-31T11:30:17Z",
+    "file": "deploy/1-eks-cluster-with-new-vpc/main.tf",
+    "module_dir": "deploy/1-eks-cluster-with-new-vpc",
+    "holder_address": "module.kubernetes-addons",
+    "added_targets": [
+      "module.aws-eks-accelerator-for-terraform"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.aws-eks-accelerator-for-terraform": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/2d7790d55879d5116efa7b211a68eec222859b77",
+    "commit_sha": "2d7790d55879d5116efa7b211a68eec222859b77",
+    "parent_sha": "2d7790d55879d5116efa7b211a68eec222859b77^",
+    "commit_subject": "EMR on EKS allows adding multiple namespaces for multiple dev/test teams",
+    "commit_date": "2021-10-24T20:56:01+01:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "module.emr_on_eks",
+    "added_targets": [
+      "kubernetes_config_map.aws_auth",
+      "module.aws_eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "kubernetes_config_map.aws_auth": false,
+      "module.aws_eks": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/0b202f00142070890101662f1d9fcd515f9263dc",
+    "commit_sha": "0b202f00142070890101662f1d9fcd515f9263dc",
+    "parent_sha": "0b202f00142070890101662f1d9fcd515f9263dc^",
+    "commit_subject": "Updated AWS LB controller per new design requirements",
+    "commit_date": "2021-10-22T20:02:52+05:30",
+    "file": "kubernetes-addons/lb-ingress-controller/main.tf",
+    "module_dir": "kubernetes-addons/lb-ingress-controller",
+    "holder_address": "helm_release.lb_ingress",
+    "added_targets": [
+      "aws_iam_role.eks_lb_controller_role"
+    ],
+    "pre_existing_targets": [
+      "helm_release.lb_ingress_crd",
+      "kubernetes_service_account.eks_lb_controller_sa"
+    ],
+    "already_implicit": {
+      "aws_iam_role.eks_lb_controller_role": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/634c8579408be9f42cae5c089a8845a193e12c33",
+    "commit_sha": "634c8579408be9f42cae5c089a8845a193e12c33",
+    "parent_sha": "634c8579408be9f42cae5c089a8845a193e12c33^",
+    "commit_subject": "EMR on EKS feature added",
+    "commit_date": "2021-10-15T14:39:05+01:00",
+    "file": "modules/emr-on-eks/main.tf",
+    "module_dir": "modules/emr-on-eks",
+    "holder_address": "null_resource.update_trust_policy",
+    "added_targets": [
+      "aws_iam_role.emr_on_eks_execution",
+      "kubernetes_namespace.spark"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role.emr_on_eks_execution": true,
+      "kubernetes_namespace.spark": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/734c1e47e6c655c056a589a6d5a124d959829b22",
+    "commit_sha": "734c1e47e6c655c056a589a6d5a124d959829b22",
+    "parent_sha": "734c1e47e6c655c056a589a6d5a124d959829b22^",
+    "commit_subject": "Added IAM role dependency for node group security groups",
+    "commit_date": "2021-10-07T16:50:08+01:00",
+    "file": "modules/aws-eks-managed-node-groups/secgroups.tf",
+    "module_dir": "modules/aws-eks-managed-node-groups",
+    "holder_address": "aws_security_group.managed_ng",
+    "added_targets": [
+      "aws_iam_role.managed_ng"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role.managed_ng": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/734c1e47e6c655c056a589a6d5a124d959829b22",
+    "commit_sha": "734c1e47e6c655c056a589a6d5a124d959829b22",
+    "parent_sha": "734c1e47e6c655c056a589a6d5a124d959829b22^",
+    "commit_subject": "Added IAM role dependency for node group security groups",
+    "commit_date": "2021-10-07T16:50:08+01:00",
+    "file": "modules/aws-eks-self-managed-node-groups/secgroups.tf",
+    "module_dir": "modules/aws-eks-self-managed-node-groups",
+    "holder_address": "aws_security_group.self_managed_ng",
+    "added_targets": [
+      "aws_iam_role.self_managed_ng"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role.self_managed_ng": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "commit_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "parent_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01^",
+    "commit_subject": "Self managed node groups with aws auth added",
+    "commit_date": "2021-09-12T23:01:20+01:00",
+    "file": "modules/aws-eks-managed-node-groups/managed-launch-templates.tf",
+    "module_dir": "modules/aws-eks-managed-node-groups",
+    "holder_address": "aws_launch_template.managed_node_groups",
+    "added_targets": [
+      "aws_iam_instance_profile.managed_ng",
+      "aws_iam_role.managed_ng",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_instance_profile.managed_ng": false,
+      "aws_iam_role.managed_ng": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "commit_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "parent_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01^",
+    "commit_subject": "Self managed node groups with aws auth added",
+    "commit_date": "2021-09-12T23:01:20+01:00",
+    "file": "modules/aws-eks-managed-node-groups/managed-node-groups.tf",
+    "module_dir": "modules/aws-eks-managed-node-groups",
+    "holder_address": "aws_eks_node_group.managed_ng",
+    "added_targets": [
+      "aws_iam_instance_profile.managed_ng",
+      "aws_iam_role.managed_ng"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.managed_ng_AmazonEKS_CNI_Policy"
+    ],
+    "already_implicit": {
+      "aws_iam_instance_profile.managed_ng": false,
+      "aws_iam_role.managed_ng": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "commit_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "parent_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01^",
+    "commit_subject": "Self managed node groups with aws auth added",
+    "commit_date": "2021-09-12T23:01:20+01:00",
+    "file": "modules/aws-eks-self-managed-node-groups/self-managed-launch-templates.tf",
+    "module_dir": "modules/aws-eks-self-managed-node-groups",
+    "holder_address": "aws_launch_template.self_managed_ng",
+    "added_targets": [
+      "aws_iam_instance_profile.self_managed_ng",
+      "aws_iam_role.self_managed_ng",
+      "aws_iam_role_policy_attachment.self_managed_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKS_CNI_Policy"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_instance_profile.self_managed_ng": true,
+      "aws_iam_role.self_managed_ng": true,
+      "aws_iam_role_policy_attachment.self_managed_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKS_CNI_Policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "commit_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01",
+    "parent_sha": "21e45ffdb755d5715fed64fdb32c32bd022b5f01^",
+    "commit_subject": "Self managed node groups with aws auth added",
+    "commit_date": "2021-09-12T23:01:20+01:00",
+    "file": "modules/aws-eks-self-managed-node-groups/self-managed-node-groups.tf",
+    "module_dir": "modules/aws-eks-self-managed-node-groups",
+    "holder_address": "aws_autoscaling_group.self_managed_ng",
+    "added_targets": [
+      "aws_iam_instance_profile.self_managed_ng",
+      "aws_iam_role.self_managed_ng",
+      "aws_iam_role_policy_attachment.self_managed_AmazonEC2ContainerRegistryReadOnly",
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKSWorkerNodePolicy",
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKS_CNI_Policy"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_instance_profile.self_managed_ng": true,
+      "aws_iam_role.self_managed_ng": true,
+      "aws_iam_role_policy_attachment.self_managed_AmazonEC2ContainerRegistryReadOnly": false,
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKSWorkerNodePolicy": false,
+      "aws_iam_role_policy_attachment.self_managed_AmazonEKS_CNI_Policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/354afae1274daf6f39d01eafa51b7c87a3533cb4",
+    "commit_sha": "354afae1274daf6f39d01eafa51b7c87a3533cb4",
+    "parent_sha": "354afae1274daf6f39d01eafa51b7c87a3533cb4^",
+    "commit_subject": "new fargate and managed node groups modules added",
+    "commit_date": "2021-08-27T17:16:49+01:00",
+    "file": "eks.tf",
+    "module_dir": ".",
+    "holder_address": "module.iam",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 13,
+    "pr_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/pull/13",
+    "commit_url": "https://github.com/aws-ia/terraform-aws-eks-blueprints/commit/1fffe265a9a4b09232e264e422acdbcc1385dd6c",
+    "commit_sha": "1fffe265a9a4b09232e264e422acdbcc1385dd6c",
+    "parent_sha": "1fffe265a9a4b09232e264e422acdbcc1385dd6c^",
+    "commit_subject": "Added Ingress Nginx Controller module and set default values for all \u2026 (#13)",
+    "commit_date": "2021-07-13T14:08:41+01:00",
+    "file": "source/main.tf",
+    "module_dir": "source",
+    "holder_address": "module.helm",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks": true
+    },
+    "verify_error": null
+  }
+]

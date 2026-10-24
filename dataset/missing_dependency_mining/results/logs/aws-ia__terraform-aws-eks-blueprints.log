@@ -1,0 +1,915 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/aws-ia__terraform-aws-eks-blueprints --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/aws-ia__terraform-aws-eks-blueprints_candidates.json --github-repo aws-ia/terraform-aws-eks-blueprints --verbose
+[1/824] 4550759381
+[2/824] 0be5cd79ef
+[3/824] c423360cba
+[4/824] b5cc46c10a
+[5/824] 6c019ce03c
+[6/824] 0426f2b931
+[7/824] edf44e0e11
+[8/824] 796b7a89e9
+[9/824] 04a1b4b601
+[10/824] 9ec1d476d3
+[11/824] db5c59c4f4
+[12/824] e6c38b1f94
+[13/824] c082d0e9ac
+[14/824] b1cee4d399
+[15/824] 6409db6dc7
+[16/824] ca7c0da559
+[17/824] db4ca4ad21
+[18/824] 5d45b07b30
+[19/824] 1975b53c9e
+[20/824] ff0c8abdd4
+[21/824] 0921b888b1
+[22/824] c299452f2c
+[23/824] 298317bba6
+[24/824] fef497e3b3
+[25/824] 630d220211
+[26/824] e2a4dfdfeb
+[27/824] 3bfc0f072e
+[28/824] f11b7effb3
+[29/824] 4e6d83bdf4
+[30/824] 1b6a59e067
+[31/824] 447cb5f6d0
+[32/824] 9510cec688
+[33/824] f7ed1ea854
+[34/824] 26309565d0
+[35/824] d9821023e2
+[36/824] a66db17ae2
+[37/824] bbb1787b79
+[38/824] 48045cc90a
+[39/824] 3c62957071
+[40/824] 1ce59fc329
+[41/824] d5c9253c67
+[42/824] 9dc6add992
+[43/824] b52080501f
+[44/824] 03e45502ff
+[45/824] b4b99d0b5a
+[46/824] f8f3d41e57
+[47/824] ce2d1e58f0
+[48/824] d0c875ed93
+[49/824] 5296f9aa8e
+[50/824] b71c100caa
+[51/824] dbc3036774
+[52/824] 32421b38b2
+[53/824] aa8222bbc2
+[54/824] 06b994fe7d
+[55/824] 204aeeed5f
+[56/824] 2eae426844
+[57/824] d6d8c4f7f5
+[58/824] 06fd114a10
+[59/824] 4856ec8f70
+[60/824] e86d55a505
+[61/824] 5fd82f3974
+[62/824] 9e407f03a2
+[63/824] b1386b8b47
+[64/824] e281f77e3c
+[65/824] 2d96b786ac
+[66/824] 8aa4515b46
+[67/824] 36a8f08fd9
+[68/824] f645a75fa8
+[69/824] c33c008562
+[70/824] fa5d17d2d9
+[71/824] 03db0c83f3
+[72/824] 145e6e2bbc
+[73/824] 711525c5db
+[74/824] 466a71a45b
+[75/824] a1de62c049
+[76/824] 310aa5791e
+[77/824] e84505ec4e
+[78/824] 3cc4678c35
+[79/824] 26c8624831
+[80/824] b9e8476e58
+[81/824] a7ec6059b9
+[82/824] 0cb73da030
+[83/824] b5d16ec1ae
+[84/824] 83f98aa684
+[85/824] 4c6ab35e37
+[86/824] 5a4b76a465
+[87/824] 19c7cfd40c
+[88/824] 79a797e445
+[89/824] dde870e051
+[90/824] a56919dfbf
+[91/824] 76df8c18d6
+[92/824] df164e9a4b
+[93/824] 203226002e
+[94/824] b0a47d7bf6
+[95/824] ee31f3248d
+[96/824] 94ed0d0999
+[97/824] 31caa7f615
+[98/824] 35d131775b
+[99/824] 531eb42ba4
+[100/824] 86e8337e1e
+[101/824] 01574aabe4
+[102/824] d99f72cc46
+[103/824] 12e43950ab
+[104/824] d72de4181a
+[105/824] b855da6ebb
+[106/824] aaba020183
+[107/824] f0a510746d
+[108/824] 654cee2178
+[109/824] 09ed9f489d
+[110/824] dbd9ca385b
+[111/824] e0e9aeb7ea
+[112/824] a9181ae2dd
+[113/824] 57cacc0498
+[114/824] 5fb8aced06
+[115/824] 243ae23284
+[116/824] 78b796c706
+[117/824] 05da30c58f
+[118/824] 0d8c54865d
+[119/824] 32d6a9fad8
+[120/824] 4a25bb8ce8
+[121/824] 636d4ede99
+[122/824] 20d6c4736c
+[123/824] 04c1155461
+[124/824] 80811d4ad3
+[125/824] dda979f27f
+[126/824] 8421a3b960
+[127/824] 1d744e79a4
+[128/824] 0ba8a06462
+[129/824] ff059f0b9b
+[130/824] 5221ec2e73
+[131/824] c838424b87
+[132/824] a989ab3bb3
+[133/824] 40fd1c379a
+[134/824] d2465bdecb
+[135/824] c514a4a2e0
+[136/824] 976b71aec1
+[137/824] 5f70886447
+[138/824] 832cb232e2
+[139/824] 0dce2f0e37
+[140/824] c7fd44f606
+[141/824] e2cb68c994
+[142/824] bcaa5c170f
+[143/824] ed0707af4e
+[144/824] a14bcdea59
+[145/824] d2e4d8d199
+[146/824] 22293407b9
+[147/824] 37696ab9c7
+[148/824] fd3b3c5028
+[149/824] dbac512723
+[150/824] d5d8d1d8e8
+[151/824] f0dd7326d7
+[152/824] 9a940e0765
+[153/824] a91b8409ea
+[154/824] 2244230d1b
+[155/824] 8915911522
+[156/824] bb17e47ccd
+[157/824] 36edabdc53
+[158/824] 73e17edb50
+[159/824] 37487cc436
+[160/824] b2171709f4
+[161/824] 5b99cabb15
+[162/824] 5200921f82
+[163/824] 859994850c
+[164/824] 696af3c8a3
+[165/824] 90346b8545
+[166/824] d5f36431e9
+[167/824] 1abc89809d
+[168/824] 209be350c7
+[169/824] 731d8adac2
+[170/824] c8f454483f
+[171/824] f83f3a3785
+[172/824] 95b5f71830
+[173/824] 0c569236af
+[174/824] bd9d858f13
+[175/824] f5f5f45310
+[176/824] 0df4f0e2d4
+[177/824] 0875b78e09
+[178/824] 17f79ddca7
+[179/824] a409e0a47d
+[180/824] 93cd54335b
+[181/824] 4c23429f79
+[182/824] 9905c5cf6c
+[183/824] c5f6967b68
+[184/824] 16ee228f85
+[185/824] f233a46e63
+[186/824] d63b0775b2
+[187/824] 84a4fc9bfa
+[188/824] 7082a63ada
+[189/824] 20f8c0a084
+[190/824] 7b44a83db6
+[191/824] 5b3ec44a44
+[192/824] c309d3bf75
+[193/824] 034d764fca
+[194/824] b823cb9b0c
+[195/824] 225ced1364
+[196/824] 3b8fff3a81
+[197/824] 7382e06c51
+[198/824] e6cc26a596
+[199/824] 0461ff430e
+[200/824] ae7274aa36
+[201/824] 68b597d3ae
+[202/824] eed7c6c663
+[203/824] 56c9988240
+[204/824] a00068e777
+[205/824] 3634343994
+[206/824] 7c6f16d111
+[207/824] a4f5b69ec3
+[208/824] 7df38243e1
+[209/824] 9694c319d7
+[210/824] 95795f8b74
+[211/824] 8fa9a62d6e
+[212/824] 85a0fca86e
+[213/824] 3a16188441
+[214/824] 0529549fa2
+[215/824] 774da433e6
+[216/824] bc1c58ea20
+[217/824] 70a43b4a85
+[218/824] 801ebe88fa
+[219/824] 5b11891a2b
+[220/824] d115cbae83
+[221/824] dcf045fc23
+[222/824] 55adfc0e29
+[223/824] 2cd89ecc5b
+[224/824] 37be09b5b0
+[225/824] 50acfc3ac0
+[226/824] fd55f69d2f
+[227/824] 7ee138df05
+[228/824] 8f2803b13a
+[229/824] db22d77bb8
+[230/824] c3eaf4f04d
+[231/824] 540a1d45fc
+[232/824] 632a698a7e
+[233/824] 36c403b467
+[234/824] 0b0d0ffee2
+[235/824] c700df95eb
+[236/824] 4ddf74b93d
+[237/824] c98e8fdaf4
+[238/824] adfbef65cf
+[239/824] 441d553477
+[240/824] cf23846021
+[241/824] 71c96cfac0
+[242/824] c0f13504db
+[243/824] 54e81c8433
+[244/824] 4154021c7b
+[245/824] 4b47ef0518
+[246/824] 21b9da84cc
+[247/824] 2232ac97c5
+[248/824] e6a90c807d
+[249/824] 1172a95a95
+[250/824] 86eb65e436
+[251/824] 0cf8e9c0b2
+[252/824] f9a7ebdae3
+[253/824] 015834f052
+[254/824] bdbceb2176
+[255/824] 6b0d7f2ad0
+[256/824] f2e7772dd1
+[257/824] 38ff027985
+[258/824] 8180c9a482
+[259/824] 60d106cada
+[260/824] aea983a9b1
+[261/824] 710762bcb4
+[262/824] 3a0f5c8432
+[263/824] f4d6db6842
+[264/824] fafa79366a
+[265/824] e6e8c7a3fd
+[266/824] 7924791358
+[267/824] 8c071b8f6d
+[268/824] b9d7acce1b
+[269/824] af01ccbf05
+[270/824] 860fd783c4
+[271/824] aaceb30c2e
+[272/824] bd188d7f0e
+[273/824] 8fe1529803
+[274/824] a6b850fb49
+[275/824] d013755a86
+[276/824] e6c597ecd7
+[277/824] 96a1427555
+[278/824] fb2346f718
+[279/824] bba0a11bd2
+[280/824] 7064fbba2f
+[281/824] f7f1708e60
+[282/824] 1c8b07cb25
+[283/824] 6f571f2dbe
+[284/824] 8e35fece12
+[285/824] 49e364a380
+[286/824] 2eb213a456
+[287/824] 445d133374
+[288/824] 9bab01f621
+[289/824] a5e5309921
+[290/824] c3882d95bc
+[291/824] a55402f714
+[292/824] de92c73963
+[293/824] da3f46554a
+[294/824] 8eb3c63c6f
+[295/824] 4d99fd7a0e
+[296/824] e64e9d976a
+[297/824] a7b549b784
+[298/824] f45b1c8b6a
+[299/824] a95d7e0a2e
+[300/824] 994e846052
+[301/824] 98ffd723dc
+[302/824] 6ec2b57d0f
+[303/824] f77f27c052
+[304/824] e61b1d4031
+[305/824] 1aac0905a1
+[306/824] 15b50e0575
+[307/824] c596f82a80
+[308/824] 9a76dbb404
+[309/824] 7c7b6ece17
+[310/824] 8e93c90810
+[311/824] 3c2ba254c8
+[312/824] 5b576795c9
+[313/824] 79ef934a57
+[314/824] 472de7016e
+[315/824] 83dc251020
+[316/824] c3feefa50d
+[317/824] 0cf6f10c90
+[318/824] be536b2b53
+[319/824] 47c84088f8
+[320/824] b13f0b607c
+[321/824] 684d9c69a3
+[322/824] 41073f653d
+[323/824] e80009ed11
+[324/824] fdf0da765c
+[325/824] a421b980c5
+[326/824] 0a890861c2
+[327/824] 8a44fe2e4e
+[328/824] e70fc9bfd0
+[329/824] dd330fb40c
+[330/824] cc3c024d45
+[331/824] f43f649880
+[332/824] 1ab4fb805f
+[333/824] 50539bd476
+[334/824] 5a3e63ba18
+[335/824] 0b5822297b
+[336/824] 87cfc81630
+[337/824] 40e0e3dd33
+[338/824] baff9eddb9
+[339/824] 793504a213
+[340/824] cccf5fd0a2
+[341/824] 3fc113d468
+[342/824] 70db07f37a
+[343/824] 69a6c9e36e
+[344/824] ac8d00c8b4
+[345/824] 0ff2a02e62
+[346/824] 10129155f7
+[347/824] c990739545
+[348/824] 17c4e0d73a
+[349/824] ca4a59da5c
+[350/824] 8f7c860d5f
+[351/824] 739a215f1c
+[352/824] 1ac413bc4b
+[353/824] f37dc5b265
+[354/824] b8f7dde356
+[355/824] b0d8671a2f
+[356/824] db9c72a6c8
+[357/824] e2a984e421
+[358/824] f53881ec39
+[359/824] 493968e3af
+[360/824] dc5b7248aa
+[361/824] 1b9966f10e
+[362/824] 4757dd4262
+[363/824] 576258eefe
+[364/824] 5010ec9551
+[365/824] 1dae0d95df
+[366/824] afe71845fc
+[367/824] 14275d96d8
+[368/824] de3e1c09f2
+[369/824] cb62e9b619
+[370/824] 112101cf8a
+[371/824] 4918992aa8
+[372/824] 17eaa455e3
+[373/824] 4ee0a39e98
+[374/824] 58104b2b59
+[375/824] fff3686dee
+[376/824] 1a13e91b71
+[377/824] e8af42cfc6
+[378/824] b3dfe0cc24
+[379/824] 228e8c693e
+[380/824] 79724fbcc9
+[381/824] 1ee23595c2
+[382/824] d9579c2a70
+[383/824] 770d534c5d
+[384/824] ded4350705
+[385/824] 5602e3dad7
+[386/824] deec7d5cae
+[387/824] acd5ffa932
+[388/824] c671183308
+[389/824] abf986a91e
+[390/824] cd9a391c56
+[391/824] 093574f79a
+[392/824] f22c583290
+[393/824] faf2f9a304
+[394/824] 6d50f39d93
+[395/824] 989438afb4
+[396/824] d0278d31f7
+[397/824] 698cb22428
+[398/824] 3492123235
+[399/824] fa19d01269
+[400/824] f1d5d1fe13
+[401/824] a21a897684
+[402/824] 4e6cb4ae36
+[403/824] 1ed0101429
+[404/824] 91dc3651d3
+[405/824] 9a3b42ae7f
+[406/824] 84b1834a47
+[407/824] 1a18278176
+[408/824] 38259c598c
+[409/824] 16cfe63464
+[410/824] 7984f496f3
+[411/824] c90e147786
+[412/824] d46900c90f
+[413/824] dc13a82635
+[414/824] 12c50e2080
+[415/824] 6862d6f0a5
+[416/824] a9e761670a
+[417/824] b376059f69
+[418/824] d110446dec
+[419/824] 3380d146d7
+[420/824] bd79d496bb
+[421/824] 743f3f11b2
+[422/824] 75d15e89ce
+[423/824] 94be6b5c6d
+[424/824] 6c7e1feab0
+[425/824] 37de7187cf
+[426/824] 6e3ff38eb3
+[427/824] a75e52f34f
+[428/824] a4d924dd96
+[429/824] aee6a7ac63
+[430/824] c52db9533d
+[431/824] 9a84d8a9fe
+[432/824] 9eebf3b6d7
+[433/824] 7b0965c5cf
+[434/824] 4dfd1069ac
+[435/824] 0dbbba563e
+[436/824] 7d299d61ec
+[437/824] 2fd19fe737
+[438/824] 03d27e2ae6
+[439/824] 5eb15270e4
+[440/824] e516da5296
+[441/824] 3f7ebe7c89
+[442/824] 7ae23809dc
+[443/824] 9d80cc9ab0
+[444/824] edd6fbcbb5
+[445/824] 3a91443b68
+[446/824] 8c59b63180
+[447/824] 82e4fce2c9
+[448/824] 621a0cac39
+[449/824] 6a2173d130
+[450/824] d4aeff4c20
+[451/824] 0e061a493f
+[452/824] e1c0b16a22
+[453/824] d38bddf108
+[454/824] 8488678e7b
+[455/824] 895e2dc32c
+[456/824] 0b1c20b01a
+[457/824] eff3079883
+[458/824] 643e66f7b9
+[459/824] 4e7896078d
+[460/824] b99696f050
+[461/824] 39f6bf863a
+[462/824] 811aae25f6
+[463/824] f77bb4378a
+[464/824] fe0c41d6a2
+[465/824] af3f8285f6
+[466/824] 837190c44b
+[467/824] d1ea5f69a2
+[468/824] 096b3961a5
+[469/824] 9a8c90af66
+[470/824] 2a13b5cfca
+[471/824] 022ad1751f
+[472/824] 8615f07939
+[473/824] e204989978
+[474/824] 460b558680
+[475/824] 70d56c62c7
+[476/824] c739a4f3d3
+[477/824] b5422bbe35
+[478/824] 477a704b93
+[479/824] 6f7908ab23
+[480/824] 382346f8ed
+[481/824] 6587d7772d
+[482/824] d73d12e221
+[483/824] 8660cbe25b
+[484/824] bfdc30d991
+[485/824] e69370dcf8
+[486/824] 774ce976b7
+[487/824] 5ded416297
+[488/824] e05d351686
+[489/824] 7779ef5702
+[490/824] 5f3cfc2b22
+[491/824] e38e69f1bb
+[492/824] 0c9526767f
+[493/824] 22c8bcf122
+[494/824] 6bbb87ba6e
+[495/824] 4f5134831b
+[496/824] ef30d8a5d8
+[497/824] c6ac8497ca
+[498/824] 07a9373c9f
+[499/824] 4996e5b12d
+[500/824] ea0922f678
+[501/824] 43885566cd
+[502/824] f9b4379a73
+[503/824] a9e9d39c3c
+[504/824] 098f053053
+[505/824] eb49f2a7cf
+[506/824] d6ecb13533
+[507/824] 813f64800f
+[508/824] 3700e79eb4
+[509/824] 0ad2138f70
+[510/824] 2b98f5ba61
+[511/824] a39f698cce
+[512/824] 1ea42bb27d
+[513/824] 4939a84f05
+[514/824] 1ff5965c44
+[515/824] 92a5f86201
+[516/824] 6df1fdfdbc
+[517/824] 172b3716ad
+[518/824] acdb178850
+[519/824] 293dfecb24
+[520/824] 79e845bef7
+[521/824] cebffac390
+[522/824] 2d066dc661
+[523/824] 1a05e0d36c
+[524/824] acf4d19ec0
+[525/824] de3e3c6724
+[526/824] e953ed817a
+[527/824] e5dfb6b4fd
+[528/824] f615555ee4
+[529/824] e9e36225bf
+[530/824] a1dda69d29
+[531/824] 9684d0a106
+[532/824] 6f9a418fd0
+[533/824] 4b4a7e9f0f
+[534/824] 8b36a6a166
+[535/824] b1c63abf43
+[536/824] 003c338683
+[537/824] 24efa030ec
+[538/824] d36d73f762
+[539/824] 970637d327
+[540/824] 304ee06374
+[541/824] a64837aea2
+[542/824] 74dd8567d3
+[543/824] 8da74850ae
+[544/824] 9dfe8d20d1
+[545/824] 3a6a320018
+[546/824] 2b419cb599
+[547/824] e3edc2d0af
+[548/824] 4ce4a2ebc9
+[549/824] 8c647db207
+[550/824] 56fa1d9dac
+[551/824] 6e14343ac5
+[552/824] bb8217478d
+[553/824] 7b05d31cf3
+[554/824] 308426194b
+[555/824] f712da2e1c
+[556/824] 64d39b46b5
+[557/824] 489a84e44b
+[558/824] 83fcb09ce5
+[559/824] 2846136cdd
+[560/824] fddd91728f
+[561/824] f8329aa2b1
+[562/824] 81e3c7d0c5
+[563/824] 58004c6d78
+[564/824] d1e5d7f87b
+[565/824] 7c749a0fc5
+[566/824] e7e8e93719
+[567/824] b61d23a6fd
+[568/824] a1e11272fb
+[569/824] 65a687e497
+[570/824] 73f4555d14
+[571/824] 8fe8173fd3
+[572/824] 31488b31bd
+[573/824] 5b7eba6cfe
+[574/824] 96569fd4a6
+[575/824] 7bab2442af
+[576/824] d93667900b
+[577/824] 4dcaa37343
+[578/824] ab02b75391
+[579/824] 66d8adc235
+[580/824] d9c0779fa5
+[581/824] e3c58c39b5
+[582/824] 74a365425e
+[583/824] 07168301ef
+[584/824] 9d51dd4f79
+[585/824] 509765f0be
+[586/824] 82827c67b0
+[587/824] 4940d3a5b8
+[588/824] 8034632b61
+[589/824] b1ac116b91
+[590/824] 2fa8c6957f
+[591/824] 62123a3650
+[592/824] a3a717f95e
+[593/824] d2bba7ec47
+[594/824] 0588542eb3
+[595/824] 6008b260ff
+[596/824] 61b297090a
+[597/824] 127f169a32
+[598/824] 74f71dfc6a
+[599/824] 3c3b811b63
+[600/824] d832402d90
+[601/824] 059d1412d1
+[602/824] c092b450b4
+[603/824] fe7c0bd597
+[604/824] 82e42581e2
+[605/824] f444cd36c2
+[606/824] ee7468c52e
+[607/824] 6f15053e07
+[608/824] 4dd315ca5b
+[609/824] 79474ebf75
+[610/824] 1e6b81102d
+[611/824] 6333721195
+[612/824] 95b9342c40
+[613/824] 51318da471
+[614/824] 089b2cceb9
+[615/824] d47dfc2555
+[616/824] 9c38fd09b6
+[617/824] fe1939ce8c
+[618/824] fe9bca80cf
+[619/824] b04873dd19
+[620/824] 59cb42bf58
+[621/824] 28c8e3c1fe
+[622/824] 3a410617ee
+[623/824] 1ea72af00c
+[624/824] 65f18d53c1
+[625/824] 1ca8d8de85
+[626/824] a26a7d9840
+[627/824] 429bd18d13
+[628/824] f67db2b7cd
+[629/824] ee419ebd77
+[630/824] 77e90079b2
+[631/824] dc4311b052
+[632/824] a253d64ff3
+[633/824] 43f7598c4d
+[634/824] 474e9a8486
+[635/824] 2a08e0753d
+[636/824] 5b2b069b14
+[637/824] 9af809346f
+[638/824] 6964f6707a
+[639/824] a5527c558e
+[640/824] 4aac67c6a4
+[641/824] bcdf2af602
+[642/824] 7ba916b34f
+[643/824] 677cd744b5
+[644/824] 3f009d33a0
+[645/824] 6ba5a511a8
+[646/824] df84b31aeb
+[647/824] 3bffe00581
+[648/824] cf20cc8a7a
+[649/824] 43c1947adb
+[650/824] 61f2b50a8c
+[651/824] df29288b4f
+[652/824] 14c9273707
+[653/824] 0adb604cc7
+[654/824] 4b6aacc8fe
+[655/824] 410e71928d
+[656/824] 1592e2418f
+[657/824] 16284ff9df
+[658/824] e7718bed0b
+[659/824] 16b1480cb4
+[660/824] 6b4b477f97
+[661/824] 5aadae8312
+[662/824] 1d9b012f8e
+[663/824] 3d2e29a5d6
+[664/824] 8b0ac36ba9
+[665/824] 748e9421c2
+[666/824] bd0448a721
+[667/824] df333e42fe
+[668/824] e12cffe7d1
+[669/824] 62e410e0b7
+[670/824] fd77c7793c
+[671/824] fcdd868fab
+[672/824] a58dfc3dfe
+[673/824] 73b72c94bc
+[674/824] 1e612c2a5b
+[675/824] fc94a4c612
+[676/824] 6cc8874f84
+[677/824] a080731066
+[678/824] febb577136
+[679/824] c3c017ad06
+[680/824] 479b1a909c
+[681/824] 2fae25158e
+[682/824] 45198644d3
+[683/824] 35a60e0e36
+[684/824] d7a3187c46
+[685/824] 0edb47307a
+[686/824] 72b1115489
+[687/824] a129adbea2
+[688/824] fb821e690f
+[689/824] a5b99bffb2
+[690/824] f39e72dfeb
+[691/824] 6468c729e2
+[692/824] e25dc59393
+[693/824] 237ed2b53f
+[694/824] 4f2bbedfee
+[695/824] 0b0cc1e2d3
+[696/824] 7bec4503fb
+[697/824] 1addc2ef15
+[698/824] ec042ace6c
+[699/824] 7d4e694e66
+[700/824] 2290f00e67
+[701/824] d34fe41bbf
+[702/824] c88b22cc81
+[703/824] 5649b6a100
+[704/824] d7711d410c
+[705/824] b4dcf7a2bb
+[706/824] 51fd14cd47
+[707/824] 182953a412
+[708/824] 4bc1755ef7
+[709/824] 3f67262290
+[710/824] 06812e425d
+[711/824] 8f791a4dc5
+[712/824] ea442045ad
+[713/824] e9221ac8f6
+[714/824] 0ccf5efbe2
+[715/824] 4583026e50
+[716/824] 381a15dbb9
+[717/824] 91f757a2b1
+[718/824] e37b492c8e
+[719/824] e912e280dd
+[720/824] b1f5c25983
+[721/824] 0762f23b59
+[722/824] 174341149c
+[723/824] 3ca142345b
+[724/824] 0847e6de0a
+[725/824] 5a88c3a52b
+[726/824] b80759c988
+[727/824] 98209d0900
+[728/824] 0f009136e2
+[729/824] 493826b192
+[730/824] 3b992d7a57
+[731/824] 461d2dac17
+[732/824] 0af94eaae1
+[733/824] 42cbad9676
+[734/824] 0a9f121d46
+[735/824] 7c52ecfe24
+[736/824] adb3647264
+[737/824] bf02d2bfbd
+[738/824] aca96ab296
+[739/824] c99aaa2d09
+[740/824] 67c089fd35
+[741/824] 71aa8535a7
+[742/824] dd967eeb28
+[743/824] 0b24389014
+[744/824] daadd87df4
+[745/824] 7a1784d815
+[746/824] 9290b6ec2c
+[747/824] 399ea677ad
+[748/824] ee5472652e
+[749/824] 7e22bb5660
+[750/824] 77acd2b0f1
+[751/824] ba666b8c40
+[752/824] 19552a60ce
+[753/824] da1222a340
+[754/824] 33c71da604
+[755/824] f70fd3ea8e
+[756/824] 2d7790d558
+[757/824] 05aa154455
+[758/824] 0b202f0014
+[759/824] c57df2b0c1
+[760/824] bab38fc94f
+[761/824] c28b916723
+[762/824] f767138cb0
+[763/824] d9986b6648
+[764/824] 81be3ef684
+[765/824] 06db4814c8
+[766/824] a63dd41e6f
+[767/824] 9e56f48a79
+[768/824] e5681d1612
+[769/824] 6144f9a9da
+[770/824] 5bb65ef548
+[771/824] 634c857940
+[772/824] 6c7863dca1
+[773/824] 074bc8c69e
+[774/824] 6ab0ab2a1d
+[775/824] 4025b5f054
+[776/824] 5a0e597eea
+[777/824] 6caa69ef09
+[778/824] 74e299480b
+[779/824] 377ff7c3b9
+[780/824] ca2d83261d
+[781/824] 3da0c361bb
+[782/824] 956840241a
+[783/824] 83019593df
+[784/824] b35938963a
+[785/824] 715c1722ba
+[786/824] 734c1e47e6
+[787/824] fe45325e3b
+[788/824] fd23f8a3a1
+[789/824] c198b214f7
+[790/824] 836f6ff008
+[791/824] e692e797de
+[792/824] 92c53fac1e
+[793/824] 9db6417bcc
+[794/824] a8fba71e9d
+[795/824] 0aa69e7564
+[796/824] 8f53ee5a61
+[797/824] 69ed4328d5
+[798/824] 0f757b1a24
+[799/824] 2939890fa9
+[800/824] 85bd999b43
+[801/824] 35137a9a2e
+[802/824] 4d436b00af
+[803/824] cc8d791889
+[804/824] 69ff23d52e
+[805/824] d40e662620
+[806/824] 6607bdb160
+[807/824] a4efa40fe3
+[808/824] 125390ed86
+[809/824] 21e45ffdb7
+[810/824] 46cd6ec5db
+[811/824] fb0d22bf6b
+[812/824] f2ae2730e7
+[813/824] 354afae127
+[814/824] 50f6e2c2dc
+[815/824] a7ceb8e7ca
+[816/824] 1fffe265a9
+[817/824] 6d5d004cd4
+[818/824] 82c1ad0814
+[819/824] 684b1a5634
+[820/824] 34c0a6c04b
+[821/824] da0406ed65
+[822/824] fbe67a401f
+[823/824] 4a47c5e4d2
+[824/824] 76f6de8cc7
+Found 36 candidate (holder, added target) fixes.
+  PR lookup failed for 0b202f0014: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 127f169a32: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 21e45ffdb7: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 2d7790d558: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 354afae127: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 621a0cac39: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 634c857940: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 734c1e47e6: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for 8660cbe25b: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for af3f8285f6: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for d4aeff4c20: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for e05d351686: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for e204989978: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+  PR lookup failed for e7718bed0b: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+verifying commit-group [1/25] c33c0085621f (1 candidate(s))
+verifying commit-group [2/25] 19c7cfd40c4b (1 candidate(s))
+verifying commit-group [3/25] c5f6967b68b2 (2 candidate(s))
+verifying commit-group [4/25] 84a4fc9bfa7a (1 candidate(s))
+verifying commit-group [5/25] ae7274aa365e (1 candidate(s))
+verifying commit-group [6/25] da3f46554ae3 (1 candidate(s))
+verifying commit-group [7/25] 8eb3c63c6f89 (1 candidate(s))
+verifying commit-group [8/25] 40e0e3dd331f (4 candidate(s))
+verifying commit-group [9/25] 621a0cac3913 (1 candidate(s))
+verifying commit-group [10/25] d4aeff4c203b (1 candidate(s))
+verifying commit-group [11/25] af3f8285f619 (1 candidate(s))
+verifying commit-group [12/25] e2049899786d (1 candidate(s))
+verifying commit-group [13/25] 8660cbe25b6e (1 candidate(s))
+verifying commit-group [14/25] e05d3516869f (1 candidate(s))
+verifying commit-group [15/25] d9c0779fa526 (2 candidate(s))
+verifying commit-group [16/25] 127f169a32f3 (3 candidate(s))
+verifying commit-group [17/25] e7718bed0bb9 (1 candidate(s))
+verifying commit-group [18/25] 8b0ac36ba9f8 (1 candidate(s))
+verifying commit-group [19/25] 2d7790d55879 (1 candidate(s))
+verifying commit-group [20/25] 0b202f001420 (1 candidate(s))
+verifying commit-group [21/25] 634c8579408b (1 candidate(s))
+verifying commit-group [22/25] 734c1e47e6c6 (2 candidate(s))
+verifying commit-group [23/25] 21e45ffdb755 (4 candidate(s))
+verifying commit-group [24/25] 354afae1274d (1 candidate(s))
+verifying commit-group [25/25] 1fffe265a9a4 (1 candidate(s))
+Wrote 36 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/aws-ia__terraform-aws-eks-blueprints_candidates.json (31 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/aws-ia__terraform-aws-eks-blueprints_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/aws-ia__terraform-aws-eks-blueprints_trustworthy.json --verbose
+FAIL [redundant]  PR#1737 examples/istio/main.tf helm_release.istio_ingress
+PASS  PR#1494 examples/karpenter/main.tf kubectl_manifest.karpenter_example_deployment
+PASS  PR#1191 examples/stateful/main.tf kubernetes_storage_class_v1.gp3
+PASS  PR#1191 examples/stateful/main.tf kubernetes_storage_class_v1.efs
+PASS  PR#1170 main.tf module.aws_eks_teams
+PASS  PR#1127 examples/tls-with-aws-pca-issuer/main.tf kubectl_manifest.cluster_pca_issuer
+PASS  PR#760 examples/analytics/spark-k8s-operator/main.tf aws_s3_object.this
+PASS  PR#759 examples/analytics/spark-k8s-operator/main.tf module.eks_blueprints_kubernetes_addons
+PASS  PR#627 modules/kubernetes-addons/main.tf module.adot_collector_java
+PASS  PR#627 modules/kubernetes-addons/main.tf module.adot_collector_haproxy
+PASS  PR#627 modules/kubernetes-addons/main.tf module.adot_collector_memcached
+PASS  PR#627 modules/kubernetes-addons/main.tf module.adot_collector_nginx
+FAIL [no_pr_number]  621a0cac39 modules/aws-eks-managed-node-groups/managed-launch-templates.tf aws_launch_template.managed_node_groups
+FAIL [no_pr_number, redundant]  d4aeff4c20 examples/eks-cluster-with-new-vpc/main.tf module.aws-eks-accelerator-for-terraform
+FAIL [no_pr_number]  af3f8285f6 modules/aws-eks-managed-node-groups/managed-launch-templates.tf aws_launch_template.managed_node_groups
+FAIL [no_pr_number, redundant]  e204989978 examples/eks-cluster-with-new-vpc/main.tf module.aws-eks-accelerator-for-terraform
+FAIL [no_pr_number]  8660cbe25b modules/kubernetes-addons/prometheus/main.tf module.irsa_amp_query
+FAIL [no_pr_number]  e05d351686 modules/kubernetes-addons/prometheus/main.tf module.helm_addon
+PASS  PR#268 examples/observability/eks-cluster-with-amp-amg-opensearch/main.tf aws_elasticsearch_domain.opensearch
+FAIL [redundant]  PR#268 examples/observability/eks-cluster-with-amp-amg-opensearch/main.tf module.kubernetes-addons
+FAIL [no_pr_number]  127f169a32 eks-worker.tf module.aws_eks_managed_node_groups
+FAIL [no_pr_number]  127f169a32 eks-worker.tf module.aws_eks_self_managed_node_groups
+FAIL [no_pr_number]  127f169a32 eks-worker.tf module.aws_eks_fargate_profiles
+FAIL [no_pr_number]  e7718bed0b main.tf kubernetes_config_map.amazon_vpc_cni
+PASS  PR#163 deploy/1-eks-cluster-with-new-vpc/main.tf module.kubernetes-addons
+FAIL [no_pr_number]  2d7790d558 main.tf module.emr_on_eks
+FAIL [no_pr_number]  0b202f0014 kubernetes-addons/lb-ingress-controller/main.tf helm_release.lb_ingress
+FAIL [no_pr_number]  634c857940 modules/emr-on-eks/main.tf null_resource.update_trust_policy
+FAIL [no_pr_number]  734c1e47e6 modules/aws-eks-managed-node-groups/secgroups.tf aws_security_group.managed_ng
+FAIL [no_pr_number]  734c1e47e6 modules/aws-eks-self-managed-node-groups/secgroups.tf aws_security_group.self_managed_ng
+FAIL [no_pr_number]  21e45ffdb7 modules/aws-eks-managed-node-groups/managed-launch-templates.tf aws_launch_template.managed_node_groups
+FAIL [no_pr_number]  21e45ffdb7 modules/aws-eks-managed-node-groups/managed-node-groups.tf aws_eks_node_group.managed_ng
+FAIL [no_pr_number]  21e45ffdb7 modules/aws-eks-self-managed-node-groups/self-managed-launch-templates.tf aws_launch_template.self_managed_ng
+FAIL [no_pr_number]  21e45ffdb7 modules/aws-eks-self-managed-node-groups/self-managed-node-groups.tf aws_autoscaling_group.self_managed_ng
+FAIL [no_pr_number]  354afae127 eks.tf module.iam
+FAIL [redundant]  PR#13 source/main.tf module.helm
+
+-- per-filter failure counts --
+  no_pr_number: 20
+  verify_error: 0
+  redundant: 5
+  passed all filters: 13
+  total candidates: 36
+13/36 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/aws-ia__terraform-aws-eks-blueprints_trustworthy.json
+

@@ -1,0 +1,116 @@
+[
+  {
+    "pr_number": 364,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/364",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/commit/f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0",
+    "commit_sha": "f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0",
+    "parent_sha": "f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0^",
+    "commit_subject": "feat!: Add support for ECS managed instances (#364)",
+    "commit_date": "2026-01-08T18:08:03-06:00",
+    "file": "modules/cluster/main.tf",
+    "module_dir": "modules/cluster",
+    "holder_address": "aws_ecs_capacity_provider.this",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.task_exec"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.task_exec": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 364,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/364",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/commit/f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0",
+    "commit_sha": "f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0",
+    "parent_sha": "f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0^",
+    "commit_subject": "feat!: Add support for ECS managed instances (#364)",
+    "commit_date": "2026-01-08T18:08:03-06:00",
+    "file": "modules/service/main.tf",
+    "module_dir": "modules/service",
+    "holder_address": "aws_ecs_service.this",
+    "added_targets": [
+      "aws_vpc_security_group_egress_rule.this",
+      "aws_vpc_security_group_ingress_rule.this"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy",
+      "aws_iam_role_policy_attachment.service"
+    ],
+    "already_implicit": {
+      "aws_vpc_security_group_egress_rule.this": false,
+      "aws_vpc_security_group_ingress_rule.this": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 364,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/364",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/commit/f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0",
+    "commit_sha": "f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0",
+    "parent_sha": "f609ca9dbcceb73f81537a4c0ab4bf40faf7e7c0^",
+    "commit_subject": "feat!: Add support for ECS managed instances (#364)",
+    "commit_date": "2026-01-08T18:08:03-06:00",
+    "file": "modules/service/main.tf",
+    "module_dir": "modules/service",
+    "holder_address": "aws_ecs_service.ignore_task_definition",
+    "added_targets": [
+      "aws_vpc_security_group_egress_rule.this",
+      "aws_vpc_security_group_ingress_rule.this"
+    ],
+    "pre_existing_targets": [
+      "aws_iam_role_policy_attachment.infrastructure_iam_role_ebs_policy",
+      "aws_iam_role_policy_attachment.service"
+    ],
+    "already_implicit": {
+      "aws_vpc_security_group_egress_rule.this": false,
+      "aws_vpc_security_group_ingress_rule.this": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 201,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/201",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/commit/20338580482518fa086e90d9f74a54e8046fcb9a",
+    "commit_sha": "20338580482518fa086e90d9f74a54e8046fcb9a",
+    "parent_sha": "20338580482518fa086e90d9f74a54e8046fcb9a^",
+    "commit_subject": "fix: Make service, task, and task sets wait for their respective policy attachment to ensure permissions are available (#201)",
+    "commit_date": "2024-05-31T13:20:51-04:00",
+    "file": "modules/service/main.tf",
+    "module_dir": "modules/service",
+    "holder_address": "aws_ecs_task_definition.this",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.task_exec",
+      "aws_iam_role_policy_attachment.task_exec_additional",
+      "aws_iam_role_policy_attachment.tasks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.task_exec": false,
+      "aws_iam_role_policy_attachment.task_exec_additional": false,
+      "aws_iam_role_policy_attachment.tasks": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 69,
+    "pr_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/69",
+    "commit_url": "https://github.com/terraform-aws-modules/terraform-aws-ecs/commit/9cb2b84e5bb3983392c2d4c0e1f2879b42bbf9a7",
+    "commit_sha": "9cb2b84e5bb3983392c2d4c0e1f2879b42bbf9a7",
+    "parent_sha": "9cb2b84e5bb3983392c2d4c0e1f2879b42bbf9a7^",
+    "commit_subject": "fix: Allow for both Fargate and EC2/Autoscaling capacity providers in same cluster (#69)",
+    "commit_date": "2022-07-25T15:03:26-04:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "aws_ecs_cluster_capacity_providers.this",
+    "added_targets": [
+      "aws_ecs_capacity_provider.this"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_ecs_capacity_provider.this": false
+    },
+    "verify_error": null
+  }
+]

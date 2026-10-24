@@ -1,0 +1,53 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/ricsanfre__pi-cluster --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/ricsanfre__pi-cluster_candidates.json --github-repo ricsanfre/pi-cluster --verbose
+[1/37] d88d3128b7
+[2/37] 4c5daab957
+[3/37] 87335b2c54
+[4/37] 482a1c6597
+[5/37] c5610fa460
+[6/37] d827c3c6c1
+[7/37] 8066d68e7f
+[8/37] 2989dd97f2
+[9/37] 094f9e8115
+[10/37] 86a3e559d2
+[11/37] 9e5162c939
+[12/37] 9719f01bf9
+[13/37] e684e87a6c
+[14/37] 41e4181353
+[15/37] cc32c9a56e
+[16/37] 5cd167a4dc
+[17/37] 4046d4272f
+[18/37] a0dc2e3bd0
+[19/37] 3561ccf7c4
+[20/37] fc4213b801
+[21/37] b03f99fc17
+[22/37] e35be6b1dc
+[23/37] a718fffa35
+[24/37] 0452680c98
+[25/37] aa2170c916
+[26/37] 38187e211d
+[27/37] 47bf0e9210
+[28/37] 17a467dbb1
+[29/37] 4cd3de6284
+[30/37] a989ec16cd
+[31/37] d26b88f3b8
+[32/37] 16188e4f30
+[33/37] a885a67bbd
+[34/37] 274ca86b11
+[35/37] 297b660b6f
+[36/37] 1897a278bb
+[37/37] fe72d963bb
+Found 0 candidate (holder, added target) fixes.
+Wrote 0 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/ricsanfre__pi-cluster_candidates.json (0 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/ricsanfre__pi-cluster_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/ricsanfre__pi-cluster_trustworthy.json --verbose
+
+-- per-filter failure counts --
+  no_pr_number: 0
+  verify_error: 0
+  redundant: 0
+  passed all filters: 0
+  total candidates: 0
+0/0 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/ricsanfre__pi-cluster_trustworthy.json
+

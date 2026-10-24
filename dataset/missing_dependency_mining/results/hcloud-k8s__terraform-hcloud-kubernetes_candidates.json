@@ -1,0 +1,254 @@
+[
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/fe13c5e3f5289d5a7bf79de629b5ee4f9d8e824e",
+    "commit_sha": "fe13c5e3f5289d5a7bf79de629b5ee4f9d8e824e",
+    "parent_sha": "fe13c5e3f5289d5a7bf79de629b5ee4f9d8e824e^",
+    "commit_subject": "feat(network): add shared subnets for worker and autoscaler",
+    "commit_date": "2026-06-20T16:43:11+02:00",
+    "file": "server.tf",
+    "module_dir": ".",
+    "holder_address": "terraform_data.hcloud_server_cluster_autoscaler",
+    "added_targets": [
+      "hcloud_network_subnet.autoscaler"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_network_subnet.autoscaler": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "commit_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "parent_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023^",
+    "commit_subject": "feat(talos): add dependencies for staged configuration reboot",
+    "commit_date": "2026-04-04T09:33:30+02:00",
+    "file": "talos.tf",
+    "module_dir": ".",
+    "holder_address": "talos_machine_configuration_apply.worker",
+    "added_targets": [
+      "talos_machine_configuration_apply.control_plane"
+    ],
+    "pre_existing_targets": [
+      "terraform_data.talos_staged_configuration_reboot_control_plane",
+      "terraform_data.upgrade_kubernetes"
+    ],
+    "already_implicit": {
+      "talos_machine_configuration_apply.control_plane": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "commit_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "parent_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023^",
+    "commit_subject": "feat(talos): add dependencies for staged configuration reboot",
+    "commit_date": "2026-04-04T09:33:30+02:00",
+    "file": "talos.tf",
+    "module_dir": ".",
+    "holder_address": "terraform_data.talos_machine_configuration_apply_cluster_autoscaler",
+    "added_targets": [
+      "talos_machine_configuration_apply.control_plane",
+      "talos_machine_configuration_apply.worker"
+    ],
+    "pre_existing_targets": [
+      "data.external.talosctl_version_check",
+      "terraform_data.talos_staged_configuration_reboot_control_plane",
+      "terraform_data.talos_staged_configuration_reboot_worker",
+      "terraform_data.upgrade_kubernetes"
+    ],
+    "already_implicit": {
+      "talos_machine_configuration_apply.control_plane": false,
+      "talos_machine_configuration_apply.worker": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "commit_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "parent_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023^",
+    "commit_subject": "feat(talos): add dependencies for staged configuration reboot",
+    "commit_date": "2026-04-04T09:33:30+02:00",
+    "file": "talos.tf",
+    "module_dir": ".",
+    "holder_address": "talos_machine_bootstrap.this",
+    "added_targets": [
+      "talos_machine_configuration_apply.control_plane",
+      "talos_machine_configuration_apply.worker"
+    ],
+    "pre_existing_targets": [
+      "terraform_data.talos_machine_configuration_apply_cluster_autoscaler",
+      "terraform_data.talos_staged_configuration_reboot_control_plane",
+      "terraform_data.talos_staged_configuration_reboot_worker"
+    ],
+    "already_implicit": {
+      "talos_machine_configuration_apply.control_plane": false,
+      "talos_machine_configuration_apply.worker": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "commit_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023",
+    "parent_sha": "f9383d666ae02a41bb118f7f54a26d554ad7e023^",
+    "commit_subject": "feat(talos): add dependencies for staged configuration reboot",
+    "commit_date": "2026-04-04T09:33:30+02:00",
+    "file": "talos.tf",
+    "module_dir": ".",
+    "holder_address": "terraform_data.synchronize_manifests",
+    "added_targets": [
+      "talos_machine_configuration_apply.control_plane",
+      "talos_machine_configuration_apply.worker"
+    ],
+    "pre_existing_targets": [
+      "data.external.talosctl_version_check",
+      "talos_machine_bootstrap.this",
+      "terraform_data.talos_machine_configuration_apply_cluster_autoscaler",
+      "terraform_data.talos_staged_configuration_reboot_control_plane",
+      "terraform_data.talos_staged_configuration_reboot_worker"
+    ],
+    "already_implicit": {
+      "talos_machine_configuration_apply.control_plane": false,
+      "talos_machine_configuration_apply.worker": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/c37ab6fa8fff156001d5feff62911fc413e10b4e",
+    "commit_sha": "c37ab6fa8fff156001d5feff62911fc413e10b4e",
+    "parent_sha": "c37ab6fa8fff156001d5feff62911fc413e10b4e^",
+    "commit_subject": "fix: use static depends_on lists (concat not allowed)",
+    "commit_date": "2025-12-11T23:49:40+01:00",
+    "file": "server.tf",
+    "module_dir": ".",
+    "holder_address": "hcloud_server.control_plane",
+    "added_targets": [
+      "hcloud_network_subnet.control_plane",
+      "hcloud_placement_group.control_plane"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_network_subnet.control_plane": true,
+      "hcloud_placement_group.control_plane": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/c37ab6fa8fff156001d5feff62911fc413e10b4e",
+    "commit_sha": "c37ab6fa8fff156001d5feff62911fc413e10b4e",
+    "parent_sha": "c37ab6fa8fff156001d5feff62911fc413e10b4e^",
+    "commit_subject": "fix: use static depends_on lists (concat not allowed)",
+    "commit_date": "2025-12-11T23:49:40+01:00",
+    "file": "server.tf",
+    "module_dir": ".",
+    "holder_address": "hcloud_server.worker",
+    "added_targets": [
+      "hcloud_network_subnet.worker",
+      "hcloud_placement_group.worker"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_network_subnet.worker": true,
+      "hcloud_placement_group.worker": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/f327848ceb24f3f45107d281d956809bb5bf549c",
+    "commit_sha": "f327848ceb24f3f45107d281d956809bb5bf549c",
+    "parent_sha": "f327848ceb24f3f45107d281d956809bb5bf549c^",
+    "commit_subject": "Add support for Cluster Autoscaler upgrades and configuration changes",
+    "commit_date": "2025-10-03T19:39:07+02:00",
+    "file": "talos.tf",
+    "module_dir": ".",
+    "holder_address": "terraform_data.synchronize_manifests",
+    "added_targets": [
+      "talos_machine_configuration_apply.control_plane",
+      "talos_machine_configuration_apply.worker"
+    ],
+    "pre_existing_targets": [
+      "talos_machine_bootstrap.this"
+    ],
+    "already_implicit": {
+      "talos_machine_configuration_apply.control_plane": false,
+      "talos_machine_configuration_apply.worker": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/5a966d638d8eb80d65eb9ec98db7eda62324ec9d",
+    "commit_sha": "5a966d638d8eb80d65eb9ec98db7eda62324ec9d",
+    "parent_sha": "5a966d638d8eb80d65eb9ec98db7eda62324ec9d^",
+    "commit_subject": "Support for ingress load balancer pools",
+    "commit_date": "2024-12-06T16:00:13+01:00",
+    "file": "ingress_nginx.tf",
+    "module_dir": ".",
+    "holder_address": "data.helm_template.ingress_nginx",
+    "added_targets": [
+      "hcloud_load_balancer_network.ingress"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_load_balancer_network.ingress": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/1c1a3d713a84cd6700ee339a1ba54b24804cabd4",
+    "commit_sha": "1c1a3d713a84cd6700ee339a1ba54b24804cabd4",
+    "parent_sha": "1c1a3d713a84cd6700ee339a1ba54b24804cabd4^",
+    "commit_subject": "Allow Helm values overwrite",
+    "commit_date": "2024-11-24T15:46:45+01:00",
+    "file": "load_balancer.tf",
+    "module_dir": ".",
+    "holder_address": "hcloud_load_balancer_network.kube_api",
+    "added_targets": [
+      "hcloud_network_subnet.load_balancer"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_network_subnet.load_balancer": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-k8s/terraform-hcloud-kubernetes/commit/1c1a3d713a84cd6700ee339a1ba54b24804cabd4",
+    "commit_sha": "1c1a3d713a84cd6700ee339a1ba54b24804cabd4",
+    "parent_sha": "1c1a3d713a84cd6700ee339a1ba54b24804cabd4^",
+    "commit_subject": "Allow Helm values overwrite",
+    "commit_date": "2024-11-24T15:46:45+01:00",
+    "file": "load_balancer.tf",
+    "module_dir": ".",
+    "holder_address": "hcloud_load_balancer_network.ingress",
+    "added_targets": [
+      "hcloud_network_subnet.load_balancer"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_network_subnet.load_balancer": true
+    },
+    "verify_error": null
+  }
+]

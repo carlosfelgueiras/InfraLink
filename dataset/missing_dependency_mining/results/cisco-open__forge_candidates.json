@@ -1,0 +1,949 @@
+[
+  {
+    "pr_number": 554,
+    "pr_url": "https://github.com/cisco-open/forge/pull/554",
+    "commit_url": "https://github.com/cisco-open/forge/commit/c1d76f4b12007bf490f56e8aff1494f44047237f",
+    "commit_sha": "c1d76f4b12007bf490f56e8aff1494f44047237f",
+    "parent_sha": "c1d76f4b12007bf490f56e8aff1494f44047237f^",
+    "commit_subject": "fix(integrations): preserve Splunk permissions during destroy (#554)",
+    "commit_date": "2026-07-27T12:56:15-06:00",
+    "file": "modules/integrations/splunk_o11y_aws_integration_common/signalfx.tf",
+    "module_dir": "modules/integrations/splunk_o11y_aws_integration_common",
+    "holder_address": "signalfx_aws_integration.integration",
+    "added_targets": [
+      "aws_iam_role_policy.splunk_integration",
+      "aws_iam_role_policy.splunk_managed_policy"
+    ],
+    "pre_existing_targets": [
+      "time_sleep.wait_30_seconds"
+    ],
+    "already_implicit": {
+      "aws_iam_role_policy.splunk_integration": false,
+      "aws_iam_role_policy.splunk_managed_policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 449,
+    "pr_url": "https://github.com/cisco-open/forge/pull/449",
+    "commit_url": "https://github.com/cisco-open/forge/commit/43f01238962860e1a6332462708c87eaa98bccf5",
+    "commit_sha": "43f01238962860e1a6332462708c87eaa98bccf5",
+    "parent_sha": "43f01238962860e1a6332462708c87eaa98bccf5^",
+    "commit_subject": "fix(splunk-aws-billing): set billing view ARN (#449)",
+    "commit_date": "2026-07-09T15:09:11+03:00",
+    "file": "modules/integrations/splunk_aws_billing/billing_per_resource.tf",
+    "module_dir": "modules/integrations/splunk_aws_billing",
+    "holder_address": "aws_bcmdataexports_export.cur_per_resource",
+    "added_targets": [
+      "aws_s3_bucket_policy.cur_bucket_policy"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_policy.cur_bucket_policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 449,
+    "pr_url": "https://github.com/cisco-open/forge/pull/449",
+    "commit_url": "https://github.com/cisco-open/forge/commit/43f01238962860e1a6332462708c87eaa98bccf5",
+    "commit_sha": "43f01238962860e1a6332462708c87eaa98bccf5",
+    "parent_sha": "43f01238962860e1a6332462708c87eaa98bccf5^",
+    "commit_subject": "fix(splunk-aws-billing): set billing view ARN (#449)",
+    "commit_date": "2026-07-09T15:09:11+03:00",
+    "file": "modules/integrations/splunk_aws_billing/billing_per_service.tf",
+    "module_dir": "modules/integrations/splunk_aws_billing",
+    "holder_address": "aws_bcmdataexports_export.cur_per_service",
+    "added_targets": [
+      "aws_s3_bucket_policy.cur_bucket_policy"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_policy.cur_bucket_policy": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 442,
+    "pr_url": "https://github.com/cisco-open/forge/pull/442",
+    "commit_url": "https://github.com/cisco-open/forge/commit/b75ab7f776c15ba532449625902348bfd2bcbb5d",
+    "commit_sha": "b75ab7f776c15ba532449625902348bfd2bcbb5d",
+    "parent_sha": "b75ab7f776c15ba532449625902348bfd2bcbb5d^",
+    "commit_subject": "fix(splunk-billing): add log group dependencies (#442)",
+    "commit_date": "2026-07-08T15:25:06-06:00",
+    "file": "modules/integrations/splunk_aws_billing/billing_per_resource.tf",
+    "module_dir": "modules/integrations/splunk_aws_billing",
+    "holder_address": "module.cur_per_resource",
+    "added_targets": [
+      "aws_cloudwatch_log_group.cur_per_resource"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_cloudwatch_log_group.cur_per_resource": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 442,
+    "pr_url": "https://github.com/cisco-open/forge/pull/442",
+    "commit_url": "https://github.com/cisco-open/forge/commit/b75ab7f776c15ba532449625902348bfd2bcbb5d",
+    "commit_sha": "b75ab7f776c15ba532449625902348bfd2bcbb5d",
+    "parent_sha": "b75ab7f776c15ba532449625902348bfd2bcbb5d^",
+    "commit_subject": "fix(splunk-billing): add log group dependencies (#442)",
+    "commit_date": "2026-07-08T15:25:06-06:00",
+    "file": "modules/integrations/splunk_aws_billing/billing_per_resource_process.tf",
+    "module_dir": "modules/integrations/splunk_aws_billing",
+    "holder_address": "module.cur_per_resource_process",
+    "added_targets": [
+      "aws_cloudwatch_log_group.cur_per_resource_process"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_cloudwatch_log_group.cur_per_resource_process": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 442,
+    "pr_url": "https://github.com/cisco-open/forge/pull/442",
+    "commit_url": "https://github.com/cisco-open/forge/commit/b75ab7f776c15ba532449625902348bfd2bcbb5d",
+    "commit_sha": "b75ab7f776c15ba532449625902348bfd2bcbb5d",
+    "parent_sha": "b75ab7f776c15ba532449625902348bfd2bcbb5d^",
+    "commit_subject": "fix(splunk-billing): add log group dependencies (#442)",
+    "commit_date": "2026-07-08T15:25:06-06:00",
+    "file": "modules/integrations/splunk_aws_billing/billing_per_service.tf",
+    "module_dir": "modules/integrations/splunk_aws_billing",
+    "holder_address": "module.cur_per_service",
+    "added_targets": [
+      "aws_cloudwatch_log_group.cur_per_service"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_cloudwatch_log_group.cur_per_service": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 375,
+    "pr_url": "https://github.com/cisco-open/forge/pull/375",
+    "commit_url": "https://github.com/cisco-open/forge/commit/0a600cb28f866b2c259e881fb72b363f2346f904",
+    "commit_sha": "0a600cb28f866b2c259e881fb72b363f2346f904",
+    "parent_sha": "0a600cb28f866b2c259e881fb72b363f2346f904^",
+    "commit_subject": "fix: avoid windows hook log contention (#375)",
+    "commit_date": "2026-07-01T16:56:18+02:00",
+    "file": "modules/platform/ec2_deployment/ami.tf",
+    "module_dir": "modules/platform/ec2_deployment",
+    "holder_address": "data.aws_ssm_parameter.ami_id",
+    "added_targets": [
+      "module.runners"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.runners": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 375,
+    "pr_url": "https://github.com/cisco-open/forge/pull/375",
+    "commit_url": "https://github.com/cisco-open/forge/commit/0a600cb28f866b2c259e881fb72b363f2346f904",
+    "commit_sha": "0a600cb28f866b2c259e881fb72b363f2346f904",
+    "parent_sha": "0a600cb28f866b2c259e881fb72b363f2346f904^",
+    "commit_subject": "fix: avoid windows hook log contention (#375)",
+    "commit_date": "2026-07-01T16:56:18+02:00",
+    "file": "modules/platform/ec2_deployment/ami.tf",
+    "module_dir": "modules/platform/ec2_deployment",
+    "holder_address": "data.aws_ami.runner_ami",
+    "added_targets": [
+      "module.runners"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.runners": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 324,
+    "pr_url": "https://github.com/cisco-open/forge/pull/324",
+    "commit_url": "https://github.com/cisco-open/forge/commit/ef9653fb2ca90feb95444ac2d2cb442351585c8e",
+    "commit_sha": "ef9653fb2ca90feb95444ac2d2cb442351585c8e",
+    "parent_sha": "ef9653fb2ca90feb95444ac2d2cb442351585c8e^",
+    "commit_subject": "refactor: move forge trust updates to lambda (#324)",
+    "commit_date": "2026-06-05T18:10:38+03:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_cloudwatchlogs.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_cloudwatchlogs",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields",
+      "splunk_configs_conf.forgecicd_trust_validation"
+    ],
+    "pre_existing_targets": [
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "splunk_configs_conf.forgecicd_extra_lambda_tenant_fields"
+    ],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_extra_lambda_ec2_tenant_fields": false,
+      "splunk_configs_conf.forgecicd_trust_validation": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 322,
+    "pr_url": "https://github.com/cisco-open/forge/pull/322",
+    "commit_url": "https://github.com/cisco-open/forge/commit/e3c44efec8abe66e2aab7516ab0e2e0a14b6f586",
+    "commit_sha": "e3c44efec8abe66e2aab7516ab0e2e0a14b6f586",
+    "parent_sha": "e3c44efec8abe66e2aab7516ab0e2e0a14b6f586^",
+    "commit_subject": "fix: fix bug that creates a drift in gh app webhook (#322)",
+    "commit_date": "2026-06-04T11:33:37+02:00",
+    "file": "modules/platform/forge_runners/update_gh_app.tf",
+    "module_dir": "modules/platform/forge_runners",
+    "holder_address": "null_resource.update_github_app_webhook",
+    "added_targets": [
+      "random_password.github_app_webhook_secret"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "random_password.github_app_webhook_secret": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 266,
+    "pr_url": "https://github.com/cisco-open/forge/pull/266",
+    "commit_url": "https://github.com/cisco-open/forge/commit/da6427f35428af5435a65af071b6a6cb6c0627e6",
+    "commit_sha": "da6427f35428af5435a65af071b6a6cb6c0627e6",
+    "parent_sha": "da6427f35428af5435a65af071b6a6cb6c0627e6^",
+    "commit_subject": "fix: fix splunk DM template upload (#266)",
+    "commit_date": "2026-01-09T10:21:05+01:00",
+    "file": "modules/integrations/splunk_cloud_data_manager/data_input/s3_template.tf",
+    "module_dir": "modules/integrations/splunk_cloud_data_manager/data_input",
+    "holder_address": "aws_s3_object.cloudformation_template",
+    "added_targets": [
+      "null_resource.create_integration"
+    ],
+    "pre_existing_targets": [
+      "data.external.splunk_dm_version",
+      "random_uuid.splunk_input_uuid"
+    ],
+    "already_implicit": {
+      "null_resource.create_integration": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 264,
+    "pr_url": "https://github.com/cisco-open/forge/pull/264",
+    "commit_url": "https://github.com/cisco-open/forge/commit/6e4fdddd322c10f578a1933ceb00d6aa3627754c",
+    "commit_sha": "6e4fdddd322c10f578a1933ceb00d6aa3627754c",
+    "parent_sha": "6e4fdddd322c10f578a1933ceb00d6aa3627754c^",
+    "commit_subject": "fix: force dm template update (#264)",
+    "commit_date": "2026-01-08T21:25:40+01:00",
+    "file": "modules/integrations/splunk_cloud_data_manager/data_input/s3_template.tf",
+    "module_dir": "modules/integrations/splunk_cloud_data_manager/data_input",
+    "holder_address": "aws_s3_object.cloudformation_template",
+    "added_targets": [
+      "data.external.splunk_dm_version"
+    ],
+    "pre_existing_targets": [
+      "null_resource.create_integration",
+      "random_uuid.splunk_input_uuid"
+    ],
+    "already_implicit": {
+      "data.external.splunk_dm_version": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 215,
+    "pr_url": "https://github.com/cisco-open/forge/pull/215",
+    "commit_url": "https://github.com/cisco-open/forge/commit/ea8ef289e39d6345d28eb06ac4ebe54508dd0359",
+    "commit_sha": "ea8ef289e39d6345d28eb06ac4ebe54508dd0359",
+    "parent_sha": "ea8ef289e39d6345d28eb06ac4ebe54508dd0359^",
+    "commit_subject": "feat: add field extraction to all extra lambdas (#215)",
+    "commit_date": "2025-12-01T22:58:19+02:00",
+    "file": "modules/platform/forge_runners/forge_trust_validator/forge_roles.tf",
+    "module_dir": "modules/platform/forge_runners/forge_trust_validator",
+    "holder_address": "data.aws_iam_role.forge",
+    "added_targets": [
+      "module.forge_trust_validator_lambda"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.forge_trust_validator_lambda": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 201,
+    "pr_url": "https://github.com/cisco-open/forge/pull/201",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "commit_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "parent_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494^",
+    "commit_subject": "fix: use depends on to wait secrets creation (#201)",
+    "commit_date": "2025-11-27T14:06:18Z",
+    "file": "modules/platform/forge_runners/github_actions_job_log.tf",
+    "module_dir": "modules/platform/forge_runners",
+    "holder_address": "module.github_actions_job_logs",
+    "added_targets": [
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 201,
+    "pr_url": "https://github.com/cisco-open/forge/pull/201",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "commit_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "parent_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494^",
+    "commit_subject": "fix: use depends on to wait secrets creation (#201)",
+    "commit_date": "2025-11-27T14:06:18Z",
+    "file": "modules/platform/forge_runners/github_app_runner_group.tf",
+    "module_dir": "modules/platform/forge_runners",
+    "holder_address": "module.github_app_runner_group",
+    "added_targets": [
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 201,
+    "pr_url": "https://github.com/cisco-open/forge/pull/201",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "commit_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "parent_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494^",
+    "commit_subject": "fix: use depends on to wait secrets creation (#201)",
+    "commit_date": "2025-11-27T14:06:18Z",
+    "file": "modules/platform/forge_runners/github_global_lock.tf",
+    "module_dir": "modules/platform/forge_runners",
+    "holder_address": "module.github_global_lock",
+    "added_targets": [
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 201,
+    "pr_url": "https://github.com/cisco-open/forge/pull/201",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "commit_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494",
+    "parent_sha": "1cc3b4c9e85cc5f5baeb21f1210d470d5de47494^",
+    "commit_subject": "fix: use depends on to wait secrets creation (#201)",
+    "commit_date": "2025-11-27T14:06:18Z",
+    "file": "modules/platform/forge_runners/github_webhook_relay.tf",
+    "module_dir": "modules/platform/forge_runners",
+    "holder_address": "module.github_webhook_relay",
+    "added_targets": [
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "data.aws_secretsmanager_secret_version.data_cicd_secrets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_billing_cur.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_aws_billing_cur",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_billing_cur_instance_id",
+      "splunk_configs_conf.forgecicd_billing_cur_volume_id"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_billing_cur_instance_id": false,
+      "splunk_configs_conf.forgecicd_billing_cur_volume_id": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_cloudwatchlogs.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_cloudwatchlogs",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields",
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields",
+      "splunk_configs_conf.forgecicd_extra_lambda_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_global_lambda_tenant_fields": false,
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_lambda_tenant_fields": false,
+      "splunk_configs_conf.forgecicd_extra_lambda_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_ec2.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_cloudwatchlogs_forgecicd",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message",
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result",
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version",
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name",
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_extract_log_time_message": false,
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_ci_result": false,
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_gh_runner_version": false,
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_pages_github_repo_name": false,
+      "splunk_configs_conf.forgecicd_cloudwatchlogs_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_ec2.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_metadata",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_metadata_image_id",
+      "splunk_configs_conf.forgecicd_metadata_instance_id",
+      "splunk_configs_conf.forgecicd_metadata_instance_type",
+      "splunk_configs_conf.forgecicd_metadata_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_metadata_image_id": false,
+      "splunk_configs_conf.forgecicd_metadata_instance_id": false,
+      "splunk_configs_conf.forgecicd_metadata_instance_type": false,
+      "splunk_configs_conf.forgecicd_metadata_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_runner",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_ci_result",
+      "splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version",
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_ci_result": false,
+      "splunk_configs_conf.forgecicd_kube_container_runner_gh_runner_version": false,
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_init_docker_creds",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_init_dind_rootless",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_init_work",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_init_dind_externals",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_dind",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_listener",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_listener_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_manager",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_manager_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_log_worker",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 186,
+    "pr_url": "https://github.com/cisco-open/forge/pull/186",
+    "commit_url": "https://github.com/cisco-open/forge/commit/315e9c59a992294febf467bdad7a258db66d0470",
+    "commit_sha": "315e9c59a992294febf467bdad7a258db66d0470",
+    "parent_sha": "315e9c59a992294febf467bdad7a258db66d0470^",
+    "commit_subject": "feat: add new transform and field extraction for runner logs (#186)",
+    "commit_date": "2025-11-06T13:22:21+01:00",
+    "file": "modules/integrations/splunk_cloud_conf_shared/props_k8s.tf",
+    "module_dir": "modules/integrations/splunk_cloud_conf_shared",
+    "holder_address": "splunk_configs_conf.forgecicd_kube_container_log_hook",
+    "added_targets": [
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "splunk_configs_conf.forgecicd_kube_container_runner_tenant_fields": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 181,
+    "pr_url": "https://github.com/cisco-open/forge/pull/181",
+    "commit_url": "https://github.com/cisco-open/forge/commit/de02d6975c07eff30210dd95fcfac1153d7e2347",
+    "commit_sha": "de02d6975c07eff30210dd95fcfac1153d7e2347",
+    "parent_sha": "de02d6975c07eff30210dd95fcfac1153d7e2347^",
+    "commit_subject": "fix: fix bug eks node lose policy in scale up and down (#181)",
+    "commit_date": "2025-10-27T13:23:53+02:00",
+    "file": "modules/infra/eks/calico.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "null_resource.patch_calico_installation",
+    "added_targets": [
+      "null_resource.wait_for_cluster"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "null_resource.wait_for_cluster": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 178,
+    "pr_url": "https://github.com/cisco-open/forge/pull/178",
+    "commit_url": "https://github.com/cisco-open/forge/commit/99ddfa9c31b4b46a608fb2658d28700bf034cb4e",
+    "commit_sha": "99ddfa9c31b4b46a608fb2658d28700bf034cb4e",
+    "parent_sha": "99ddfa9c31b4b46a608fb2658d28700bf034cb4e^",
+    "commit_subject": "feat: add module github_webhook_relay_destination_receivers (#178)",
+    "commit_date": "2025-10-23T17:37:12-06:00",
+    "file": "modules/infra/eks/karpenter.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "helm_release.karpenter",
+    "added_targets": [
+      "null_resource.wait_for_cluster"
+    ],
+    "pre_existing_targets": [
+      "module.eks"
+    ],
+    "already_implicit": {
+      "null_resource.wait_for_cluster": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 176,
+    "pr_url": "https://github.com/cisco-open/forge/pull/176",
+    "commit_url": "https://github.com/cisco-open/forge/commit/a42c43b0be99b04435404796ceaa47cfd5b24627",
+    "commit_sha": "a42c43b0be99b04435404796ceaa47cfd5b24627",
+    "parent_sha": "a42c43b0be99b04435404796ceaa47cfd5b24627^",
+    "commit_subject": "fix: fix eks module for scale up/down (#176)",
+    "commit_date": "2025-10-23T19:32:28Z",
+    "file": "modules/infra/eks/karpenter.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "helm_release.karpenter",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 162,
+    "pr_url": "https://github.com/cisco-open/forge/pull/162",
+    "commit_url": "https://github.com/cisco-open/forge/commit/fc093d9886956ee6fc2b080adf83bc78544db118",
+    "commit_sha": "fc093d9886956ee6fc2b080adf83bc78544db118",
+    "parent_sha": "fc093d9886956ee6fc2b080adf83bc78544db118^",
+    "commit_subject": "fix: fix s3_prefix to upload zip file for lambdas (#162)",
+    "commit_date": "2025-10-15T18:44:14-04:00",
+    "file": "modules/integrations/splunk_aws_billing/s3.tf",
+    "module_dir": "modules/integrations/splunk_aws_billing",
+    "holder_address": "aws_s3_bucket_notification.cur_notification",
+    "added_targets": [
+      "aws_lambda_permission.cur_per_resource_process"
+    ],
+    "pre_existing_targets": [
+      "aws_lambda_permission.cur_per_resource",
+      "aws_lambda_permission.cur_per_service"
+    ],
+    "already_implicit": {
+      "aws_lambda_permission.cur_per_resource_process": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 108,
+    "pr_url": "https://github.com/cisco-open/forge/pull/108",
+    "commit_url": "https://github.com/cisco-open/forge/commit/09da3b182c2547bd6b9b1a7da90fd2e22d0e066d",
+    "commit_sha": "09da3b182c2547bd6b9b1a7da90fd2e22d0e066d",
+    "parent_sha": "09da3b182c2547bd6b9b1a7da90fd2e22d0e066d^",
+    "commit_subject": "feat(runners): automate SSM AMI updates via Lambda module (#108)",
+    "commit_date": "2025-09-05T18:55:21Z",
+    "file": "modules/platform/ec2_deployment/ami.tf",
+    "module_dir": "modules/platform/ec2_deployment",
+    "holder_address": "data.aws_ssm_parameter.ami_id",
+    "added_targets": [
+      "module.runners"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.runners": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 77,
+    "pr_url": "https://github.com/cisco-open/forge/pull/77",
+    "commit_url": "https://github.com/cisco-open/forge/commit/ae4bbb71fcbaaf9b3faf87248f3606af289f32cc",
+    "commit_sha": "ae4bbb71fcbaaf9b3faf87248f3606af289f32cc",
+    "parent_sha": "ae4bbb71fcbaaf9b3faf87248f3606af289f32cc^",
+    "commit_subject": "test: remove dependencies for kapenter (#77)",
+    "commit_date": "2025-07-11T10:32:11-06:00",
+    "file": "modules/infra/eks/karpenter.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "module.karpenter",
+    "added_targets": [
+      "time_sleep.wait_300_seconds"
+    ],
+    "pre_existing_targets": [
+      "aws_eks_addon.aws_ebs_csi_driver",
+      "aws_eks_addon.eks_pod_identity_agent",
+      "data.aws_eks_cluster_auth.cluster",
+      "module.self_managed_node_group",
+      "null_resource.create_calico_installation"
+    ],
+    "already_implicit": {
+      "time_sleep.wait_300_seconds": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 61,
+    "pr_url": "https://github.com/cisco-open/forge/pull/61",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1aee2070e303e55e9539ef6b081fae378b13a154",
+    "commit_sha": "1aee2070e303e55e9539ef6b081fae378b13a154",
+    "parent_sha": "1aee2070e303e55e9539ef6b081fae378b13a154^",
+    "commit_subject": "refactor: replace dockerhub images for public.ecr.aws (#61)",
+    "commit_date": "2025-07-03T10:48:54+02:00",
+    "file": "modules/core/arc/zoombie.tf",
+    "module_dir": "modules/core/arc",
+    "holder_address": "kubernetes_service_account_v1.zombie_runner_cleanup",
+    "added_targets": [
+      "module.controller",
+      "module.scale_sets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.controller": false,
+      "module.scale_sets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 61,
+    "pr_url": "https://github.com/cisco-open/forge/pull/61",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1aee2070e303e55e9539ef6b081fae378b13a154",
+    "commit_sha": "1aee2070e303e55e9539ef6b081fae378b13a154",
+    "parent_sha": "1aee2070e303e55e9539ef6b081fae378b13a154^",
+    "commit_subject": "refactor: replace dockerhub images for public.ecr.aws (#61)",
+    "commit_date": "2025-07-03T10:48:54+02:00",
+    "file": "modules/core/arc/zoombie.tf",
+    "module_dir": "modules/core/arc",
+    "holder_address": "kubernetes_role_v1.zombie_runner_cleanup",
+    "added_targets": [
+      "module.controller",
+      "module.scale_sets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.controller": false,
+      "module.scale_sets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 61,
+    "pr_url": "https://github.com/cisco-open/forge/pull/61",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1aee2070e303e55e9539ef6b081fae378b13a154",
+    "commit_sha": "1aee2070e303e55e9539ef6b081fae378b13a154",
+    "parent_sha": "1aee2070e303e55e9539ef6b081fae378b13a154^",
+    "commit_subject": "refactor: replace dockerhub images for public.ecr.aws (#61)",
+    "commit_date": "2025-07-03T10:48:54+02:00",
+    "file": "modules/core/arc/zoombie.tf",
+    "module_dir": "modules/core/arc",
+    "holder_address": "kubernetes_role_binding_v1.zombie_runner_cleanup",
+    "added_targets": [
+      "module.controller",
+      "module.scale_sets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.controller": false,
+      "module.scale_sets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 61,
+    "pr_url": "https://github.com/cisco-open/forge/pull/61",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1aee2070e303e55e9539ef6b081fae378b13a154",
+    "commit_sha": "1aee2070e303e55e9539ef6b081fae378b13a154",
+    "parent_sha": "1aee2070e303e55e9539ef6b081fae378b13a154^",
+    "commit_subject": "refactor: replace dockerhub images for public.ecr.aws (#61)",
+    "commit_date": "2025-07-03T10:48:54+02:00",
+    "file": "modules/core/arc/zoombie.tf",
+    "module_dir": "modules/core/arc",
+    "holder_address": "kubernetes_cron_job_v1.zombie_runner_cleanup",
+    "added_targets": [
+      "module.controller",
+      "module.scale_sets"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.controller": false,
+      "module.scale_sets": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 60,
+    "pr_url": "https://github.com/cisco-open/forge/pull/60",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1ef0b9c2f8a52c35fdf5cd45a24b84686118d8bd",
+    "commit_sha": "1ef0b9c2f8a52c35fdf5cd45a24b84686118d8bd",
+    "parent_sha": "1ef0b9c2f8a52c35fdf5cd45a24b84686118d8bd^",
+    "commit_subject": "feat: support seamless ARC cluster migration and EKS secrets integration (#60)",
+    "commit_date": "2025-07-02T15:40:27+03:00",
+    "file": "modules/infra/eks/karpenter.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "module.karpenter",
+    "added_targets": [
+      "null_resource.create_calico_installation"
+    ],
+    "pre_existing_targets": [
+      "aws_eks_addon.aws_ebs_csi_driver",
+      "aws_eks_addon.eks_pod_identity_agent",
+      "data.aws_eks_cluster_auth.cluster",
+      "module.self_managed_node_group",
+      "null_resource.apply_tigera_operator"
+    ],
+    "already_implicit": {
+      "null_resource.create_calico_installation": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 60,
+    "pr_url": "https://github.com/cisco-open/forge/pull/60",
+    "commit_url": "https://github.com/cisco-open/forge/commit/1ef0b9c2f8a52c35fdf5cd45a24b84686118d8bd",
+    "commit_sha": "1ef0b9c2f8a52c35fdf5cd45a24b84686118d8bd",
+    "parent_sha": "1ef0b9c2f8a52c35fdf5cd45a24b84686118d8bd^",
+    "commit_subject": "feat: support seamless ARC cluster migration and EKS secrets integration (#60)",
+    "commit_date": "2025-07-02T15:40:27+03:00",
+    "file": "modules/infra/eks/nodes.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "module.self_managed_node_group",
+    "added_targets": [
+      "null_resource.create_calico_installation"
+    ],
+    "pre_existing_targets": [
+      "time_sleep.wait_300_seconds"
+    ],
+    "already_implicit": {
+      "null_resource.create_calico_installation": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 48,
+    "pr_url": "https://github.com/cisco-open/forge/pull/48",
+    "commit_url": "https://github.com/cisco-open/forge/commit/7b0870301d2c68c9f8a9ead0a1cbb54474703ab8",
+    "commit_sha": "7b0870301d2c68c9f8a9ead0a1cbb54474703ab8",
+    "parent_sha": "7b0870301d2c68c9f8a9ead0a1cbb54474703ab8^",
+    "commit_subject": "feat: upgrade actions-runner-controller to 0.12.0 (#48)",
+    "commit_date": "2025-06-18T14:13:52+03:00",
+    "file": "modules/infra/eks/karpenter.tf",
+    "module_dir": "modules/infra/eks",
+    "holder_address": "data.aws_ecrpublic_authorization_token.token",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks": false
+    },
+    "verify_error": null
+  }
+]

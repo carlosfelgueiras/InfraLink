@@ -1,0 +1,64 @@
+[
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-talos/terraform-hcloud-talos/commit/e621f9fa59109dfe9d72cc09c1ba60d3881b376f",
+    "commit_sha": "e621f9fa59109dfe9d72cc09c1ba60d3881b376f",
+    "parent_sha": "e621f9fa59109dfe9d72cc09c1ba60d3881b376f^",
+    "commit_subject": "fix(network): fix \"The \"count\" value depends on resource attributes that cannot be determined until apply\"",
+    "commit_date": "2024-03-21T22:59:42+01:00",
+    "file": "network.tf",
+    "module_dir": ".",
+    "holder_address": "hcloud_floating_ip_assignment.this",
+    "added_targets": [
+      "hcloud_server.control_planes"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_server.control_planes": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-talos/terraform-hcloud-talos/commit/239f3f2cd3260af4fa2d4eb962b96e9f55ad12e3",
+    "commit_sha": "239f3f2cd3260af4fa2d4eb962b96e9f55ad12e3",
+    "parent_sha": "239f3f2cd3260af4fa2d4eb962b96e9f55ad12e3^",
+    "commit_subject": "fix: dont use the talos_cluster_health because of: https://github.com/siderolabs/talos/issues/7967#issuecomment-2003751512",
+    "commit_date": "2024-03-18T15:47:38+01:00",
+    "file": "manifest_hcloud_ccm.tf",
+    "module_dir": ".",
+    "holder_address": "kubectl_manifest.apply_hcloud_ccm",
+    "added_targets": [
+      "data.helm_template.cilium"
+    ],
+    "pre_existing_targets": [
+      "data.talos_cluster_health.this"
+    ],
+    "already_implicit": {
+      "data.helm_template.cilium": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/hcloud-talos/terraform-hcloud-talos/commit/b12d4de9f618702fc647ada30f1ca1057b15dfe4",
+    "commit_sha": "b12d4de9f618702fc647ada30f1ca1057b15dfe4",
+    "parent_sha": "b12d4de9f618702fc647ada30f1ca1057b15dfe4^",
+    "commit_subject": "feat: Working version with Cilium",
+    "commit_date": "2024-03-18T02:59:09+01:00",
+    "file": "talos.tf",
+    "module_dir": ".",
+    "holder_address": "talos_machine_bootstrap.this",
+    "added_targets": [
+      "hcloud_server.control_planes"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_server.control_planes": true
+    },
+    "verify_error": null
+  }
+]

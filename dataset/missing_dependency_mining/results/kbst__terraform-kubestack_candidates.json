@@ -1,0 +1,290 @@
+[
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/2f00fcdb81b614cc3dfdae4736daeb9de6169597",
+    "commit_sha": "2f00fcdb81b614cc3dfdae4736daeb9de6169597",
+    "parent_sha": "2f00fcdb81b614cc3dfdae4736daeb9de6169597^",
+    "commit_subject": "Refactor tests to use cluster service modules for ingress",
+    "commit_date": "2021-06-01T15:38:57+02:00",
+    "file": "google/_modules/gke/kubeconfig.tf",
+    "module_dir": "google/_modules/gke",
+    "holder_address": "data.template_file.kubeconfig",
+    "added_targets": [
+      "module.node_pool"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.node_pool": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/e5caa6d20926d546a045144ebe79c7cc8c0b4c8a",
+    "commit_sha": "e5caa6d20926d546a045144ebe79c7cc8c0b4c8a",
+    "parent_sha": "e5caa6d20926d546a045144ebe79c7cc8c0b4c8a^",
+    "commit_subject": "Replace kustomize/kubectl provisioner with a kustomize provider",
+    "commit_date": "2020-01-26T13:45:22+01:00",
+    "file": "aws/_modules/eks/ingress.tf",
+    "module_dir": "aws/_modules/eks",
+    "holder_address": "kubernetes_service.current",
+    "added_targets": [
+      "module.cluster_services"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.cluster_services": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/e5caa6d20926d546a045144ebe79c7cc8c0b4c8a",
+    "commit_sha": "e5caa6d20926d546a045144ebe79c7cc8c0b4c8a",
+    "parent_sha": "e5caa6d20926d546a045144ebe79c7cc8c0b4c8a^",
+    "commit_subject": "Replace kustomize/kubectl provisioner with a kustomize provider",
+    "commit_date": "2020-01-26T13:45:22+01:00",
+    "file": "azurerm/_modules/aks/ingress.tf",
+    "module_dir": "azurerm/_modules/aks",
+    "holder_address": "kubernetes_service.current",
+    "added_targets": [
+      "module.cluster_services"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.cluster_services": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/e5caa6d20926d546a045144ebe79c7cc8c0b4c8a",
+    "commit_sha": "e5caa6d20926d546a045144ebe79c7cc8c0b4c8a",
+    "parent_sha": "e5caa6d20926d546a045144ebe79c7cc8c0b4c8a^",
+    "commit_subject": "Replace kustomize/kubectl provisioner with a kustomize provider",
+    "commit_date": "2020-01-26T13:45:22+01:00",
+    "file": "google/_modules/gke/ingress.tf",
+    "module_dir": "google/_modules/gke",
+    "holder_address": "kubernetes_service.current",
+    "added_targets": [
+      "module.cluster_services"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.cluster_services": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/1477583f7c693fc5eaafdf6387c5a2dc5f742c8c",
+    "commit_sha": "1477583f7c693fc5eaafdf6387c5a2dc5f742c8c",
+    "parent_sha": "1477583f7c693fc5eaafdf6387c5a2dc5f742c8c^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Kind modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "kind/_modules/kind/cluster_services.tf",
+    "module_dir": "kind/_modules/kind",
+    "holder_address": "data.local_file.kubeconfig",
+    "added_targets": [
+      "null_resource.cluster"
+    ],
+    "pre_existing_targets": [
+      "\"null_resource.cluster\""
+    ],
+    "already_implicit": {
+      "null_resource.cluster": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/1477583f7c693fc5eaafdf6387c5a2dc5f742c8c",
+    "commit_sha": "1477583f7c693fc5eaafdf6387c5a2dc5f742c8c",
+    "parent_sha": "1477583f7c693fc5eaafdf6387c5a2dc5f742c8c^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Kind modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "kind/_modules/kind/ingress.tf",
+    "module_dir": "kind/_modules/kind",
+    "holder_address": "kubernetes_namespace.current",
+    "added_targets": [
+      "null_resource.cluster"
+    ],
+    "pre_existing_targets": [
+      "\"null_resource.cluster\""
+    ],
+    "already_implicit": {
+      "null_resource.cluster": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/1477583f7c693fc5eaafdf6387c5a2dc5f742c8c",
+    "commit_sha": "1477583f7c693fc5eaafdf6387c5a2dc5f742c8c",
+    "parent_sha": "1477583f7c693fc5eaafdf6387c5a2dc5f742c8c^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Kind modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "kind/_modules/kind/main.tf",
+    "module_dir": "kind/_modules/kind",
+    "holder_address": "null_resource.cluster",
+    "added_targets": [
+      "local_file.config"
+    ],
+    "pre_existing_targets": [
+      "\"local_file.config\""
+    ],
+    "already_implicit": {
+      "local_file.config": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/c5f6efadf387a7208efdc42282067abf7fcb15c6",
+    "commit_sha": "c5f6efadf387a7208efdc42282067abf7fcb15c6",
+    "parent_sha": "c5f6efadf387a7208efdc42282067abf7fcb15c6^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Google modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "google/_modules/gke/cluster_role_binding.tf",
+    "module_dir": "google/_modules/gke",
+    "holder_address": "kubernetes_cluster_role_binding.current",
+    "added_targets": [
+      "google_container_cluster.current"
+    ],
+    "pre_existing_targets": [
+      "\"google_container_cluster.current\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 37, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/c5f6efadf387a7208efdc42282067abf7fcb15c6",
+    "commit_sha": "c5f6efadf387a7208efdc42282067abf7fcb15c6",
+    "parent_sha": "c5f6efadf387a7208efdc42282067abf7fcb15c6^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Google modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "google/_modules/gke/ingress.tf",
+    "module_dir": "google/_modules/gke",
+    "holder_address": "kubernetes_namespace.current",
+    "added_targets": [
+      "module.node_pool"
+    ],
+    "pre_existing_targets": [
+      "\"module.node_pool\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 37, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/6e17769d5c85ce3f891269dde2374e78595ef28c",
+    "commit_sha": "6e17769d5c85ce3f891269dde2374e78595ef28c",
+    "parent_sha": "6e17769d5c85ce3f891269dde2374e78595ef28c^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Azure modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "azurerm/_modules/aks/ingress.tf",
+    "module_dir": "azurerm/_modules/aks",
+    "holder_address": "azurerm_public_ip.current",
+    "added_targets": [
+      "azurerm_kubernetes_cluster.current"
+    ],
+    "pre_existing_targets": [
+      "\"azurerm_kubernetes_cluster.current\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 41, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/6e17769d5c85ce3f891269dde2374e78595ef28c",
+    "commit_sha": "6e17769d5c85ce3f891269dde2374e78595ef28c",
+    "parent_sha": "6e17769d5c85ce3f891269dde2374e78595ef28c^",
+    "commit_subject": "Run `terraform 0.12upgrade` for Azure modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "azurerm/_modules/aks/ingress.tf",
+    "module_dir": "azurerm/_modules/aks",
+    "holder_address": "kubernetes_namespace.current",
+    "added_targets": [
+      "azurerm_kubernetes_cluster.current"
+    ],
+    "pre_existing_targets": [
+      "\"azurerm_kubernetes_cluster.current\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 41, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/2717da6b31221b37696854c4b9174464e47af3ac",
+    "commit_sha": "2717da6b31221b37696854c4b9174464e47af3ac",
+    "parent_sha": "2717da6b31221b37696854c4b9174464e47af3ac^",
+    "commit_subject": "Run `terraform 0.12upgrade` for AWS modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "aws/_modules/eks/aws_iam_authenticator.tf",
+    "module_dir": "aws/_modules/eks",
+    "holder_address": "kubernetes_config_map.current",
+    "added_targets": [
+      "aws_eks_cluster.current"
+    ],
+    "pre_existing_targets": [
+      "\"aws_eks_cluster.current\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 29, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/2717da6b31221b37696854c4b9174464e47af3ac",
+    "commit_sha": "2717da6b31221b37696854c4b9174464e47af3ac",
+    "parent_sha": "2717da6b31221b37696854c4b9174464e47af3ac^",
+    "commit_subject": "Run `terraform 0.12upgrade` for AWS modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "aws/_modules/eks/ingress.tf",
+    "module_dir": "aws/_modules/eks",
+    "holder_address": "kubernetes_namespace.current",
+    "added_targets": [
+      "aws_eks_cluster.current"
+    ],
+    "pre_existing_targets": [
+      "\"aws_eks_cluster.current\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 29, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/kbst/terraform-kubestack/commit/2717da6b31221b37696854c4b9174464e47af3ac",
+    "commit_sha": "2717da6b31221b37696854c4b9174464e47af3ac",
+    "parent_sha": "2717da6b31221b37696854c4b9174464e47af3ac^",
+    "commit_subject": "Run `terraform 0.12upgrade` for AWS modules",
+    "commit_date": "2019-06-16T14:02:03+02:00",
+    "file": "aws/_modules/eks/master.tf",
+    "module_dir": "aws/_modules/eks",
+    "holder_address": "aws_eks_cluster.current",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.master_cluster_policy",
+      "aws_iam_role_policy_attachment.master_service_policy"
+    ],
+    "pre_existing_targets": [
+      "\"aws_iam_role_policy_attachment.master_cluster_policy\"",
+      "\"aws_iam_role_policy_attachment.master_service_policy\""
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('DBLQUOTE', '\"') at line 29, column 7.\nExpected one of: \n\t* NULL\n\t* RBRACE\n\t* ENDIF\n\t* ELSE\n\t* TRUE\n\t* FOR_EACH\n\t* IN\n\t* FALSE\n\t* IF\n\t* ENDFOR\n\t* NL_OR_COMMENT\n\t* NAME\n\t* FOR\nPrevious tokens: [Token('NL_OR_COMMENT', '\\n      ')]\n"
+  }
+]

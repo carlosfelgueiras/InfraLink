@@ -1,0 +1,23 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/transcend-io__terragrunt-atlantis-config --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/transcend-io__terragrunt-atlantis-config_candidates.json --github-repo transcend-io/terragrunt-atlantis-config --verbose
+[1/7] d967154b4a
+[2/7] 78d944a533
+[3/7] 42554c62a0
+[4/7] 917f9bf705
+[5/7] 9537b115ac
+[6/7] 24eb466fd6
+[7/7] 56afc9ad31
+Found 0 candidate (holder, added target) fixes.
+Wrote 0 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/transcend-io__terragrunt-atlantis-config_candidates.json (0 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/transcend-io__terragrunt-atlantis-config_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/transcend-io__terragrunt-atlantis-config_trustworthy.json --verbose
+
+-- per-filter failure counts --
+  no_pr_number: 0
+  verify_error: 0
+  redundant: 0
+  passed all filters: 0
+  total candidates: 0
+0/0 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/transcend-io__terragrunt-atlantis-config_trustworthy.json
+

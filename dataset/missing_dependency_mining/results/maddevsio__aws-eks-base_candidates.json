@@ -1,0 +1,246 @@
+[
+  {
+    "pr_number": 324,
+    "pr_url": "https://github.com/maddevsio/aws-eks-base/pull/324",
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/681f5772e195bb328b3f5888af1cf90fc672d22b",
+    "commit_sha": "681f5772e195bb328b3f5888af1cf90fc672d22b",
+    "parent_sha": "681f5772e195bb328b3f5888af1cf90fc672d22b^",
+    "commit_subject": "enh: #319 updated k8s version, updated dependent resources and small bugfixes (#324)",
+    "commit_date": "2023-08-24T11:46:16+06:00",
+    "file": "terraform/layer1-aws/aws-cloudtrail.tf",
+    "module_dir": "terraform/layer1-aws",
+    "holder_address": "aws_cloudtrail.main",
+    "added_targets": [
+      "aws_s3_bucket_policy.cloudtrail"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "aws_s3_bucket_policy.cloudtrail": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 271,
+    "pr_url": "https://github.com/maddevsio/aws-eks-base/pull/271",
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/82fca5af788109fcd3bd91f600da96991042e02d",
+    "commit_sha": "82fca5af788109fcd3bd91f600da96991042e02d",
+    "parent_sha": "82fca5af788109fcd3bd91f600da96991042e02d^",
+    "commit_subject": "enh: update used helm-charts to the latest versions (#271)",
+    "commit_date": "2022-04-21T13:39:08+06:00",
+    "file": "terraform/layer2-k8s/eks-victoria-metrics-k8s-stack.tf",
+    "module_dir": "terraform/layer2-k8s",
+    "holder_address": "helm_release.victoria_metrics_k8s_stack",
+    "added_targets": [
+      "helm_release.ingress_nginx"
+    ],
+    "pre_existing_targets": [
+      "helm_release.calico_daemonset",
+      "kubectl_manifest.kube_prometheus_stack_operator_crds"
+    ],
+    "already_implicit": {
+      "helm_release.ingress_nginx": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/43e14dd8e4b558ccb846ced8a855306cbd210be1",
+    "commit_sha": "43e14dd8e4b558ccb846ced8a855306cbd210be1",
+    "parent_sha": "43e14dd8e4b558ccb846ced8a855306cbd210be1^",
+    "commit_subject": "add depends_on for all aws_eks_addon, add info about it to README.md",
+    "commit_date": "2021-10-11T18:03:49+06:00",
+    "file": "terraform/layer1-aws/aws-eks.tf",
+    "module_dir": "terraform/layer1-aws",
+    "holder_address": "aws_eks_addon.vpc_cni",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/43e14dd8e4b558ccb846ced8a855306cbd210be1",
+    "commit_sha": "43e14dd8e4b558ccb846ced8a855306cbd210be1",
+    "parent_sha": "43e14dd8e4b558ccb846ced8a855306cbd210be1^",
+    "commit_subject": "add depends_on for all aws_eks_addon, add info about it to README.md",
+    "commit_date": "2021-10-11T18:03:49+06:00",
+    "file": "terraform/layer1-aws/aws-eks.tf",
+    "module_dir": "terraform/layer1-aws",
+    "holder_address": "aws_eks_addon.kube_proxy",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.eks": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/d1e582d67412abd89cf73276f027e5c8394b7ef2",
+    "commit_sha": "d1e582d67412abd89cf73276f027e5c8394b7ef2",
+    "parent_sha": "d1e582d67412abd89cf73276f027e5c8394b7ef2^",
+    "commit_subject": "add depends_on for aws_eks_addon coredns",
+    "commit_date": "2021-10-09T19:28:52+06:00",
+    "file": "terraform/layer1-aws/aws-eks.tf",
+    "module_dir": "terraform/layer1-aws",
+    "holder_address": "aws_eks_addon.coredns",
+    "added_targets": [
+      "module.eks"
+    ],
+    "pre_existing_targets": [
+      "module.vpc"
+    ],
+    "already_implicit": {
+      "module.eks": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/4800bcac73d75c3f47d2d393508a50b813faec28",
+    "commit_sha": "4800bcac73d75c3f47d2d393508a50b813faec28",
+    "parent_sha": "4800bcac73d75c3f47d2d393508a50b813faec28^",
+    "commit_subject": "add depends_on for aws_eks_addon coredns",
+    "commit_date": "2021-10-08T19:26:40+06:00",
+    "file": "terraform/layer1-aws/aws-eks.tf",
+    "module_dir": "terraform/layer1-aws",
+    "holder_address": "aws_eks_addon.coredns",
+    "added_targets": [
+      "module.vpc"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.vpc": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/337345ca3679f9f0bad1a3411768b1f7aaf5cd9f",
+    "commit_sha": "337345ca3679f9f0bad1a3411768b1f7aaf5cd9f",
+    "parent_sha": "337345ca3679f9f0bad1a3411768b1f7aaf5cd9f^",
+    "commit_subject": "add depends_on for eks module",
+    "commit_date": "2021-10-07T15:42:37+06:00",
+    "file": "terraform/layer1-aws/aws-eks.tf",
+    "module_dir": "terraform/layer1-aws",
+    "holder_address": "module.eks",
+    "added_targets": [
+      "module.vpc"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "module.vpc": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/2f80be1890794daca28160ed5ff19f5887d3838b",
+    "commit_sha": "2f80be1890794daca28160ed5ff19f5887d3838b",
+    "parent_sha": "2f80be1890794daca28160ed5ff19f5887d3838b^",
+    "commit_subject": "#52 added depends_on for cluster-autoscaler, loki-stack and nginx-ingress",
+    "commit_date": "2021-05-04T11:42:45+03:00",
+    "file": "terraform/layer2-k8s/eks-cluster-autoscaler.tf",
+    "module_dir": "terraform/layer2-k8s",
+    "holder_address": "helm_release.cluster_autoscaler",
+    "added_targets": [
+      "helm_release.prometheus_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "helm_release.prometheus_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/2f80be1890794daca28160ed5ff19f5887d3838b",
+    "commit_sha": "2f80be1890794daca28160ed5ff19f5887d3838b",
+    "parent_sha": "2f80be1890794daca28160ed5ff19f5887d3838b^",
+    "commit_subject": "#52 added depends_on for cluster-autoscaler, loki-stack and nginx-ingress",
+    "commit_date": "2021-05-04T11:42:45+03:00",
+    "file": "terraform/layer2-k8s/eks-loki-stack.tf",
+    "module_dir": "terraform/layer2-k8s",
+    "holder_address": "helm_release.loki_stack",
+    "added_targets": [
+      "helm_release.prometheus_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "helm_release.prometheus_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/2f80be1890794daca28160ed5ff19f5887d3838b",
+    "commit_sha": "2f80be1890794daca28160ed5ff19f5887d3838b",
+    "parent_sha": "2f80be1890794daca28160ed5ff19f5887d3838b^",
+    "commit_subject": "#52 added depends_on for cluster-autoscaler, loki-stack and nginx-ingress",
+    "commit_date": "2021-05-04T11:42:45+03:00",
+    "file": "terraform/layer2-k8s/eks-nginx-ingress-controller.tf",
+    "module_dir": "terraform/layer2-k8s",
+    "holder_address": "helm_release.nginx_ingress",
+    "added_targets": [
+      "helm_release.prometheus_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "helm_release.prometheus_operator": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/1b7669c8330f6a613d47b7bd61a6386f59ff11b9",
+    "commit_sha": "1b7669c8330f6a613d47b7bd61a6386f59ff11b9",
+    "parent_sha": "1b7669c8330f6a613d47b7bd61a6386f59ff11b9^",
+    "commit_subject": "changed dependencies for istio and kiali",
+    "commit_date": "2021-01-15T11:02:25+06:00",
+    "file": "terraform/layer2-k8s/examples/eks-istio.tf",
+    "module_dir": "terraform/layer2-k8s/examples",
+    "holder_address": "helm_release.istio_operator_resources",
+    "added_targets": [
+      "helm_release.prometheus_operator"
+    ],
+    "pre_existing_targets": [
+      "helm_release.istio_operator"
+    ],
+    "already_implicit": null,
+    "verify_error": "FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/t4/zj1bbwhd23bgwg0f1j7hlvt00000gn/T/cff-archive-g2ybc0l9/terraform/layer2-k8s/modules/aws-iam-grafana'"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/maddevsio/aws-eks-base/commit/1b7669c8330f6a613d47b7bd61a6386f59ff11b9",
+    "commit_sha": "1b7669c8330f6a613d47b7bd61a6386f59ff11b9",
+    "parent_sha": "1b7669c8330f6a613d47b7bd61a6386f59ff11b9^",
+    "commit_subject": "changed dependencies for istio and kiali",
+    "commit_date": "2021-01-15T11:02:25+06:00",
+    "file": "terraform/layer2-k8s/examples/eks-istio.tf",
+    "module_dir": "terraform/layer2-k8s/examples",
+    "holder_address": "helm_release.kiali",
+    "added_targets": [
+      "helm_release.istio_operator",
+      "helm_release.prometheus_operator"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": null,
+    "verify_error": "FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/t4/zj1bbwhd23bgwg0f1j7hlvt00000gn/T/cff-archive-g2ybc0l9/terraform/layer2-k8s/modules/aws-iam-grafana'"
+  }
+]

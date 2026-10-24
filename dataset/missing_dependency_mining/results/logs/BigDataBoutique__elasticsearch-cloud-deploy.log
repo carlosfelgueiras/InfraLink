@@ -1,0 +1,124 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/BigDataBoutique__elasticsearch-cloud-deploy --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/BigDataBoutique__elasticsearch-cloud-deploy_candidates.json --github-repo BigDataBoutique/elasticsearch-cloud-deploy --verbose
+[1/102] 4ff695d5f9
+[2/102] d7880b7220
+[3/102] 9e4ec59462
+[4/102] 7c332e1b10
+[5/102] 699b3650bf
+[6/102] c5e4ad8e58
+[7/102] 48dc995d82
+[8/102] f5533d2c40
+[9/102] 08f01351c0
+[10/102] cc38fe32b6
+[11/102] 623d7aa1e2
+[12/102] 9b0d768379
+[13/102] 713f2eba9a
+[14/102] bfac3e86e0
+[15/102] 5935b3f073
+[16/102] 6d10a60acc
+[17/102] 55b7e23cc7
+[18/102] fe8f636291
+[19/102] ab6dcce739
+[20/102] 4c3433bf35
+[21/102] 8dc0e69fbd
+[22/102] 64792f9eea
+[23/102] a7140e73d4
+[24/102] 32753b59c5
+[25/102] af1755dee8
+[26/102] e09611ecfb
+[27/102] 45c34fc775
+[28/102] eb1d91036c
+[29/102] 76848f59d3
+[30/102] 6324788576
+[31/102] be59ef6e5d
+[32/102] 3f00372ce6
+[33/102] ac4023cf3f
+[34/102] 7506c71492
+[35/102] 1363596b55
+[36/102] 94f7761796
+[37/102] 7fd1dd58e4
+[38/102] 03b353562d
+[39/102] 84345939bd
+[40/102] f776fb5807
+[41/102] 9c08554cb4
+[42/102] 8e7a991475
+[43/102] 5548e74927
+[44/102] f885f4e706
+[45/102] e8427f4c78
+[46/102] 8d4e21c90f
+[47/102] 4a8d6108c5
+[48/102] 5ce3b4d302
+[49/102] e53baa0ccd
+[50/102] 5fbe4da0c3
+[51/102] 205573d28c
+[52/102] b8131eaec0
+[53/102] e1ed0d17ff
+[54/102] 62787b8094
+[55/102] ff3c6d8a69
+[56/102] b8f7f76a33
+[57/102] c788a2b605
+[58/102] 6d3ae2737f
+[59/102] f62e29472b
+[60/102] 726b50d2cd
+[61/102] 17434ff684
+[62/102] f9353f6b3c
+[63/102] 10351cdc9e
+[64/102] 19f79c3c71
+[65/102] bf77f6c27f
+[66/102] 1ca0e542ec
+[67/102] 785fdb82e7
+[68/102] 02fa1ae510
+[69/102] 2ba32432c8
+[70/102] 6062aadd3f
+[71/102] 701d1feb0f
+[72/102] 41a09f8d27
+[73/102] e43ba0c099
+[74/102] 3717cf166e
+[75/102] 139f542ef3
+[76/102] 7f3632a84c
+[77/102] 58e3472de7
+[78/102] 608b96c555
+[79/102] f53b432988
+[80/102] 0b2014562e
+[81/102] fe41258d7a
+[82/102] d2b8e236e8
+[83/102] ade73fc649
+[84/102] 49eab311bf
+[85/102] ddb551f979
+[86/102] cf2ae4959c
+[87/102] ac4567cd0c
+[88/102] fc659297ef
+[89/102] d8a14c0d1f
+[90/102] e58f02655c
+[91/102] f5bcb60ddb
+[92/102] c4eae313e0
+[93/102] 735a63f8be
+[94/102] c9049cc717
+[95/102] e04fc00ea4
+[96/102] fee21b5146
+[97/102] da4f085890
+[98/102] 1a1e643fa0
+[99/102] 2446aa64a7
+[100/102] c3a6d8a723
+[101/102] ad0a9050a9
+[102/102] cfcd6f5f5f
+Found 3 candidate (holder, added target) fixes.
+  PR lookup failed for 4c3433bf35: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+verifying commit-group [1/2] 4c3433bf35f7 (1 candidate(s))
+verifying commit-group [2/2] 94f7761796e9 (2 candidate(s))
+Wrote 3 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/BigDataBoutique__elasticsearch-cloud-deploy_candidates.json (3 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/BigDataBoutique__elasticsearch-cloud-deploy_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/BigDataBoutique__elasticsearch-cloud-deploy_trustworthy.json --verbose
+FAIL [no_pr_number]  4c3433bf35 terraform-gcp/masters.tf null_resource.cluster_bootstrap_state
+PASS  PR#84 terraform-aws/datas.tf aws_autoscaling_group.data_nodes
+PASS  PR#84 terraform-aws/masters.tf null_resource.cluster_bootstrap_state
+
+-- per-filter failure counts --
+  no_pr_number: 1
+  verify_error: 0
+  redundant: 0
+  passed all filters: 2
+  total candidates: 3
+2/3 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/BigDataBoutique__elasticsearch-cloud-deploy_trustworthy.json
+

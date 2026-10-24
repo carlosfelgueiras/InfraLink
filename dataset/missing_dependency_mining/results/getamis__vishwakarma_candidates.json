@@ -1,0 +1,93 @@
+[
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/getamis/vishwakarma/commit/305abbf66a78efd259e8a8865dbcc68431b2c3d9",
+    "commit_sha": "305abbf66a78efd259e8a8865dbcc68431b2c3d9",
+    "parent_sha": "305abbf66a78efd259e8a8865dbcc68431b2c3d9^",
+    "commit_subject": "Fix terraform fmt and remove unnecessary codes",
+    "commit_date": "2019-12-09T18:08:24+08:00",
+    "file": "modules/aws/eks/aws-iam-auth.tf",
+    "module_dir": "modules/aws/eks",
+    "holder_address": "null_resource.update_config_map_aws_auth",
+    "added_targets": [
+      "aws_eks_cluster.vishwakarma"
+    ],
+    "pre_existing_targets": [
+      "\"aws_eks_cluster.vishwakarma\""
+    ],
+    "already_implicit": {
+      "aws_eks_cluster.vishwakarma": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/getamis/vishwakarma/commit/305abbf66a78efd259e8a8865dbcc68431b2c3d9",
+    "commit_sha": "305abbf66a78efd259e8a8865dbcc68431b2c3d9",
+    "parent_sha": "305abbf66a78efd259e8a8865dbcc68431b2c3d9^",
+    "commit_subject": "Fix terraform fmt and remove unnecessary codes",
+    "commit_date": "2019-12-09T18:08:24+08:00",
+    "file": "modules/aws/eks/eks.tf",
+    "module_dir": "modules/aws/eks",
+    "holder_address": "aws_eks_cluster.vishwakarma",
+    "added_targets": [
+      "aws_iam_role_policy_attachment.eks_cluster",
+      "aws_iam_role_policy_attachment.eks_service"
+    ],
+    "pre_existing_targets": [
+      "\"aws_iam_role_policy_attachment.eks_cluster\"",
+      "\"aws_iam_role_policy_attachment.eks_service\""
+    ],
+    "already_implicit": {
+      "aws_iam_role_policy_attachment.eks_cluster": false,
+      "aws_iam_role_policy_attachment.eks_service": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/getamis/vishwakarma/commit/867f0f3387d6a54aaf154aba2c642d73540035d9",
+    "commit_sha": "867f0f3387d6a54aaf154aba2c642d73540035d9",
+    "parent_sha": "867f0f3387d6a54aaf154aba2c642d73540035d9^",
+    "commit_subject": "Remove the quotes around variable",
+    "commit_date": "2019-12-02T15:31:35+08:00",
+    "file": "modules/aws/network/vpc-private.tf",
+    "module_dir": "modules/aws/network",
+    "holder_address": "aws_route.to_nat_gw",
+    "added_targets": [
+      "aws_route_table.private_routes"
+    ],
+    "pre_existing_targets": [
+      "\"aws_route_table.private_routes\""
+    ],
+    "already_implicit": {
+      "aws_route_table.private_routes": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/getamis/vishwakarma/commit/867f0f3387d6a54aaf154aba2c642d73540035d9",
+    "commit_sha": "867f0f3387d6a54aaf154aba2c642d73540035d9",
+    "parent_sha": "867f0f3387d6a54aaf154aba2c642d73540035d9^",
+    "commit_subject": "Remove the quotes around variable",
+    "commit_date": "2019-12-02T15:31:35+08:00",
+    "file": "modules/aws/network/vpc-public.tf",
+    "module_dir": "modules/aws/network",
+    "holder_address": "aws_eip.nat_eip",
+    "added_targets": [
+      "aws_internet_gateway.igw"
+    ],
+    "pre_existing_targets": [
+      "\"aws_internet_gateway.igw\""
+    ],
+    "already_implicit": {
+      "aws_internet_gateway.igw": false
+    },
+    "verify_error": null
+  }
+]

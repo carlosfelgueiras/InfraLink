@@ -1,0 +1,507 @@
+[
+  {
+    "pr_number": 3496,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/3496",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/8bfc3cf5797bb438fc01a084caf48ed74a19b328",
+    "commit_sha": "8bfc3cf5797bb438fc01a084caf48ed74a19b328",
+    "parent_sha": "8bfc3cf5797bb438fc01a084caf48ed74a19b328^",
+    "commit_subject": "Pass email addresses context to organization module in stage 0 (#3496)",
+    "commit_date": "2025-11-03T08:43:15Z",
+    "file": "modules/organization/main.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_essential_contacts_contact.contact",
+    "added_targets": [
+      "google_org_policy_policy.default"
+    ],
+    "pre_existing_targets": [
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_binding.bindings",
+      "google_organization_iam_member.bindings"
+    ],
+    "already_implicit": {
+      "google_org_policy_policy.default": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 3410,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/3410",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/c60ae3652a25d74b1d30b5584654c0e733c48822",
+    "commit_sha": "c60ae3652a25d74b1d30b5584654c0e733c48822",
+    "parent_sha": "c60ae3652a25d74b1d30b5584654c0e733c48822^",
+    "commit_subject": "Adding hardened datasets for preventive and detective Compliance Controls (#3410)",
+    "commit_date": "2025-10-21T10:34:25Z",
+    "file": "modules/organization/scc-sha-custom-modules.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_scc_management_organization_security_health_analytics_custom_module.scc_organization_custom_module",
+    "added_targets": [
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_binding.bindings",
+      "google_organization_iam_member.bindings"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_organization_iam_binding.authoritative": false,
+      "google_organization_iam_binding.bindings": false,
+      "google_organization_iam_member.bindings": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 3425,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/3425",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/7c6211a494f46e5bb3f9a8595c7a03483dfc4363",
+    "commit_sha": "7c6211a494f46e5bb3f9a8595c7a03483dfc4363",
+    "parent_sha": "7c6211a494f46e5bb3f9a8595c7a03483dfc4363^",
+    "commit_subject": "bigquery-dataset: fix issues (#3425)",
+    "commit_date": "2025-10-16T13:12:23Z",
+    "file": "modules/bigquery-dataset/main.tf",
+    "module_dir": "modules/bigquery-dataset",
+    "holder_address": "google_bigquery_table.views",
+    "added_targets": [
+      "google_bigquery_routine.default"
+    ],
+    "pre_existing_targets": [
+      "google_bigquery_table.default"
+    ],
+    "already_implicit": {
+      "google_bigquery_routine.default": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 3372,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/3372",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/cfe2e21ce76c3de3c85e1f87d9c21f56e0a0ce2f",
+    "commit_sha": "cfe2e21ce76c3de3c85e1f87d9c21f56e0a0ce2f",
+    "parent_sha": "cfe2e21ce76c3de3c85e1f87d9c21f56e0a0ce2f^",
+    "commit_subject": "feat: add support for SCC Custom Security Health Analytics module in \u2026 (#3372)",
+    "commit_date": "2025-10-03T13:47:50+02:00",
+    "file": "modules/project/alerts.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_monitoring_alert_policy.alerts",
+    "added_targets": [
+      "google_logging_metric.metrics"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_logging_metric.metrics": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2981,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2981",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/b3d95ba88bda0934ad96de7229b0b51de2fb7403",
+    "commit_sha": "b3d95ba88bda0934ad96de7229b0b51de2fb7403",
+    "parent_sha": "b3d95ba88bda0934ad96de7229b0b51de2fb7403^",
+    "commit_subject": "Fix issue 2978 (#2981)",
+    "commit_date": "2025-03-21T22:20:36Z",
+    "file": "modules/project/shared-vpc.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_compute_shared_vpc_service_project.shared_vpc_service",
+    "added_targets": [
+      "google_access_context_manager_service_perimeter_dry_run_resource.default",
+      "google_access_context_manager_service_perimeter_resource.default"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_access_context_manager_service_perimeter_dry_run_resource.default": false,
+      "google_access_context_manager_service_perimeter_resource.default": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2495,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2495",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/d5210d599fead5325d20dd44b61e041e9a3ee42f",
+    "commit_sha": "d5210d599fead5325d20dd44b61e041e9a3ee42f",
+    "parent_sha": "d5210d599fead5325d20dd44b61e041e9a3ee42f^",
+    "commit_subject": "ensure dns_keys output freshness (#2495)",
+    "commit_date": "2024-08-09T14:33:54Z",
+    "file": "modules/dns/main.tf",
+    "module_dir": "modules/dns",
+    "holder_address": "data.google_dns_keys.dns_keys",
+    "added_targets": [
+      "google_dns_managed_zone.dns_managed_zone"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_dns_managed_zone.dns_managed_zone": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2321,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2321",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/941a35ab691285175a50dc035b8f8b44015b69ae",
+    "commit_sha": "941a35ab691285175a50dc035b8f8b44015b69ae",
+    "parent_sha": "941a35ab691285175a50dc035b8f8b44015b69ae^",
+    "commit_subject": "Fixed e2e tests for alloydb module (#2321)",
+    "commit_date": "2024-05-30T11:41:15+02:00",
+    "file": "modules/alloydb/main.tf",
+    "module_dir": "modules/alloydb",
+    "holder_address": "google_alloydb_user.users",
+    "added_targets": [
+      "google_alloydb_instance.primary"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_alloydb_instance.primary": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2010,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2010",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/6d9b6403ddd80e47b0c20ae8f072f6493b922e6d",
+    "commit_sha": "6d9b6403ddd80e47b0c20ae8f072f6493b922e6d",
+    "parent_sha": "6d9b6403ddd80e47b0c20ae8f072f6493b922e6d^",
+    "commit_subject": "add support for essential contacts to FAST (#2010)",
+    "commit_date": "2024-01-25T12:20:14+01:00",
+    "file": "modules/folder/main.tf",
+    "module_dir": "modules/folder",
+    "holder_address": "google_essential_contacts_contact.contact",
+    "added_targets": [
+      "google_folder_iam_binding.authoritative",
+      "google_folder_iam_binding.bindings",
+      "google_folder_iam_member.bindings"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_folder_iam_binding.authoritative": false,
+      "google_folder_iam_binding.bindings": false,
+      "google_folder_iam_member.bindings": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2010,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2010",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/6d9b6403ddd80e47b0c20ae8f072f6493b922e6d",
+    "commit_sha": "6d9b6403ddd80e47b0c20ae8f072f6493b922e6d",
+    "parent_sha": "6d9b6403ddd80e47b0c20ae8f072f6493b922e6d^",
+    "commit_subject": "add support for essential contacts to FAST (#2010)",
+    "commit_date": "2024-01-25T12:20:14+01:00",
+    "file": "modules/organization/main.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_essential_contacts_contact.contact",
+    "added_targets": [
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_binding.bindings",
+      "google_organization_iam_member.bindings"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_organization_iam_binding.authoritative": false,
+      "google_organization_iam_binding.bindings": false,
+      "google_organization_iam_member.bindings": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2010,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2010",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/6d9b6403ddd80e47b0c20ae8f072f6493b922e6d",
+    "commit_sha": "6d9b6403ddd80e47b0c20ae8f072f6493b922e6d",
+    "parent_sha": "6d9b6403ddd80e47b0c20ae8f072f6493b922e6d^",
+    "commit_subject": "add support for essential contacts to FAST (#2010)",
+    "commit_date": "2024-01-25T12:20:14+01:00",
+    "file": "modules/project/main.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_essential_contacts_contact.contact",
+    "added_targets": [
+      "google_project_iam_binding.authoritative",
+      "google_project_iam_binding.bindings",
+      "google_project_iam_member.bindings"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_project_iam_binding.authoritative": false,
+      "google_project_iam_binding.bindings": false,
+      "google_project_iam_member.bindings": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 2009,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/2009",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/c5416f3af127efc42f97ba2197bdf0306cf967a0",
+    "commit_sha": "c5416f3af127efc42f97ba2197bdf0306cf967a0",
+    "parent_sha": "c5416f3af127efc42f97ba2197bdf0306cf967a0^",
+    "commit_subject": "Tighten up security of automation project (CSPR-related) (#2009)",
+    "commit_date": "2024-01-24T18:40:36Z",
+    "file": "modules/project/main.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_project_service.project_services",
+    "added_targets": [
+      "google_org_policy_policy.default"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_org_policy_policy.default": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1823,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/1823",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/fe485414e67b5a0ffb11ce1c65871834e05cfa77",
+    "commit_sha": "fe485414e67b5a0ffb11ce1c65871834e05cfa77",
+    "parent_sha": "fe485414e67b5a0ffb11ce1c65871834e05cfa77^",
+    "commit_subject": "Add end-to-end tests for project module (#1823)",
+    "commit_date": "2023-11-03T18:04:19+01:00",
+    "file": "modules/project/logging.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_logging_project_sink.sink",
+    "added_targets": [
+      "google_project_service.project_services"
+    ],
+    "pre_existing_targets": [
+      "google_project_iam_binding.authoritative",
+      "google_project_iam_binding.bindings",
+      "google_project_iam_member.bindings"
+    ],
+    "already_implicit": {
+      "google_project_service.project_services": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1630,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/1630",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/ce96ac31e733bdc38656ddfcc5ee5b6aa2efa5a6",
+    "commit_sha": "ce96ac31e733bdc38656ddfcc5ee5b6aa2efa5a6",
+    "parent_sha": "ce96ac31e733bdc38656ddfcc5ee5b6aa2efa5a6^",
+    "commit_subject": "[Fix] Add explicit dependency between CR peers and NCC RA spoke creation (#1630)",
+    "commit_date": "2023-08-28T15:50:46+02:00",
+    "file": "modules/ncc-spoke-ra/main.tf",
+    "module_dir": "modules/ncc-spoke-ra",
+    "holder_address": "google_compute_router_peer.peer_0",
+    "added_targets": [
+      "google_network_connectivity_spoke.spoke-ra"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_network_connectivity_spoke.spoke-ra": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1630,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/1630",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/ce96ac31e733bdc38656ddfcc5ee5b6aa2efa5a6",
+    "commit_sha": "ce96ac31e733bdc38656ddfcc5ee5b6aa2efa5a6",
+    "parent_sha": "ce96ac31e733bdc38656ddfcc5ee5b6aa2efa5a6^",
+    "commit_subject": "[Fix] Add explicit dependency between CR peers and NCC RA spoke creation (#1630)",
+    "commit_date": "2023-08-28T15:50:46+02:00",
+    "file": "modules/ncc-spoke-ra/main.tf",
+    "module_dir": "modules/ncc-spoke-ra",
+    "holder_address": "google_compute_router_peer.peer_1",
+    "added_targets": [
+      "google_network_connectivity_spoke.spoke-ra"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_network_connectivity_spoke.spoke-ra": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1426,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/1426",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/c024eca32016f198aeb601a1a5cbca285071b0f9",
+    "commit_sha": "c024eca32016f198aeb601a1a5cbca285071b0f9",
+    "parent_sha": "c024eca32016f198aeb601a1a5cbca285071b0f9^",
+    "commit_subject": "Add custom tag support to FAST (#1426)",
+    "commit_date": "2023-06-07T22:10:27Z",
+    "file": "modules/organization/organization-policies.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_org_policy_policy.default",
+    "added_targets": [
+      "google_tags_tag_key.default",
+      "google_tags_tag_value.default"
+    ],
+    "pre_existing_targets": [
+      "google_org_policy_custom_constraint.constraint",
+      "google_organization_iam_audit_config.config",
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_custom_role.roles",
+      "google_organization_iam_member.additive",
+      "google_organization_iam_policy.authoritative"
+    ],
+    "already_implicit": {
+      "google_tags_tag_key.default": false,
+      "google_tags_tag_value.default": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 582,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/582",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/ef1542c1f1dccc709b240c47e6af1689eb97cbd8",
+    "commit_sha": "ef1542c1f1dccc709b240c47e6af1689eb97cbd8",
+    "parent_sha": "ef1542c1f1dccc709b240c47e6af1689eb97cbd8^",
+    "commit_subject": "Fixed problem when destroying shared VPC host project (#582)",
+    "commit_date": "2022-03-16T07:34:09+01:00",
+    "file": "modules/project/shared-vpc.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_compute_shared_vpc_host_project.shared_vpc_host",
+    "added_targets": [
+      "google_project_service.project_services"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_project_service.project_services": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 204,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/204",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/605ec7c4d1e74ee9e86090266fdf746f87c255a5",
+    "commit_sha": "605ec7c4d1e74ee9e86090266fdf746f87c255a5",
+    "parent_sha": "605ec7c4d1e74ee9e86090266fdf746f87c255a5^",
+    "commit_subject": "depend org module resources for policy etc from IAM bindings (#204)",
+    "commit_date": "2021-03-05T08:19:39+01:00",
+    "file": "modules/organization/main.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_organization_policy.boolean",
+    "added_targets": [
+      "google_organization_iam_audit_config.config",
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_custom_role.roles",
+      "google_organization_iam_member.additive",
+      "google_organization_iam_policy.authoritative"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_organization_iam_audit_config.config": false,
+      "google_organization_iam_binding.authoritative": false,
+      "google_organization_iam_custom_role.roles": false,
+      "google_organization_iam_member.additive": false,
+      "google_organization_iam_policy.authoritative": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 204,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/204",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/605ec7c4d1e74ee9e86090266fdf746f87c255a5",
+    "commit_sha": "605ec7c4d1e74ee9e86090266fdf746f87c255a5",
+    "parent_sha": "605ec7c4d1e74ee9e86090266fdf746f87c255a5^",
+    "commit_subject": "depend org module resources for policy etc from IAM bindings (#204)",
+    "commit_date": "2021-03-05T08:19:39+01:00",
+    "file": "modules/organization/main.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_organization_policy.list",
+    "added_targets": [
+      "google_organization_iam_audit_config.config",
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_custom_role.roles",
+      "google_organization_iam_member.additive",
+      "google_organization_iam_policy.authoritative"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_organization_iam_audit_config.config": false,
+      "google_organization_iam_binding.authoritative": false,
+      "google_organization_iam_custom_role.roles": false,
+      "google_organization_iam_member.additive": false,
+      "google_organization_iam_policy.authoritative": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 204,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/204",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/605ec7c4d1e74ee9e86090266fdf746f87c255a5",
+    "commit_sha": "605ec7c4d1e74ee9e86090266fdf746f87c255a5",
+    "parent_sha": "605ec7c4d1e74ee9e86090266fdf746f87c255a5^",
+    "commit_subject": "depend org module resources for policy etc from IAM bindings (#204)",
+    "commit_date": "2021-03-05T08:19:39+01:00",
+    "file": "modules/organization/main.tf",
+    "module_dir": "modules/organization",
+    "holder_address": "google_compute_organization_security_policy.policy",
+    "added_targets": [
+      "google_organization_iam_audit_config.config",
+      "google_organization_iam_binding.authoritative",
+      "google_organization_iam_custom_role.roles",
+      "google_organization_iam_member.additive",
+      "google_organization_iam_policy.authoritative"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_organization_iam_audit_config.config": false,
+      "google_organization_iam_binding.authoritative": false,
+      "google_organization_iam_custom_role.roles": false,
+      "google_organization_iam_member.additive": false,
+      "google_organization_iam_policy.authoritative": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 146,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/146",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/9bd1d5bb79ebaf971929f923adcceff2233574f1",
+    "commit_sha": "9bd1d5bb79ebaf971929f923adcceff2233574f1",
+    "parent_sha": "9bd1d5bb79ebaf971929f923adcceff2233574f1^",
+    "commit_subject": "Updated the main.tf for bigquery-datasets (#146)",
+    "commit_date": "2020-09-27T15:16:09+02:00",
+    "file": "modules/bigquery-dataset/main.tf",
+    "module_dir": "modules/bigquery-dataset",
+    "holder_address": "google_bigquery_table.views",
+    "added_targets": [
+      "google_bigquery_table.default"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_bigquery_table.default": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 99,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/99",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/ec765857cbc0f8631b001bedaa1d0a7ee0b05f34",
+    "commit_sha": "ec765857cbc0f8631b001bedaa1d0a7ee0b05f34",
+    "parent_sha": "ec765857cbc0f8631b001bedaa1d0a7ee0b05f34^",
+    "commit_subject": "Make project creation optional in project module (#99)",
+    "commit_date": "2020-06-25T10:04:57+02:00",
+    "file": "modules/project/main.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_project_iam_member.additive",
+    "added_targets": [
+      "google_project_iam_custom_role.roles",
+      "google_project_service.project_services"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_project_iam_custom_role.roles": false,
+      "google_project_service.project_services": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 58,
+    "pr_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/pull/58",
+    "commit_url": "https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/commit/a280dd880d54529ba3af381c995e1e949a35a0b4",
+    "commit_sha": "a280dd880d54529ba3af381c995e1e949a35a0b4",
+    "parent_sha": "a280dd880d54529ba3af381c995e1e949a35a0b4^",
+    "commit_subject": "Add support for org policies to folder and project modules (#58)",
+    "commit_date": "2020-04-08T14:54:49+02:00",
+    "file": "modules/project/main.tf",
+    "module_dir": "modules/project",
+    "holder_address": "google_project_iam_binding.authoritative",
+    "added_targets": [
+      "google_project_iam_custom_role.roles",
+      "google_project_service.project_services"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "google_project_iam_custom_role.roles": false,
+      "google_project_service.project_services": false
+    },
+    "verify_error": null
+  }
+]

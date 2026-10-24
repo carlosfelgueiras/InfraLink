@@ -1,0 +1,137 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/GoogleCloudPlatform__genai-factory --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/GoogleCloudPlatform__genai-factory_candidates.json --github-repo GoogleCloudPlatform/genai-factory --verbose
+[1/118] a88d00eb7c
+[2/118] 070a1d71cf
+[3/118] bae1ff8fb7
+[4/118] 95aef07c7e
+[5/118] b7c33880fa
+[6/118] 55f69cce7b
+[7/118] a9955b09e7
+[8/118] dc80531904
+[9/118] 7234ad0345
+[10/118] 1a6197686d
+[11/118] fb3e8f1534
+[12/118] 5d808a369e
+[13/118] c616f50e2b
+[14/118] 7523ecb16d
+[15/118] 5868a5fb1a
+[16/118] 4106675691
+[17/118] c35600b19e
+[18/118] 4a21f9011d
+[19/118] 8240eea4d1
+[20/118] 42075fcd87
+[21/118] f2299b27f9
+[22/118] 8536f8d2a5
+[23/118] f67e99082a
+[24/118] 0d71b8b593
+[25/118] 1e02a5ceee
+[26/118] 5446e11ea9
+[27/118] 55106b661f
+[28/118] c5f68cc632
+[29/118] eb68a1fb1a
+[30/118] 3395d43f19
+[31/118] ea44692601
+[32/118] 2ff84479cf
+[33/118] efa830db8e
+[34/118] a4cc2288a7
+[35/118] 1a96b0c4f5
+[36/118] 89d52c65b1
+[37/118] 25f359b467
+[38/118] 4c15e1cd29
+[39/118] 61e7418bed
+[40/118] bb2af0da2f
+[41/118] 1b5edce605
+[42/118] 27ab6ee210
+[43/118] abe758894a
+[44/118] d75ae6e359
+[45/118] a3902463b1
+[46/118] 1f20fccf9d
+[47/118] b6cbd8e904
+[48/118] 61eab6e525
+[49/118] 02210b45dc
+[50/118] 04dcb56112
+[51/118] 075ec5df1a
+[52/118] 954526c1fd
+[53/118] 5b5804759d
+[54/118] 1af9477f60
+[55/118] e22d278f16
+[56/118] b26df14307
+[57/118] 7a3672dd65
+[58/118] bf7d007361
+[59/118] 35c195a32d
+[60/118] 12ddc9303c
+[61/118] 6a5e665e80
+[62/118] 8251c152ac
+[63/118] d60a38cada
+[64/118] 0835a9e037
+[65/118] 2717fde7ce
+[66/118] ea83569cbd
+[67/118] 920495aac2
+[68/118] 14aca4486a
+[69/118] 5370954c23
+[70/118] 36c605edaa
+[71/118] efec8f9f8c
+[72/118] dda69c68d9
+[73/118] b0ece58f64
+[74/118] 5643c91f2d
+[75/118] 122aedc55f
+[76/118] bb52b3683b
+[77/118] e2f34b7d6e
+[78/118] 55e02a7605
+[79/118] c195870e83
+[80/118] c2502dbfa3
+[81/118] c54b4f2ba9
+[82/118] be6d44d66c
+[83/118] 59dd01d826
+[84/118] d3af883d8d
+[85/118] c331de14f7
+[86/118] 2694a106de
+[87/118] 0c87652954
+[88/118] 049d8162ca
+[89/118] a4dd559505
+[90/118] 0b1e9f8725
+[91/118] b53b18a93d
+[92/118] aa07137e74
+[93/118] 6cf3c20c19
+[94/118] 8ef987caf2
+[95/118] a3a7b9ff99
+[96/118] ce5483eab2
+[97/118] a1896c85f5
+[98/118] f71b4161c0
+[99/118] a1ff3e1fcb
+[100/118] 3bf9bcd37a
+[101/118] 609a6e30f4
+[102/118] c0a84686d8
+[103/118] 064f645c18
+[104/118] 049965429b
+[105/118] 4c551b41a9
+[106/118] 3ef04838df
+[107/118] e33c237cef
+[108/118] 83aac66acd
+[109/118] b36c512e6a
+[110/118] c66439197d
+[111/118] 7035b766b2
+[112/118] e833fd882f
+[113/118] d287454f54
+[114/118] 5c1cc6683c
+[115/118] f1d96dc37c
+[116/118] ef8e63f002
+[117/118] 7a49b54cb3
+[118/118] f1f5867def
+Found 1 candidate (holder, added target) fixes.
+  PR lookup failed for 5868a5fb1a: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+verifying commit-group [1/1] 5868a5fb1ab5 (1 candidate(s))
+Wrote 1 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/GoogleCloudPlatform__genai-factory_candidates.json (0 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/GoogleCloudPlatform__genai-factory_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/GoogleCloudPlatform__genai-factory_trustworthy.json --verbose
+FAIL [no_pr_number, redundant]  5868a5fb1a cloud-run-rag-search/1-apps/lb-int.tf module.certificate_manager
+
+-- per-filter failure counts --
+  no_pr_number: 1
+  verify_error: 0
+  redundant: 1
+  passed all filters: 0
+  total candidates: 1
+0/1 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/GoogleCloudPlatform__genai-factory_trustworthy.json
+

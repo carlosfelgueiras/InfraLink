@@ -1,0 +1,36 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/scholzj__aws-minikube --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/scholzj__aws-minikube_candidates.json --github-repo scholzj/aws-minikube --verbose
+[1/20] 9d2bdd6ea2
+[2/20] 6b441c95c3
+[3/20] 4a9d1ba3f5
+[4/20] 9231dae754
+[5/20] b84d915b0f
+[6/20] c5def69726
+[7/20] b859262e23
+[8/20] a1d92a9a47
+[9/20] 0b590730c0
+[10/20] 129d43743e
+[11/20] 96e42476f1
+[12/20] 710fb47e17
+[13/20] d47785458b
+[14/20] 3b6d997f64
+[15/20] 7e6444464a
+[16/20] 65f38bb79d
+[17/20] d1aecf2bfb
+[18/20] 94f8a5d6c5
+[19/20] af36a1723b
+[20/20] 291154ee42
+Found 0 candidate (holder, added target) fixes.
+Wrote 0 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/scholzj__aws-minikube_candidates.json (0 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/scholzj__aws-minikube_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/scholzj__aws-minikube_trustworthy.json --verbose
+
+-- per-filter failure counts --
+  no_pr_number: 0
+  verify_error: 0
+  redundant: 0
+  passed all filters: 0
+  total candidates: 0
+0/0 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/scholzj__aws-minikube_trustworthy.json
+

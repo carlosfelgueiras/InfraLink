@@ -1,0 +1,139 @@
+=== mine_depends_on_history.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/mine_depends_on_history.py --repo /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/repos/xunleii__terraform-module-k3s --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/xunleii__terraform-module-k3s_candidates.json --github-repo xunleii/terraform-module-k3s --verbose
+[1/120] ed49c2849d
+[2/120] 2ffa9aa5c3
+[3/120] 5f1b57ec5a
+[4/120] 975a2117ab
+[5/120] 35b4d16657
+[6/120] 43b4aff796
+[7/120] d23396f7b4
+[8/120] 15fc0c864a
+[9/120] 2e1a2d1adc
+[10/120] 4b7f090f5f
+[11/120] bffc30dcd8
+[12/120] fe16e87850
+[13/120] 911a6f23fe
+[14/120] 32221b0729
+[15/120] 48286c9f8c
+[16/120] 5c5fdecc02
+[17/120] 30fb133fbb
+[18/120] b847ab86b5
+[19/120] 78de86ebae
+[20/120] 3884844f27
+[21/120] 611711d740
+[22/120] 752fe16b6a
+[23/120] 4f93fb54a0
+[24/120] ad21b0b4c6
+[25/120] 15b8d2cf9d
+[26/120] 777862df6b
+[27/120] ed448f0ef2
+[28/120] ed8788c983
+[29/120] 516a32a793
+[30/120] 2bb0ca565a
+[31/120] df42c094ce
+[32/120] b70ce3a5fe
+[33/120] e3f8fe04e2
+[34/120] e160154f94
+[35/120] 0a1ebc2269
+[36/120] 1361f45cf4
+[37/120] beab28896a
+[38/120] 08b4ca96f2
+[39/120] 09faa2d063
+[40/120] 368f0524ee
+[41/120] 348b243874
+[42/120] 7eff5543de
+[43/120] bc4a9c3b31
+[44/120] e46e9de41f
+[45/120] 21194d262b
+[46/120] 383fe5b135
+[47/120] 5b2a11ec5e
+[48/120] 2eb34cfbc6
+[49/120] fe766dad36
+[50/120] 06548f6008
+[51/120] c920138aca
+[52/120] 40eab03473
+[53/120] 2d0b209c88
+[54/120] 1ced1a905a
+[55/120] 6ea0ef054e
+[56/120] b6633bb874
+[57/120] e57cf3473c
+[58/120] 5deaa27030
+[59/120] b43724695d
+[60/120] 8c792677b8
+[61/120] 964e3e6550
+[62/120] 2bb665d52f
+[63/120] 756ff02871
+[64/120] 0b1fae08c3
+[65/120] 1411df9783
+[66/120] b1a40042f4
+[67/120] 976338cb1a
+[68/120] 9e5c43cf09
+[69/120] 932f4d6527
+[70/120] d70259a89d
+[71/120] c70ef232ea
+[72/120] 54d7deb00d
+[73/120] 6eedf3e3cb
+[74/120] 8ee0cb7cb3
+[75/120] 2e2c33b2f6
+[76/120] 5c5850386f
+[77/120] 6a09974ad8
+[78/120] 8be8558ebd
+[79/120] 34fa93fe60
+[80/120] 701e6cb5ee
+[81/120] 97e1b2e48c
+[82/120] bdadd80075
+[83/120] ed7a6877be
+[84/120] 23466da4fa
+[85/120] 1c4fa852ed
+[86/120] 3e2d72f0ee
+[87/120] 75c35dfdd5
+[88/120] 5b8a38424d
+[89/120] cc297cfb5f
+[90/120] 4cf36672c8
+[91/120] 2399bde0d0
+[92/120] ed24cba834
+[93/120] a657023a3d
+[94/120] 11f629fc09
+[95/120] eaaab9f022
+[96/120] 982f55e367
+[97/120] 69d0a9f8a0
+[98/120] 8c8563929e
+[99/120] 516aee46e6
+[100/120] 14ec6b04d8
+[101/120] 7692841b6e
+[102/120] d7ff4ed7d2
+[103/120] 628ff65c91
+[104/120] b82afcf176
+[105/120] 309c4d0385
+[106/120] 387b921cd5
+[107/120] 43e7400d26
+[108/120] 3a2fd63999
+[109/120] d030ce1ad2
+[110/120] 935aecf969
+[111/120] 2b68e796a6
+[112/120] 6b270f7384
+[113/120] 974bc902fb
+[114/120] 2a124e9c91
+[115/120] 824b95197c
+[116/120] fdb9871f94
+[117/120] b5715a2ebe
+[118/120] 3d32f769b7
+[119/120] 2f1d1421c5
+[120/120] ccc49fe3f9
+Found 1 candidate (holder, added target) fixes.
+  PR lookup failed for fe766dad36: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>
+verifying commit-group [1/1] fe766dad36e9 (1 candidate(s))
+Wrote 1 candidates to /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/xunleii__terraform-module-k3s_candidates.json (1 with at least one target NOT already implicitly reachable pre-fix — the interesting subset).
+
+=== filter_trustworthy.py ===
+$ /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/.venv/bin/python3 /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/filter_trustworthy.py --in /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/xunleii__terraform-module-k3s_candidates.json --out /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/xunleii__terraform-module-k3s_trustworthy.json --verbose
+FAIL [no_pr_number]  fe766dad36 main.tf null_resource.kubernetes_ready
+
+-- per-filter failure counts --
+  no_pr_number: 1
+  verify_error: 0
+  redundant: 0
+  passed all filters: 0
+  total candidates: 1
+0/1 candidates kept -> /Users/carlosfelgueiras/Development/safeiac/dependency-fixer/dataset/missing_dependency_mining/results/xunleii__terraform-module-k3s_trustworthy.json
+

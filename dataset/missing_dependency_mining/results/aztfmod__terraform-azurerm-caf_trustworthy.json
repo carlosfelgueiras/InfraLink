@@ -1,0 +1,120 @@
+[
+  {
+    "pr_number": 1390,
+    "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/1390",
+    "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/57e8f4e9a19ec639422a68feea8db128031e50be",
+    "commit_sha": "57e8f4e9a19ec639422a68feea8db128031e50be",
+    "parent_sha": "57e8f4e9a19ec639422a68feea8db128031e50be^",
+    "commit_subject": "AGW Application dependencies issues during destroy (#1390)",
+    "commit_date": "2022-10-14T09:49:46+08:00",
+    "file": "modules/networking/application_gateway_application/http_listener.tf",
+    "module_dir": "modules/networking/application_gateway_application",
+    "holder_address": "null_resource.delete_http_listener",
+    "added_targets": [
+      "null_resource.delete_frontend_port"
+    ],
+    "pre_existing_targets": [
+      "null_resource.delete_backend_pool",
+      "null_resource.delete_http_settings",
+      "null_resource.delete_root_cert",
+      "null_resource.delete_ssl_cert",
+      "null_resource.set_frontend_port"
+    ],
+    "already_implicit": {
+      "null_resource.delete_frontend_port": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1390,
+    "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/1390",
+    "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/57e8f4e9a19ec639422a68feea8db128031e50be",
+    "commit_sha": "57e8f4e9a19ec639422a68feea8db128031e50be",
+    "parent_sha": "57e8f4e9a19ec639422a68feea8db128031e50be^",
+    "commit_subject": "AGW Application dependencies issues during destroy (#1390)",
+    "commit_date": "2022-10-14T09:49:46+08:00",
+    "file": "modules/networking/application_gateway_application/http_settings.tf",
+    "module_dir": "modules/networking/application_gateway_application",
+    "holder_address": "null_resource.delete_http_settings",
+    "added_targets": [
+      "null_resource.delete_probe"
+    ],
+    "pre_existing_targets": [
+      "null_resource.delete_backend_pool",
+      "null_resource.delete_root_cert",
+      "null_resource.delete_ssl_cert",
+      "null_resource.set_probe"
+    ],
+    "already_implicit": {
+      "null_resource.delete_probe": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 1385,
+    "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/1385",
+    "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/2c855397c670f93638029e589cfd89f293562e6f",
+    "commit_sha": "2c855397c670f93638029e589cfd89f293562e6f",
+    "parent_sha": "2c855397c670f93638029e589cfd89f293562e6f^",
+    "commit_subject": "Application Gateway bugs + adding force_firewall_policy_association (#1385)",
+    "commit_date": "2022-10-13T18:04:01+08:00",
+    "file": "modules/networking/application_gateway_application/ssl_cert.tf",
+    "module_dir": "modules/networking/application_gateway_application",
+    "holder_address": "null_resource.set_ssl_cert",
+    "added_targets": [
+      "null_resource.set_http_settings"
+    ],
+    "pre_existing_targets": [
+      "null_resource.set_backend_pools",
+      "null_resource.set_frontend_port"
+    ],
+    "already_implicit": {
+      "null_resource.set_http_settings": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 104,
+    "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/104",
+    "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/11f62063b441d28f0acf9d39810f213ceab6cb02",
+    "commit_sha": "11f62063b441d28f0acf9d39810f213ceab6cb02",
+    "parent_sha": "11f62063b441d28f0acf9d39810f213ceab6cb02^",
+    "commit_subject": "October 2010 Release (#104)",
+    "commit_date": "2020-11-04T21:23:12+08:00",
+    "file": "mssql_servers.tf",
+    "module_dir": ".",
+    "holder_address": "module.mssql_servers",
+    "added_targets": [
+      "module.keyvault_access_policies_azuread_apps"
+    ],
+    "pre_existing_targets": [
+      "module.keyvault_access_policies"
+    ],
+    "already_implicit": {
+      "module.keyvault_access_policies_azuread_apps": false
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": 69,
+    "pr_url": "https://github.com/aztfmod/terraform-azurerm-caf/pull/69",
+    "commit_url": "https://github.com/aztfmod/terraform-azurerm-caf/commit/1ef24023879ad57fff0ab4b3deff2a8cf9d5328b",
+    "commit_sha": "1ef24023879ad57fff0ab4b3deff2a8cf9d5328b",
+    "parent_sha": "1ef24023879ad57fff0ab4b3deff2a8cf9d5328b^",
+    "commit_subject": "Add keyvault RBAC support (#69)",
+    "commit_date": "2020-10-20T10:34:35+08:00",
+    "file": "mssql_servers.tf",
+    "module_dir": ".",
+    "holder_address": "module.mssql_servers",
+    "added_targets": [
+      "module.keyvault_access_policies_azuread_apps"
+    ],
+    "pre_existing_targets": [
+      "module.keyvault_access_policies"
+    ],
+    "already_implicit": {
+      "module.keyvault_access_policies_azuread_apps": false
+    },
+    "verify_error": null
+  }
+]

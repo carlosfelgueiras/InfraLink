@@ -1,0 +1,64 @@
+[
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/identiops/terraform-hcloud-k3s/commit/36f3f3f209a7df6f4d56f515a7034ea6256422a0",
+    "commit_sha": "36f3f3f209a7df6f4d56f515a7034ea6256422a0",
+    "parent_sha": "36f3f3f209a7df6f4d56f515a7034ea6256422a0^",
+    "commit_subject": "Flatten and remove unused configuration",
+    "commit_date": "2022-04-13T13:07:44+03:00",
+    "file": "control_plane.tf",
+    "module_dir": ".",
+    "holder_address": "hcloud_server.control_plane",
+    "added_targets": [
+      "hcloud_network_subnet.subnet"
+    ],
+    "pre_existing_targets": [
+      "hcloud_server.control_plane_master"
+    ],
+    "already_implicit": null,
+    "verify_error": "UnexpectedToken: Unexpected token Token('$END', '') at line 177, column 1.\nExpected one of: \n\t* RBRACE\n"
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/identiops/terraform-hcloud-k3s/commit/261cd0ff9dc6e9d14351c3cddca54677744f5282",
+    "commit_sha": "261cd0ff9dc6e9d14351c3cddca54677744f5282",
+    "parent_sha": "261cd0ff9dc6e9d14351c3cddca54677744f5282^",
+    "commit_subject": "feat!: add support for multiple control plane nodes",
+    "commit_date": "2022-02-09T16:55:05+01:00",
+    "file": "agents.tf",
+    "module_dir": ".",
+    "holder_address": "module.node_group",
+    "added_targets": [
+      "hcloud_server.control_plane_master"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_server.control_plane_master": true
+    },
+    "verify_error": null
+  },
+  {
+    "pr_number": null,
+    "pr_url": null,
+    "commit_url": "https://github.com/identiops/terraform-hcloud-k3s/commit/4edbb4a4ce646a184b12e42dfca4c5ac8f39064d",
+    "commit_sha": "4edbb4a4ce646a184b12e42dfca4c5ac8f39064d",
+    "parent_sha": "4edbb4a4ce646a184b12e42dfca4c5ac8f39064d^",
+    "commit_subject": "Use internal network to connect nodes to master",
+    "commit_date": "2022-02-08T13:27:50+01:00",
+    "file": "main.tf",
+    "module_dir": ".",
+    "holder_address": "module.master",
+    "added_targets": [
+      "hcloud_network.private",
+      "hcloud_network_subnet.subnet"
+    ],
+    "pre_existing_targets": [],
+    "already_implicit": {
+      "hcloud_network.private": true,
+      "hcloud_network_subnet.subnet": true
+    },
+    "verify_error": null
+  }
+]
