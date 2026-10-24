@@ -9,9 +9,13 @@ By default only agentic-check diagnostics are included (origin starting with
 deterministic/rule-based and aren't the thing a precision study is about;
 pass --include-mechanical to keep them too.
 
+Pass --category missing to keep only "missing"-category diagnostics -- a
+no-op on a merge_runs.py batch (already missing-only by construction) but
+needed on a raw single-model batch, which also carries "redundant" findings.
+
 Usage:
     python3 collect_diagnostics.py --batch-id final-deepseek-v4.1-flash-1017-effort-high-run2 \
-        --out diagnostics_deepseek_run2.json
+        --category missing --out diagnostics_deepseek_run2.json
 """
 
 from __future__ import annotations
@@ -33,7 +37,7 @@ def load_group_diagnostics(group_dir: Path) -> list[dict[str, object]]:
     return diagnostics if isinstance(diagnostics, list) else []
 
 
-def collect(batch_dir: Path, *, include_mechanical: bool) -> list[dict[str, object]]:
+def collect(batch_dir: Path, *, include_mechanical: bool, category: str | None) -> list[dict[str, object]]:
     records: list[dict[str, object]] = []
     next_id = 1
     for group_dir in sorted(p for p in batch_dir.iterdir() if p.is_dir()):
@@ -41,6 +45,8 @@ def collect(batch_dir: Path, *, include_mechanical: bool) -> list[dict[str, obje
         for d in load_group_diagnostics(group_dir):
             origin = str(d.get("origin", ""))
             if not include_mechanical and not origin.startswith("agentic-check:"):
+                continue
+            if category is not None and d.get("category") != category:
                 continue
             records.append({
                 "id": next_id,
@@ -65,13 +71,14 @@ def main() -> None:
     parser.add_argument("--batch-id", required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--include-mechanical", action="store_true")
+    parser.add_argument("--category", choices=["missing", "redundant"], default=None)
     args = parser.parse_args()
 
     batch_dir = RUNS_DIR / args.batch_id
     if not batch_dir.is_dir():
         raise SystemExit(f"no such batch: {batch_dir}")
 
-    records = collect(batch_dir, include_mechanical=args.include_mechanical)
+    records = collect(batch_dir, include_mechanical=args.include_mechanical, category=args.category)
     args.out.write_text(json.dumps(records, indent=2))
     print(f"wrote {len(records)} diagnostics to {args.out}")
 
